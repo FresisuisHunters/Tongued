@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(DistanceJoint2D))]
+[RequireComponent(typeof(DistanceJoint2D), typeof(RopeCollider))]
 public class Hook : MonoBehaviour
 {
     [Tooltip("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
@@ -40,7 +40,10 @@ public class Hook : MonoBehaviour
     {
         gameObject.SetActive(false);
         IsAttached = false;
+
+        ropeCollider.ClearContacts();
     }
+
 
     //Ahora mismo se llama a la que se echa el gancho, pero más tarde el gancho será un proyectil y Attach() se llamará una vez choque con algo.
     private void Attach()
@@ -73,10 +76,15 @@ public class Hook : MonoBehaviour
         {
             Vector2[] ropePoints = ropeCollider.GetRopePoints();
 
+            Gizmos.color = Color.white;
             for (int i = 0; i < ropePoints.Length - 1; i++)
             {
                 Gizmos.DrawLine(ropePoints[i], ropePoints[i + 1]);
-            } 
+            }
+
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(distanceJoint.connectedBody.position, rigidbody.position);
         }
     }
 
@@ -92,6 +100,6 @@ public class Hook : MonoBehaviour
         distanceJoint.autoConfigureConnectedAnchor = false;
 
         rigidbody = GetComponent<Rigidbody2D>();
-        ropeCollider = GetComponentInChildren<RopeCollider>();
+        ropeCollider = GetComponent<RopeCollider>();
     }
 }

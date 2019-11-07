@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+#pragma warning disable 649
 /// <summary>
 /// Componente encargado de dar órdenes al gancho.
 /// </summary>
-#pragma warning disable 649
 [RequireComponent(typeof(Rigidbody2D))]
 public class HookThrower : MonoBehaviour
 {
@@ -15,8 +15,8 @@ public class HookThrower : MonoBehaviour
     
     public bool HookIsOut => hook.IsOut;
 
-    private Hook hook;
-    private new Rigidbody2D rigidbody;
+    private Hook hook = null;
+    private new Rigidbody2D rigidbody = null;
 
 
     public void ThrowHook(Vector2 targetPoint)
