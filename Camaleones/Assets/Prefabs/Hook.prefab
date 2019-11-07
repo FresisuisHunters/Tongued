@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7787896107869050018}
-  - component: {fileID: 2923863357372434921}
   - component: {fileID: 5402940243140154616}
-  - component: {fileID: 8394969041393762063}
   m_Layer: 12
   m_Name: Rope
   m_TagString: Untagged
@@ -33,24 +31,6 @@ Transform:
   m_Father: {fileID: 5011558029675965808}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &2923863357372434921
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347110389492223400}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
 --- !u!114 &5402940243140154616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,29 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2405a8c2d21d6a24d8e1e17d11b92b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {x: 0, y: 0}
-  endPoint: {x: 0, y: 0}
---- !u!50 &8394969041393762063
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347110389492223400}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &5011558029675965809
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc5e926ccee0904fb4d4968cf14c7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceOnAttached: 3000
+  forceOnAttached: 1500
   maxVelocityForForceOnAttached: 6
 --- !u!50 &1926816675416865056
 Rigidbody2D:

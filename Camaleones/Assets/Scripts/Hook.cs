@@ -42,7 +42,7 @@ public class Hook : MonoBehaviour
         IsAttached = false;
     }
 
-
+    //Ahora mismo se llama a la que se echa el gancho, pero más tarde el gancho será un proyectil y Attach() se llamará una vez choque con algo.
     private void Attach()
     {
         Rigidbody2D connectedBody = distanceJoint.connectedBody;
@@ -61,14 +61,23 @@ public class Hook : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ropeCollider.startPoint = distanceJoint.connectedBody.position;
-        ropeCollider.endPoint = rigidbody.position;
+        //Actualiza las posiciones finales de RopeCollider.
+        ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
+        ropeCollider.fixedEndPoint = rigidbody.position;
     }
 
     //Visualización provisional
     private void OnDrawGizmos()
     {
-        if (Application.isPlaying && distanceJoint.connectedBody) Gizmos.DrawLine(distanceJoint.connectedBody.position, rigidbody.position);
+        if (Application.isPlaying && distanceJoint.connectedBody)
+        {
+            Vector2[] ropePoints = ropeCollider.GetRopePoints();
+
+            for (int i = 0; i < ropePoints.Length - 1; i++)
+            {
+                Gizmos.DrawLine(ropePoints[i], ropePoints[i + 1]);
+            } 
+        }
     }
 
 
