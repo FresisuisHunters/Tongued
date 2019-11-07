@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Componente encargado de dar órdenes al gancho.
+/// </summary>
 #pragma warning disable 649
 [RequireComponent(typeof(Rigidbody2D))]
 public class HookThrower : MonoBehaviour
 {
     [SerializeField] private Hook hookPrefab;
     [SerializeField] private float retractDistancePerSecond = 10f;
-    public Rigidbody2D Rigidbody { get; private set; }
+    
+    public bool HookIsOut => hook.IsOut;
 
     private Hook hook;
-    private bool isHoldingPointerDown;
+    private new Rigidbody2D rigidbody;
 
 
     public void ThrowHook(Vector2 targetPoint)
     {
-        hook.Throw(this, targetPoint);
+        hook.Throw(rigidbody, targetPoint);
+    }
+
+    public void Retract(float time)
+    {
+        if (hook.IsAttached) hook.Length -= retractDistancePerSecond * time;
     }
 
     public void LetGo()
@@ -26,52 +35,11 @@ public class HookThrower : MonoBehaviour
     }
 
 
-    private void OnPointerDown(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            isHoldingPointerDown = true;
-            if (!hook.isActiveAndEnabled)
-            {
-                ThrowHook(eventData.pressEventCamera.ScreenToWorldPoint(eventData.position));
-            }
-        }
-        else if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            LetGo();
-        }
-    }
-
-    private void StopHoldingPointerDown()
-    {
-        isHoldingPointerDown = false;
-        print("Stopped holding");
-    }
-
-    private void Update()
-    {
-        if (hook.isActiveAndEnabled && isHoldingPointerDown)
-        {
-            hook.Length -= retractDistancePerSecond * Time.deltaTime;
-        }
-    }
-
     private void Awake()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
+
         hook = Instantiate(hookPrefab);
-        hook.Disable();
-
-        Rigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
-        InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
-        if (!inputEventReceiver) return;
-
-        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => OnPointerDown(data as PointerEventData));
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => StopHoldingPointerDown());
-        //inputEventReceiver.AddListener(EventTriggerType.PointerExit, (data) => StopHoldingPointerDown());
-
+        LetGo();
     }
 }

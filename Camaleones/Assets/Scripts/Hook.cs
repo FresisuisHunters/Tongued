@@ -6,33 +6,52 @@ using UnityEngine;
 [RequireComponent(typeof(DistanceJoint2D))]
 public class Hook : MonoBehaviour
 {
+    [Tooltip("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;
 
+    public bool IsOut => isActiveAndEnabled;
+    public bool IsAttached { get; private set; }
+
+    /// <summary>
+    /// La longitud máxima del gancho.
+    /// </summary>
     public float Length { get => distanceJoint.distance; set => distanceJoint.distance = value; }
+    
 
     private DistanceJoint2D distanceJoint;
     private new Rigidbody2D rigidbody;
 
-    public void Throw(HookThrower thrower, Vector2 targetPoint)
+
+    public void Throw(Rigidbody2D connectedBody, Vector2 targetPoint)
     {
         gameObject.SetActive(true);
+        IsAttached = false;
 
         rigidbody.position = targetPoint;
-        Vector2 throwerPos = thrower.Rigidbody.position;
+        distanceJoint.connectedBody = connectedBody;
 
-        distanceJoint.connectedBody = thrower.Rigidbody;
-        distanceJoint.distance = Vector2.Distance(targetPoint, throwerPos);
-        distanceJoint.enabled = true;
-
-
+        Attach();        
     }
 
     public void Disable()
     {
         gameObject.SetActive(false);
+        IsAttached = false;
     }
 
 
+    private void Attach()
+    {
+        distanceJoint.distance = Vector2.Distance(rigidbody.position, distanceJoint.attachedRigidbody.position);
+        distanceJoint.enabled = true;
+
+        Vector2 initialForceOnThrower = (rigidbody.position - distanceJoint.attachedRigidbody.position).normalized * forceOnAttached;
+        distanceJoint.attachedRigidbody.AddForce(initialForceOnThrower);
+
+        IsAttached = true;
+    }
+
+    //Visualización provisional
     private void OnDrawGizmos()
     {
         if (Application.isPlaying && distanceJoint.connectedBody) Gizmos.DrawLine(distanceJoint.connectedBody.position, rigidbody.position);
