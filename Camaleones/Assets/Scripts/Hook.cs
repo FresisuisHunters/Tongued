@@ -42,11 +42,13 @@ public class Hook : MonoBehaviour
 
     private void Attach()
     {
-        distanceJoint.distance = Vector2.Distance(rigidbody.position, distanceJoint.attachedRigidbody.position);
+        Rigidbody2D connectedBody = distanceJoint.connectedBody;
+
+        distanceJoint.distance = Vector2.Distance(rigidbody.position, connectedBody.position);
         distanceJoint.enabled = true;
 
-        Vector2 initialForceOnThrower = (rigidbody.position - distanceJoint.attachedRigidbody.position).normalized * forceOnAttached;
-        distanceJoint.attachedRigidbody.AddForce(initialForceOnThrower);
+        Vector2 initialForceOnThrower = (rigidbody.position - connectedBody.position).normalized * forceOnAttached;
+        connectedBody.AddForce(initialForceOnThrower);
 
         IsAttached = true;
     }

@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 1753652145}
   - component: {fileID: 1753652144}
   - component: {fileID: 1753652149}
+  - component: {fileID: 1753652150}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -608,3 +609,15 @@ MonoBehaviour:
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
   retractDistancePerSecond: 3
+--- !u!114 &1753652150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753652143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775fea851db6fc84f837a1b47816ff95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
