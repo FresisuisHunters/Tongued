@@ -8,6 +8,8 @@ public class Hook : MonoBehaviour
 {
     [Tooltip("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;
+    [Tooltip("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
+    public float maxVelocityForForceOnAttached = 20;
 
     public bool IsOut => isActiveAndEnabled;
     public bool IsAttached { get; private set; }
@@ -20,6 +22,7 @@ public class Hook : MonoBehaviour
 
     private DistanceJoint2D distanceJoint;
     private new Rigidbody2D rigidbody;
+    private RopeCollider ropeCollider;
 
 
     public void Throw(Rigidbody2D connectedBody, Vector2 targetPoint)
@@ -47,10 +50,19 @@ public class Hook : MonoBehaviour
         distanceJoint.distance = Vector2.Distance(rigidbody.position, connectedBody.position);
         distanceJoint.enabled = true;
 
-        Vector2 initialForceOnThrower = (rigidbody.position - connectedBody.position).normalized * forceOnAttached;
-        connectedBody.AddForce(initialForceOnThrower);
-
+        if (connectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
+        {
+            Vector2 attachForceOnThrower = (rigidbody.position - connectedBody.position).normalized * forceOnAttached;
+            connectedBody.AddForce(attachForceOnThrower);
+        }
+        
         IsAttached = true;
+    }
+
+    private void FixedUpdate()
+    {
+        ropeCollider.startPoint = distanceJoint.connectedBody.position;
+        ropeCollider.endPoint = rigidbody.position;
     }
 
     //Visualización provisional
@@ -71,5 +83,6 @@ public class Hook : MonoBehaviour
         distanceJoint.autoConfigureConnectedAnchor = false;
 
         rigidbody = GetComponent<Rigidbody2D>();
+        ropeCollider = GetComponentInChildren<RopeCollider>();
     }
 }
