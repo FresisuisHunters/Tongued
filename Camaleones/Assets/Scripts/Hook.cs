@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpringJoint2D))]
+[RequireComponent(typeof(DistanceJoint2D))]
 public class Hook : MonoBehaviour
 {
     public float forceOnAttached = 10;
 
-    public float Length { get => springJoint.distance; set => springJoint.distance = value; }
+    public float Length { get => distanceJoint.distance; set => distanceJoint.distance = value; }
 
-    private SpringJoint2D springJoint;
+    private DistanceJoint2D distanceJoint;
     private new Rigidbody2D rigidbody;
 
     public void Throw(HookThrower thrower, Vector2 targetPoint)
@@ -20,9 +20,9 @@ public class Hook : MonoBehaviour
         rigidbody.position = targetPoint;
         Vector2 throwerPos = thrower.Rigidbody.position;
 
-        springJoint.connectedBody = thrower.Rigidbody;
-        springJoint.distance = Vector2.Distance(targetPoint, throwerPos);
-        springJoint.enabled = true;
+        distanceJoint.connectedBody = thrower.Rigidbody;
+        distanceJoint.distance = Vector2.Distance(targetPoint, throwerPos);
+        distanceJoint.enabled = true;
 
 
     }
@@ -35,7 +35,7 @@ public class Hook : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Application.isPlaying && springJoint.connectedBody) Gizmos.DrawLine(springJoint.connectedBody.position, rigidbody.position);
+        if (Application.isPlaying && distanceJoint.connectedBody) Gizmos.DrawLine(distanceJoint.connectedBody.position, rigidbody.position);
     }
 
 
@@ -43,10 +43,11 @@ public class Hook : MonoBehaviour
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
 
-        springJoint = GetComponent<SpringJoint2D>();
-        springJoint.enableCollision = false;
-        springJoint.autoConfigureDistance = false;
-        springJoint.autoConfigureConnectedAnchor = false;
+        distanceJoint = GetComponent<DistanceJoint2D>();
+        distanceJoint.enableCollision = false;
+        distanceJoint.maxDistanceOnly = true;
+        distanceJoint.autoConfigureDistance = false;
+        distanceJoint.autoConfigureConnectedAnchor = false;
 
         rigidbody = GetComponent<Rigidbody2D>();
     }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5011558029675965808}
   - component: {fileID: 5011558029675965807}
   - component: {fileID: 1926816675416865056}
-  - component: {fileID: 4972669065047347940}
+  - component: {fileID: 3818404781385127114}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc5e926ccee0904fb4d4968cf14c7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceOnAttached: 10
 --- !u!50 &1926816675416865056
 Rigidbody2D:
   serializedVersion: 4
@@ -66,8 +67,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!231 &4972669065047347940
-SpringJoint2D:
+--- !u!232 &3818404781385127114
+DistanceJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -84,5 +85,4 @@ SpringJoint2D:
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
-  m_DampingRatio: 1
-  m_Frequency: 1
+  m_MaxDistanceOnly: 1
