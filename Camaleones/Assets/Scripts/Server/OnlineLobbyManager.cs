@@ -2,7 +2,6 @@
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
@@ -31,12 +30,12 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     // Room Panel
     public GameObject roomPanel;
     public TextMeshProUGUI playerListText;
+    public GameObject startGameButton;
 
     #endregion
 
     #region Private Fields
 
-    [SerializeField] private string playerUsername;
     private GameObject activePanel;
 
     #endregion
@@ -97,6 +96,15 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         Debug.Log ("OnLeftLobby");
     }
 
+    public override void OnCreatedRoom() {
+        Debug.Log("OnCreatedRoom");
+
+        SwitchPanels (roomPanel);
+        startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
+
+        UpdatePlayersList ();
+    }
+
     public override void OnCreateRoomFailed (short returnCode, string message) {
         Debug.Log ("OnCreateRoomFailed");
         Debug.LogError (message);
@@ -116,6 +124,8 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         Debug.Log ("OnJoinedRoom");
 
         SwitchPanels (roomPanel);
+        startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
+
         UpdatePlayersList ();
     }
 
@@ -140,8 +150,7 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     #region UI Callbacks
 
     public void OnConnectToServerButtonPressed () {
-        // TODO: Crear un Player de Photon con esta informacion
-        playerUsername = usernameInputField.text;
+        PhotonNetwork.LocalPlayer.NickName = usernameInputField.text;
 
         ConnectToPhotonServer ();
     }
@@ -168,6 +177,10 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         RoomOptions roomOptions = new RoomOptions ();
         roomOptions.MaxPlayers = roomSize;
         PhotonNetwork.CreateRoom (roomName, roomOptions);
+    }
+
+    public void OnStartGameButtonPressed () {
+        // TODO
     }
 
     #endregion
