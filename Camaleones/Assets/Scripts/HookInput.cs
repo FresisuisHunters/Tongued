@@ -11,7 +11,6 @@ public class HookInput : MonoBehaviour
     private HookThrower hookThrower;
     private bool isHoldingPointerDown;
 
-
     private void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -34,7 +33,7 @@ public class HookInput : MonoBehaviour
         isHoldingPointerDown = false;
     }
 
-    private void Update()
+    protected void Update()
     {
         if (hookThrower.HookIsOut && isHoldingPointerDown)
         {
@@ -43,7 +42,7 @@ public class HookInput : MonoBehaviour
     }
 
 
-    private void Awake()
+    protected void Awake()
     {
         hookThrower = GetComponent<HookThrower>();
     }

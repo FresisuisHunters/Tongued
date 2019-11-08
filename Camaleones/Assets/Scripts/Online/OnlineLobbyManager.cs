@@ -96,8 +96,8 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         Debug.Log ("OnLeftLobby");
     }
 
-    public override void OnCreatedRoom() {
-        Debug.Log("OnCreatedRoom");
+    public override void OnCreatedRoom () {
+        Debug.Log ("OnCreatedRoom");
 
         SwitchPanels (roomPanel);
         startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
@@ -180,7 +180,7 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     }
 
     public void OnStartGameButtonPressed () {
-        // TODO
+        PhotonNetwork.LoadLevel (ServerConstants.ONLINE_LEVEL);
     }
 
     #endregion

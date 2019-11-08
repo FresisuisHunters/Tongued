@@ -62,7 +62,7 @@ public class Hook : MonoBehaviour
         IsAttached = true;
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         //Actualiza las posiciones finales de RopeCollider.
         ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
@@ -89,7 +89,7 @@ public class Hook : MonoBehaviour
     }
 
 
-    private void Awake()
+    protected void Awake()
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
 

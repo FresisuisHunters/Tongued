@@ -35,7 +35,7 @@ public class HookThrower : MonoBehaviour
     }
 
 
-    private void Awake()
+    protected void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
 

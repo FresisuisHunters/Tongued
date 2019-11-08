@@ -42,7 +42,7 @@ public class RopeCollider : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         DetectUndoneContacts();
         DetectNewContacts();
