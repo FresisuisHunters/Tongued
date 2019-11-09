@@ -31,6 +31,11 @@ public class Hook : MonoBehaviour
 
     private DistanceJoint2D distanceJoint;
     private RopeCollider ropeCollider;
+    [SerializeField] private float hookProjectileSpeed;
+    [SerializeField] private float overlapPointRadius;
+    [SerializeField] private float maxHookDistance;
+    private bool isBeingThrown;
+    private Vector2 throwDirection;
 
 
     public void Throw(Rigidbody2D connectedBody, Vector2 targetPoint)
@@ -41,7 +46,8 @@ public class Hook : MonoBehaviour
         headRigidbody.position = targetPoint;
         distanceJoint.connectedBody = connectedBody;
 
-        Attach();        
+        Throw(targetPoint);
+        //Attach();        
     }
 
     public void Disable()
@@ -50,6 +56,14 @@ public class Hook : MonoBehaviour
         IsAttached = false;
 
         ropeCollider.ClearContacts();
+    }
+
+    private void Throw(Vector2 targetPoint)
+    {
+        Vector2 startPosition = distanceJoint.connectedBody.GetComponent<Transform>().position;
+        throwDirection = (targetPoint - startPosition).normalized;
+        headRigidbody.transform.position = startPosition;
+        isBeingThrown = true;
     }
 
 
@@ -75,7 +89,8 @@ public class Hook : MonoBehaviour
     {
         //Actualiza las posiciones finales de RopeCollider.
         ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
-        ropeCollider.HeadPosition = headRigidbody.position;
+        if(!isBeingThrown)
+            ropeCollider.HeadPosition = headRigidbody.position;
     }
 
 
@@ -104,7 +119,29 @@ public class Hook : MonoBehaviour
         distanceJoint.maxDistanceOnly = true;
         distanceJoint.autoConfigureDistance = false;
         distanceJoint.autoConfigureConnectedAnchor = false;
+        distanceJoint.enabled = false;
 
         ropeCollider = GetComponentInChildren<RopeCollider>();
+
+        isBeingThrown = false;
     }
+
+    public void Update()
+    {
+        if(isBeingThrown)
+        {
+            headRigidbody.transform.Translate(throwDirection * hookProjectileSpeed * Time.deltaTime);
+            Collider2D colliderOnOverlap = Physics2D.OverlapCircle(headRigidbody.position, overlapPointRadius);
+            if(colliderOnOverlap != null && colliderOnOverlap.CompareTag("Platform"))
+            {
+                Attach();
+                isBeingThrown = false;
+            }
+            else if((headRigidbody.position-(Vector2)transform.position).magnitude >= maxHookDistance)
+            {
+                isBeingThrown = false;
+            }
+        }
+    }
+    
 }

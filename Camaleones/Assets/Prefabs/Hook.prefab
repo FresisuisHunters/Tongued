@@ -48,6 +48,9 @@ MonoBehaviour:
   forceOnAttached: 1500
   maxVelocityForForceOnAttached: 6
   headRigidbody: {fileID: 4566189893678778977}
+  hookProjectileSpeed: 30
+  overlapPointRadius: 0.1
+  maxHookDistance: 500
 --- !u!1 &5449976275112089577
 GameObject:
   m_ObjectHideFlags: 0
