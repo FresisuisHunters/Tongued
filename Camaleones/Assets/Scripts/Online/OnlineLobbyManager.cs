@@ -92,6 +92,13 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         SwitchPanels (lobbyMenuPanel);
     }
 
+    public override void OnDisconnected (DisconnectCause cause) {
+        Debug.Log ("OnDisconnected");
+        Debug.Log (cause);
+
+        SwitchPanels (askUsernamePanel);
+    }
+
     public override void OnLeftLobby () {
         Debug.Log ("OnLeftLobby");
     }
@@ -131,6 +138,8 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     public override void OnLeftRoom () {
         Debug.Log ("OnLeftRoom");
+
+        SwitchPanels (lobbyMenuPanel);
     }
 
     public override void OnPlayerEnteredRoom (Player newPlayer) {
@@ -143,17 +152,29 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     public override void OnPlayerLeftRoom (Player otherPlayer) {
         Debug.Log ("OnPlayerLeftRoom");
         Debug.Log (otherPlayer.NickName);
+
+        startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
     }
 
     #endregion
 
     #region UI Callbacks
 
-    public void OnConnectToServerButtonPressed () {
+    #region Ask username panel callbacks
+
+    public void OnConnectToServerButtonClicked () {
         PhotonNetwork.LocalPlayer.NickName = usernameInputField.text;
 
         ConnectToPhotonServer ();
     }
+
+    public void OnGoToMainMenuButtonClicked () {
+        Debug.LogWarning ("TODO: Volver al menú principal");
+    }
+
+    #endregion
+
+    #region Lobby menu panel callbacks
 
     public void OnCreateRoomButtonClicked () {
         SwitchPanels (createRoomPanel);
@@ -167,6 +188,14 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         Debug.LogWarning ("Queda implementar listar las salas existentes");
     }
 
+    public void OnQuitLobbyButtonClicked () {
+        PhotonNetwork.Disconnect ();
+    }
+
+    #endregion
+
+    #region Create room panel callbacks
+
     public void OnCreateButtonClicked () {
         string roomName = roomNameInputField.text;
 
@@ -179,9 +208,24 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.CreateRoom (roomName, roomOptions);
     }
 
-    public void OnStartGameButtonPressed () {
+    public void OnQuitRoomCreationButtonClicked () {
+        SwitchPanels (lobbyMenuPanel);
+    }
+
+    #endregion
+
+    #region Room panel callbacks
+
+    public void OnStartGameButtonClicked () {
         PhotonNetwork.LoadLevel (ServerConstants.ONLINE_LEVEL);
     }
+
+    // TODO: Continuar aqui
+    public void OnQuitRoomButtonClicked () {
+        PhotonNetwork.LeaveRoom ();
+    }
+
+    #endregion
 
     #endregion
 

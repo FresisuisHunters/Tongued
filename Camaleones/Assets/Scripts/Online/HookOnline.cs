@@ -14,4 +14,10 @@ public class HookOnline : Hook {
             base.FixedUpdate ();
         }
     }
+
+    protected new void OnDrawGizmos () {
+        if (photonView.IsMine) {
+            base.OnDrawGizmos ();
+        }
+    }
 }
