@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System.Collections.Generic;
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
@@ -27,6 +28,12 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     public TMP_InputField roomNameInputField;
     public TMP_Dropdown roomSizeDropdown;
 
+    // List Room Panel
+    public GameObject listRoomPanel;
+    public GameObject listEntriesParent;
+    public GameObject listRoomEntry;
+    public Dictionary<string, GameObject> roomEntries = new Dictionary<string, GameObject> ();
+
     // Room Panel
     public GameObject roomPanel;
     public TextMeshProUGUI playerListText;
@@ -36,7 +43,9 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     #region Private Fields
 
+    private static OnlineLobbyManager instance;
     private GameObject activePanel;
+    private bool listRooms = false;
 
     #endregion
 
@@ -46,10 +55,19 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.AutomaticallySyncScene = true;
 
         activePanel = askUsernamePanel;
+        instance = this;
     }
 
     private void Update () {
         connectionStatusText.text = CONNECTION_STATUS_MESSAGE + PhotonNetwork.NetworkClientState;
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    public void JoinRoom (string roomName) {
+        PhotonNetwork.JoinRoom (roomName);
     }
 
     #endregion
@@ -90,6 +108,11 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     public override void OnConnectedToMaster () {
         Debug.Log ("OnConnectedToMaster");
         SwitchPanels (lobbyMenuPanel);
+    }
+
+    public override void OnJoinedLobby () {
+        Debug.Log ("OnJoinedLobby");
+
     }
 
     public override void OnDisconnected (DisconnectCause cause) {
@@ -154,6 +177,36 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         Debug.Log (otherPlayer.NickName);
 
         startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
+        UpdatePlayersList();
+    }
+
+    public override void OnRoomListUpdate (List<RoomInfo> roomList) {
+        Debug.Log ("OnRoomListUpdate");
+
+        if (!listRooms) {
+            return;
+        }
+
+        // TODO: Mejorar
+        foreach (GameObject listEntry in roomEntries.Values) {
+            GameObject.Destroy (listEntry);
+        }
+        roomEntries.Clear ();
+
+        for (int i = 0; i < roomList.Count; ++i) {
+            RoomInfo roomInfo = roomList[i];
+
+            float x = listRoomEntry.transform.position.x;
+            float y = listRoomEntry.transform.position.y + i * 21; // TODO: Sacar la altura del rect transform
+            Vector2 position = new Vector2 (x, y);
+            Quaternion rotation = Quaternion.identity;
+            Transform parent = listEntriesParent.transform;
+            GameObject roomEntryGameObject = GameObject.Instantiate (listRoomEntry, position, rotation, parent);
+            roomEntryGameObject.GetComponent<RoomListEntry> ().SetRoomValues (roomInfo);
+
+            string roomName = roomInfo.Name;
+            roomEntries.Add (roomName, roomEntryGameObject);
+        }
     }
 
     #endregion
@@ -185,7 +238,10 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     }
 
     public void OnListRoomsButtonClicked () {
-        Debug.LogWarning ("Queda implementar listar las salas existentes");
+        SwitchPanels (listRoomPanel);
+
+        listRooms = true;
+        PhotonNetwork.JoinLobby ();
     }
 
     public void OnQuitLobbyButtonClicked () {
@@ -214,6 +270,19 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     #endregion
 
+    #region List room panel callbacks
+
+    public void OnQuitRoomListingButtonClicked () {
+        listRooms = false;
+        foreach (GameObject listRoomEntry in roomEntries.Values) {
+            GameObject.Destroy (listRoomEntry);
+        }
+        roomEntries.Clear ();
+        SwitchPanels (lobbyMenuPanel);
+    }
+
+    #endregion
+
     #region Room panel callbacks
 
     public void OnStartGameButtonClicked () {
@@ -226,6 +295,14 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     }
 
     #endregion
+
+    #endregion
+
+    #region Properties
+
+    public static OnlineLobbyManager Instance {
+        get => instance;
+    }
 
     #endregion
 
