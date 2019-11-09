@@ -12,7 +12,7 @@ using UnityEngine;
 public class Hook : MonoBehaviour
 {
     #region Inspector
-    [Tooltip("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
+    [Tooltip("La magnitud del impulso que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;
     [Tooltip("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
     public float maxVelocityForForceOnAttached = 20;
@@ -65,7 +65,7 @@ public class Hook : MonoBehaviour
         if (connectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
         {
             Vector2 attachForceOnThrower = (headRigidbody.position - connectedBody.position).normalized * forceOnAttached;
-            connectedBody.AddForce(attachForceOnThrower);
+            connectedBody.AddForce(attachForceOnThrower, ForceMode2D.Impulse);
         }
         
         IsAttached = true;

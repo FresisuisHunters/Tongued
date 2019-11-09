@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc5e926ccee0904fb4d4968cf14c7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceOnAttached: 1500
-  maxVelocityForForceOnAttached: 6
+  forceOnAttached: 50
+  maxVelocityForForceOnAttached: 8
   headRigidbody: {fileID: 4566189893678778977}
 --- !u!1 &5449976275112089577
 GameObject:
