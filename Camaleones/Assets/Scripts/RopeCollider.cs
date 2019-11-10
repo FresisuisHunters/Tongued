@@ -48,7 +48,7 @@ public class RopeCollider : MonoBehaviour
     private DistanceJoint2D distanceJoint;
     private Rigidbody2D swingHingeRigidbody;
 
-    
+
     public Vector2[] GetRopePoints()
     {
         //TODO: devolver los puntos con los contactos, en ve de solo principio y final. 

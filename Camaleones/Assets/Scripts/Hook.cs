@@ -31,43 +31,50 @@ public class Hook : MonoBehaviour
 
     private DistanceJoint2D distanceJoint;
     private RopeCollider ropeCollider;
+    [Tooltip("Velocidad del proyectil con el que se engancha el personaje")]
     [SerializeField] private float hookProjectileSpeed;
+    [Tooltip("Radio (y por tanto precisión) del circulo que se usa para comprobar si el gancho ha tocado un collider")]
+    [Range(0, 1)]
     [SerializeField] private float overlapPointRadius;
+    [Tooltip("Rango maximo del gancho al ser lanzado")]
+    [Range(0, 50)]
     [SerializeField] private float maxHookDistance;
     private bool isBeingThrown;
     private Vector2 throwDirection;
 
-
+    /// <summary>
+    /// Metodo que se llama cuando se lanza el gancho.
+    /// Recibe el punto hacia el cual se lanza el gancho y el RigidBody del personaje que lo lanza
+    /// </summary>
+    /// <param name="connectedBody"></param>
+    /// <param name="targetPoint"></param>
     public void Throw(Rigidbody2D connectedBody, Vector2 targetPoint)
     {
         gameObject.SetActive(true);
         IsAttached = false;
-
-        headRigidbody.position = targetPoint;
         distanceJoint.connectedBody = connectedBody;
-
-        Throw(targetPoint);
-        //Attach();        
-    }
-
-    public void Disable()
-    {
-        gameObject.SetActive(false);
-        IsAttached = false;
-
-        ropeCollider.ClearContacts();
-    }
-
-    private void Throw(Vector2 targetPoint)
-    {
         Vector2 startPosition = distanceJoint.connectedBody.GetComponent<Transform>().position;
         throwDirection = (targetPoint - startPosition).normalized;
         headRigidbody.transform.position = startPosition;
         isBeingThrown = true;
     }
 
+    /// <summary>
+    /// Método que se llama cuando el gancho se desactiva, ya sea cuando es instanciado o cuando se suelta.
+    /// </summary>
+    public void Disable()
+    {
+        gameObject.SetActive(false);
+        IsAttached = false;
 
-    //Ahora mismo se llama a la que se echa el gancho, pero más tarde el gancho será un proyectil y Attach() se llamará una vez choque con algo.
+        ropeCollider.ClearContacts();
+        ropeCollider.enabled = false;
+        ropeCollider.GetComponent<DistanceJoint2D>().enabled = false;
+    }
+
+    /// <summary>
+    /// Método que se llama cuando la cabeza del gancho entra en contacto con una plataforma tras ser lanzada.
+    /// </summary>
     private void Attach()
     {
         Rigidbody2D connectedBody = distanceJoint.connectedBody;
@@ -75,13 +82,15 @@ public class Hook : MonoBehaviour
         distanceJoint.distance = Vector2.Distance(headRigidbody.position, connectedBody.position);
         distanceJoint.enabled = true;
 
-        //Fuerza de enganche. Sólo se aplica si el cuerpo conectado va a menos que cierta velocidad.
         if (connectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
         {
             Vector2 attachForceOnThrower = (headRigidbody.position - connectedBody.position).normalized * forceOnAttached;
             connectedBody.AddForce(attachForceOnThrower);
         }
-        
+
+        ropeCollider.enabled = true;
+        ropeCollider.GetComponent<DistanceJoint2D>().enabled = true;
+
         IsAttached = true;
     }
 
@@ -89,8 +98,10 @@ public class Hook : MonoBehaviour
     {
         //Actualiza las posiciones finales de RopeCollider.
         ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
-        if(!isBeingThrown)
+        if (!isBeingThrown)
+        {
             ropeCollider.HeadPosition = headRigidbody.position;
+        }
     }
 
 
@@ -126,22 +137,23 @@ public class Hook : MonoBehaviour
         isBeingThrown = false;
     }
 
-    public void Update()
+    void Update()
     {
-        if(isBeingThrown)
+        if (isBeingThrown)
         {
             headRigidbody.transform.Translate(throwDirection * hookProjectileSpeed * Time.deltaTime);
             Collider2D colliderOnOverlap = Physics2D.OverlapCircle(headRigidbody.position, overlapPointRadius);
-            if(colliderOnOverlap != null && colliderOnOverlap.CompareTag("Platform"))
+
+            if (colliderOnOverlap != null && colliderOnOverlap.CompareTag("Platform"))
             {
                 Attach();
                 isBeingThrown = false;
             }
-            else if((headRigidbody.position-(Vector2)transform.position).magnitude >= maxHookDistance)
+            else if ((headRigidbody.position - (Vector2)transform.position).magnitude >= maxHookDistance)
             {
                 isBeingThrown = false;
             }
         }
     }
-    
+
 }

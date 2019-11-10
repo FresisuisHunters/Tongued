@@ -12,7 +12,7 @@ public class HookThrower : MonoBehaviour
 {
     [SerializeField] private Hook hookPrefab;
     [SerializeField] private float retractDistancePerSecond = 10f;
-    
+
     public bool HookIsOut => hook.IsOut;
 
     private Hook hook = null;
@@ -40,6 +40,7 @@ public class HookThrower : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
 
         hook = Instantiate(hookPrefab);
+        hook.Disable();
         LetGo();
     }
 }
