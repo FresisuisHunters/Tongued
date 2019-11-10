@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 7256651702470939417}
   - component: {fileID: 7256651702470939418}
   - component: {fileID: 7256651702470939419}
+  - component: {fileID: 114944161113056258}
   - component: {fileID: 7256651702470939422}
   - component: {fileID: 9174248200588705480}
   - component: {fileID: 8506489081301763381}
   - component: {fileID: 4166806474575139912}
   m_Layer: 10
   m_Name: OnlinePlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,6 +131,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &114944161113056258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256651702470939396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4541afbcf55df32a9b98ca1c0c1fc946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7256651702470939422
 MonoBehaviour:
   m_ObjectHideFlags: 0

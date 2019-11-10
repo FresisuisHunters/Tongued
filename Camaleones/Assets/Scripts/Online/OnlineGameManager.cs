@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class OnlineGameManager : MonoBehaviourPunCallbacks {
+public class OnlineGameManager : MonoBehaviour {
 
     #region Public Members
 
@@ -9,19 +9,9 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks {
 
     #endregion
 
-    #region Private Members
-
-    private byte numberOfPlayers;
-
-    #endregion
-
     #region Unity Callbacks
 
     private void Awake () {
-        numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
-    }
-
-    private void Start () {
         InstantiatePlayer ();
     }
 
@@ -37,9 +27,9 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks {
         Vector2 position = new Vector2 (positionX, positionY);
         Quaternion rotation = playerPrefab.transform.rotation;
 
-        PhotonNetwork.Instantiate (prefabName, position, rotation, 0);
+        GameObject player = PhotonNetwork.Instantiate (prefabName, position, rotation, 0);
+        player.name = PhotonNetwork.LocalPlayer.NickName;
     }
 
     #endregion
-
 }
