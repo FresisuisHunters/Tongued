@@ -12,9 +12,12 @@ public class HookHeadCollisionDetector : MonoBehaviour
         hook = GetComponentInParent<Hook>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <summary>
+    /// Se redirige la colisión de este objeto al gancho para que la gestione
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Platform"))
-            hook.Collide(collision);
+        hook.Collide(collision);
     }
 }
