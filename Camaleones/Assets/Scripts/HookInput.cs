@@ -11,7 +11,6 @@ public class HookInput : MonoBehaviour
     private HookThrower hookThrower;
     private bool isHoldingPointerDown;
 
-
     private void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -49,7 +48,14 @@ public class HookInput : MonoBehaviour
     }
 
     private void Start()
-    { 
+    {
+        Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();
+        if (photonView && !photonView.IsMine)
+        {
+            Destroy(this);
+            return;
+        }
+
         //Busca el InputEventReceiver en la escena y se suscribe a los eventos que nos importan
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver)

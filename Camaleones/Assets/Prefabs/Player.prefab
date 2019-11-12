@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
-  retractDistancePerSecond: 3
+  retractDistancePerSecond: 6
 --- !u!114 &6475681867467041414
 MonoBehaviour:
   m_ObjectHideFlags: 0

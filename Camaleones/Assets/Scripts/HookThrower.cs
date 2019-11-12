@@ -13,33 +13,37 @@ public class HookThrower : MonoBehaviour
     [SerializeField] private Hook hookPrefab;
     [SerializeField] private float retractDistancePerSecond = 10f;
     
-    public bool HookIsOut => hook.IsOut;
+    public bool HookIsOut => Hook.IsOut;
 
-    private Hook hook = null;
-    private new Rigidbody2D rigidbody = null;
+    public Hook Hook { get; set; }
+    public Rigidbody2D Rigidbody { get; private set; }
 
 
     public void ThrowHook(Vector2 targetPoint)
     {
-        hook.Throw(rigidbody, targetPoint);
+        Hook.Throw(targetPoint);
     }
 
     public void Retract(float time)
     {
-        if (hook.IsAttached) hook.Length -= retractDistancePerSecond * time;
+        if (Hook.IsAttached) Hook.Length -= retractDistancePerSecond * time;
     }
 
     public void LetGo()
     {
-        hook.Disable();
+        Hook.Disable();
     }
-
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        Rigidbody = GetComponent<Rigidbody2D>();
 
-        hook = Instantiate(hookPrefab);
-        LetGo();
+        //Si estamos jugando online (tenemos un PhotonView) y somos el jugador local, utilizamos PhotonNetwork para instanciar el gancho. Si no, un Instantiate de toda la vida.
+        //En el prefab  online se asigna OnlineHook, en el prefab offline se asigna Hook.
+        Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();
+        if (!photonView) Hook = Instantiate(hookPrefab);
+        else if (photonView.IsMine) Hook = Photon.Pun.PhotonNetwork.Instantiate(hookPrefab.name, Vector3.zero, Quaternion.identity, data: new object[]{ photonView.ViewID}).GetComponent<Hook>();
+
+        if (Hook) Hook.ConnectedBody = Rigidbody;
     }
 }

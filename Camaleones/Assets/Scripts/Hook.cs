@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Componente central del gancho. Maneja activarlo, engancharlo y desactivarlo; 
 /// y da la información necesaria a los otros componentes del gancho.
 /// El gancho está dividido en dos partes: la cabeza (la parte que se engancha) 
 /// y el swinging point (el punto del que cuelga el jugador, que puede moverse en algunos casos.
+/// 
+/// 
 /// </summary>
+[DisallowMultipleComponent]
 public class Hook : MonoBehaviour
 {
     #region Inspector
-    [Tooltip("La magnitud del impulso que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
+    [Tooltip ("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;
-    [Tooltip("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
+    [Tooltip ("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
     public float maxVelocityForForceOnAttached = 20;
 
-    [SerializeField] private Rigidbody2D headRigidbody;
+    [SerializeField] protected Rigidbody2D headRigidbody;
     #endregion
 
     #region Propiedades Públicas
@@ -27,26 +27,26 @@ public class Hook : MonoBehaviour
     /// La longitud de cuerda de la que cuelga el cuerpo conectado
     /// </summary>
     public float Length { get => distanceJoint.distance; set => distanceJoint.distance = value; }
+    public Rigidbody2D ConnectedBody { get => distanceJoint.connectedBody; set => distanceJoint.connectedBody = value; }
     #endregion
 
-    private DistanceJoint2D distanceJoint;
-    private RopeCollider ropeCollider;
+    protected DistanceJoint2D distanceJoint;
+    protected RopeCollider ropeCollider;
+    protected LineRenderer lineRenderer;
 
-
-    public void Throw(Rigidbody2D connectedBody, Vector2 targetPoint)
+    public virtual void Throw (Vector2 targetPoint)
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive (true);
         IsAttached = false;
 
         headRigidbody.position = targetPoint;
-        distanceJoint.connectedBody = connectedBody;
 
-        Attach();        
+        Attach(targetPoint);
     }
 
-    public void Disable()
+    public void Disable ()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive (false);
         IsAttached = false;
 
         ropeCollider.ClearContacts();
@@ -54,25 +54,23 @@ public class Hook : MonoBehaviour
 
 
     //Ahora mismo se llama a la que se echa el gancho, pero más tarde el gancho será un proyectil y Attach() se llamará una vez choque con algo.
-    private void Attach()
+    protected virtual void Attach (Vector2 attachPoint)
     {
-        Rigidbody2D connectedBody = distanceJoint.connectedBody;
+        headRigidbody.position = attachPoint;
 
-        distanceJoint.distance = Vector2.Distance(headRigidbody.position, connectedBody.position);
+        distanceJoint.distance = Vector2.Distance(attachPoint, ConnectedBody.position);
         distanceJoint.enabled = true;
 
         //Fuerza de enganche. Sólo se aplica si el cuerpo conectado va a menos que cierta velocidad.
-        if (connectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
-        {
-            Vector2 attachForceOnThrower = (headRigidbody.position - connectedBody.position).normalized * forceOnAttached;
-            connectedBody.AddForce(attachForceOnThrower, ForceMode2D.Impulse);
+        if (ConnectedBody.velocity.magnitude < maxVelocityForForceOnAttached) {
+            Vector2 attachForceOnThrower = (attachPoint - ConnectedBody.position).normalized * forceOnAttached;
+            ConnectedBody.AddForce(attachForceOnThrower);
         }
-        
+
         IsAttached = true;
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate () {
         //Actualiza las posiciones finales de RopeCollider.
         ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
         ropeCollider.HeadPosition = headRigidbody.position;
@@ -80,31 +78,27 @@ public class Hook : MonoBehaviour
 
 
     //Visualización provisional
-    private void OnDrawGizmos()
+    private void Update ()
     {
-        if (Application.isPlaying && distanceJoint.connectedBody)
-        {
-            Vector2[] ropePoints = ropeCollider.GetRopePoints();
+        Vector3[] ropePoints = ropeCollider.GetRopePoints();
 
-            Gizmos.color = Color.white;
-            for (int i = 0; i < ropePoints.Length - 1; i++)
-            {
-                Gizmos.DrawLine(ropePoints[i], ropePoints[i + 1]);
-            }
-        }
+        lineRenderer.positionCount = ropePoints.Length;
+        lineRenderer.SetPositions(ropePoints);
     }
 
-
-    private void Awake()
+    protected virtual void Awake ()
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
 
-        distanceJoint = GetComponentInChildren<DistanceJoint2D>();
+        distanceJoint = GetComponentInChildren<DistanceJoint2D> ();
         distanceJoint.enableCollision = false;
         distanceJoint.maxDistanceOnly = true;
         distanceJoint.autoConfigureDistance = false;
         distanceJoint.autoConfigureConnectedAnchor = false;
 
-        ropeCollider = GetComponentInChildren<RopeCollider>();
+        ropeCollider = GetComponentInChildren<RopeCollider> ();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+
+        Disable();
     }
 }
