@@ -18,6 +18,10 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
         }
     }
 
+    protected void OnApplicationQuit() {
+        onlineLogging.Close();
+    }
+
     #endregion
 
     #region Private Methods
