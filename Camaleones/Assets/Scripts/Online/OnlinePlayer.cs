@@ -5,7 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class OnlinePlayer : MonoBehaviourPunCallbacks {
 
+    public OnlinePlayer localInstance;
+
+    private OnlineLogging onlineLogging;
+
+    #region Unity Callbacks
+
+    protected void Awake () {
+        if (photonView.IsMine) {
+            localInstance = this;
+            onlineLogging = new OnlineLogging (PhotonNetwork.LocalPlayer.NickName);
+        }
+    }
+
+    #endregion
+
     #region Private Methods
+
+    private GameObject FindPlayerWithName (string username) {
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag ("Player");
+        foreach (GameObject player in allPlayers) {
+            if (player.name.Equals (username)) {
+                return player;
+            }
+        }
+
+        throw new System.Exception ("No player found with username " + username);
+    }
 
     [PunRPC]
     private void DestroyPlayer (GameObject player) {
@@ -22,28 +48,22 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
     #region Photon Callbacks
 
     public override void OnDisconnected (DisconnectCause cause) {
-        Debug.Log ("OnDisconnected");
-        Debug.LogError (cause);
+        onlineLogging.Write ("OnDisconnected");
+        onlineLogging.Write (cause.ToString ());
 
         DestroySelfAndReturnToMenu ();
     }
 
     public override void OnPlayerLeftRoom (Player otherPlayer) {
-        Debug.Log ("OnPlayerLeftRoom");
-        Debug.Log (otherPlayer);
+        onlineLogging.Write ("OnPlayerLeftRoom");
+        onlineLogging.Write (otherPlayer.ToString ());
 
-        string playerWhoLeftTheRoom = otherPlayer.NickName;
-        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag ("Player");
-        foreach (GameObject player in allPlayers) {
-            if (player.name.Equals (playerWhoLeftTheRoom)) {
-                DestroyPlayer (player);
-                break;
-            }
-        }
+        GameObject player = FindPlayerWithName (otherPlayer.NickName);
+        DestroyPlayer (player);
     }
 
     public override void OnLeftRoom () {
-        Debug.Log ("OnLeftRoom");
+        onlineLogging.Write ("OnLeftRoom");
 
         DestroySelfAndReturnToMenu ();
     }
