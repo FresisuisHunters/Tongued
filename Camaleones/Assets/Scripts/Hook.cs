@@ -1,23 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Componente central del gancho. Maneja activarlo, engancharlo y desactivarlo; 
 /// y da la información necesaria a los otros componentes del gancho.
 /// El gancho está dividido en dos partes: la cabeza (la parte que se engancha) 
 /// y el swinging point (el punto del que cuelga el jugador, que puede moverse en algunos casos.
-/// 
-/// 
 /// </summary>
-[DisallowMultipleComponent]
 public class Hook : MonoBehaviour
 {
     #region Inspector
-    [Tooltip ("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
+    [Tooltip("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;
-    [Tooltip ("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
+    [Tooltip("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
     public float maxVelocityForForceOnAttached = 20;
 
-    [SerializeField] protected Rigidbody2D headRigidbody;
+    [SerializeField] private Rigidbody2D headRigidbody;
     #endregion
 
     #region Propiedades Públicas
@@ -27,78 +27,150 @@ public class Hook : MonoBehaviour
     /// La longitud de cuerda de la que cuelga el cuerpo conectado
     /// </summary>
     public float Length { get => distanceJoint.distance; set => distanceJoint.distance = value; }
-    public Rigidbody2D ConnectedBody { get => distanceJoint.connectedBody; set => distanceJoint.connectedBody = value; }
     #endregion
 
-    protected DistanceJoint2D distanceJoint;
-    protected RopeCollider ropeCollider;
-    protected LineRenderer lineRenderer;
+    private DistanceJoint2D distanceJoint;
+    private RopeCollider ropeCollider;
+    [Tooltip("Velocidad del proyectil con el que se engancha el personaje")]
+    [Range(0,50)]
+    [SerializeField] private float hookProjectileSpeed;
+    [Tooltip("Rango maximo del gancho al ser lanzado")]
+    [Range(0, 50)]
+    [SerializeField] private float maxHookDistance;
+    private bool isBeingThrown;
+    private Vector2 throwDirection;
 
-    public virtual void Throw (Vector2 targetPoint)
+    /// <summary>
+    /// Metodo que se llama cuando se lanza el gancho.
+    /// Recibe el punto hacia el cual se lanza el gancho y el RigidBody del personaje que lo lanza
+    /// </summary>
+    /// <param name="connectedBody"></param>
+    /// <param name="targetPoint"></param>
+    public void Throw(Rigidbody2D connectedBody, Vector2 targetPoint)
     {
-        gameObject.SetActive (true);
+        gameObject.SetActive(true);
         IsAttached = false;
-
-        headRigidbody.position = targetPoint;
-
-        Attach(targetPoint);
+        distanceJoint.connectedBody = connectedBody;
+        Vector2 startPosition = distanceJoint.connectedBody.GetComponent<Transform>().position;
+        throwDirection = (targetPoint - startPosition).normalized;
+        headRigidbody.transform.position = startPosition;
+        isBeingThrown = true;
+        headRigidbody.velocity = throwDirection * hookProjectileSpeed;
     }
 
-    public void Disable ()
+    /// <summary>
+    /// Método que se llama cuando el gancho se desactiva, ya sea cuando es instanciado o cuando se suelta.
+    /// </summary>
+    public void Disable()
     {
-        gameObject.SetActive (false);
+        gameObject.SetActive(false);
         IsAttached = false;
-
         ropeCollider.ClearContacts();
+        ropeCollider.enabled = false;
+        ropeCollider.GetComponent<DistanceJoint2D>().enabled = false;
     }
 
-
-    //Ahora mismo se llama a la que se echa el gancho, pero más tarde el gancho será un proyectil y Attach() se llamará una vez choque con algo.
-    protected virtual void Attach (Vector2 attachPoint)
+    /// <summary>
+    /// Método que se llama cuando la cabeza del gancho entra en contacto con una plataforma tras ser lanzada.
+    /// </summary>
+    private void Attach()
     {
-        headRigidbody.position = attachPoint;
+        Rigidbody2D connectedBody = distanceJoint.connectedBody;
 
-        distanceJoint.distance = Vector2.Distance(attachPoint, ConnectedBody.position);
-        distanceJoint.enabled = true;
-
-        //Fuerza de enganche. Sólo se aplica si el cuerpo conectado va a menos que cierta velocidad.
-        if (ConnectedBody.velocity.magnitude < maxVelocityForForceOnAttached) {
-            Vector2 attachForceOnThrower = (attachPoint - ConnectedBody.position).normalized * forceOnAttached;
-            ConnectedBody.AddForce(attachForceOnThrower);
+        if (connectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
+        {
+            Vector2 attachForceOnThrower = (headRigidbody.position - connectedBody.position).normalized * forceOnAttached;
+            connectedBody.AddForce(attachForceOnThrower);
         }
+
+        distanceJoint.distance = Vector2.Distance(headRigidbody.position, connectedBody.position);
+
+        distanceJoint.enabled = true;
+        ropeCollider.transform.position = headRigidbody.position;
+        ropeCollider.enabled = true;
+        ropeCollider.GetComponent<DistanceJoint2D>().enabled = true;
 
         IsAttached = true;
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate()
+    {
         //Actualiza las posiciones finales de RopeCollider.
         ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
-        ropeCollider.HeadPosition = headRigidbody.position;
+
+        if (!isBeingThrown)
+        {
+            ropeCollider.HeadPosition = headRigidbody.position;
+        }
+        else
+        {
+            ropeCollider.transform.position = headRigidbody.position;
+        }
     }
 
 
     //Visualización provisional
-    private void Update ()
+    private void OnDrawGizmos()
     {
-        Vector3[] ropePoints = ropeCollider.GetRopePoints();
+        if (Application.isPlaying && distanceJoint.connectedBody)
+        {
+            if (IsAttached)
+            {
+                Vector2[] ropePoints = ropeCollider.GetRopePoints();
 
-        lineRenderer.positionCount = ropePoints.Length;
-        lineRenderer.SetPositions(ropePoints);
+                Gizmos.color = Color.white;
+                for (int i = 0; i < ropePoints.Length - 1; i++)
+                {
+                    Gizmos.DrawLine(ropePoints[i], ropePoints[i + 1]);
+                }
+            }
+            else if(isBeingThrown)
+            {
+                Gizmos.DrawLine(distanceJoint.connectedBody.position, headRigidbody.position);
+            }
+        }
     }
 
-    protected virtual void Awake ()
+
+    private void Awake()
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
 
-        distanceJoint = GetComponentInChildren<DistanceJoint2D> ();
+        distanceJoint = GetComponentInChildren<DistanceJoint2D>();
         distanceJoint.enableCollision = false;
         distanceJoint.maxDistanceOnly = true;
         distanceJoint.autoConfigureDistance = false;
         distanceJoint.autoConfigureConnectedAnchor = false;
+        distanceJoint.enabled = false;
 
-        ropeCollider = GetComponentInChildren<RopeCollider> ();
-        lineRenderer = GetComponentInChildren<LineRenderer>();
+        ropeCollider = GetComponentInChildren<RopeCollider>();
 
-        Disable();
+        isBeingThrown = false;
     }
+
+    void Update()
+    {
+        if (isBeingThrown && (headRigidbody.position - (Vector2)transform.position).magnitude >= maxHookDistance)
+        {
+            isBeingThrown = false;
+        }
+    }
+
+    /// <summary>
+    /// Método que gestiona la colisión del objeto que representa la cabeza del gancho
+    /// </summary>
+    /// <param name="collision"></param>
+    public void Collide(Collision2D collision)
+    {
+        if (isBeingThrown)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("HookableLayer"))
+            {
+                headRigidbody.velocity = Vector2.zero;
+                Attach();
+                isBeingThrown = false;
+            }
+        }
+    }
+
 }
