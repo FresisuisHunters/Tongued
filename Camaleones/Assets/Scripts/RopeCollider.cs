@@ -49,13 +49,13 @@ public class RopeCollider : MonoBehaviour
     private Rigidbody2D swingHingeRigidbody;
 
     
-    public Vector2[] GetRopePoints()
+    public Vector3[] GetRopePoints()
     {
         //TODO: devolver los puntos con los contactos, en ve de solo principio y final. 
         //Idealmente, no crearíamos el array en cada llamada, para evitar generar basura cada frame.
         //return new Vector2[] { freeSwingingEndPoint, fixedEndPoint };
 
-        Vector2[] points = new Vector2[contactPoints.Count + 2];
+        Vector3[] points = new Vector3[contactPoints.Count + 2];
         for (int i = 0; i < contactPoints.Count; i++)
         {
             points[i + 1] = contactPoints[i].position;

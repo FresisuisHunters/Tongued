@@ -31,6 +31,7 @@ public class Hook : MonoBehaviour
 
     private DistanceJoint2D distanceJoint;
     private RopeCollider ropeCollider;
+    private LineRenderer lineRenderer;
 
     public void Throw (Rigidbody2D connectedBody, Vector2 targetPoint) {
         gameObject.SetActive (true);
@@ -72,15 +73,10 @@ public class Hook : MonoBehaviour
     }
 
     //Visualización provisional
-    protected void OnDrawGizmos () {
-        if (Application.isPlaying && distanceJoint.connectedBody) {
-            Vector2[] ropePoints = ropeCollider.GetRopePoints ();
+    protected void Update () {
+        Vector3[] ropePoints = ropeCollider.GetRopePoints();
 
-            Gizmos.color = Color.white;
-            for (int i = 0; i < ropePoints.Length - 1; i++) {
-                Gizmos.DrawLine (ropePoints[i], ropePoints[i + 1]);
-            }
-        }
+        lineRenderer.SetPositions(ropePoints);
     }
 
     protected void Awake () {
@@ -93,5 +89,6 @@ public class Hook : MonoBehaviour
         distanceJoint.autoConfigureConnectedAnchor = false;
 
         ropeCollider = GetComponentInChildren<RopeCollider> ();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
     }
 }
