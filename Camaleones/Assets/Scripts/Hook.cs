@@ -9,7 +9,8 @@ using UnityEngine;
 /// El gancho está dividido en dos partes: la cabeza (la parte que se engancha) 
 /// y el swinging point (el punto del que cuelga el jugador, que puede moverse en algunos casos.
 /// </summary>
-public class Hook : MonoBehaviour {
+public class Hook : MonoBehaviour
+{
     #region Inspector
     [Tooltip ("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;

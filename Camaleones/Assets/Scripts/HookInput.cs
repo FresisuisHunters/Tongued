@@ -33,7 +33,7 @@ public class HookInput : MonoBehaviour
         isHoldingPointerDown = false;
     }
 
-    protected void Update()
+    private void Update()
     {
         if (hookThrower.HookIsOut && isHoldingPointerDown)
         {
@@ -42,13 +42,20 @@ public class HookInput : MonoBehaviour
     }
 
 
-    protected void Awake()
+    private void Awake()
     {
         hookThrower = GetComponent<HookThrower>();
     }
 
     private void Start()
-    { 
+    {
+        Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();
+        if (photonView && !photonView.IsMine)
+        {
+            Destroy(this);
+            return;
+        }
+
         //Busca el InputEventReceiver en la escena y se suscribe a los eventos que nos importan
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver)
