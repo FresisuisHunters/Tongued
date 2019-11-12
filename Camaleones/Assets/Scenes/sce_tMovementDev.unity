@@ -316,7 +316,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.99999994
+  m_Radius: 0.5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +938,6 @@ GameObject:
   - component: {fileID: 1371644354}
   - component: {fileID: 1371644355}
   - component: {fileID: 1371644356}
-  - component: {fileID: 1371644358}
   - component: {fileID: 1371644357}
   m_Layer: 0
   m_Name: Water
@@ -1054,18 +1053,6 @@ BuoyancyEffector2D:
   m_FlowAngle: 0
   m_FlowMagnitude: 0
   m_FlowVariation: 0
---- !u!114 &1371644358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371644353}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c6712449e7b3bf448866d0e464e847f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1526818367 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2081834729404628190, guid: 2bb8418ec817cb143b459b77bf7e3852,
@@ -1698,11 +1685,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6475681867467041412, guid: 56ecb6db886ff21438a9186713dfb793,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6475681867467041412, guid: 56ecb6db886ff21438a9186713dfb793,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6475681867467041412, guid: 56ecb6db886ff21438a9186713dfb793,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6475681867467041411, guid: 56ecb6db886ff21438a9186713dfb793,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+      objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents:
     - {fileID: 6475681867467041409, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
