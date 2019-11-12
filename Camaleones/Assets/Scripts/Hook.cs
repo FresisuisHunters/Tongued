@@ -44,7 +44,7 @@ public class Hook : MonoBehaviour
         Attach(targetPoint);
     }
 
-    public void Disable ()
+    public virtual void Disable ()
     {
         gameObject.SetActive (false);
         IsAttached = false;

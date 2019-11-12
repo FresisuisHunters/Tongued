@@ -3,8 +3,8 @@ using Photon.Pun;
 
 
 /// <summary>
-/// Hijo de Hook.
-/// Añade las funcionalidades necesarias para sincronizar Hook.
+/// Hijo de Hook, le añade funcionalidades necesarias para sincronizar Hook.
+/// Hace override a las funcione que hay que sincronizar, llamando el RCP al resto de jugadores si es el jugador local.
 /// </summary>
 [RequireComponent(typeof(PhotonView))]
 public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
@@ -30,6 +30,15 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
         if (photonView.IsMine) photonView.RPC("Throw", RpcTarget.Others, targetPoint);
 
         base.Throw(targetPoint);
+    }
+
+    [PunRPC]
+    public override void Disable()
+    {
+        //Como RpcTarget es others, si somos el jugador local es que hemos llegado aquí por lógica de juego, no RPC. Mandamos el mensaje al resto.
+        if (photonView.IsMine) photonView.RPC("Disable", RpcTarget.Others);
+
+        base.Disable();
     }
 
     [PunRPC]
