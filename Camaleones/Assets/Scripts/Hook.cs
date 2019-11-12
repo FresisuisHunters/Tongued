@@ -33,9 +33,6 @@ public class Hook : MonoBehaviour
     private RopeCollider ropeCollider;
     [Tooltip("Velocidad del proyectil con el que se engancha el personaje")]
     [SerializeField] private float hookProjectileSpeed;
-    [Tooltip("Radio (y por tanto precisión) del circulo que se usa para comprobar si el gancho ha tocado un collider")]
-    [Range(0, 1)]
-    [SerializeField] private float overlapPointRadius;
     [Tooltip("Rango maximo del gancho al ser lanzado")]
     [Range(0, 50)]
     [SerializeField] private float maxHookDistance;
@@ -78,16 +75,16 @@ public class Hook : MonoBehaviour
     private void Attach()
     {
         Rigidbody2D connectedBody = distanceJoint.connectedBody;
-
-        distanceJoint.distance = Vector2.Distance(headRigidbody.position, connectedBody.position);
-        distanceJoint.enabled = true;
-
+   
         if (connectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
         {
             Vector2 attachForceOnThrower = (headRigidbody.position - connectedBody.position).normalized * forceOnAttached;
             connectedBody.AddForce(attachForceOnThrower);
         }
 
+        distanceJoint.distance = Vector2.Distance(headRigidbody.position, connectedBody.position);
+
+        distanceJoint.enabled = true;
         ropeCollider.enabled = true;
         ropeCollider.GetComponent<DistanceJoint2D>().enabled = true;
 
@@ -142,15 +139,20 @@ public class Hook : MonoBehaviour
         if (isBeingThrown)
         {
             headRigidbody.transform.Translate(throwDirection * hookProjectileSpeed * Time.deltaTime);
-            Collider2D colliderOnOverlap = Physics2D.OverlapCircle(headRigidbody.position, overlapPointRadius);
-
-            if (colliderOnOverlap != null && colliderOnOverlap.CompareTag("Platform"))
+            if ((headRigidbody.position - (Vector2)transform.position).magnitude >= maxHookDistance)
             {
-                Attach();
                 isBeingThrown = false;
             }
-            else if ((headRigidbody.position - (Vector2)transform.position).magnitude >= maxHookDistance)
+        }
+    }
+
+    public void Collide(Collider2D collision)
+    {
+        if(isBeingThrown)
+        {
+            if (collision.CompareTag("Platform"))
             {
+                Attach();
                 isBeingThrown = false;
             }
         }
