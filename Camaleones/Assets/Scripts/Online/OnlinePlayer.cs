@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class OnlinePlayer : MonoBehaviourPunCallbacks {
 
-    public OnlinePlayer localInstance;
+    [System.NonSerialized] public OnlinePlayer localInstance;
 
     private OnlineLogging onlineLogging;
 

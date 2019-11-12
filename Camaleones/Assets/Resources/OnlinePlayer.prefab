@@ -38,6 +38,18 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &4862060163729567197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36215425079325772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4541afbcf55df32a9b98ca1c0c1fc946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6439751531149500115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,7 +121,7 @@ PrefabInstance:
         type: 3}
       propertyPath: hookPrefab
       value: 
-      objectReference: {fileID: 1672497527257614304, guid: 0fbf36625e422534197d7638f57e8ce8,
+      objectReference: {fileID: 6322763850661062814, guid: 0fbf36625e422534197d7638f57e8ce8,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
