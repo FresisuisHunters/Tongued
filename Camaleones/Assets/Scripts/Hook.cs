@@ -27,12 +27,19 @@ public class Hook : MonoBehaviour
     /// La longitud de cuerda de la que cuelga el cuerpo conectado
     /// </summary>
     public float Length { get => distanceJoint.distance; set => distanceJoint.distance = value; }
-    public Rigidbody2D ConnectedBody { get => distanceJoint.connectedBody; set => distanceJoint.connectedBody = value; }
+    public Rigidbody2D ConnectedBody { get => distanceJoint.connectedBody; set
+        {
+            distanceJoint.connectedBody = value;
+            connectedBodyTransform = value.GetComponent<Transform>();
+        }
+    }
+    
     #endregion
 
     protected DistanceJoint2D distanceJoint;
     protected RopeCollider ropeCollider;
     protected LineRenderer lineRenderer;
+    private Transform connectedBodyTransform;
 
     public virtual void Throw (Vector2 targetPoint)
     {
@@ -81,6 +88,7 @@ public class Hook : MonoBehaviour
     private void Update ()
     {
         Vector3[] ropePoints = ropeCollider.GetRopePoints();
+        ropePoints[ropePoints.Length - 1] = connectedBodyTransform.position;
 
         lineRenderer.positionCount = ropePoints.Length;
         lineRenderer.SetPositions(ropePoints);
