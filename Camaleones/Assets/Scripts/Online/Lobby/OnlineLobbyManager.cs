@@ -12,38 +12,15 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     #endregion
 
-    #region Public Fields
-
-    public TextMeshProUGUI connectionStatusText;
-
-    // Ask Username Panel
-    public GameObject askUsernamePanel;
-    public TMP_InputField usernameInputField;
-
-    // Lobby Menu Panel
-    public GameObject lobbyMenuPanel;
-
-    // Create Room Panel
-    public GameObject createRoomPanel;
-
-    // List Room Panel
-    public GameObject listRoomPanel;
-    public GameObject listEntriesParent;
-    public GameObject listRoomEntry;
-    public Dictionary<string, GameObject> roomEntries = new Dictionary<string, GameObject> ();
-
-    // Room Panel
-    public GameObject roomPanel;
-    public TextMeshProUGUI playerListText;
-    public GameObject startGameButton;
-
-    #endregion
-
     #region Private Fields
 
     private static OnlineLobbyManager instance;
     private GameObject activePanel;
-    private bool listRooms = false;
+    [SerializeField] private TextMeshProUGUI connectionStatusText;
+    [SerializeField] private GameObject askUsernamePanel;
+    [SerializeField] private GameObject lobbyMenuPanel;
+    [SerializeField] private GameObject createRoomPanel;
+    [SerializeField] private GameObject roomPanel;
 
     #endregion
 
@@ -64,35 +41,25 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     #region Public Methods
 
-    public void JoinRoom (string roomName) {
-        PhotonNetwork.JoinRoom (roomName);
+    public void SwitchToAskUsernamePanel () {
+        SwitchPanels (askUsernamePanel);
     }
 
-    public void SwitchToLobbyMainMenu() {
-        SwitchPanels(lobbyMenuPanel);
+    public void SwitchToLobbyMainMenu () {
+        SwitchPanels (lobbyMenuPanel);
     }
 
-    public void SwitchToCreateRoomPanel() {
-        SwitchPanels(createRoomPanel);
+    public void SwitchToCreateRoomPanel () {
+        SwitchPanels (createRoomPanel);
     }
 
-    public void SwitchToRoomPanel() {
-        SwitchPanels(roomPanel);
+    public void SwitchToRoomPanel () {
+        SwitchPanels (roomPanel);
     }
 
     #endregion
 
     #region Private Methods
-
-    private void ConnectToPhotonServer () {
-        if (PhotonNetwork.IsConnected) {
-            Debug.LogError ("Player already connected to Photon server");
-            return;
-        }
-
-        PhotonNetwork.GameVersion = ServerConstants.GAME_VERSION;
-        PhotonNetwork.ConnectUsingSettings ();
-    }
 
     private void SwitchPanels (GameObject newPanel) {
         activePanel.SetActive (false);
@@ -100,168 +67,22 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         activePanel = newPanel;
     }
 
-    private void UpdatePlayersList () {
-        Player[] playersInRoom = PhotonNetwork.PlayerList;
-
-        playerListText.text = "";
-        for (int i = 0; i < playersInRoom.Length; ++i) {
-            Player player = playersInRoom[i];
-
-            playerListText.text += player.ToString () + "\n";
-        }
-    }
-
     #endregion
 
     #region Photon Callbacks
 
-    public override void OnConnectedToMaster () {
-        Debug.Log ("OnConnectedToMaster");
-        SwitchPanels (lobbyMenuPanel);
-    }
-
-    public override void OnJoinedLobby () {
-        Debug.Log ("OnJoinedLobby");
-
-    }
-
     public override void OnDisconnected (DisconnectCause cause) {
-        Debug.Log ("OnDisconnected");
-        Debug.Log (cause);
+        Debug.Log ("Player disconnected");
+        Debug.LogWarning (cause);
 
-        SwitchPanels (askUsernamePanel);
-    }
-
-    public override void OnLeftLobby () {
-        Debug.Log ("OnLeftLobby");
-    }
-
-    public override void OnCreatedRoom () {
-        Debug.Log ("OnCreatedRoom");
-
-        SwitchPanels (roomPanel);
-        startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
-
-        UpdatePlayersList ();
-    }
-
-    public override void OnCreateRoomFailed (short returnCode, string message) {
-        Debug.Log ("OnCreateRoomFailed");
-        Debug.LogError (message);
-    }
-
-    public override void OnJoinRoomFailed (short returnCode, string message) {
-        Debug.Log ("OnJoinRoomFailed");
-        Debug.LogError (message);
-    }
-
-    public override void OnJoinRandomFailed (short returnCode, string message) {
-        Debug.Log ("OnJoinRandomRoomFailed");
-        Debug.LogError (message);
-    }
-
-    public override void OnJoinedRoom () {
-        Debug.Log ("OnJoinedRoom");
-
-        SwitchPanels (roomPanel);
-        startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
-
-        UpdatePlayersList ();
+        SwitchToAskUsernamePanel ();
     }
 
     public override void OnLeftRoom () {
-        Debug.Log ("OnLeftRoom");
+        Debug.Log ("Player left room");
 
         SwitchPanels (lobbyMenuPanel);
     }
-
-    public override void OnPlayerEnteredRoom (Player newPlayer) {
-        Debug.Log ("OnPlayerEnteredRoom");
-        Debug.Log (newPlayer.NickName);
-
-        UpdatePlayersList ();
-    }
-
-    public override void OnPlayerLeftRoom (Player otherPlayer) {
-        Debug.Log ("OnPlayerLeftRoom");
-        Debug.Log (otherPlayer.NickName);
-
-        startGameButton.SetActive (PhotonNetwork.LocalPlayer.IsMasterClient);
-        UpdatePlayersList();
-    }
-
-    public override void OnRoomListUpdate (List<RoomInfo> roomList) {
-        Debug.Log ("OnRoomListUpdate");
-
-        if (!listRooms) {
-            return;
-        }
-
-        // TODO: Mejorar
-        foreach (GameObject listEntry in roomEntries.Values) {
-            GameObject.Destroy (listEntry);
-        }
-        roomEntries.Clear ();
-
-        for (int i = 0; i < roomList.Count; ++i) {
-            RoomInfo roomInfo = roomList[i];
-
-            float x = listRoomEntry.transform.position.x;
-            float y = listRoomEntry.transform.position.y + i * 21; // TODO: Sacar la altura del rect transform
-            Vector2 position = new Vector2 (x, y);
-            Quaternion rotation = Quaternion.identity;
-            Transform parent = listEntriesParent.transform;
-            GameObject roomEntryGameObject = GameObject.Instantiate (listRoomEntry, position, rotation, parent);
-            roomEntryGameObject.GetComponent<RoomListEntry> ().SetRoomValues (roomInfo);
-
-            string roomName = roomInfo.Name;
-            roomEntries.Add (roomName, roomEntryGameObject);
-        }
-    }
-
-    #endregion
-
-    #region UI Callbacks
-
-    #region Ask username panel callbacks
-
-    public void OnConnectToServerButtonClicked () {
-        PhotonNetwork.LocalPlayer.NickName = usernameInputField.text;
-
-        ConnectToPhotonServer ();
-    }
-
-    public void OnGoToMainMenuButtonClicked () {
-        Debug.LogWarning ("TODO: Volver al menú principal");
-    }
-
-    #endregion
-
-    #region List room panel callbacks
-
-    public void OnQuitRoomListingButtonClicked () {
-        listRooms = false;
-        foreach (GameObject listRoomEntry in roomEntries.Values) {
-            GameObject.Destroy (listRoomEntry);
-        }
-        roomEntries.Clear ();
-        SwitchPanels (lobbyMenuPanel);
-    }
-
-    #endregion
-
-    #region Room panel callbacks
-
-    public void OnStartGameButtonClicked () {
-        PhotonNetwork.LoadLevel (ServerConstants.ONLINE_LEVEL);
-    }
-
-    // TODO: Continuar aqui
-    public void OnQuitRoomButtonClicked () {
-        PhotonNetwork.LeaveRoom ();
-    }
-
-    #endregion
 
     #endregion
 
