@@ -84,7 +84,13 @@ public class HookThrower : MonoBehaviour
 
     public void Retract(float time)
     {
-        if (hook.IsAttached) hook.Length -= retractDistancePerSecond * time;
+        if (hook.IsAttached)
+        {
+            hook.Length -= retractDistancePerSecond * time;
+
+            Vector2 u = hook.HeadPosition - Rigidbody.position;
+            Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
+        }
     }
 
     public void LetGo()

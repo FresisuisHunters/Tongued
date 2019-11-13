@@ -39,6 +39,7 @@ public class Hook : MonoBehaviour
             connectedBodyTransform = value.GetComponent<Transform>();
         }
     }
+    public Vector2 HeadPosition { get => headRigidbody.position; }
     #endregion
 
     #region References
@@ -98,7 +99,6 @@ public class Hook : MonoBehaviour
         headRigidbody.position = attachPoint;
         headRigidbody.isKinematic = true;
 
-        //Consider RopeCollider here.
         ropeCollider.HeadPosition = attachPoint;
         distanceJoint.distance = ropeCollider.SwingingSegmentLength;
         distanceJoint.enabled = true;
