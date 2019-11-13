@@ -140,9 +140,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd2f863c76600547949b2638014ed04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  retractDistancePerSecond: 6
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
-  retractDistancePerSecond: 6
+  autoAimRayCount: 5
+  autoAimConeAngle: 10
+  autoAimLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &6475681867467041414
 MonoBehaviour:
   m_ObjectHideFlags: 0

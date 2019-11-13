@@ -10,18 +10,63 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Rigidbody2D))]
 public class HookThrower : MonoBehaviour
 {
+    public float retractDistancePerSecond = 10f;
     [SerializeField] private Hook hookPrefab;
-    [SerializeField] private float retractDistancePerSecond = 10f;
-    
+
+    [SerializeField] private int autoAimRayCount = 5;
+    [SerializeField] private float autoAimConeAngle = 10;
+
+    [SerializeField] private LayerMask autoAimLayerMask;
+
     public bool HookIsOut => Hook.IsOut;
 
     public Hook Hook { get; set; }
     public Rigidbody2D Rigidbody { get; private set; }
 
+    private RaycastHit2D[] raycastHits = new RaycastHit2D[1];
 
-    public void ThrowHook(Vector2 targetPoint)
+    public void ThrowHook(Vector2 requestedPoint)
     {
-        Hook.Throw(targetPoint);
+        //Lanzamos varios rayos en un ángulo de apertura para hacer el autoaim.
+        //De los hits que hemos tenido, nos quedamos con el más cercano a requestedPoint.
+        //Si no hay hits, utilizamos requestedPoint.
+        //TODO: Utilizar requestedPoint si se encuentra un jugador en los hits.
+
+        Vector2 origin = Rigidbody.position;
+        Vector2 u = (requestedPoint - origin).normalized;
+        Vector2 direction;
+
+        float angle = -autoAimConeAngle * Mathf.Deg2Rad;
+        float deltaAngle = (autoAimConeAngle * Mathf.Deg2Rad) / autoAimRayCount;
+        int hitCount;
+
+        Vector2 finalPoint = Vector2.zero;
+        float squaredDistanceFromRequestedToFinalPoint = float.MaxValue;
+        float squaredDistance;
+
+        for (int i = 0; i < autoAimRayCount; i++)
+        {
+            //Rota el vector u por angle
+            direction.x = u.x * Mathf.Cos(angle) - u.y * Mathf.Sin(angle);
+            direction.y = u.x * Mathf.Sin(angle) + u.y * Mathf.Cos(angle);
+
+            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, float.MaxValue, autoAimLayerMask);
+
+            for (int j = 0; j < hitCount; j++)
+            {
+                squaredDistance = (origin - raycastHits[j].point).sqrMagnitude;
+                if (squaredDistance < squaredDistanceFromRequestedToFinalPoint)
+                {
+                    squaredDistanceFromRequestedToFinalPoint = squaredDistance;
+                    finalPoint = raycastHits[j].point;
+                }
+            }
+            angle += deltaAngle;
+        }
+
+        if (squaredDistanceFromRequestedToFinalPoint == float.MaxValue) finalPoint = requestedPoint;
+
+        Hook.Throw(finalPoint);
     }
 
     public void Retract(float time)
