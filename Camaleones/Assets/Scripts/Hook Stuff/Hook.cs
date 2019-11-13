@@ -99,7 +99,8 @@ public class Hook : MonoBehaviour
         headRigidbody.isKinematic = true;
 
         //Consider RopeCollider here.
-        distanceJoint.distance = Vector2.Distance(attachPoint, ConnectedBody.position);
+        ropeCollider.HeadPosition = attachPoint;
+        distanceJoint.distance = ropeCollider.SwingingSegmentLength;
         distanceJoint.enabled = true;
 
         IsAttached = true;

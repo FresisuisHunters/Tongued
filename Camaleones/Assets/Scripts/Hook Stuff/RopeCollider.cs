@@ -34,6 +34,21 @@ public class RopeCollider : MonoBehaviour
     }
     private Vector2 _headPosition;
 
+    public float SwingingSegmentLength {
+        get
+        {
+            if (contactPoints.Count > 0)
+            {
+                return (contactPoints[contactPoints.Count - 1].position - freeSwingingEndPoint).magnitude;
+            }
+            else
+            {
+                return (_headPosition - freeSwingingEndPoint).magnitude;
+            }
+            
+        }
+    }
+
     /// <summary>
     /// La posición del final de la cuerda que cuelga libremente.
     /// </summary>

@@ -92,7 +92,6 @@ public class HookThrower : MonoBehaviour
         hook.Disable();
     }
 
-
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
