@@ -34,7 +34,7 @@ public class LobbyMainMenuPanel : MonoBehaviour {
     }
 
     private void OnJoinPrivateRoomButtonClicked () {
-        // TODO
+        OnlineLobbyManager.Instance.SwitchToJoinPrivateRoomPanel();
     }
 
     private void OnQuitLobbyMenuButtonClicked () {

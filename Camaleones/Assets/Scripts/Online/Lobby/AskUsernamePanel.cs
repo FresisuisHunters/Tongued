@@ -34,7 +34,7 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
 
     private void ConnectToPhotonServer () {
         if (PhotonNetwork.IsConnected) {
-            Debug.LogError ("Player already connected to Photon server");
+            OnlineLogging.Instance.Write("Player already connected to Photon server");
             return;
         }
 

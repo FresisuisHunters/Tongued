@@ -19,6 +19,7 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     [SerializeField] private GameObject askUsernamePanel;
     [SerializeField] private GameObject lobbyMenuPanel;
     [SerializeField] private GameObject createRoomPanel;
+    [SerializeField] private GameObject joinPrivateRoomPanel;
     [SerializeField] private GameObject roomPanel;
 
     #endregion
@@ -36,6 +37,10 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         connectionStatusText.text = CONNECTION_STATUS_MESSAGE + PhotonNetwork.NetworkClientState;
     }
 
+    protected void OnApplicationQuit() {
+        OnlineLogging.Instance.Close();
+    }
+
     #endregion
 
     #region Public Methods
@@ -50,6 +55,10 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     public void SwitchToCreateRoomPanel () {
         SwitchPanels (createRoomPanel);
+    }
+
+    public void SwitchToJoinPrivateRoomPanel() {
+        SwitchPanels(joinPrivateRoomPanel);
     }
 
     public void SwitchToRoomPanel () {
@@ -71,15 +80,13 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
     #region Photon Callbacks
 
     public override void OnDisconnected (DisconnectCause cause) {
-        Debug.Log ("Player disconnected");
-        Debug.LogWarning (cause);
+        string log = string.Format("Player disconnected. Cause: {0}", cause);
+        OnlineLogging.Instance.Write(log);
 
         SwitchToAskUsernamePanel ();
     }
 
     public override void OnLeftRoom () {
-        Debug.Log ("Player left room");
-
         SwitchPanels (lobbyMenuPanel);
     }
 

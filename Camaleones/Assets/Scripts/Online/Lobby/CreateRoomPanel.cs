@@ -33,7 +33,8 @@ public class CreateRoomPanel : MonoBehaviourPunCallbacks {
     }
 
     public override void OnCreateRoomFailed (short returnCode, string message) {
-        Debug.LogErrorFormat ("Error creating room\nReturn code: {0}\nError message: {1}", returnCode, message);
+        string log = string.Format("Error creating room\nReturn code: {0}\nError message: {1}", returnCode, message);
+        OnlineLogging.Instance.Write(log);
     }
 
     #endregion

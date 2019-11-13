@@ -7,19 +7,12 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
 
     public OnlinePlayer localInstance;
 
-    private OnlineLogging onlineLogging;
-
     #region Unity Callbacks
 
     protected void Awake () {
         if (photonView.IsMine) {
             localInstance = this;
-            onlineLogging = new OnlineLogging (PhotonNetwork.LocalPlayer.NickName);
         }
-    }
-
-    protected void OnApplicationQuit() {
-        onlineLogging.Close();
     }
 
     #endregion
@@ -52,22 +45,22 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
     #region Photon Callbacks
 
     public override void OnDisconnected (DisconnectCause cause) {
-        onlineLogging.Write ("OnDisconnected");
-        onlineLogging.Write (cause.ToString ());
+        string log = string.Format("OnDisconnected. Cause: {0}", cause);
+        OnlineLogging.Instance.Write(log);
 
         DestroySelfAndReturnToMenu ();
     }
 
     public override void OnPlayerLeftRoom (Player otherPlayer) {
-        onlineLogging.Write ("OnPlayerLeftRoom");
-        onlineLogging.Write (otherPlayer.ToString ());
+        string log= string.Format("OnPlayerLeftRoom: {0}", otherPlayer.ToStringFull());
+        OnlineLogging.Instance.Write(log);
 
         GameObject player = FindPlayerWithName (otherPlayer.NickName);
         DestroyPlayer (player);
     }
 
     public override void OnLeftRoom () {
-        onlineLogging.Write ("OnLeftRoom");
+        OnlineLogging.Instance.Write("OnLeftRoom");
 
         DestroySelfAndReturnToMenu ();
     }
