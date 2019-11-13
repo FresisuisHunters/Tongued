@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6475681867467041412}
   - component: {fileID: 6475681867467041411}
   - component: {fileID: 6475681867467041410}
-  - component: {fileID: 6475681867467041409}
   - component: {fileID: 6475681867467041408}
   - component: {fileID: 6475681867467041413}
   - component: {fileID: 6475681867467041414}
+  - component: {fileID: 452793664}
   m_Layer: 13
   m_Name: Player
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 6475681867467041439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.59172, y: 0.59172, z: 0.59172}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6475681867467041439}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &6475681867467041410
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -81,32 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!61 &6475681867467041409
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6475681867467041439}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!50 &6475681867467041408
 Rigidbody2D:
   serializedVersion: 4
@@ -140,11 +114,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd2f863c76600547949b2638014ed04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugAutoAim: 0
   retractDistancePerSecond: 6
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
   autoAimRayCount: 5
-  autoAimConeAngle: 10
+  autoAimConeAngle: 30
   autoAimLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -160,3 +135,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775fea851db6fc84f837a1b47816ff95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &452793664
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681867467041439}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

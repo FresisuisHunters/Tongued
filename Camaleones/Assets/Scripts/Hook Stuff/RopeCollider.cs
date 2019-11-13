@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable 649
 /// <summary>
 /// Componente que se encarga de detectar los puntos de contacto de la cuerda del gancho, 
 /// y de hacer que estos afecten a su comportamiento.
@@ -39,6 +40,8 @@ public class RopeCollider : MonoBehaviour
     [NonSerialized] public Vector2 freeSwingingEndPoint;
     #endregion
 
+    public event Action OnClearedContacts;
+
     #region Private State
     /// <summary>
     /// Mantiene los puntos de contacto en el orden de su posición en la cuerda. Index 0 es el contacto más cercano al punto fijo.
@@ -54,6 +57,11 @@ public class RopeCollider : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Index 0: punto fijo
+    /// Último index: swinger
+    /// </summary>
+    /// <returns></returns>
     public Vector3[] GetRopePoints()
     {
         //Idealmente, no crearíamos el array en cada llamada, para evitar generar basura cada frame.
@@ -67,7 +75,6 @@ public class RopeCollider : MonoBehaviour
         points[points.Length - 1] = freeSwingingEndPoint;
 
         return points;
-
     }
 
     /// <summary>
@@ -76,6 +83,7 @@ public class RopeCollider : MonoBehaviour
     public void ClearContacts()
     {
         contactPoints.Clear();
+        OnClearedContacts?.Invoke();
     }
 
 

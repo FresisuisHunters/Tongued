@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#pragma warning disable 649
 /// <summary>
 /// Componente central del gancho. Maneja activarlo, engancharlo y desactivarlo; 
 /// y da la información necesaria a los otros componentes del gancho.
@@ -64,9 +65,11 @@ public class Hook : MonoBehaviour
 
         headRigidbody.position = throwOriginPoint;
         headRigidbody.velocity = throwDirection * hookProjectileSpeed;
-        //headRigidbody.transform.position = throwOriginPoint;
+        headRigidbody.transform.position = throwOriginPoint;
         headRigidbody.isKinematic = false;
         isBeingThrown = true;
+
+        distanceJoint.enabled = false;
     }
 
     /// <summary>
@@ -79,11 +82,6 @@ public class Hook : MonoBehaviour
         isBeingThrown = false;
 
         ropeCollider.ClearContacts();
-        ropeCollider.enabled = false;
-
-        distanceJoint.enabled = false;
-
-        headRigidbody.isKinematic = true;
     }
 
     /// <summary>
@@ -104,8 +102,6 @@ public class Hook : MonoBehaviour
         distanceJoint.distance = Vector2.Distance(attachPoint, ConnectedBody.position);
         distanceJoint.enabled = true;
 
-        ropeCollider.enabled = true;
-
         IsAttached = true;
     }
 
@@ -121,18 +117,6 @@ public class Hook : MonoBehaviour
         }
     }
 
-
-    //Visualización provisional
-    private void OnDrawGizmos()
-    {
-        Vector3[] ropePoints = ropeCollider.GetRopePoints();
-        ropePoints[ropePoints.Length - 1] = connectedBodyTransform.position;
-
-        lineRenderer.positionCount = ropePoints.Length;
-        lineRenderer.SetPositions(ropePoints);
-    }
-
-
     protected virtual void Awake()
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
@@ -142,10 +126,8 @@ public class Hook : MonoBehaviour
         distanceJoint.maxDistanceOnly = true;
         distanceJoint.autoConfigureDistance = false;
         distanceJoint.autoConfigureConnectedAnchor = false;
-        distanceJoint.enabled = false;
 
         ropeCollider = GetComponentInChildren<RopeCollider>();
-        lineRenderer = GetComponentInChildren<LineRenderer>();
 
         Disable();
     }

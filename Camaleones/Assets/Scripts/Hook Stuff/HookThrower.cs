@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 public class HookThrower : MonoBehaviour
 {
     public bool debugAutoAim;
+    public bool debugVelocity;
 
     #region Inspector
     [Header("Hook")]
@@ -107,6 +108,6 @@ public class HookThrower : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.TextArea(new Rect(0, 0, 200, 100), Rigidbody.velocity.magnitude.ToString());
+        if (debugVelocity) GUI.TextArea(new Rect(0, 0, 170, 30), $"{name}'s velocity: {Rigidbody.velocity.magnitude.ToString()}");
     }
 }

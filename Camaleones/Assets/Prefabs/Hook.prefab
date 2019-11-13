@@ -101,7 +101,7 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 259380283370416748}
   - component: {fileID: 6183834072213348076}
   - component: {fileID: 8171963320281755736}
+  - component: {fileID: 1823098372294825339}
   m_Layer: 12
   m_Name: Swinging Point
   m_TagString: Untagged
@@ -365,3 +366,16 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &1823098372294825339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5674965258375971840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a39ba8bf168db14597a9d41bded7841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 1402256899455887753}
