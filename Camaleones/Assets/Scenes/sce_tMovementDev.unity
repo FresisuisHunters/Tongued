@@ -1705,6 +1705,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 6475681867467041413, guid: 56ecb6db886ff21438a9186713dfb793,
+        type: 3}
+      propertyPath: autoAimConeAngle
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6475681867467041409, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}

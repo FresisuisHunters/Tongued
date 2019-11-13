@@ -10,6 +10,8 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Rigidbody2D))]
 public class HookThrower : MonoBehaviour
 {
+    public bool debugAutoAim;
+
     #region Inspector
     [Header("Hook")]
     public float retractDistancePerSecond = 10f;
@@ -39,7 +41,7 @@ public class HookThrower : MonoBehaviour
         Vector2 u = (requestedPoint - origin).normalized;
         Vector2 direction;
 
-        float angle = -autoAimConeAngle * Mathf.Deg2Rad;
+        float angle = -autoAimConeAngle / 2 * Mathf.Deg2Rad;
         float deltaAngle = (autoAimConeAngle * Mathf.Deg2Rad) / autoAimRayCount;
         int hitCount;
 
@@ -65,11 +67,18 @@ public class HookThrower : MonoBehaviour
                 }
             }
             angle += deltaAngle;
+
+            if (debugAutoAim) Debug.DrawRay(origin, direction * 1000, Color.white, 2);
         }
 
         if (squaredDistanceFromRequestedToFinalPoint == float.MaxValue) finalPoint = requestedPoint;
 
         hook.Throw(finalPoint);
+
+        if (debugAutoAim)
+        {
+            Debug.DrawLine(origin, finalPoint, Color.red, 2);
+        }
     }
 
     public void Retract(float time)
@@ -94,5 +103,10 @@ public class HookThrower : MonoBehaviour
         else if (photonView.IsMine) hook = Photon.Pun.PhotonNetwork.Instantiate(hookPrefab.name, Vector3.zero, Quaternion.identity, data: new object[] { photonView.ViewID }).GetComponent<Hook>();
 
         if (hook) hook.ConnectedBody = Rigidbody;
+    }
+
+    private void OnGUI()
+    {
+        GUI.TextArea(new Rect(0, 0, 200, 100), Rigidbody.velocity.magnitude.ToString());
     }
 }

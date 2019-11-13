@@ -13,9 +13,12 @@ using UnityEngine;
 [RequireComponent(typeof(DistanceJoint2D))]
 public class RopeCollider : MonoBehaviour
 {
+    #region Inspector
     [SerializeField, Tooltip("Las layers en las que se buscan puntos de contacto.")]
     private LayerMask raycastMask;
+    #endregion
 
+    #region Public members
     /// <summary>
     /// La posición de la cabeza del gancho.
     /// </summary>
@@ -34,7 +37,9 @@ public class RopeCollider : MonoBehaviour
     /// La posición del final de la cuerda que cuelga libremente.
     /// </summary>
     [NonSerialized] public Vector2 freeSwingingEndPoint;
+    #endregion
 
+    #region Private State
     /// <summary>
     /// Mantiene los puntos de contacto en el orden de su posición en la cuerda. Index 0 es el contacto más cercano al punto fijo.
     /// </summary>
@@ -44,10 +49,10 @@ public class RopeCollider : MonoBehaviour
     /// </summary>
     private RaycastHit2D[] raycastHits = new RaycastHit2D[1];
 
-    //Referencias
     private DistanceJoint2D distanceJoint;
     private Rigidbody2D swingHingeRigidbody;
 
+    #endregion
 
     public Vector3[] GetRopePoints()
     {
@@ -196,7 +201,7 @@ public class RopeCollider : MonoBehaviour
         swingHingeRigidbody.position = hingePoint;
     }
 
-
+    #region Initialization
     private void Awake()
     {
         distanceJoint = GetComponent<DistanceJoint2D>();
@@ -204,6 +209,8 @@ public class RopeCollider : MonoBehaviour
         swingHingeRigidbody = GetComponent<Rigidbody2D>();
         swingHingeRigidbody.isKinematic = true;
     }
+    #endregion
+
 
 
     public struct ContactPoint

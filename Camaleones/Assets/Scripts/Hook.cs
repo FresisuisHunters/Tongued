@@ -62,8 +62,10 @@ public class Hook : MonoBehaviour
         throwOriginPoint = ConnectedBody.position;
         Vector2 throwDirection = (targetPoint - throwOriginPoint).normalized;
 
-        headRigidbody.transform.position = throwOriginPoint;
+        headRigidbody.position = throwOriginPoint;
         headRigidbody.velocity = throwDirection * hookProjectileSpeed;
+        //headRigidbody.transform.position = throwOriginPoint;
+        headRigidbody.isKinematic = false;
         isBeingThrown = true;
     }
 
@@ -80,6 +82,8 @@ public class Hook : MonoBehaviour
         ropeCollider.enabled = false;
 
         distanceJoint.enabled = false;
+
+        headRigidbody.isKinematic = true;
     }
 
     /// <summary>
@@ -94,7 +98,9 @@ public class Hook : MonoBehaviour
         }
 
         headRigidbody.position = attachPoint;
+        headRigidbody.isKinematic = true;
 
+        //Consider RopeCollider here.
         distanceJoint.distance = Vector2.Distance(attachPoint, ConnectedBody.position);
         distanceJoint.enabled = true;
 
@@ -107,19 +113,11 @@ public class Hook : MonoBehaviour
     {
         //Actualiza las posiciones finales de RopeCollider.
         ropeCollider.freeSwingingEndPoint = distanceJoint.connectedBody.position;
-
-        if (!isBeingThrown)
-        {
-            ropeCollider.HeadPosition = headRigidbody.position;
-        }
-        else
-        {
-            ropeCollider.transform.position = headRigidbody.position;
-        }
+        ropeCollider.HeadPosition = headRigidbody.position;
 
         if (isBeingThrown && (headRigidbody.position - throwOriginPoint).magnitude >= maxHookDistance)
         {
-            isBeingThrown = false;
+            Disable();
         }
     }
 
@@ -168,5 +166,4 @@ public class Hook : MonoBehaviour
             }
         }
     }
-
 }
