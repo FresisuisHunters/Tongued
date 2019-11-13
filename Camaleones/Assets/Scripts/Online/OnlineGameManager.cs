@@ -11,8 +11,12 @@ public class OnlineGameManager : MonoBehaviour {
 
     #region Unity Callbacks
 
-    private void Awake () {
+    protected void Awake () {
         InstantiatePlayer ();
+    }
+
+    protected void OnApplicationQuit() {
+        OnlineLogging.Instance.Close();
     }
 
     #endregion
