@@ -28,6 +28,27 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         UpdateGameModeText();
         UpdateRoomCapacityText ();
         UpdatePlayersText ();
+        UpdateStartGameButton();
+    }
+
+    #endregion
+
+    #region Photon Callbacks
+
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
+        OnlineLogging.Instance.Write("OnPlayerEnteredRoom");
+
+        UpdateRoomCapacityText();
+        UpdatePlayersText();
+        UpdateStartGameButton();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
+        OnlineLogging.Instance.Write("OnPlayerLeftRoom");
+
+        UpdateRoomCapacityText();
+        UpdatePlayersText();
+        UpdateStartGameButton();
     }
 
     #endregion
@@ -55,6 +76,10 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             Player p = players[i];
             playersListText.text += string.Format ("{0}\n", p.ToStringFull ());
         }
+    }
+
+    private void UpdateStartGameButton() {
+        startGameButton.gameObject.SetActive(PhotonNetwork.LocalPlayer.IsMasterClient);
     }
 
     #endregion
