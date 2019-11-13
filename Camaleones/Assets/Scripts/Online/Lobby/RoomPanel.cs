@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
@@ -7,8 +6,9 @@ using UnityEngine.UI;
 
 public class RoomPanel : MonoBehaviourPunCallbacks {
 
-    #region Public Fields
+    #region Private Fields
 
+    [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI roomSizeText;
     [SerializeField] private TextMeshProUGUI roomNameText;
     [SerializeField] private TextMeshProUGUI playersListText;
@@ -25,7 +25,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     }
 
     protected new void OnEnable () {
-        Debug.Log ("OnEnable");
+        UpdateGameModeText();
         UpdateRoomCapacityText ();
         UpdatePlayersText ();
     }
@@ -34,9 +34,15 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #region Private Methods
 
+    private void UpdateGameModeText() {
+        string gameMode = (string) PhotonNetwork.CurrentRoom.CustomProperties[ServerConstants.GAME_MODE_ROOM];
+        gameModeText.text = gameMode;
+    }
+
     private void UpdateRoomCapacityText () {
         byte currentPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         byte maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
+        
         roomSizeText.text = string.Format ("{0}/{1}", currentPlayers, maxPlayers);
 
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -47,7 +53,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         Player[] players = PhotonNetwork.PlayerList;
         for (int i = 0; i < players.Length; ++i) {
             Player p = players[i];
-            playersListText.text += string.Format ("{0}\n" + p.ToStringFull ());
+            playersListText.text += string.Format ("{0}\n", p.ToStringFull ());
         }
     }
 
