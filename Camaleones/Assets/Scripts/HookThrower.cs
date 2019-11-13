@@ -10,17 +10,20 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Rigidbody2D))]
 public class HookThrower : MonoBehaviour
 {
+    #region Inspector
+    [Header("Hook")]
     public float retractDistancePerSecond = 10f;
     [SerializeField] private Hook hookPrefab;
 
+    [Header("Autoaim")]
     [SerializeField] private int autoAimRayCount = 5;
     [SerializeField] private float autoAimConeAngle = 10;
-
     [SerializeField] private LayerMask autoAimLayerMask;
+    #endregion
 
-    public bool HookIsOut => Hook.IsOut;
+    public bool HookIsOut => hook.IsOut;
 
-    public Hook Hook { get; set; }
+    [System.NonSerialized] public Hook hook = null;
     public Rigidbody2D Rigidbody { get; private set; }
 
     private RaycastHit2D[] raycastHits = new RaycastHit2D[1];
@@ -66,18 +69,19 @@ public class HookThrower : MonoBehaviour
 
         if (squaredDistanceFromRequestedToFinalPoint == float.MaxValue) finalPoint = requestedPoint;
 
-        Hook.Throw(finalPoint);
+        hook.Throw(finalPoint);
     }
 
     public void Retract(float time)
     {
-        if (Hook.IsAttached) Hook.Length -= retractDistancePerSecond * time;
+        if (hook.IsAttached) hook.Length -= retractDistancePerSecond * time;
     }
 
     public void LetGo()
     {
-        Hook.Disable();
+        hook.Disable();
     }
+
 
     private void Awake()
     {
@@ -86,9 +90,9 @@ public class HookThrower : MonoBehaviour
         //Si estamos jugando online (tenemos un PhotonView) y somos el jugador local, utilizamos PhotonNetwork para instanciar el gancho. Si no, un Instantiate de toda la vida.
         //En el prefab  online se asigna OnlineHook, en el prefab offline se asigna Hook.
         Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();
-        if (!photonView) Hook = Instantiate(hookPrefab);
-        else if (photonView.IsMine) Hook = Photon.Pun.PhotonNetwork.Instantiate(hookPrefab.name, Vector3.zero, Quaternion.identity, data: new object[]{ photonView.ViewID}).GetComponent<Hook>();
+        if (!photonView) hook = Instantiate(hookPrefab);
+        else if (photonView.IsMine) hook = Photon.Pun.PhotonNetwork.Instantiate(hookPrefab.name, Vector3.zero, Quaternion.identity, data: new object[] { photonView.ViewID }).GetComponent<Hook>();
 
-        if (Hook) Hook.ConnectedBody = Rigidbody;
+        if (hook) hook.ConnectedBody = Rigidbody;
     }
 }

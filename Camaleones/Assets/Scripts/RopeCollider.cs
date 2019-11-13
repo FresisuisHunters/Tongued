@@ -48,11 +48,10 @@ public class RopeCollider : MonoBehaviour
     private DistanceJoint2D distanceJoint;
     private Rigidbody2D swingHingeRigidbody;
 
-    
+
     public Vector3[] GetRopePoints()
     {
         //Idealmente, no crearíamos el array en cada llamada, para evitar generar basura cada frame.
-
         Vector3[] points = new Vector3[contactPoints.Count + 2];
         for (int i = 0; i < contactPoints.Count; i++)
         {
@@ -75,12 +74,11 @@ public class RopeCollider : MonoBehaviour
     }
 
 
-    protected void FixedUpdate()
+    private void FixedUpdate()
     {
         DetectUndoneContacts();
         DetectNewContacts();
     }
-
 
     #region Deshacer contactos
     private void DetectUndoneContacts()
@@ -191,7 +189,6 @@ public class RopeCollider : MonoBehaviour
         return closestPoint;
     }
     #endregion
-
 
     private void UpdateSwingingPoint()
     {

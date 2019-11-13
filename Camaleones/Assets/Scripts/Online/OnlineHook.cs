@@ -66,7 +66,7 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
         PhotonView throwerView = PhotonView.Find((int) photonView.InstantiationData[0]);
 
         HookThrower thrower = throwerView.GetComponent<HookThrower>();
-        thrower.Hook = this;
+        thrower.hook = this;
         ConnectedBody = thrower.Rigidbody;
     }
 }
