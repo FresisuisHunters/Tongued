@@ -4,6 +4,7 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class CreateRoomPanel : MonoBehaviourPunCallbacks {
 
@@ -20,6 +21,9 @@ public class CreateRoomPanel : MonoBehaviourPunCallbacks {
     #region UnityCallbacks
 
     private void Awake () {
+        roomSizeDropdown.AddOptions(new List<string>(ServerConstants.ROOM_SIZES));
+        gameModeDropdown.AddOptions(new List<string>(ServerConstants.GAME_MODES));
+
         createRoomButton.onClick.AddListener (() => OnCreateRoomButtonClicked ());
         quitRoomCreationButton.onClick.AddListener (() => OnQuitRoomCreationButtonClicked ());
     }
@@ -58,7 +62,7 @@ public class CreateRoomPanel : MonoBehaviourPunCallbacks {
         roomOptions.MaxPlayers = roomSize;
         roomOptions.IsVisible = false;
         roomOptions.CustomRoomProperties = new Hashtable ();
-        roomOptions.CustomRoomProperties.Add (ServerConstants.GAME_MODE_ROOM, gameModeString);
+        roomOptions.CustomRoomProperties.Add (ServerConstants.GAME_MODE_ROOM_KEY, gameModeString);
 
         PhotonNetwork.CreateRoom (roomName, roomOptions);
     }

@@ -56,7 +56,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     #region Private Methods
 
     private void UpdateGameModeText() {
-        string gameMode = (string) PhotonNetwork.CurrentRoom.CustomProperties[ServerConstants.GAME_MODE_ROOM];
+        string gameMode = (string) PhotonNetwork.CurrentRoom.CustomProperties[ServerConstants.GAME_MODE_ROOM_KEY];
         gameModeText.text = gameMode;
     }
 
