@@ -133,6 +133,10 @@ public class Hook : MonoBehaviour
         Disable();
     }
 
+    public GameObject getParent()
+    {
+        return distanceJoint.connectedBody.gameObject;
+    }
 
     /// <summary>
     /// Método que gestiona la colisión del objeto que representa la cabeza del gancho
