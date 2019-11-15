@@ -5,9 +5,9 @@ public class ServerConstants {
 
     #region Game Mode Constants
 
-    public const string GAME_MODE_1 = "Game Mode 1";
-    public const string GAME_MODE_2 = "Game Mode 2";
-    public const string GAME_MODE_3 = "Game Mode 3";
+    public const string GAME_MODE_1 = "Mode 1";
+    public const string GAME_MODE_2 = "Mode 2";
+    public const string GAME_MODE_3 = "Mode 3";
     public static readonly string[] GAME_MODES = new string[] { GAME_MODE_1, GAME_MODE_2, GAME_MODE_3 };
 
     #endregion

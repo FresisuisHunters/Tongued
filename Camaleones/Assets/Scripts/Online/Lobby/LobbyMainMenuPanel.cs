@@ -35,6 +35,10 @@ public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
 
     #region Photon Callbacks
 
+    public override void OnJoinedLobby() {
+        JoinOrCreateRoom();
+    }
+
     public override void OnJoinedRoom() {
         OnlineLobbyManager.Instance.SwitchToRoomPanel();
 
@@ -53,6 +57,26 @@ public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
 
     #region Private Methods 
 
+    private void JoinOrCreateRoom() {
+        int gameModeIndexSelected = gameModeDropDown.value;
+        string gameMode = gameModeDropDown.options[gameModeIndexSelected].text;
+
+        Hashtable roomProperties = new Hashtable();
+        roomProperties.Add(ServerConstants.GAME_MODE_ROOM_KEY, gameMode);
+
+        if (currentTries < ServerConstants.JOIN_RANDOM_ROOM_TRIES) {
+            PhotonNetwork.JoinRandomRoom(roomProperties, 0, MatchmakingMode.FillRoom, TypedLobby.Default, "");
+        } else {
+            string roomName = RandomString(10);
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 4;
+            roomOptions.CustomRoomProperties = roomProperties;
+            roomOptions.CustomRoomPropertiesForLobby = new string[] { gameMode };
+
+            PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+        }
+    }
+
     private static string RandomString(int length) {
         System.Random random = new System.Random();  
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -67,20 +91,8 @@ public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
     private void OnJoinPublicGameButtonClicked () {
         int gameModeIndexSelected = gameModeDropDown.value;
         string gameMode = gameModeDropDown.options[gameModeIndexSelected].text;
-
-        Hashtable roomProperties = new Hashtable();
-        roomProperties.Add(ServerConstants.GAME_MODE_ROOM_KEY, gameMode);
-
-        if (currentTries < ServerConstants.JOIN_RANDOM_ROOM_TRIES) {
-            PhotonNetwork.JoinRandomRoom(roomProperties, 0);
-        } else {
-            string roomName = RandomString(10);
-            RoomOptions roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = 4;
-            roomOptions.CustomRoomProperties = roomProperties;
-
-            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
-        }
+        TypedLobby newLobby = new TypedLobby(gameMode, LobbyType.SqlLobby);
+        PhotonNetwork.JoinLobby(newLobby);
     }
 
     private void OnCreatePrivateRoomButtonClicked () {
