@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class TransferableItem : MonoBehaviour
 {
+    #region Inspector
+    [Tooltip("Tiempo que tiene que pasar desde que un jugador adquiere el objeto hasta que otro jugador puede quitarselo")]
     [SerializeField] private float cooldownToTransfer;
+    #endregion
 
     private bool transferActive;
 
@@ -15,6 +18,10 @@ public class TransferableItem : MonoBehaviour
         StartCoroutine(ActivationTimer());
     }
 
+    /// <summary>
+    /// Corrutina que se usa para el temporizador que activa la transferencia del objeto
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ActivationTimer()
     {
         yield return new WaitForSeconds(cooldownToTransfer);
@@ -23,6 +30,10 @@ public class TransferableItem : MonoBehaviour
             GetComponent<ItemSelfDestroy>().active = true;
     }
 
+    /// <summary>
+    /// Al tocar un jugador o su lengua si la transferencia está activa le añade un componente de este tipo y se autodestruye, quitandolo del objeto que lo tenia antes
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (transferActive)
@@ -46,6 +57,10 @@ public class TransferableItem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Al tocar un jugador o su lengua si la transferencia está activa le añade un componente de este tipo y se autodestruye, quitandolo del objeto que lo tenia antes
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (transferActive)

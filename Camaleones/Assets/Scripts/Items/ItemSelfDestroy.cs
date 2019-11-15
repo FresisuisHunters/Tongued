@@ -9,9 +9,14 @@ public class ItemSelfDestroy : MonoBehaviour
     {
         active = false;
     }
+
+    /// <summary>
+    /// Si el script está activo, destruye el objeto que lo tiene al contacto
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (active)
+        if (active && collision.gameObject.layer == LayerMask.NameToLayer("MainPlayerLayer") || collision.gameObject.layer == LayerMask.NameToLayer("PlayerLayer"))
             Destroy(gameObject);
     }
 }
