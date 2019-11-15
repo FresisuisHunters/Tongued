@@ -28,6 +28,12 @@ public class CreateRoomPanel : MonoBehaviourPunCallbacks {
         quitRoomCreationButton.onClick.AddListener (() => OnQuitRoomCreationButtonClicked ());
     }
 
+    protected new void OnEnable() {
+        base.OnEnable();
+
+        MakeUIInteractable();
+    }
+
     #endregion
 
     #region PhotonCallbacks
@@ -39,6 +45,28 @@ public class CreateRoomPanel : MonoBehaviourPunCallbacks {
     public override void OnCreateRoomFailed (short returnCode, string message) {
         string log = string.Format("Error creating room\nReturn code: {0}\nError message: {1}", returnCode, message);
         OnlineLogging.Instance.Write(log);
+
+        MakeUIInteractable();
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private void MakeUIInteractable() {
+        roomNameInputField.interactable = true;
+        roomSizeDropdown.interactable = true;
+        gameModeDropdown.interactable = true;
+        createRoomButton.interactable = true;
+        quitRoomCreationButton.interactable = true;
+    }
+
+    private void MakeUINonInteractable() {
+        roomNameInputField.interactable = false;
+        roomSizeDropdown.interactable = false;
+        gameModeDropdown.interactable = false;
+        createRoomButton.interactable = false;
+        quitRoomCreationButton.interactable = false;
     }
 
     #endregion
@@ -51,6 +79,8 @@ public class CreateRoomPanel : MonoBehaviourPunCallbacks {
             return;
         }
 
+        MakeUINonInteractable();
+        
         int roomSizeDropdownSelectedIndex = roomSizeDropdown.value;
         string roomSizeString = roomSizeDropdown.options[roomSizeDropdownSelectedIndex].text;
         byte roomSize = byte.Parse (roomSizeString);

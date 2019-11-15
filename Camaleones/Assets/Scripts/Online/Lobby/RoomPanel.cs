@@ -25,6 +25,8 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     }
 
     protected new void OnEnable () {
+        base.OnEnable();
+
         UpdateGameModeText();
         UpdateRoomCapacityText ();
         UpdatePlayersText ();

@@ -91,8 +91,8 @@ public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
     private void OnJoinPublicGameButtonClicked () {
         int gameModeIndexSelected = gameModeDropDown.value;
         string gameMode = gameModeDropDown.options[gameModeIndexSelected].text;
-        TypedLobby newLobby = new TypedLobby(gameMode, LobbyType.SqlLobby);
-        PhotonNetwork.JoinLobby(newLobby);
+        TypedLobby lobby = ServerConstants.GAME_MODES_LOBBIES[gameMode];
+        PhotonNetwork.JoinLobby(lobby);
     }
 
     private void OnCreatePrivateRoomButtonClicked () {
@@ -104,7 +104,7 @@ public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
     }
 
     private void OnQuitLobbyMenuButtonClicked () {
-        OnlineLobbyManager.Instance.SwitchToAskUsernamePanel ();
+        PhotonNetwork.Disconnect();
     }
 
     #endregion

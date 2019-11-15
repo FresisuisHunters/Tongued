@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
 
 public class AskUsernamePanel : MonoBehaviourPunCallbacks {
 
@@ -20,6 +21,12 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
         goToMainMenuButton.onClick.AddListener (() => OnGoToMainMenuButtonClicked ());
     }
 
+    protected new void OnEnable() {
+        base.OnEnable();
+        
+        MakeUIInteractable();
+    }
+
     #endregion
 
     #region Photon Callbacks
@@ -31,6 +38,18 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
     #endregion
 
     #region Private Methods
+
+    private void MakeUIInteractable() {
+        usernameInputField.interactable = true;
+        connectToServerButton.interactable = true;
+        goToMainMenuButton.interactable = true;
+    }
+
+    private void MakeUINonInteractable() {
+        usernameInputField.interactable = false;
+        connectToServerButton.interactable = false;
+        goToMainMenuButton.interactable = false;
+    }
 
     private void ConnectToPhotonServer () {
         if (PhotonNetwork.IsConnected) {
@@ -52,6 +71,7 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
             return;
         }
 
+        MakeUINonInteractable();
         PhotonNetwork.LocalPlayer.NickName = username;
         ConnectToPhotonServer ();
     }

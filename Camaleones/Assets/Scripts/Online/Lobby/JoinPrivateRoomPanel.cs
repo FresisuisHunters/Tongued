@@ -23,6 +23,12 @@ public class JoinPrivateRoomPanel : MonoBehaviourPunCallbacks
         quitJoinPrivateRoomPanelButton.onClick.AddListener(() => OnQuitJoinPrivateRoomButtonClicked());
     }
 
+    protected new void OnEnable() {
+        base.OnEnable();
+
+        MakeUIInteractable();
+    }
+
     #endregion
 
     #region Photon Callbacks
@@ -35,7 +41,24 @@ public class JoinPrivateRoomPanel : MonoBehaviourPunCallbacks
         string log = string.Format("Couldn't join room. Return code: {0}. Error message: {1}", returnCode, message);
         OnlineLogging.Instance.Write(log);
     
+        MakeUIInteractable();
         errorMessageText.text = message;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private void MakeUIInteractable() {
+        roomNameInputField.interactable = true;
+        attempToJoinRoomButton.interactable = true;
+        quitJoinPrivateRoomPanelButton.interactable = true;
+    }
+
+    private void MakeUINonInteractable() {
+        roomNameInputField.interactable = false;
+        attempToJoinRoomButton.interactable = false;
+        quitJoinPrivateRoomPanelButton.interactable = false;
     }
 
     #endregion
@@ -48,6 +71,7 @@ public class JoinPrivateRoomPanel : MonoBehaviourPunCallbacks
             return;
         }
 
+        MakeUINonInteractable();
         PhotonNetwork.JoinRoom(roomName);
     }
 
