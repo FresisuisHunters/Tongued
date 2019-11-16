@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Este script define un objeto que se transfiere entre jugadores por contacto, o al tocarlo cuando no lo lleva un jugador, al principio de la partida.
+/// </summary>
 public class TransferableItem : MonoBehaviour
 {
     #region Inspector
@@ -13,9 +16,7 @@ public class TransferableItem : MonoBehaviour
 
     public void Awake()
     {
-        Debug.Log("I'm in " + gameObject);
-        transferActive = false;
-        StartCoroutine(ActivationTimer());
+        transferActive = true;
     }
 
     /// <summary>
@@ -26,8 +27,6 @@ public class TransferableItem : MonoBehaviour
     {
         yield return new WaitForSeconds(cooldownToTransfer);
         transferActive = true;
-        if (GetComponent<ItemSelfDestroy>())
-            GetComponent<ItemSelfDestroy>().active = true;
     }
 
     /// <summary>
@@ -36,50 +35,26 @@ public class TransferableItem : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (transferActive)
-        {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("HookLayer"))
-            {
-                GameObject transferDestination = collision.GetComponentInParent<Hook>().getParent();
-                Debug.Log(transferDestination);
-                transferDestination.AddComponent<TransferableItem>();
-                transferDestination.GetComponent<TransferableItem>().cooldownToTransfer = this.cooldownToTransfer;
-                Destroy(this);
-            }
-            else if (collision.gameObject.layer == LayerMask.NameToLayer("MainPlayerLayer") || collision.gameObject.layer == LayerMask.NameToLayer("PlayerLayer"))
-            {
-                GameObject transferDestination = collision.gameObject;
-                Debug.Log(transferDestination);
-                transferDestination.AddComponent<TransferableItem>();
-                transferDestination.GetComponent<TransferableItem>().cooldownToTransfer = this.cooldownToTransfer;
-                Destroy(this);
-            }
-        }
+        Collide(collision.gameObject);
     }
 
     /// <summary>
     /// Al tocar un jugador o su lengua si la transferencia está activa le añade un componente de este tipo y se autodestruye, quitandolo del objeto que lo tenia antes
     /// </summary>
     /// <param name="collision"></param>
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void Collide(GameObject collisionObject)
     {
         if (transferActive)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("HookLayer"))
+            if (collisionObject.layer == LayerMask.NameToLayer("MainPlayerLayer") || collisionObject.layer == LayerMask.NameToLayer("PlayerLayer"))
             {
-                GameObject transferDestination = collision.gameObject.GetComponentInParent<Hook>().getParent();
-                Debug.Log(transferDestination);
-                transferDestination.AddComponent<TransferableItem>();
-                transferDestination.GetComponent<TransferableItem>().cooldownToTransfer = this.cooldownToTransfer;
-                Destroy(this);
-            }
-            else if (collision.gameObject.layer == LayerMask.NameToLayer("MainPlayerLayer") || collision.gameObject.layer == LayerMask.NameToLayer("PlayerLayer"))
-            {
-                GameObject transferDestination = collision.gameObject;
-                Debug.Log(transferDestination);
-                transferDestination.AddComponent<TransferableItem>();
-                transferDestination.GetComponent<TransferableItem>().cooldownToTransfer = this.cooldownToTransfer;
-                Destroy(this);
+                Debug.Log(collisionObject);
+                Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
+                transform.SetParent(collisionObject.transform);
+                collisionObject.AddComponent<SnitchOnPlayerCommunicator>();
+                GetComponent<Collider2D>().enabled = false;
+                transferActive = false;
+                StartCoroutine(ActivationTimer());
             }
         }
     }

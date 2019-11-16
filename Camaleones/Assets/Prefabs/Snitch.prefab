@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8983007099293887706}
   - component: {fileID: 8983007099293887707}
   - component: {fileID: 8983007099293887703}
-  - component: {fileID: 8983007099293887704}
   - component: {fileID: 8983007099293887708}
   m_Layer: 14
   m_Name: Snitch
@@ -93,19 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownToTransfer: 3
---- !u!114 &8983007099293887704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8983007099293887709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 536b7e542d99e46488105471a6a29475, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 0
 --- !u!58 &8983007099293887708
 CircleCollider2D:
   m_ObjectHideFlags: 0
