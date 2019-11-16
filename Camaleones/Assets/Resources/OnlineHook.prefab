@@ -34,6 +34,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deeb456969d17894fb331c0433ab91ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hookProjectileSpeed: 30
+  maxHookDistance: 25
   forceOnAttached: 1500
   maxVelocityForForceOnAttached: 6
   headRigidbody: {fileID: 2912626231605923780}
