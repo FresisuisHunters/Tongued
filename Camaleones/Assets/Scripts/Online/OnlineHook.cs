@@ -53,7 +53,7 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
     protected override void Awake()
     {
         photonView = GetComponent<PhotonView>();
-        name = photonView.Owner.NickName;
+        name = photonView.Owner.NickName + "'s Hook";
 
         base.Awake();
     }
