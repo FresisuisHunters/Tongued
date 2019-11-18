@@ -48,14 +48,18 @@ public class TransferableItem : MonoBehaviour
         {
             if (collisionObject.layer == LayerMask.NameToLayer("MainPlayerLayer") || collisionObject.layer == LayerMask.NameToLayer("PlayerLayer"))
             {
-                Debug.Log(collisionObject);
-                Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
-                transform.SetParent(collisionObject.transform);
-                collisionObject.AddComponent<SnitchOnPlayerCommunicator>();
-                GetComponent<Collider2D>().enabled = false;
-                transferActive = false;
-                StartCoroutine(ActivationTimer());
+                TITransfer(collisionObject);
             }
         }
+    }
+
+    protected virtual void TITransfer(GameObject target)
+    {
+        Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
+        transform.SetParent(target.transform);
+        target.AddComponent<SnitchOnPlayerCommunicator>();
+        GetComponent<Collider2D>().enabled = false;
+        transferActive = false;
+        StartCoroutine(ActivationTimer());
     }
 }

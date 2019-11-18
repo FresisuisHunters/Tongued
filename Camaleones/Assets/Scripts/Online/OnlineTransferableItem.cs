@@ -4,19 +4,20 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(PhotonView))]
-public class OnlineTransferableItem : TransferableItem, IPunObservable, IPunInstantiateMagicCallback
+public class OnlineTransferableItem : TransferableItem 
 {
     private PhotonView photonView;
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    protected override void TITransfer(GameObject target)
     {
-        
+        photonView.RPC("RPCTransfer", RpcTarget.Others, target.GetPhotonView().ViewID);
+        base.TITransfer(target);
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    [PunRPC]
+    private void RPCTransfer(int id)
     {
-        
+        GameObject target = PhotonView.Find(id).gameObject;
+        base.TITransfer(target);
     }
-
-
 }
