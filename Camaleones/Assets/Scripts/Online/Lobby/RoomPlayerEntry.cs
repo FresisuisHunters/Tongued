@@ -27,8 +27,6 @@ public class RoomPlayerEntry : MonoBehaviour {
 
     private void onPlayerReadyButtonClicked() {
         buttonClicked = !buttonClicked;
-        string playerName = playerNameText.text;
-
         if (buttonClicked) {
             room.PlayerIsReady(playerName);
             playerNameText.text = string.Format("* {0}", playerName);

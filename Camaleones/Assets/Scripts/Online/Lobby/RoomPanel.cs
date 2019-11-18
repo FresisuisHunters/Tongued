@@ -95,6 +95,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     }
 
     public void PlayerNotReady (string playerName) {
+        StopGameCountdown();
         playersReady.Remove (playerName);
         UpdateStartGameButton ();
     }
@@ -171,6 +172,8 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     private void UpdateStartGameButton () {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
         bool allPlayersAreReady = playersReady.Count == players.Count;
+
+        Debug.Log(allPlayersAreReady);
 
         startGameButton.gameObject.SetActive (localIsRoomOwner);
         startGameButton.interactable = allPlayersAreReady;
