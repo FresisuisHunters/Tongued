@@ -50,11 +50,12 @@ Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayec
   Ronda de Maldición: el jugador que termine la ronda con el objeto, pierde un punto.
 - Siempre se inicia con la ronda de bendición, para hacer que siempre un jugador tenga el objeto.
 - El estado de los jugadores no se reinicia.
-- Estos dos modos se van alternando (?) hasta que termina la partida tras X rondas.
+- Estos dos tipos de ronda se van alternando de una manera aleatoria con cierto matiz. Tras acabar una ronda, la siguiente se elige de forma aleatoria, aunque para evitar monotonía, el repetir el mismo tipo de ronda cada vez tiene menos probabilidades respecto al otro (la mitad).
+-La partida tras X rondas.
 - Para quitar el objeto/dárselo a alguien (dependiendo del tipo de ronda actual), los dos jugadores deben entrar en contacto. Cuando entren en colisión, se transferirá el objeto del uno al otro.
 
 ## Carrera de comida
-- El nombre se puede mejorar. El modo también. Es una propuesta.
+- Totalmente provisional, es una propuesta.
 - Varios jugadores en el mismo escenario, todos contra todos. 
 - Aparece un objeto (moscas, o algo por el estilo. Comida.) en un punto predefinido del escenario.
 - Cuando un camaleón pasa por este, se lo "come". Al comer, el camaleón se hace más grande; haciéndole más fácil de enganchar. (¿Y si resulta que ser grande es una ventaja porque es más fácil pasar por la comida?)
