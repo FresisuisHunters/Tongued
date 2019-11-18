@@ -31,6 +31,12 @@ public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
         quitLobbyMenuButton.onClick.AddListener (() => OnQuitLobbyMenuButtonClicked ());
     }
 
+    public override void OnEnable() {
+        base.OnEnable();
+
+        currentTries = 0;
+    }
+
     #endregion
 
     #region Photon Callbacks
