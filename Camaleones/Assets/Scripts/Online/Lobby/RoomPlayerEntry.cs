@@ -9,6 +9,7 @@ public class RoomPlayerEntry : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI playerNameText;
     [SerializeField] private Button playerReadyButton;
     private RoomPanel room;
+    private string playerName;
     private bool buttonClicked;
 
     #endregion
@@ -16,6 +17,7 @@ public class RoomPlayerEntry : MonoBehaviour {
     #region Unity Callbacks
 
     private void Awake() {
+        buttonClicked = false;
         playerReadyButton.onClick.AddListener(() => onPlayerReadyButtonClicked());
     }
 
@@ -24,14 +26,16 @@ public class RoomPlayerEntry : MonoBehaviour {
     #region UI Callbacks
 
     private void onPlayerReadyButtonClicked() {
+        buttonClicked = !buttonClicked;
         string playerName = playerNameText.text;
+
         if (buttonClicked) {
             room.PlayerIsReady(playerName);
+            playerNameText.text = string.Format("* {0}", playerName);
         } else {
             room.PlayerNotReady(playerName);
+            playerNameText.text = playerName;
         }
-
-        buttonClicked = !buttonClicked;
     }
 
     #endregion
@@ -49,7 +53,10 @@ public class RoomPlayerEntry : MonoBehaviour {
 
     public string PlayerName {
         get => playerNameText.text;
-        set => playerNameText.text = value;
+        set {
+            playerName = value;
+            playerNameText.text = value;
+        }
     }
 
     public RoomPanel Room {

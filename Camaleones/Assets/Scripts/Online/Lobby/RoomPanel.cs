@@ -15,7 +15,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #region Private Fields
 
-    [SerializeField] private RoomPlayerEntry playerEntryGameObject;
+    [SerializeField] private GameObject playerEntryGameObject;
     [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI roomSizeText;
     [SerializeField] private TextMeshProUGUI roomNameText;
@@ -41,11 +41,12 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     private void Update () {
         if (startingGame) {
             currentCountdown -= Time.deltaTime;
-            gameCountdownText.text = string.Format ("{0}", currentCountdown);
-
             if (currentCountdown <= 0f) {
+                currentCountdown = 0;
                 StartGame ();
             }
+
+            gameCountdownText.text = string.Format ("{0}", currentCountdown);
         }
     }
 
@@ -54,9 +55,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
         startingGame = false;
         UpdateGameModeText ();
-        UpdateRoomCapacityText ();
-        UpdatePlayersList ();
-        UpdateStartGameButton ();
+        OnPlayerEnteredRoom(PhotonNetwork.LocalPlayer);
     }
 
     #endregion
@@ -105,8 +104,11 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     #region Private Methods
 
     private void CreatePlayerEntry (Player newPlayer) {
+        string playerName = newPlayer.NickName;
         RoomPlayerEntry playerEntry = GetPlayerEntry ();
-        playerEntry.PlayerName = newPlayer.NickName;
+
+        players.Add(playerName, playerEntry);
+        playerEntry.PlayerName = playerName;
         playerEntry.Room = this;
     }
 
@@ -117,7 +119,8 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             return entry;
         }
 
-        return GameObject.Instantiate (playerEntryGameObject, Vector3.zero, Quaternion.identity, transform);
+        GameObject newEntry = GameObject.Instantiate (playerEntryGameObject, Vector3.zero, Quaternion.identity, transform);
+        return newEntry.GetComponent<RoomPlayerEntry>();
     }
 
     private void RemovePlayerEntry (Player otherPlayer) {
@@ -146,14 +149,20 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void UpdatePlayersList () {
         // TODO: Sacar posicion de otro punto
-        Vector3 firstEntryPosition = playerEntryGameObject.transform.position;
-        firstEntryPosition.x = firstEntryPosition.x / 2;
+        Vector3 firstEntryPosition = GetComponent<RectTransform>().position;
+        // firstEntryPosition.x = firstEntryPosition.x / 2;
+
+        Debug.Log(firstEntryPosition);
+        Debug.Log(players.Count);
 
         int i = 0;
         foreach (RoomPlayerEntry playerEntry in players.Values) {
             float y = firstEntryPosition.y + i++ * 20f; // TODO: Declarar offset como constante
             Vector3 position = new Vector3 (firstEntryPosition.x, y, 0f);
-            position.y = y;
+            position.x += 200;
+            position.y = y + 200;
+
+            Debug.Log(position);
 
             playerEntry.Position = position;
         }
@@ -162,7 +171,9 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     private void UpdateStartGameButton () {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
         bool allPlayersAreReady = playersReady.Count == players.Count;
-        startGameButton.gameObject.SetActive (localIsRoomOwner && allPlayersAreReady);
+
+        startGameButton.gameObject.SetActive (localIsRoomOwner);
+        startGameButton.interactable = allPlayersAreReady;
     }
 
     private void StartGameCountdown () {
