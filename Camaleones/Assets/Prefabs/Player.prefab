@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 452793664}
   m_Layer: 13
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugAutoAim: 0
+  debugVelocity: 0
   retractDistancePerSecond: 6
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
