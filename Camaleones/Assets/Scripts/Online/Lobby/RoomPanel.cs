@@ -55,7 +55,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
         startingGame = false;
         UpdateGameModeText ();
-        OnPlayerEnteredRoom(PhotonNetwork.LocalPlayer);
+        OnPlayerEnteredRoom (PhotonNetwork.LocalPlayer);
     }
 
     #endregion
@@ -95,7 +95,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     }
 
     public void PlayerNotReady (string playerName) {
-        StopGameCountdown();
+        StopGameCountdown ();
         playersReady.Remove (playerName);
         UpdateStartGameButton ();
     }
@@ -108,7 +108,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         string playerName = newPlayer.NickName;
         RoomPlayerEntry playerEntry = GetPlayerEntry ();
 
-        players.Add(playerName, playerEntry);
+        players.Add (playerName, playerEntry);
         playerEntry.PlayerName = playerName;
         playerEntry.Room = this;
     }
@@ -121,7 +121,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         }
 
         GameObject newEntry = GameObject.Instantiate (playerEntryGameObject, Vector3.zero, Quaternion.identity, transform);
-        return newEntry.GetComponent<RoomPlayerEntry>();
+        return newEntry.GetComponent<RoomPlayerEntry> ();
     }
 
     private void RemovePlayerEntry (Player otherPlayer) {
@@ -150,11 +150,11 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void UpdatePlayersList () {
         // TODO: Sacar posicion de otro punto
-        Vector3 firstEntryPosition = GetComponent<RectTransform>().position;
+        Vector3 firstEntryPosition = GetComponent<RectTransform> ().position;
         // firstEntryPosition.x = firstEntryPosition.x / 2;
 
-        Debug.Log(firstEntryPosition);
-        Debug.Log(players.Count);
+        Debug.Log (firstEntryPosition);
+        Debug.Log (players.Count);
 
         int i = 0;
         foreach (RoomPlayerEntry playerEntry in players.Values) {
@@ -162,7 +162,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             Vector3 position = new Vector3 (firstEntryPosition.x, y, 0f);
             position.y = y;
 
-            Debug.Log(position);
+            Debug.Log (position);
 
             playerEntry.Position = position;
         }
@@ -172,7 +172,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
         bool allPlayersAreReady = playersReady.Count == players.Count;
 
-        Debug.Log(allPlayersAreReady);
+        Debug.Log (allPlayersAreReady);
 
         startGameButton.gameObject.SetActive (localIsRoomOwner);
         startGameButton.interactable = allPlayersAreReady;
