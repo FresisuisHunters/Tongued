@@ -41,7 +41,7 @@ public class TransferableItem : MonoBehaviour
     }
 
     /// <summary>
-    /// Al tocar un jugador o su lengua si la transferencia está activa le añade un componente de este tipo y se autodestruye, quitandolo del objeto que lo tenia antes
+    /// Comprueba si ha colisionado con un jugador y si es así llama al método que transfiere el objeto a dicho jugador
     /// </summary>
     /// <param name="collision"></param>
     public virtual void Collide(GameObject collisionObject)
@@ -55,11 +55,14 @@ public class TransferableItem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Este método transfiere el objeto a otro jugador
+    /// </summary>
+    /// <param name="target"></param>
     protected virtual void TITransfer(GameObject target)
     {
-        Debug.Log(target);
         Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
-        transform.SetParent(target.transform);
+        transform.SetParent(target.transform.Find("SnitchHolder"));
         target.AddComponent<SnitchOnPlayerCommunicator>();
         GetComponent<Collider2D>().enabled = false;
         transferActive = false;
