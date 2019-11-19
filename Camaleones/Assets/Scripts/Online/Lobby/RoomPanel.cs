@@ -160,8 +160,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         foreach (RoomPlayerEntry playerEntry in players.Values) {
             float y = firstEntryPosition.y + i++ * 20f; // TODO: Declarar offset como constante
             Vector3 position = new Vector3 (firstEntryPosition.x, y, 0f);
-            position.x += 200;
-            position.y = y + 200;
+            position.y = y;
 
             Debug.Log(position);
 

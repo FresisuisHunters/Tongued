@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class RoomPlayerEntry : MonoBehaviour {
@@ -16,22 +16,22 @@ public class RoomPlayerEntry : MonoBehaviour {
 
     #region Unity Callbacks
 
-    private void Awake() {
+    private void Awake () {
         buttonClicked = false;
-        playerReadyButton.onClick.AddListener(() => onPlayerReadyButtonClicked());
+        playerReadyButton.onClick.AddListener (() => onPlayerReadyButtonClicked ());
     }
 
     #endregion
 
     #region UI Callbacks
 
-    private void onPlayerReadyButtonClicked() {
+    private void onPlayerReadyButtonClicked () {
         buttonClicked = !buttonClicked;
         if (buttonClicked) {
-            room.PlayerIsReady(playerName);
-            playerNameText.text = string.Format("* {0}", playerName);
+            room.PlayerIsReady (playerName);
+            playerNameText.text = string.Format ("* {0}", playerName);
         } else {
-            room.PlayerNotReady(playerName);
+            room.PlayerNotReady (playerName);
             playerNameText.text = playerName;
         }
     }
@@ -41,12 +41,12 @@ public class RoomPlayerEntry : MonoBehaviour {
     #region Properties
 
     public Vector3 Position {
-        get => transform.position;
-        set => transform.position.Set(value.x, value.y, value.z);
+        get => GetComponent<RectTransform> ().position;
+        set => GetComponent<RectTransform> ().position.Set (value.x, value.y, value.z);
     }
 
     public bool Visible {
-        set => gameObject.SetActive(value);
+        set => gameObject.SetActive (value);
     }
 
     public string PlayerName {
