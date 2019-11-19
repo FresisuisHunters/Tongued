@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable 649
+
 /// <summary>
 /// Este script define un objeto que se transfiere entre jugadores por contacto, o al tocarlo cuando no lo lleva un jugador, al principio de la partida.
 /// </summary>
@@ -12,9 +14,9 @@ public class TransferableItem : MonoBehaviour
     [SerializeField] private float cooldownToTransfer;
     #endregion
 
-    private bool transferActive;
+    protected bool transferActive;
 
-    public void Awake()
+    protected virtual void Awake()
     {
         transferActive = true;
     }
@@ -42,7 +44,7 @@ public class TransferableItem : MonoBehaviour
     /// Al tocar un jugador o su lengua si la transferencia está activa le añade un componente de este tipo y se autodestruye, quitandolo del objeto que lo tenia antes
     /// </summary>
     /// <param name="collision"></param>
-    public void Collide(GameObject collisionObject)
+    public virtual void Collide(GameObject collisionObject)
     {
         if (transferActive)
         {
@@ -55,6 +57,7 @@ public class TransferableItem : MonoBehaviour
 
     protected virtual void TITransfer(GameObject target)
     {
+        Debug.Log(target);
         Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
         transform.SetParent(target.transform);
         target.AddComponent<SnitchOnPlayerCommunicator>();
