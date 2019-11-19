@@ -14,6 +14,10 @@ public class TransferableItem : MonoBehaviour
     [SerializeField] private float cooldownToTransfer;
     #endregion
 
+    #region Public Variables
+    public HotPotatoHandler hotPotatoHandler;
+    #endregion
+
     protected bool transferActive;
 
     protected virtual void Awake()
