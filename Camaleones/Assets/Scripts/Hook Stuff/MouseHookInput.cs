@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 /// Recibe eventos de InputEventReceiver y da órdenes a HookThrower.
 /// </summary>
 [RequireComponent(typeof(HookThrower))]
-public class HookInput : MonoBehaviour
+public class MouseHookInput : MonoBehaviour
 {
     private HookThrower hookThrower;
     private bool isHoldingPointerDown;
