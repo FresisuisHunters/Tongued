@@ -51,6 +51,7 @@ public class Hook : MonoBehaviour
     #region References
     private DistanceJoint2D distanceJoint;
     private FixedJoint2D fixedJoint;
+    private Collider2D headCollider;
     private RopeCollider ropeCollider;
     private LineRenderer lineRenderer;
     private Transform connectedBodyTransform;
@@ -68,15 +69,17 @@ public class Hook : MonoBehaviour
     {
         gameObject.SetActive(true);
         IsAttached = false;
+        isBeingThrown = true;
 
         throwOriginPoint = ConnectedBody.position;
         Vector2 throwDirection = (targetPoint - throwOriginPoint).normalized;
 
+        headRigidbody.isKinematic = false;
         headRigidbody.position = throwOriginPoint;
         headRigidbody.velocity = throwDirection * hookProjectileSpeed;
         headRigidbody.transform.position = throwOriginPoint;
-        headRigidbody.isKinematic = false;
-        isBeingThrown = true;
+
+        headCollider.enabled = true;
 
         distanceJoint.enabled = false;
         fixedJoint.enabled = false;
@@ -111,6 +114,9 @@ public class Hook : MonoBehaviour
 
         headRigidbody.position = attachPoint;
         headRigidbody.isKinematic = true;
+        headRigidbody.velocity = Vector2.zero;
+
+        headCollider.enabled = false;
 
         ropeCollider.HeadPosition = attachPoint;
         distanceJoint.distance = ropeCollider.SwingingSegmentLength;
@@ -129,9 +135,11 @@ public class Hook : MonoBehaviour
         rigidbodyToAttachTo.velocity = hookedVelocityOnPlayerHooked * -u;
 
         //Configurar el gancho
+        headRigidbody.isKinematic = false;
         headRigidbody.position = rigidbodyToAttachTo.position;
         headRigidbody.velocity = Vector2.zero;
-        headRigidbody.isKinematic = false;
+
+        headCollider.enabled = false;
 
         distanceJoint.distance = ropeCollider.SwingingSegmentLength;
         distanceJoint.enabled = true;
@@ -145,8 +153,6 @@ public class Hook : MonoBehaviour
 
         //Si hemos enganchado a otro jugador, desactivar su lengua
         rigidbodyToAttachTo.GetComponent<HookThrower>()?.LetGo();
-
-        //Debug.Log("Attached to " + rigidbodyToAttachTo.name);
     }
     #endregion
 
@@ -163,9 +169,7 @@ public class Hook : MonoBehaviour
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableTerrainLayer"))
             {
-                headRigidbody.velocity = Vector2.zero;
                 AttachToPoint(headRigidbody.position);
-                isBeingThrown = false;
             }
         }
     }
@@ -187,6 +191,8 @@ public class Hook : MonoBehaviour
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
 
+        headCollider = headRigidbody.GetComponent<Collider2D>();
+
         distanceJoint = GetComponentInChildren<DistanceJoint2D>();
         distanceJoint.enableCollision = false;
         distanceJoint.maxDistanceOnly = true;
@@ -195,7 +201,8 @@ public class Hook : MonoBehaviour
 
         fixedJoint = GetComponentInChildren<FixedJoint2D>();
         fixedJoint.enableCollision = false;
-        //fixedJoint.autoConfigureConnectedAnchor = ?? //TODO: Decide this
+        fixedJoint.autoConfigureConnectedAnchor = true;
+        fixedJoint.connectedAnchor = Vector2.zero;
 
         ropeCollider = GetComponentInChildren<RopeCollider>();
     }

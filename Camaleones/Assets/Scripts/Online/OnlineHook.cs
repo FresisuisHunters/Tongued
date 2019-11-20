@@ -50,6 +50,23 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
         base.AttachToPoint(attachPoint);
     }
 
+
+    protected override void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
+    {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("RPCAttachToRigidbody", RpcTarget.Others, PhotonView.Get(rigidbodyToAttachTo).ViewID);
+            base.AttachToRigidbody(rigidbodyToAttachTo);
+        }
+    }
+
+    [PunRPC]
+    private void RPCAttachToRigidbody(int attachedPhotonViewID)
+    {
+        Rigidbody2D rigidbodyToAttachTo = PhotonView.Find(attachedPhotonViewID).GetComponent<Rigidbody2D>();
+        base.AttachToRigidbody(rigidbodyToAttachTo);
+    }
+
     protected override void Awake()
     {
         photonView = GetComponent<PhotonView>();

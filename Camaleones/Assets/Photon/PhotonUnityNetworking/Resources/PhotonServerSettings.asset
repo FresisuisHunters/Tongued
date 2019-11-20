@@ -39,5 +39,6 @@ MonoBehaviour:
   - Throw
   - Disable
   - AttachToPoint
+  - RPCAttachToRigidbody
   DisableAutoOpenWizard: 1
   ShowSettings: 0
