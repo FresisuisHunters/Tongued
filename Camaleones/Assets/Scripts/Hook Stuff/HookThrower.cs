@@ -75,7 +75,6 @@ public class HookThrower : MonoBehaviour
                 //Si tocamos a un jugador (y no somos nosotros), no hay autoaim.
                 if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > minDistanceForPlayerDetection)
                 {
-                    Debug.Log("Found player, auotaim canceled.");
                     finalPoint = requestedPoint;
                     hitPlayer = true;
                 }

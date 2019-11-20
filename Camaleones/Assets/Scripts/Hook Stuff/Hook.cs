@@ -143,7 +143,10 @@ public class Hook : MonoBehaviour
         IsAttached = true;
         isBeingThrown = false;
 
-        Debug.Log("Attached to " + rigidbodyToAttachTo.name);
+        //Si hemos enganchado a otro jugador, desactivar su lengua
+        rigidbodyToAttachTo.GetComponent<HookThrower>()?.LetGo();
+
+        //Debug.Log("Attached to " + rigidbodyToAttachTo.name);
     }
     #endregion
 
