@@ -49,8 +49,8 @@ MonoBehaviour:
   maxHookDistance: 25
   forceOnAttached: 50
   maxVelocityForForceOnAttached: 8
-  hookerVelocityOnPlayerHooked: 5
-  hookedVelocityOnPlayerHooked: 1
+  hookerVelocityOnPlayerHooked: 6
+  hookedVelocityOnPlayerHooked: 6
   headRigidbody: {fileID: 4566189893678778977}
 --- !u!1 &5449976275112089577
 GameObject:
@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 6029480388767838103}
   - component: {fileID: 3278238256068019818}
   - component: {fileID: 976321448728160277}
+  - component: {fileID: 5243197298134200190}
   m_Layer: 11
   m_Name: Head
   m_TagString: Untagged
@@ -183,6 +184,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.01
+--- !u!255 &5243197298134200190
+FixedJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5449976275112089577}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_DampingRatio: 0
+  m_Frequency: 0
 --- !u!1 &5674965258375971840
 GameObject:
   m_ObjectHideFlags: 0

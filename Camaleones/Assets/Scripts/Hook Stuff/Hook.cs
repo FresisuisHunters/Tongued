@@ -49,16 +49,17 @@ public class Hook : MonoBehaviour
     #endregion
 
     #region References
-    protected DistanceJoint2D distanceJoint;
-    protected RopeCollider ropeCollider;
-    protected LineRenderer lineRenderer;
+    private DistanceJoint2D distanceJoint;
+    private FixedJoint2D fixedJoint;
+    private RopeCollider ropeCollider;
+    private LineRenderer lineRenderer;
     private Transform connectedBodyTransform;
     #endregion
 
     private bool isBeingThrown;
     private Vector2 throwOriginPoint;
 
-
+    #region Acciones principales
     /// <summary>
     /// Metodo que se llama cuando se lanza el gancho.
     /// Recibe el punto hacia el cual se lanza el gancho y el RigidBody del personaje que lo lanza
@@ -78,6 +79,7 @@ public class Hook : MonoBehaviour
         isBeingThrown = true;
 
         distanceJoint.enabled = false;
+        fixedJoint.enabled = false;
 
         //El estado de IgnoreCollisions se deshace cuando los colliders se desactivan, así que hacemos esto cada vez que lanzamos el gancho.
         Physics2DExtensions.IgnoreCollisions(ConnectedBody, headRigidbody, true);
@@ -100,6 +102,7 @@ public class Hook : MonoBehaviour
     /// </summary>
     protected virtual void AttachToPoint(Vector2 attachPoint)
     {
+        //Aplicar velocidad al lanzador
         if (ConnectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
         {
             Vector2 attachForceOnThrower = (attachPoint - ConnectedBody.position).normalized * forceOnAttached;
@@ -114,24 +117,55 @@ public class Hook : MonoBehaviour
         distanceJoint.enabled = true;
 
         IsAttached = true;
+        isBeingThrown = false;
     }
 
     protected virtual void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
     {
         Vector2 u = (rigidbodyToAttachTo.position - ConnectedBody.position).normalized;
 
+        //Dar velocidades a los cuerpos conectados
         ConnectedBody.velocity = hookerVelocityOnPlayerHooked * u;
         rigidbodyToAttachTo.velocity = hookedVelocityOnPlayerHooked * -u;
 
+        //Configurar el gancho
         headRigidbody.position = rigidbodyToAttachTo.position;
+        headRigidbody.velocity = Vector2.zero;
+        headRigidbody.isKinematic = false;
+
         distanceJoint.distance = ropeCollider.SwingingSegmentLength;
         distanceJoint.enabled = true;
 
+        fixedJoint.connectedBody = rigidbodyToAttachTo;
+        fixedJoint.enabled = true;
+
+        //Cambiar el estado
         IsAttached = true;
+        isBeingThrown = false;
 
         Debug.Log("Attached to " + rigidbodyToAttachTo.name);
     }
+    #endregion
 
+    /// <summary>
+    /// Método que gestiona la colisión del objeto que representa la cabeza del gancho
+    /// </summary>
+    public void Collide(Collision2D collision)
+    {
+        if (isBeingThrown)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("HookableEntityLayer"))
+            {
+                AttachToRigidbody(collision.collider.attachedRigidbody);
+            }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableTerrainLayer"))
+            {
+                headRigidbody.velocity = Vector2.zero;
+                AttachToPoint(headRigidbody.position);
+                isBeingThrown = false;
+            }
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -145,6 +179,7 @@ public class Hook : MonoBehaviour
         }
     }
 
+    #region Inicializión
     protected virtual void Awake()
     {
         enabled = true; //Al no tener Start ni Update, enabled==false por defecto. Lo ponemos a true para que HookThrower sepa si el gancho está activo.
@@ -155,36 +190,16 @@ public class Hook : MonoBehaviour
         distanceJoint.autoConfigureDistance = false;
         distanceJoint.autoConfigureConnectedAnchor = false;
 
-        ropeCollider = GetComponentInChildren<RopeCollider>();
+        fixedJoint = GetComponentInChildren<FixedJoint2D>();
+        fixedJoint.enableCollision = false;
+        //fixedJoint.autoConfigureConnectedAnchor = ?? //TODO: Decide this
 
-        
+        ropeCollider = GetComponentInChildren<RopeCollider>();
     }
 
     private void Start()
     {
         Disable();
     }
-
-
-    /// <summary>
-    /// Método que gestiona la colisión del objeto que representa la cabeza del gancho
-    /// </summary>
-    public void Collide(Collision2D collision)
-    {
-        if (isBeingThrown)
-        {
-            if (collision.gameObject.CompareTag("Player"))// && collision.rigidbody != ConnectedBody)
-            {
-
-                bool isIgnored = Physics2D.GetIgnoreCollision(collision.collider, collision.otherCollider);
-                AttachToRigidbody(collision.collider.attachedRigidbody);
-            }
-            else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableLayer"))
-            {
-                headRigidbody.velocity = Vector2.zero;
-                AttachToPoint(headRigidbody.position);
-                isBeingThrown = false;
-            }
-        }
-    }
+    #endregion
 }

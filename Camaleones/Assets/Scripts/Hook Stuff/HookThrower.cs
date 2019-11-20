@@ -22,6 +22,7 @@ public class HookThrower : MonoBehaviour
     [SerializeField] private int autoAimRayCount = 5;
     [SerializeField] private float autoAimConeAngle = 10;
     [SerializeField] private LayerMask autoAimLayerMask;
+    [SerializeField] private float minDistanceForPlayerDetection;
     #endregion
 
     public bool HookIsOut => hook.IsOut;
@@ -33,6 +34,9 @@ public class HookThrower : MonoBehaviour
 
     public void ThrowHook(Vector2 requestedPoint)
     {
+        bool originalQueriesStartInColliders = Physics2D.queriesStartInColliders;
+        Physics2D.queriesStartInColliders = false;
+
         //Lanzamos varios rayos en un ángulo de apertura para hacer el autoaim.
         //De los hits que hemos tenido, nos quedamos con el más cercano a requestedPoint.
         //Si no hay hits, utilizamos requestedPoint.
@@ -46,25 +50,43 @@ public class HookThrower : MonoBehaviour
         float deltaAngle = (autoAimConeAngle * Mathf.Deg2Rad) / autoAimRayCount;
         int hitCount;
 
-        Vector2 finalPoint = Vector2.zero;
+        Vector2 finalPoint = requestedPoint;
+        bool hitPlayer = false;
+
         float squaredDistanceFromRequestedToFinalPoint = float.MaxValue;
         float squaredDistance;
+        RaycastHit2D hit;
+        int hitLayer;
 
-        for (int i = 0; i < autoAimRayCount; i++)
+        for (int i = 0; i < autoAimRayCount && !hitPlayer; i++)
         {
             //Rota el vector u por angle
             direction.x = u.x * Mathf.Cos(angle) - u.y * Mathf.Sin(angle);
             direction.y = u.x * Mathf.Sin(angle) + u.y * Mathf.Cos(angle);
 
+            
             hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, float.MaxValue, autoAimLayerMask);
 
-            for (int j = 0; j < hitCount; j++)
+            for (int j = 0; j < hitCount && !hitPlayer; j++)
             {
-                squaredDistance = (origin - raycastHits[j].point).sqrMagnitude;
-                if (squaredDistance < squaredDistanceFromRequestedToFinalPoint)
+                hit = raycastHits[j];
+                hitLayer = hit.collider.gameObject.layer;
+
+                //Si tocamos a un jugador (y no somos nosotros), no hay autoaim.
+                if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > minDistanceForPlayerDetection)
                 {
-                    squaredDistanceFromRequestedToFinalPoint = squaredDistance;
-                    finalPoint = raycastHits[j].point;
+                    Debug.Log("Found player, auotaim canceled.");
+                    finalPoint = requestedPoint;
+                    hitPlayer = true;
+                }
+                else if (hitLayer == LayerMask.NameToLayer("HookableTerrainLayer"))
+                {
+                    squaredDistance = (origin - raycastHits[j].point).sqrMagnitude;
+                    if (squaredDistance < squaredDistanceFromRequestedToFinalPoint)
+                    {
+                        squaredDistanceFromRequestedToFinalPoint = squaredDistance;
+                        finalPoint = raycastHits[j].point;
+                    }
                 }
             }
             angle += deltaAngle;
@@ -72,14 +94,14 @@ public class HookThrower : MonoBehaviour
             if (debugAutoAim) Debug.DrawRay(origin, direction * 1000, Color.white, 2);
         }
 
-        if (squaredDistanceFromRequestedToFinalPoint == float.MaxValue) finalPoint = requestedPoint;
-
         hook.Throw(finalPoint);
 
         if (debugAutoAim)
         {
             Debug.DrawLine(origin, finalPoint, Color.red, 2);
         }
+
+        Physics2D.queriesStartInColliders = originalQueriesStartInColliders;
     }
 
     public void Retract(float time)

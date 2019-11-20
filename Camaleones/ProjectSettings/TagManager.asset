@@ -17,11 +17,11 @@ TagManager:
   - 
   - 
   - PlayerInputLayer
-  - HookableLayer
+  - HookableTerrainLayer
   - PlayerLayer
   - HookLayer
   - RopeLayer
-  - 
+  - HookableEntityLayer
   - 
   - 
   - 
