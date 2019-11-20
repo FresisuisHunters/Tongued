@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hookProjectileSpeed: 30
+  minEntityHookDistance: 1.5
   maxHookDistance: 25
   forceOnAttached: 50
   maxVelocityForForceOnAttached: 8
@@ -107,7 +108,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &6029480388767838103
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public class Hook : MonoBehaviour
     [Header("Projectil")]
     [Tooltip("Velocidad del proyectil con el que se engancha el personaje")]
     public float hookProjectileSpeed;
+    [Tooltip("Separación mínima del lanzador al enganchado para enganchar a una entidad. Los enganches con distancia menor serán ignorados.")]
+    public float minEntityHookDistance = 1.5f;
     [Tooltip("Rango maximo del gancho al ser lanzado")]
     public float maxHookDistance;
 
@@ -159,13 +161,14 @@ public class Hook : MonoBehaviour
     /// <summary>
     /// Método que gestiona la colisión del objeto que representa la cabeza del gancho
     /// </summary>
-    public void Collide(Collision2D collision)
+    public void Collide(Collider2D collision)
     {
         if (isBeingThrown)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("HookableEntityLayer"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("HookableEntityLayer"))
             {
-                AttachToRigidbody(collision.collider.attachedRigidbody);
+                Rigidbody2D hitRigidbody = collision.attachedRigidbody;
+                if (Vector2.Distance(hitRigidbody.position, throwOriginPoint) > minEntityHookDistance) AttachToRigidbody(hitRigidbody);
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableTerrainLayer"))
             {

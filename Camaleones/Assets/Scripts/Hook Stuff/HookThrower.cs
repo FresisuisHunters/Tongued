@@ -22,7 +22,6 @@ public class HookThrower : MonoBehaviour
     [SerializeField] private int autoAimRayCount = 5;
     [SerializeField] private float autoAimConeAngle = 10;
     [SerializeField] private LayerMask autoAimLayerMask;
-    [SerializeField] private float minDistanceForPlayerDetection;
     #endregion
 
     public bool HookIsOut => hook.IsOut;
@@ -42,8 +41,9 @@ public class HookThrower : MonoBehaviour
         //Si no hay hits, utilizamos requestedPoint.
         //TODO: Utilizar requestedPoint si se encuentra un jugador en los hits.
 
-        Vector2 origin = Rigidbody.position;
-        Vector2 u = (requestedPoint - origin).normalized;
+        Vector2 rbPosition = Rigidbody.position;
+        Vector2 u = (requestedPoint - rbPosition).normalized;
+        Vector2 origin;
         Vector2 direction;
 
         float angle = -autoAimConeAngle / 2 * Mathf.Deg2Rad;
@@ -64,8 +64,9 @@ public class HookThrower : MonoBehaviour
             direction.x = u.x * Mathf.Cos(angle) - u.y * Mathf.Sin(angle);
             direction.y = u.x * Mathf.Sin(angle) + u.y * Mathf.Cos(angle);
 
-            
-            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, float.MaxValue, autoAimLayerMask);
+            origin = rbPosition + direction * hook.minEntityHookDistance;
+
+            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, hook.maxHookDistance, autoAimLayerMask);
 
             for (int j = 0; j < hitCount && !hitPlayer; j++)
             {
@@ -73,7 +74,7 @@ public class HookThrower : MonoBehaviour
                 hitLayer = hit.collider.gameObject.layer;
 
                 //Si tocamos a un jugador (y no somos nosotros), no hay autoaim.
-                if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > minDistanceForPlayerDetection)
+                if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > hook.minEntityHookDistance)
                 {
                     finalPoint = requestedPoint;
                     hitPlayer = true;
@@ -97,7 +98,7 @@ public class HookThrower : MonoBehaviour
 
         if (debugAutoAim)
         {
-            Debug.DrawLine(origin, finalPoint, Color.red, 2);
+            Debug.DrawLine(rbPosition, finalPoint, Color.red, 2);
         }
 
         Physics2D.queriesStartInColliders = originalQueriesStartInColliders;
