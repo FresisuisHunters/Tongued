@@ -42,12 +42,12 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
     }
 
     [PunRPC]
-    protected override void Attach(Vector2 attachPoint)
+    protected override void AttachToPoint(Vector2 attachPoint)
     {
         //Como RpcTarget es others, si somos el jugador local es que hemos llegado aquí por lógica de juego, no RPC. Mandamos el mensaje al resto.
-        if (photonView.IsMine) photonView.RPC("Attach", RpcTarget.Others, attachPoint);
+        if (photonView.IsMine) photonView.RPC("AttachToPoint", RpcTarget.Others, attachPoint);
 
-        base.Attach(attachPoint);
+        base.AttachToPoint(attachPoint);
     }
 
     protected override void Awake()

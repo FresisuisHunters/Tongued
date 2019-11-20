@@ -101,7 +101,10 @@ public class HookThrower : MonoBehaviour
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
+    }
 
+    private void Start()
+    {
         //Si estamos jugando online (tenemos un PhotonView) y somos el jugador local, utilizamos PhotonNetwork para instanciar el gancho. Si no, un Instantiate de toda la vida.
         //En el prefab  online se asigna OnlineHook, en el prefab offline se asigna Hook.
         Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();

@@ -11,8 +11,11 @@ public class HookInput : MonoBehaviour
     private HookThrower hookThrower;
     private bool isHoldingPointerDown;
 
+
     private void OnPointerDown(PointerEventData eventData)
     {
+        if (!this || !enabled) return;
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             isHoldingPointerDown = true;
@@ -30,6 +33,8 @@ public class HookInput : MonoBehaviour
 
     private void OnPointerUp()
     {
+        if (!this || !enabled) return;
+
         isHoldingPointerDown = false;
     }
 

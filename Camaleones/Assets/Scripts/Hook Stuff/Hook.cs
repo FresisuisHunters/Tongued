@@ -16,11 +16,15 @@ public class Hook : MonoBehaviour
     [Tooltip("Rango maximo del gancho al ser lanzado")]
     public float maxHookDistance;
 
-    [Header("Fuerza al enganchar")]
+    [Header("Fuerza al enganchar al terreno")]
     [Tooltip("La magnitud de la fuerza que se le aplica al cuerpo conectado cuando el gancho se engancha a algo.")]
     public float forceOnAttached = 10;
     [Tooltip("La fuerza al enganchar sólo se aplica si el cuerpo conectado va a menos que esta velocidad.")]
     public float maxVelocityForForceOnAttached = 20;
+
+    [Header("Fuerza al enganchar a otro jugador")]
+    public float hookerVelocityOnPlayerHooked = 5;
+    public float hookedVelocityOnPlayerHooked = 1;
 
     [SerializeField] private Rigidbody2D headRigidbody;
     #endregion
@@ -35,6 +39,8 @@ public class Hook : MonoBehaviour
     public Rigidbody2D ConnectedBody { get => distanceJoint.connectedBody;
         set
         {
+            if (ConnectedBody) Physics2DExtensions.IgnoreCollisions(ConnectedBody, headRigidbody, false);
+
             distanceJoint.connectedBody = value;
             connectedBodyTransform = value.GetComponent<Transform>();
         }
@@ -51,6 +57,7 @@ public class Hook : MonoBehaviour
 
     private bool isBeingThrown;
     private Vector2 throwOriginPoint;
+
 
     /// <summary>
     /// Metodo que se llama cuando se lanza el gancho.
@@ -71,6 +78,9 @@ public class Hook : MonoBehaviour
         isBeingThrown = true;
 
         distanceJoint.enabled = false;
+
+        //El estado de IgnoreCollisions se deshace cuando los colliders se desactivan, así que hacemos esto cada vez que lanzamos el gancho.
+        Physics2DExtensions.IgnoreCollisions(ConnectedBody, headRigidbody, true);
     }
 
     /// <summary>
@@ -88,7 +98,7 @@ public class Hook : MonoBehaviour
     /// <summary>
     /// Método que se llama cuando la cabeza del gancho entra en contacto con una plataforma tras ser lanzada.
     /// </summary>
-    protected virtual void Attach(Vector2 attachPoint)
+    protected virtual void AttachToPoint(Vector2 attachPoint)
     {
         if (ConnectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
         {
@@ -105,6 +115,23 @@ public class Hook : MonoBehaviour
 
         IsAttached = true;
     }
+
+    protected virtual void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
+    {
+        Vector2 u = (rigidbodyToAttachTo.position - ConnectedBody.position).normalized;
+
+        ConnectedBody.velocity = hookerVelocityOnPlayerHooked * u;
+        rigidbodyToAttachTo.velocity = hookedVelocityOnPlayerHooked * -u;
+
+        headRigidbody.position = rigidbodyToAttachTo.position;
+        distanceJoint.distance = ropeCollider.SwingingSegmentLength;
+        distanceJoint.enabled = true;
+
+        IsAttached = true;
+
+        Debug.Log("Attached to " + rigidbodyToAttachTo.name);
+    }
+
 
     private void FixedUpdate()
     {
@@ -130,6 +157,11 @@ public class Hook : MonoBehaviour
 
         ropeCollider = GetComponentInChildren<RopeCollider>();
 
+        
+    }
+
+    private void Start()
+    {
         Disable();
     }
 
@@ -141,10 +173,16 @@ public class Hook : MonoBehaviour
     {
         if (isBeingThrown)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("HookableLayer"))
+            if (collision.gameObject.CompareTag("Player"))// && collision.rigidbody != ConnectedBody)
+            {
+
+                bool isIgnored = Physics2D.GetIgnoreCollision(collision.collider, collision.otherCollider);
+                AttachToRigidbody(collision.collider.attachedRigidbody);
+            }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableLayer"))
             {
                 headRigidbody.velocity = Vector2.zero;
-                Attach(headRigidbody.position);
+                AttachToPoint(headRigidbody.position);
                 isBeingThrown = false;
             }
         }
