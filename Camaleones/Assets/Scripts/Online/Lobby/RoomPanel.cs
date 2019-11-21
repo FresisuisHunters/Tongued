@@ -94,13 +94,17 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #region Public Methods
 
+    [PunRPC]
     public void PlayerIsReady (string playerName) {
         playersReady.Add (playerName);
+        players[playerName].Text = string.Format("* {0}", playerName);
         UpdateStartGameButton ();
     }
 
+    [PunRPC]
     public void PlayerNotReady (string playerName) {
-        StopGameCountdown ();
+        photonView.RPC("StopGameCountdown", RpcTarget.All, null);
+        players[playerName].Text = playerName;
         playersReady.Remove (playerName);
         UpdateStartGameButton ();
     }
@@ -116,6 +120,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         players.Add (playerName, playerEntry);
         playerEntry.PlayerName = playerName;
         playerEntry.Room = this;
+        playerEntry.Visible = true;
 
         OnlineLogging.Instance.Write(players.ToStringFull());
     }
@@ -123,12 +128,12 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     private RoomPlayerEntry GetPlayerEntry () {
         if (unusedPlayerEntries.Count != 0) {
             RoomPlayerEntry entry = unusedPlayerEntries.Pop ();
-            entry.Visible = true;
             return entry;
         }
 
         GameObject newEntry = GameObject.Instantiate (playerEntryGameObject, Vector3.zero, Quaternion.identity);
         newEntry.transform.SetParent(transform, false);
+
         return newEntry.GetComponent<RoomPlayerEntry> ();
     }
 
@@ -165,12 +170,10 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             ++i;
 
             Vector3 position = new Vector3 (firstEntryPosition.x, y, 0f);
-
-            OnlineLogging.Instance.Write(position.ToString());
-
             playerEntry.Position = position;
 
-            OnlineLogging.Instance.Write(playerEntry.Position.ToString());
+            bool isLocalPlayer = playerEntry.PlayerName.Equals(PhotonNetwork.LocalPlayer.NickName);
+            playerEntry.ShowButton(isLocalPlayer);
         }
     }
 
@@ -182,12 +185,14 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         startGameButton.interactable = allPlayersAreReady;
     }
 
+    [PunRPC]
     private void StartGameCountdown () {
         currentCountdown = GAME_COUNTDOWN;
         gameCountdownText.gameObject.SetActive (true);
         startingGame = true;
     }
 
+    [PunRPC]
     private void StopGameCountdown () {
         gameCountdownText.gameObject.SetActive (false);
         startingGame = false;
@@ -205,7 +210,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void OnStartGameButtonClicked () {
         startGameButton.interactable = false;
-        StartGameCountdown ();
+        photonView.RPC("StartGameCountdown", RpcTarget.All, null);
     }
 
     private void OnQuitRoomButtonClicked () {

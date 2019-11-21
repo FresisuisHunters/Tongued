@@ -40,4 +40,10 @@ public class ServerConstants {
 
     #endregion
     
+    #region Room Constants
+
+    public const string PLAYERS_READY_KEY = "PLAYERS_READY";
+
+    #endregion
+
 }

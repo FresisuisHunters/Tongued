@@ -28,6 +28,10 @@ public class RoomPlayerEntry : MonoBehaviour {
 
     #region Public Methods
 
+    public void ShowButton(bool show) {
+        playerReadyButton.gameObject.SetActive(show);
+    }
+
     public override string ToString() {
         return string.Format("ROOM_PLAYER_ENTRY: {0}, {1}", playerName, rectTransform.position);
     }
@@ -39,11 +43,9 @@ public class RoomPlayerEntry : MonoBehaviour {
     private void onPlayerReadyButtonClicked () {
         buttonClicked = !buttonClicked;
         if (buttonClicked) {
-            room.PlayerIsReady (playerName);
-            playerNameText.text = string.Format ("* {0}", playerName);
+            room.photonView.RPC("PlayerIsReady", RpcTarget.All, new object[] { playerName });
         } else {
-            room.PlayerNotReady (playerName);
-            playerNameText.text = playerName;
+           room.photonView.RPC("PlayerNotReady", RpcTarget.All, new object[] { playerName });
         }
     }
 
@@ -54,7 +56,7 @@ public class RoomPlayerEntry : MonoBehaviour {
     public Vector3 Position {
         get => rectTransform.position;
         set {
-            rectTransform.position.Set (value.x, value.y, value.z);
+            rectTransform.localPosition = value;
         }
     }
 
@@ -71,6 +73,10 @@ public class RoomPlayerEntry : MonoBehaviour {
             bool isLocalPlayer = PhotonNetwork.LocalPlayer.NickName.Equals(playerName);
             gameObject.SetActive(isLocalPlayer);
         }
+    }
+
+    public string Text {
+        set => playerNameText.text = value;
     }
 
     public RoomPanel Room {
