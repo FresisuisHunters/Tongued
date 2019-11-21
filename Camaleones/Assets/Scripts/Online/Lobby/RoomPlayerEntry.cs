@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class RoomPlayerEntry : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class RoomPlayerEntry : MonoBehaviour {
 
     [SerializeField] private TextMeshProUGUI playerNameText;
     [SerializeField] private Button playerReadyButton;
+    private RectTransform rectTransform;
     private RoomPanel room;
     private string playerName;
     private bool buttonClicked;
@@ -17,8 +19,17 @@ public class RoomPlayerEntry : MonoBehaviour {
     #region Unity Callbacks
 
     private void Awake () {
+        rectTransform = GetComponent<RectTransform>();
         buttonClicked = false;
         playerReadyButton.onClick.AddListener (() => onPlayerReadyButtonClicked ());
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    public override string ToString() {
+        return string.Format("ROOM_PLAYER_ENTRY: {0}, {1}", playerName, rectTransform.position);
     }
 
     #endregion
@@ -41,8 +52,10 @@ public class RoomPlayerEntry : MonoBehaviour {
     #region Properties
 
     public Vector3 Position {
-        get => GetComponent<RectTransform> ().position;
-        set => GetComponent<RectTransform> ().position.Set (value.x, value.y, value.z);
+        get => rectTransform.position;
+        set {
+            rectTransform.position.Set (value.x, value.y, value.z);
+        }
     }
 
     public bool Visible {
@@ -54,6 +67,9 @@ public class RoomPlayerEntry : MonoBehaviour {
         set {
             playerName = value;
             playerNameText.text = value;
+
+            bool isLocalPlayer = PhotonNetwork.LocalPlayer.NickName.Equals(playerName);
+            gameObject.SetActive(isLocalPlayer);
         }
     }
 

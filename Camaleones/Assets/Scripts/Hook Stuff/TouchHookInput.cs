@@ -1,66 +1,58 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Photon.Pun;
 
 [RequireComponent (typeof (HookThrower))]
 public class TouchHookInput : MonoBehaviour {
 
-    private const int NO_FINGER = -1;
-
     private HookThrower hookThrower;
-    private Vector3 pressedPosition;
-    private bool isPressingScreen;
-    private int fingerId;
+    private bool touchingScreen;
+    private Vector3 positionTouchedScreenCoordinates;
 
-    private void Awake () {
-        hookThrower = GetComponent<HookThrower> ();
-        fingerId = NO_FINGER;
+    private void Awake() {
+        hookThrower = GetComponent<HookThrower>();
+        touchingScreen = false;
     }
 
-    private void Update () {
-        if (Input.touchCount == 0) {
+    private void Start() {
+        PhotonView photonView = GetComponent<PhotonView>();
+        if (photonView && !photonView.IsMine) {
+            Destroy(this);
             return;
         }
 
-        bool fingerLifted = !HandleScreenTouches();
-        if (fingerLifted) {
-            OnFingerLifted ();
-        } else if (hookThrower.HookIsOut) {
-            hookThrower.Retract (Time.deltaTime);
+        InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
+        if (!inputEventReceiver) {
+            OnlineLogging.Instance.Write("TouchHookInput necesita de InputEventReceiver");
+            return;
+        }
+
+        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => OnPointerDown(data as PointerEventData));
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => OnPointerUp());
+    }
+
+    private void Update() {
+        if (hookThrower.HookIsOut && touchingScreen) {
+            hookThrower.Retract(Time.deltaTime);
         }
     }
 
-    private bool HandleScreenTouches() {
-        // TODO: Es un poco confuso el fingerLifted
-        bool fingerLifted = true;
-        foreach (Touch touchInput in Input.touches) {
-            if (fingerId == NO_FINGER) {
-                OnScreenPressed (touchInput);
-            }
-
-            if (touchInput.fingerId != fingerId) {
-                continue;
-            }
-
-            fingerLifted = false;
+    private void OnPointerDown(PointerEventData eventData) {
+        if (touchingScreen) {
+            return;
         }
 
-        return !fingerLifted;
-    }
-
-    private void OnScreenPressed (Touch touchInput) {
-        isPressingScreen = true;
-        fingerId = touchInput.fingerId;
-        pressedPosition = Camera.main.ScreenToWorldPoint (touchInput.position);
-
+        touchingScreen = true;
+        positionTouchedScreenCoordinates = eventData.position;
         if (!hookThrower.HookIsOut) {
-            hookThrower.ThrowHook (pressedPosition);
+            Vector3 positionTouchedWorldCoordinates = eventData.pressEventCamera.ScreenToWorldPoint(positionTouchedScreenCoordinates);
+            hookThrower.ThrowHook(positionTouchedWorldCoordinates);
         }
     }
 
-    private void OnFingerLifted () {
-        isPressingScreen = false;
-        fingerId = NO_FINGER;
-
-        hookThrower.LetGo ();
+    private void OnPointerUp() {
+        touchingScreen = false;
+        hookThrower.LetGo();
     }
 
 }
