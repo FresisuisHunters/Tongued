@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Action = System.Action;
+using UnityEngine;
 
 #pragma warning disable 649
 /// <summary>
@@ -50,6 +51,12 @@ public class Hook : MonoBehaviour
     public Vector2 HeadPosition { get => headRigidbody.position; }
     #endregion
 
+    #region Eventos
+    public event Action OnThrown;
+    public event Action OnAttached;
+    public event Action OnDisabled;
+    #endregion
+
     #region References
     private DistanceJoint2D distanceJoint;
     private FixedJoint2D fixedJoint;
@@ -69,13 +76,17 @@ public class Hook : MonoBehaviour
     /// </summary>
     public virtual void Throw(Vector2 targetPoint)
     {
+        //Cambiar estado
         gameObject.SetActive(true);
         IsAttached = false;
         isBeingThrown = true;
+        ropeCollider.ClearContacts();
 
+        //Cálculos
         throwOriginPoint = ConnectedBody.position;
         Vector2 throwDirection = (targetPoint - throwOriginPoint).normalized;
 
+        //Configurar físicas
         headRigidbody.isKinematic = false;
         headRigidbody.position = throwOriginPoint;
         headRigidbody.velocity = throwDirection * hookProjectileSpeed;
@@ -88,6 +99,9 @@ public class Hook : MonoBehaviour
 
         //El estado de IgnoreCollisions se deshace cuando los colliders se desactivan, así que hacemos esto cada vez que lanzamos el gancho.
         Physics2DExtensions.IgnoreCollisions(ConnectedBody, headRigidbody, true);
+
+        //Lanzar evento
+        OnThrown?.Invoke();
     }
 
     /// <summary>
@@ -95,11 +109,13 @@ public class Hook : MonoBehaviour
     /// </summary>
     public virtual void Disable()
     {
+        //Cambiar estado
         gameObject.SetActive(false);
         IsAttached = false;
         isBeingThrown = false;
 
-        ropeCollider.ClearContacts();
+        //Lanzar evento
+        OnDisabled?.Invoke();
     }
 
     /// <summary>
@@ -107,6 +123,11 @@ public class Hook : MonoBehaviour
     /// </summary>
     protected virtual void AttachToPoint(Vector2 attachPoint)
     {
+        //Cambiar estado
+        gameObject.SetActive(true);
+        IsAttached = true;
+        isBeingThrown = false;
+
         //Aplicar velocidad al lanzador
         if (ConnectedBody.velocity.magnitude < maxVelocityForForceOnAttached)
         {
@@ -114,6 +135,7 @@ public class Hook : MonoBehaviour
             ConnectedBody.AddForce(attachForceOnThrower, ForceMode2D.Impulse);
         }
 
+        //Configurar físicas
         headRigidbody.position = attachPoint;
         headRigidbody.isKinematic = true;
         headRigidbody.velocity = Vector2.zero;
@@ -124,19 +146,23 @@ public class Hook : MonoBehaviour
         distanceJoint.distance = ropeCollider.SwingingSegmentLength;
         distanceJoint.enabled = true;
 
-        IsAttached = true;
-        isBeingThrown = false;
+        //Lanzar evento
+        OnAttached?.Invoke();
     }
 
     protected virtual void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
     {
-        Vector2 u = (rigidbodyToAttachTo.position - ConnectedBody.position).normalized;
+        //Cambiar el estado
+        gameObject.SetActive(true);
+        IsAttached = true;
+        isBeingThrown = false;
 
         //Dar velocidades a los cuerpos conectados
+        Vector2 u = (rigidbodyToAttachTo.position - ConnectedBody.position).normalized;
         ConnectedBody.velocity = hookerVelocityOnPlayerHooked * u;
         rigidbodyToAttachTo.velocity = hookedVelocityOnPlayerHooked * -u;
 
-        //Configurar el gancho
+        //Configurar físicas
         headRigidbody.isKinematic = false;
         headRigidbody.position = rigidbodyToAttachTo.position;
         headRigidbody.velocity = Vector2.zero;
@@ -149,12 +175,11 @@ public class Hook : MonoBehaviour
         fixedJoint.connectedBody = rigidbodyToAttachTo;
         fixedJoint.enabled = true;
 
-        //Cambiar el estado
-        IsAttached = true;
-        isBeingThrown = false;
-
         //Si hemos enganchado a otro jugador, desactivar su lengua
-        rigidbodyToAttachTo.GetComponent<HookThrower>()?.LetGo();
+        rigidbodyToAttachTo.GetComponent<HookThrower>()?.DisableHook();
+
+        //Lanzar evento
+        OnAttached?.Invoke();
     }
     #endregion
 

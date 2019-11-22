@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Action = System.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -24,12 +23,36 @@ public class HookThrower : MonoBehaviour
     [SerializeField] private LayerMask autoAimLayerMask;
     #endregion
 
-    public bool HookIsOut => hook.IsOut;
+    #region Eventos
+    //Duplica los eventos de Hook. Se hace para que componentes como ChamaleonAnimator puedan suscribirse a los eventos independientemente de si los Hooks remotos se han creado ya.
+    //Componentes en el camaleón deberían suscribirse a ESTOS, no a los de Hook.
+    public event Action OnHookThrown;
+    public event Action OnHookAttached;
+    public event Action OnHookDisabled;
+    #endregion
 
-    [System.NonSerialized] public Hook hook = null;
+    #region Propiedades Públicas
+    public bool HookIsOut => Hook?.IsOut ?? false;
+    public Hook Hook
+    {
+        get => _hook;
+        set
+        {
+            _hook = value;
+            if (value != null)
+            {
+                value.OnAttached += () => OnHookAttached?.Invoke();
+                value.OnThrown += () => OnHookThrown?.Invoke();
+                value.OnDisabled += () => OnHookDisabled?.Invoke();
+            }
+        }
+    }
+    private Hook _hook;
     public Rigidbody2D Rigidbody { get; private set; }
+    #endregion
 
     private RaycastHit2D[] raycastHits = new RaycastHit2D[1];
+
 
     public void ThrowHook(Vector2 requestedPoint)
     {
@@ -64,9 +87,9 @@ public class HookThrower : MonoBehaviour
             direction.x = u.x * Mathf.Cos(angle) - u.y * Mathf.Sin(angle);
             direction.y = u.x * Mathf.Sin(angle) + u.y * Mathf.Cos(angle);
 
-            origin = rbPosition + direction * hook.minEntityHookDistance;
+            origin = rbPosition + direction * Hook.minEntityHookDistance;
 
-            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, hook.maxHookDistance, autoAimLayerMask);
+            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, Hook.maxHookDistance, autoAimLayerMask);
 
             for (int j = 0; j < hitCount && !hitPlayer; j++)
             {
@@ -74,7 +97,7 @@ public class HookThrower : MonoBehaviour
                 hitLayer = hit.collider.gameObject.layer;
 
                 //Si tocamos a un jugador (y no somos nosotros), no hay autoaim.
-                if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > hook.minEntityHookDistance)
+                if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > Hook.minEntityHookDistance)
                 {
                     finalPoint = requestedPoint;
                     hitPlayer = true;
@@ -94,7 +117,7 @@ public class HookThrower : MonoBehaviour
             if (debugAutoAim) Debug.DrawRay(origin, direction * 1000, Color.white, 2);
         }
 
-        hook.Throw(finalPoint);
+        Hook.Throw(finalPoint);
 
         if (debugAutoAim)
         {
@@ -106,19 +129,20 @@ public class HookThrower : MonoBehaviour
 
     public void Retract(float time)
     {
-        if (hook.IsAttached)
+        if (Hook.IsAttached)
         {
-            hook.Length -= retractDistancePerSecond * time;
+            Hook.Length -= retractDistancePerSecond * time;
 
-            Vector2 u = hook.HeadPosition - Rigidbody.position;
+            Vector2 u = Hook.HeadPosition - Rigidbody.position;
             Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
         }
     }
 
-    public void LetGo()
+    public void DisableHook()
     {
-        hook.Disable();
+        Hook.Disable();
     }
+
 
     private void Awake()
     {
@@ -130,11 +154,12 @@ public class HookThrower : MonoBehaviour
         //Si estamos jugando online (tenemos un PhotonView) y somos el jugador local, utilizamos PhotonNetwork para instanciar el gancho. Si no, un Instantiate de toda la vida.
         //En el prefab  online se asigna OnlineHook, en el prefab offline se asigna Hook.
         Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();
-        if (!photonView) hook = Instantiate(hookPrefab);
-        else if (photonView.IsMine) hook = Photon.Pun.PhotonNetwork.Instantiate(hookPrefab.name, Vector3.zero, Quaternion.identity, data: new object[] { photonView.ViewID }).GetComponent<Hook>();
+        if (!photonView) Hook = Instantiate(hookPrefab);
+        else if (photonView.IsMine) Hook = Photon.Pun.PhotonNetwork.Instantiate(hookPrefab.name, Vector3.zero, Quaternion.identity, data: new object[] { photonView.ViewID }).GetComponent<Hook>();
 
-        if (hook) hook.ConnectedBody = Rigidbody;
+        if (Hook) Hook.ConnectedBody = Rigidbody;
     }
+
 
     private void OnGUI()
     {

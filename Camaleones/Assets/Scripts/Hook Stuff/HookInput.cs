@@ -27,7 +27,7 @@ public class HookInput : MonoBehaviour
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            hookThrower.LetGo();
+            hookThrower.DisableHook();
         }
     }
 
