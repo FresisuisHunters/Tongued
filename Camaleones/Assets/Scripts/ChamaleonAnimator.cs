@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable 649
 [RequireComponent(typeof(HookThrower), typeof(Rigidbody2D))]
 public class ChamaleonAnimator : MonoBehaviour
 {
     [Header("Animators")]
     [SerializeField] private Animator headAnimator;
     [SerializeField] private Animator bodyAnimator;
-
+    
     [Header("Grounded Check")]
     [SerializeField, Range(0, 90)] private float maxSlopeAngleForGrounded = 45;
 
@@ -17,12 +18,16 @@ public class ChamaleonAnimator : MonoBehaviour
     private float minGroundedDotProduct;
     bool isGrounded;
 
-    private static int IDLE_STATE = Animator.StringToHash("Idle");
     private static int GROUNDED_PROPERTY = Animator.StringToHash("IsGrounded");
-    private static int THROW_STATE = Animator.StringToHash("Throw");
-    private static int HANG_STATE = Animator.StringToHash("Hang");
-    private static int POS_REACT_STATE = Animator.StringToHash("PosReact");
-    private static int NEG_REACT_STATE = Animator.StringToHash("NegReact");
+    private static int TONGUE_OUT_PROPERTY = Animator.StringToHash("TongueIsOut");
+    private static int ATTACHED_PROPERTY = Animator.StringToHash("IsAttached");
+    private static int POS_REACT_TRIGGER = Animator.StringToHash("PosReact");
+    private static int NEG_REACT_TRIGGER = Animator.StringToHash("NegReact");
+
+    private void Update()
+    {
+        bodyAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
+    }
 
     #region Grounded Check
     private void OnCollisionStay2D(Collision2D collision)
@@ -47,41 +52,43 @@ public class ChamaleonAnimator : MonoBehaviour
         //FixedUpdate siempre se llama antes que OnCollisionStay. Ponemos isGrounded en falso cada tick para que cuando deje de llamarse OnCollisionStay el valor vuelva siempre a false.
         isGrounded = false;
     }
-
-    private void Update()
-    {
-        bodyAnimator.SetFloat(GROUNDED_PROPERTY, isGrounded ? 1f : 0f);
-
-    }
     #endregion
-
 
     #region Event Responses
     private void OnHookThrown()
     {
-        headAnimator.Play(THROW_STATE, 0, 0);
+        headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
+        headAnimator.SetBool(ATTACHED_PROPERTY, false);
+
+        bodyAnimator.SetBool(ATTACHED_PROPERTY, false);
     }
 
     private void OnHookAttached()
     {
-        headAnimator.Play(HANG_STATE, 0, 0);
-        bodyAnimator.Play(HANG_STATE, 0, 0);
+        headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
+        headAnimator.SetBool(ATTACHED_PROPERTY, true);
+
+        bodyAnimator.SetBool(ATTACHED_PROPERTY, true);
     }
 
     private void OnHookDisabled()
     {
-        headAnimator.Play(IDLE_STATE, 0, 0);
-        bodyAnimator.Play(IDLE_STATE, 0, 0);
+        headAnimator.SetBool(TONGUE_OUT_PROPERTY, false);
+        headAnimator.SetBool(ATTACHED_PROPERTY, false);
+        
+        bodyAnimator.SetBool(ATTACHED_PROPERTY, false);
     }
 
     private void DoPositiveReaction()
     {
-        headAnimator.Play(POS_REACT_STATE, 1, 0);
+        headAnimator.SetTrigger(POS_REACT_TRIGGER);
+        bodyAnimator.SetTrigger(POS_REACT_TRIGGER);
     }
 
     private void DoNegativeReaction()
     {
-        headAnimator.Play(NEG_REACT_STATE, 1, 0);
+        headAnimator.SetTrigger(NEG_REACT_TRIGGER);
+        bodyAnimator.SetTrigger(NEG_REACT_TRIGGER);
     }
     #endregion
 
