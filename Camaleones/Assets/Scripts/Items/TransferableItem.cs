@@ -14,8 +14,8 @@ public class TransferableItem : MonoBehaviour
     [SerializeField] private float cooldownToTransfer;
     #endregion
 
-    #region Public Variables
-    public HotPotatoHandler hotPotatoHandler;
+    #region Private Variables
+    private HotPotatoHandler hotPotatoHandler;
     #endregion
 
     protected bool transferActive;
@@ -23,6 +23,7 @@ public class TransferableItem : MonoBehaviour
     protected virtual void Awake()
     {
         transferActive = true;
+        hotPotatoHandler = FindObjectOfType<HotPotatoHandler>();
     }
 
     /// <summary>
@@ -71,5 +72,6 @@ public class TransferableItem : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         transferActive = false;
         StartCoroutine(ActivationTimer());
+        hotPotatoHandler.NotifyTransfer();
     }
 }

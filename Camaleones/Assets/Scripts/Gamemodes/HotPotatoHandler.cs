@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 #pragma warning disable 649
 
 /// <summary>
 /// 
 /// </summary>
+[RequireComponent(typeof(PlayersHandler))]
 public class HotPotatoHandler : MonoBehaviour
 {
     #region Inspector
@@ -29,7 +31,17 @@ public class HotPotatoHandler : MonoBehaviour
     private float currentEndTime;
     //Timer que se muestra en pantalla
     private int timerCurrentTime;
+    //
     private bool hasStarted;
+    //
+    private TextMeshProUGUI timerText;
+    //Tipo de ronda, si se gana por coger la bola o por huir de ella
+    //true = coger false = huir
+    private bool roundType;
+    //
+    private int currentRound;
+    //
+    private PlayersHandler playersHandler;
     #endregion
 
     /// <summary>
@@ -44,9 +56,14 @@ public class HotPotatoHandler : MonoBehaviour
         }
 
         GameObject snitchReference = Instantiate(snitch, spawnPoint.transform.position, Quaternion.identity);
-        snitchReference.GetComponent<TransferableItem>().hotPotatoHandler = this;
         hasStarted = false;
-        roundStartTime = Time.time;
+
+        timerText = GetComponentInChildren<TextMeshProUGUI>();
+
+        roundType = true;
+        currentRound = 0;
+
+        playersHandler = GetComponent<PlayersHandler>();
     }
 
     /// <summary>
@@ -54,7 +71,13 @@ public class HotPotatoHandler : MonoBehaviour
     /// </summary>
     public void NotifyTransfer()
     {
+        if (!hasStarted)
+        {
+            hasStarted = true;
+            roundStartTime = Time.time;
+        }
         timerStartTime = Time.time;
+        RestartTimer();
     }
 
     // Start is called before the first frame update
@@ -66,17 +89,49 @@ public class HotPotatoHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(hasStarted)
+        {
+            float timerTime = (currentEndTime - (Time.time - timerStartTime));
+            UpdateTimer();
+            if(timerTime<=0)
+            {
+                StartNewRound();
+            }
+        }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void UpdateTimer()
     {
-
+        float timerTime = Mathf.Ceil(Mathf.Max((currentEndTime - (Time.time - timerStartTime)), 0));
+        timerText.SetText(timerTime.ToString());
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void RestartTimer()
     {
         timerStartTime = Time.time;
         currentEndTime = posessionTimeCurve.Evaluate(Time.time - roundStartTime);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void StartNewRound()
+    {
+        if(currentRound==roundNumber-1)
+        {
+
+        }
+        else
+        {
+            currentRound++;
+            roundType = !roundType;
+            playersHandler.SpawnPlayers();
+        }
     }
 }
