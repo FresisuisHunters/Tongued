@@ -7,6 +7,15 @@ using Photon.Pun;
 public class GameplayCameraInitializer : MonoBehaviour
 {
     void Start()
+    { 
+        FindPlayer();
+        FindBoundingShape();
+        AssignCameraAtInputReceiver();
+
+        Destroy(this);
+    }    
+
+    private void FindPlayer()
     {
         Transform playerTransform = null;
 
@@ -28,9 +37,16 @@ public class GameplayCameraInitializer : MonoBehaviour
         }
 
         GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = playerTransform;
+    }
 
+    private void FindBoundingShape()
+    {
         GetComponentInChildren<Cinemachine.CinemachineConfiner>().m_BoundingShape2D = GameObject.FindGameObjectWithTag("CameraBounds").GetComponent<CompositeCollider2D>();
+    }
 
-        Destroy(this);
-    }    
+    private void AssignCameraAtInputReceiver()
+    {
+        FindObjectOfType<InputEventReceiver>().GetComponent<Canvas>().worldCamera = GetComponentInChildren<Camera>();
+    }
+    
 }
