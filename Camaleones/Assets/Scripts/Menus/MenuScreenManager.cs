@@ -3,7 +3,7 @@
 #pragma warning disable 649
 public class MenuScreenManager : MonoBehaviour
 {
-    [SerializeField] private AMenuScreen startingMenuScreen;
+    public AMenuScreen startingMenuScreen;
 
     private AMenuScreen[] menuScreens;
     private AMenuScreen currentActiveMenuScreen;
@@ -16,7 +16,7 @@ public class MenuScreenManager : MonoBehaviour
             if (menuScreens[i] is T)
             {
                 SetActiveMenuScreen(menuScreens[i]);
-                break;
+                return;
             }
         }
         
@@ -25,20 +25,25 @@ public class MenuScreenManager : MonoBehaviour
 
     public void SetActiveMenuScreen(AMenuScreen menuScreen)
     {
-        currentActiveMenuScreen?.Close();
+        AMenuScreen previousScreen = currentActiveMenuScreen;
+        if (previousScreen) previousScreen.Close(menuScreen.GetType());
+
         currentActiveMenuScreen = menuScreen;
-        menuScreen.Open();
+        menuScreen.Open(previousScreen?.GetType());
     }
+    
 
-
-    private void Start()
+    private void Awake()
     {
         menuScreens = GetComponentsInChildren<AMenuScreen>(true);
         for (int i = 0; i < menuScreens.Length; i++)
         {
             menuScreens[i].Initialize(this);
         }
+    }
 
+    private void Start()
+    {
         SetActiveMenuScreen(startingMenuScreen);
     }
 }

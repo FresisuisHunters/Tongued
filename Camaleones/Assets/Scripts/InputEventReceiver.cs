@@ -27,6 +27,5 @@ public class InputEventReceiver : EventTrigger
         Canvas canvas = GetComponent<Canvas>();
 
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        if (!canvas.worldCamera) Debug.LogError("InputEventReceiver necesita estar junto a un canvas en screen space que tenga una cámara asignada.");
     }
 }

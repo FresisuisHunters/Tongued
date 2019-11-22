@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class TrainingMenuScreen : MonoBehaviour
+#pragma warning disable 649
+[RequireComponent(typeof(CanvasGroup))]
+public class TrainingMenuScreen : AMenuScreen
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] SceneReference tmpTrainingScene;
+
+    protected override void OnClose(System.Type nextScreen)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnOpen(System.Type previousScreen)
     {
-        
+        SceneManager.LoadScene(tmpTrainingScene);
     }
 }

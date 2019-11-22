@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SettingsMenuScreen : MonoBehaviour
+[RequireComponent(typeof(CanvasGroup))]
+public class SettingsMenuScreen : AMenuScreen
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnClose(System.Type nextScreen)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnOpen(System.Type previousScreen)
     {
-        
+
     }
 }

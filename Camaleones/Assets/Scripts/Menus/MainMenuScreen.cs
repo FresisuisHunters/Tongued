@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 #pragma warning disable 649
+[RequireComponent(typeof(CanvasGroup))]
 public class MainMenuScreen : AMenuScreen
 {
     [SerializeField] private SceneReference multiplayerLobbyScene;
 
     #region Overrides
-    public override void OnClose()
+    protected override void OnClose(System.Type nextScreen)
     {
 
     }
 
-    public override void OnOpen()
+    protected override void OnOpen(System.Type previousScreen)
     {
 
     }
@@ -27,17 +28,17 @@ public class MainMenuScreen : AMenuScreen
 
     public void GoToTraining()
     {
-        //MenuManager.SetActiveMenuScreen()
+        MenuManager.SetActiveMenuScreen<TrainingMenuScreen>();
     }
 
     public void GoToSettings()
     {
-        //Scene
+        MenuManager.SetActiveMenuScreen<SettingsMenuScreen>();
     }
 
     public void GoToCredits()
     {
-
+        MenuManager.SetActiveMenuScreen<CreditsMenuScren>();
     }
 
 }

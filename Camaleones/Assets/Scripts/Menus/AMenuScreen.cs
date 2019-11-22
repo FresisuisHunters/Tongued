@@ -7,30 +7,33 @@ public abstract class AMenuScreen : MonoBehaviour
 
     private CanvasGroup canvasGroup;
 
-    public void Open()
+    public void Open(System.Type previousScreen)
     {
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
 
-        OnOpen();
+        OnOpen(previousScreen);
     }
 
-    public void Close()
+    public void Close(System.Type nextScreen)
     {
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
-        OnClose();
+        OnClose(nextScreen);
     }
 
-    public abstract void OnOpen();
-    public abstract void OnClose();
+    protected abstract void OnOpen(System.Type previousScreen);
+    protected abstract void OnClose(System.Type nextScreen);
 
     public void Initialize(MenuScreenManager menuScreenManager)
     {
         MenuManager = menuScreenManager;
         canvasGroup = GetComponent<CanvasGroup>();
+
+        canvasGroup.alpha = 0;
+        gameObject.SetActive(true);
     }
 }

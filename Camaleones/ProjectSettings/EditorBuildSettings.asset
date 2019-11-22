@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/sce_tOnlinePlay.unity
     guid: 1c0e353a8ef5248498d537546b2fc785
+  - enabled: 1
+    path: Assets/_Scenes/sce_tMovementDev.unity
+    guid: 41ca434397e86b0409d9fa8752190a7c
   m_configObjects: {}

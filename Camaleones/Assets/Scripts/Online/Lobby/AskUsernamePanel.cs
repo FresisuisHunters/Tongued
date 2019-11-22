@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 #pragma warning disable 649
 public class AskUsernamePanel : MonoBehaviourPunCallbacks {
@@ -12,6 +13,7 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private Button connectToServerButton;
     [SerializeField] private Button goToMainMenuButton;
+    [SerializeField] private SceneReference mainMenuScene;
 
     #endregion
 
@@ -78,7 +80,9 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
     }
 
     private void OnGoToMainMenuButtonClicked () {
-        Debug.LogWarning ("TODO: Implementar menú principal");
+
+        SceneManagerExtensions.LoadScene(mainMenuScene, LoadSceneMode.Single, () =>
+            FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
     }
 
     #endregion

@@ -311,5 +311,34 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8737015695730175483, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737015695730175483, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737015695730175483, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706952360062045501, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 699115059, guid: 4a1cf5d8680d9f14c994469718de6c0d, type: 3}
+      propertyPath: tmpTrainingScene.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 41ca434397e86b0409d9fa8752190a7c,
+        type: 3}
+    - target: {fileID: 699115059, guid: 4a1cf5d8680d9f14c994469718de6c0d, type: 3}
+      propertyPath: tmpTrainingScene.scenePath
+      value: Assets/_Scenes/sce_tMovementDev.unity
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a1cf5d8680d9f14c994469718de6c0d, type: 3}
