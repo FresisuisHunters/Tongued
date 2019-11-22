@@ -415,3 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headAnimator: {fileID: 8206891802529703094}
   bodyAnimator: {fileID: 8393029196324952528}
+  groundedCheckLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  maxSlopeAngleForGrounded: 50
