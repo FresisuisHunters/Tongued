@@ -15,6 +15,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private ContactPoint2D[] contacts = new ContactPoint2D[1];
     private float minGroundedDotProduct;
+    bool isGrounded;
 
     private static int IDLE_STATE = Animator.StringToHash("Idle");
     private static int GROUNDED_PROPERTY = Animator.StringToHash("IsGrounded");
@@ -23,21 +24,37 @@ public class ChamaleonAnimator : MonoBehaviour
     private static int POS_REACT_STATE = Animator.StringToHash("PosReact");
     private static int NEG_REACT_STATE = Animator.StringToHash("NegReact");
 
+    #region Grounded Check
     private void OnCollisionStay2D(Collision2D collision)
     {
+        //Si ya sabemos que estamos tocando el suelo este tick, no nos importa esta colisión.
+        if (isGrounded) return;
+
+        //Comprobamos si estamos tocando el suelo.
         int contactCount = collision.GetContacts(contacts);
         Vector2 perfectGroundNormal = Vector2.up;   //TODO: Adapt this to account for cirular gravity map?
         Vector2 surfaceNormal;
-        bool isGrounded = false;
 
         for (int i = 0; i < contactCount && !isGrounded; i++)
         {
             surfaceNormal = contacts[i].normal;
-            isGrounded = Vector2.Dot(surfaceNormal, perfectGroundNormal) > minGroundedDotProduct;
+            if (Vector2.Dot(surfaceNormal, perfectGroundNormal) > minGroundedDotProduct) isGrounded = true;
         }
-
-        bodyAnimator.SetFloat(GROUNDED_PROPERTY, isGrounded ? 1f : 0f);
     }
+
+    private void FixedUpdate()
+    {
+        //FixedUpdate siempre se llama antes que OnCollisionStay. Ponemos isGrounded en falso cada tick para que cuando deje de llamarse OnCollisionStay el valor vuelva siempre a false.
+        isGrounded = false;
+    }
+
+    private void Update()
+    {
+        bodyAnimator.SetFloat(GROUNDED_PROPERTY, isGrounded ? 1f : 0f);
+
+    }
+    #endregion
+
 
     #region Event Responses
     private void OnHookThrown()
@@ -68,6 +85,7 @@ public class ChamaleonAnimator : MonoBehaviour
     }
     #endregion
 
+    #region Initialization
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -88,4 +106,6 @@ public class ChamaleonAnimator : MonoBehaviour
     {
         minGroundedDotProduct = Mathf.Cos(maxSlopeAngleForGrounded * Mathf.Deg2Rad);
     }
+    #endregion
+
 }
