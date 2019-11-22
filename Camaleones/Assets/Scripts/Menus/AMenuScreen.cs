@@ -34,6 +34,8 @@ public abstract class AMenuScreen : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
 
         canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
         gameObject.SetActive(true);
     }
 }

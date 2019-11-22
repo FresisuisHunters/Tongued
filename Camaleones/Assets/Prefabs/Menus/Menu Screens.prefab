@@ -42,8 +42,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 150, y: 155}
-  m_SizeDelta: {x: 300, y: 310}
+  m_AnchoredPosition: {x: 953, y: 498.5}
+  m_SizeDelta: {x: 1906, y: 997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5578408999634189608
 Canvas:
@@ -163,6 +163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Settings Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2156187555775418855, guid: 76541f989878f204ebfc63b97187fcab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2156187555775418856, guid: 76541f989878f204ebfc63b97187fcab,
         type: 3}
@@ -289,6 +294,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Training Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 1826028317615844386, guid: 7793a9b43d7e76246bb25b34fe55f79d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1826028317615844397, guid: 7793a9b43d7e76246bb25b34fe55f79d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -414,6 +424,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Credits Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 4343944917925060022, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4343944917925060021, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -538,6 +553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 810780372530594653, guid: 28a6c0849115d8740a1ba2421e8cbb37,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 810780372530594640, guid: 28a6c0849115d8740a1ba2421e8cbb37,
         type: 3}
