@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 
+#pragma warning disable 649
 public class AskUsernamePanel : MonoBehaviourPunCallbacks {
 
     #region Private Fields
