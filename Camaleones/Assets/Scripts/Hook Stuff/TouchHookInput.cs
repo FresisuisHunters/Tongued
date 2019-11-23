@@ -5,10 +5,12 @@ using Photon.Pun;
 [RequireComponent (typeof (HookThrower))]
 public class TouchHookInput : MonoBehaviour {
 
-    private const float DISTANCE_ACTIVATE_RECTRACT_SCREEN_SPACE = 30f;
+    private const float INNER_CIRCLE_RADIUS = 10f;
+    private const float OUTER_CIRCLE_RADIUS = 20f;
 
     private HookThrower hookThrower;
     private Vector2 positionTouchedScreenCoordinates;
+    private Vector2 positionTouchedWorldCoordinates;
     private bool touchingScreen;
     private bool retract;
 
@@ -50,7 +52,7 @@ public class TouchHookInput : MonoBehaviour {
         touchingScreen = true;
         positionTouchedScreenCoordinates = eventData.position;
         if (!hookThrower.HookIsOut) {
-            Vector2 positionTouchedWorldCoordinates = eventData.pressEventCamera.ScreenToWorldPoint(positionTouchedScreenCoordinates);
+            positionTouchedWorldCoordinates = eventData.pressEventCamera.ScreenToWorldPoint(positionTouchedScreenCoordinates);
             hookThrower.ThrowHook(positionTouchedWorldCoordinates);
         }
     }
@@ -67,7 +69,21 @@ public class TouchHookInput : MonoBehaviour {
 
         Debug.Log(distanceToOriginalTouch);
 
-        retract = distanceToOriginalTouch >= DISTANCE_ACTIVATE_RECTRACT_SCREEN_SPACE;
+        retract = distanceToOriginalTouch >= INNER_CIRCLE_RADIUS;
+    }
+
+    void OnDrawGizmos() {
+        if (!touchingScreen) {
+            return;
+        }
+
+        Vector3 gizmoPosition = new Vector3(positionTouchedWorldCoordinates.x, positionTouchedWorldCoordinates.y, -5);
+        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(gizmoPosition, OUTER_CIRCLE_RADIUS);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(gizmoPosition, INNER_CIRCLE_RADIUS);
     }
 
 }
