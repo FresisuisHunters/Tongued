@@ -6,16 +6,13 @@ using UnityEngine.EventSystems;
 /// Recibe eventos de InputEventReceiver y da órdenes a HookThrower.
 /// </summary>
 [RequireComponent(typeof(HookThrower))]
-public class HookInput : MonoBehaviour
+public class MouseHookInput : MonoBehaviour
 {
     private HookThrower hookThrower;
     private bool isHoldingPointerDown;
 
-
     private void OnPointerDown(PointerEventData eventData)
     {
-        if (!this || !enabled) return;
-
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             isHoldingPointerDown = true;
@@ -33,8 +30,6 @@ public class HookInput : MonoBehaviour
 
     private void OnPointerUp()
     {
-        if (!this || !enabled) return;
-
         isHoldingPointerDown = false;
     }
 
@@ -61,6 +56,12 @@ public class HookInput : MonoBehaviour
             return;
         }
 
+        if ((ControlScheme) PlayerPrefs.GetInt(SettingsMenuScreen.CONTROL_SCHEME_PREF_KEY, 0) != ControlScheme.Mouse)
+        {
+            Destroy(this);
+            return;
+        }
+
         //Busca el InputEventReceiver en la escena y se suscribe a los eventos que nos importan
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver)
@@ -69,7 +70,7 @@ public class HookInput : MonoBehaviour
             return;
         }
 
-        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => OnPointerDown(data as PointerEventData));
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => OnPointerUp());
+        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (enabled) OnPointerDown(data as PointerEventData); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (enabled) OnPointerUp(); });
     }
 }

@@ -3,6 +3,7 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 
+#pragma warning disable 649
 public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
 
     #region Constant Fields
