@@ -5,13 +5,5 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class CreditsMenuScren : AMenuScreen
 {
-    protected override void OnClose(System.Type nextScreen)
-    {
 
-    }
-
-    protected override void OnOpen(System.Type previousScreen)
-    {
-
-    }
 }

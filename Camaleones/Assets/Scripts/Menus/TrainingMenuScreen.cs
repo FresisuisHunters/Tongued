@@ -9,11 +9,6 @@ public class TrainingMenuScreen : AMenuScreen
 {
     [SerializeField] SceneReference tmpTrainingScene;
 
-    protected override void OnClose(System.Type nextScreen)
-    {
-
-    }
-
     protected override void OnOpen(System.Type previousScreen)
     {
         SceneManager.LoadScene(tmpTrainingScene);
