@@ -16,7 +16,7 @@ public class SettingsMenuScreen : AMenuScreen
 
     protected override void OnOpen(Type previousScreen)
     {
-        if (!PlayerPrefs.HasKey(CONTROL_SCHEME_PREF_KEY)) AutoDetectControlScheme();
+        
         EnableCorrectControlSchemeToggle();
 
         touchControlToggle.onValueChanged.AddListener(OnTouchControlValueChange);
@@ -90,5 +90,6 @@ public class SettingsMenuScreen : AMenuScreen
     private void Awake()
     {
         controlToggleGroup = GetComponentInChildren<ToggleGroup>(true);
+        if (!PlayerPrefs.HasKey(CONTROL_SCHEME_PREF_KEY)) AutoDetectControlScheme();
     }
 }

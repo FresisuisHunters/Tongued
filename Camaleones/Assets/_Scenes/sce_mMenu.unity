@@ -248,6 +248,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu Screens
       objectReference: {fileID: 0}
+    - target: {fileID: 1826028318638766476, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5697914944228856435, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5697914944228856435, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_Group
+      value: 
+      objectReference: {fileID: 284659183}
+    - target: {fileID: 9132561514523047730, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132561514523047730, guid: 4a1cf5d8680d9f14c994469718de6c0d,
+        type: 3}
+      propertyPath: m_Group
+      value: 
+      objectReference: {fileID: 284659183}
     - target: {fileID: 8737015695730175483, guid: 4a1cf5d8680d9f14c994469718de6c0d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -378,26 +403,6 @@ PrefabInstance:
       propertyPath: mouseControlToggle
       value: 
       objectReference: {fileID: 420474519}
-    - target: {fileID: 5697914944228856435, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: m_IsOn
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5697914944228856435, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: m_Group
-      value: 
-      objectReference: {fileID: 284659183}
-    - target: {fileID: 9132561514523047730, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: m_IsOn
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9132561514523047730, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: m_Group
-      value: 
-      objectReference: {fileID: 284659183}
     - target: {fileID: 2017669894, guid: 4a1cf5d8680d9f14c994469718de6c0d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1

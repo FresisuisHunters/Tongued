@@ -27,15 +27,22 @@ public class TouchHookInput : MonoBehaviour {
             return;
         }
 
+        //Si el control seleccionado no es Touch, se autodestruye.
+        if ((ControlScheme) PlayerPrefs.GetInt(SettingsMenuScreen.CONTROL_SCHEME_PREF_KEY, 0) != ControlScheme.Touch)
+        {
+            Destroy(this);
+            return;
+        }
+
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver) {
             OnlineLogging.Instance.Write("TouchHookInput necesita de InputEventReceiver");
             return;
         }
 
-        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => OnPointerDown(data as PointerEventData));
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => OnPointerUp());
-        inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => OnPointerDrag(data as PointerEventData));
+        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (enabled) OnPointerDown(data as PointerEventData); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (enabled) OnPointerUp(); });
+        inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (enabled) OnPointerDrag(data as PointerEventData); });
     }
 
     private void Update() {

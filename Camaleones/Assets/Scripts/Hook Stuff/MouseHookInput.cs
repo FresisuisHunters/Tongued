@@ -56,6 +56,12 @@ public class MouseHookInput : MonoBehaviour
             return;
         }
 
+        if ((ControlScheme) PlayerPrefs.GetInt(SettingsMenuScreen.CONTROL_SCHEME_PREF_KEY, 0) != ControlScheme.Mouse)
+        {
+            Destroy(this);
+            return;
+        }
+
         //Busca el InputEventReceiver en la escena y se suscribe a los eventos que nos importan
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver)
@@ -64,7 +70,7 @@ public class MouseHookInput : MonoBehaviour
             return;
         }
 
-        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => OnPointerDown(data as PointerEventData));
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => OnPointerUp());
+        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (enabled) OnPointerDown(data as PointerEventData); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (enabled) OnPointerUp(); });
     }
 }
