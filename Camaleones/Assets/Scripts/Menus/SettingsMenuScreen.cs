@@ -9,22 +9,24 @@ public class SettingsMenuScreen : AMenuScreen
 {
     public const string CONTROL_SCHEME_PREF_KEY = "ControlScheme";
 
-    public Toggle touchControlToggle;
-    public Toggle mouseControlToggle;
+    [SerializeField] private Toggle touchControlToggle;
+    [SerializeField] private Toggle mouseControlToggle;
 
-    
+    private ToggleGroup controlToggleGroup;
 
     protected override void OnOpen(Type previousScreen)
     {
-        if (PlayerPrefs.HasKey(CONTROL_SCHEME_PREF_KEY))
-        {
-            EnableCorrectControlSchemeToggle();
-        }
-        else
-        {
-            
-        }
+        if (!PlayerPrefs.HasKey(CONTROL_SCHEME_PREF_KEY)) AutoDetectControlScheme();
+        EnableCorrectControlSchemeToggle();
 
+        touchControlToggle.onValueChanged.AddListener(OnTouchControlValueChange);
+        mouseControlToggle.onValueChanged.AddListener(OnMouseControlValueChange);
+    }
+
+    protected override void OnClose(Type nextScreen)
+    {
+        touchControlToggle.onValueChanged.RemoveListener(OnTouchControlValueChange);
+        mouseControlToggle.onValueChanged.RemoveListener(OnMouseControlValueChange);
     }
 
     public override void GoBack()
@@ -53,26 +55,40 @@ public class SettingsMenuScreen : AMenuScreen
     {
         ControlScheme selectedControlScheme = (ControlScheme) PlayerPrefs.GetInt(CONTROL_SCHEME_PREF_KEY);
 
+        controlToggleGroup.allowSwitchOff = true;
+        controlToggleGroup.SetAllTogglesOff();
+
         switch (selectedControlScheme)
         {
             case ControlScheme.Touch:
-                touchControlToggle.group.NotifyToggleOn(touchControlToggle);
+                SetControlScheme(ControlScheme.Touch);
+                touchControlToggle.isOn = true;
                 break;
             case ControlScheme.Mouse:
-                mouseControlToggle.group.NotifyToggleOn(mouseControlToggle);
+                SetControlScheme(ControlScheme.Mouse);
+                mouseControlToggle.isOn = true;
                 break;
         }
+
+        controlToggleGroup.allowSwitchOff = false;
     }
 
     private void AutoDetectControlScheme()
     {
-
+#if UNITY_STANDALONE || UNITY_EDITOR
+        SetControlScheme(ControlScheme.Mouse);
+#elif UNITY_WEBGL
+        //TODO: Detectar automáticamente si es móvil o desktop.
+        //https://forum.unity.com/threads/how-to-detect-if-a-mobile-is-running-the-webgl-scene.440344/
+        SetControlScheme(ControlScheme.Touch);
+#else
+        SetControlScheme(ControlScheme.Touch);
+#endif
     }
     #endregion
 
-    private void Start()
+    private void Awake()
     {
-        touchControlToggle.onValueChanged.AddListener(OnTouchControlValueChange);
-        mouseControlToggle.onValueChanged.AddListener(OnMouseControlValueChange);
+        controlToggleGroup = GetComponentInChildren<ToggleGroup>(true);
     }
 }
