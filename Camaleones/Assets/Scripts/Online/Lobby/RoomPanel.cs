@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+#pragma warning disable 649
 public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #region Constant Fields

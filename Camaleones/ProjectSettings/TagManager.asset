@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platform
   - Opponent
+  - CameraBounds
   layers:
   - Default
   - TransparentFX
@@ -16,11 +17,11 @@ TagManager:
   - 
   - 
   - PlayerInputLayer
-  - HookableLayer
+  - HookableTerrainLayer
   - PlayerLayer
   - HookLayer
   - RopeLayer
-  - MainPlayerLayer
+  - HookableEntityLayer
   - 
   - 
   - 

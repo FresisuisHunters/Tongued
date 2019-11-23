@@ -33,38 +33,60 @@ public class HookThrower : MonoBehaviour
 
     public void ThrowHook(Vector2 requestedPoint)
     {
+        bool originalQueriesStartInColliders = Physics2D.queriesStartInColliders;
+        Physics2D.queriesStartInColliders = false;
+
         //Lanzamos varios rayos en un ángulo de apertura para hacer el autoaim.
         //De los hits que hemos tenido, nos quedamos con el más cercano a requestedPoint.
         //Si no hay hits, utilizamos requestedPoint.
         //TODO: Utilizar requestedPoint si se encuentra un jugador en los hits.
 
-        Vector2 origin = Rigidbody.position;
-        Vector2 u = (requestedPoint - origin).normalized;
+        Vector2 rbPosition = Rigidbody.position;
+        Vector2 u = (requestedPoint - rbPosition).normalized;
+        Vector2 origin;
         Vector2 direction;
 
         float angle = -autoAimConeAngle / 2 * Mathf.Deg2Rad;
         float deltaAngle = (autoAimConeAngle * Mathf.Deg2Rad) / autoAimRayCount;
         int hitCount;
 
-        Vector2 finalPoint = Vector2.zero;
+        Vector2 finalPoint = requestedPoint;
+        bool hitPlayer = false;
+
         float squaredDistanceFromRequestedToFinalPoint = float.MaxValue;
         float squaredDistance;
+        RaycastHit2D hit;
+        int hitLayer;
 
-        for (int i = 0; i < autoAimRayCount; i++)
+        for (int i = 0; i < autoAimRayCount && !hitPlayer; i++)
         {
             //Rota el vector u por angle
             direction.x = u.x * Mathf.Cos(angle) - u.y * Mathf.Sin(angle);
             direction.y = u.x * Mathf.Sin(angle) + u.y * Mathf.Cos(angle);
 
-            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, float.MaxValue, autoAimLayerMask);
+            origin = rbPosition + direction * hook.minEntityHookDistance;
 
-            for (int j = 0; j < hitCount; j++)
+            hitCount = Physics2D.RaycastNonAlloc(origin, direction, raycastHits, hook.maxHookDistance, autoAimLayerMask);
+
+            for (int j = 0; j < hitCount && !hitPlayer; j++)
             {
-                squaredDistance = (origin - raycastHits[j].point).sqrMagnitude;
-                if (squaredDistance < squaredDistanceFromRequestedToFinalPoint)
+                hit = raycastHits[j];
+                hitLayer = hit.collider.gameObject.layer;
+
+                //Si tocamos a un jugador (y no somos nosotros), no hay autoaim.
+                if (hitLayer == LayerMask.NameToLayer("HookableEntityLayer") && hit.rigidbody != Rigidbody && hit.distance > hook.minEntityHookDistance)
                 {
-                    squaredDistanceFromRequestedToFinalPoint = squaredDistance;
-                    finalPoint = raycastHits[j].point;
+                    finalPoint = requestedPoint;
+                    hitPlayer = true;
+                }
+                else if (hitLayer == LayerMask.NameToLayer("HookableTerrainLayer"))
+                {
+                    squaredDistance = (origin - raycastHits[j].point).sqrMagnitude;
+                    if (squaredDistance < squaredDistanceFromRequestedToFinalPoint)
+                    {
+                        squaredDistanceFromRequestedToFinalPoint = squaredDistance;
+                        finalPoint = raycastHits[j].point;
+                    }
                 }
             }
             angle += deltaAngle;
@@ -72,14 +94,14 @@ public class HookThrower : MonoBehaviour
             if (debugAutoAim) Debug.DrawRay(origin, direction * 1000, Color.white, 2);
         }
 
-        if (squaredDistanceFromRequestedToFinalPoint == float.MaxValue) finalPoint = requestedPoint;
-
         hook.Throw(finalPoint);
 
         if (debugAutoAim)
         {
-            Debug.DrawLine(origin, finalPoint, Color.red, 2);
+            Debug.DrawLine(rbPosition, finalPoint, Color.red, 2);
         }
+
+        Physics2D.queriesStartInColliders = originalQueriesStartInColliders;
     }
 
     public void Retract(float time)
@@ -101,7 +123,10 @@ public class HookThrower : MonoBehaviour
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
+    }
 
+    private void Start()
+    {
         //Si estamos jugando online (tenemos un PhotonView) y somos el jugador local, utilizamos PhotonNetwork para instanciar el gancho. Si no, un Instantiate de toda la vida.
         //En el prefab  online se asigna OnlineHook, en el prefab offline se asigna Hook.
         Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();

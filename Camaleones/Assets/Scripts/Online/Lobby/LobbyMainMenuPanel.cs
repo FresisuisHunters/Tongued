@@ -7,6 +7,7 @@ using ExitGames.Client.Photon;
 using Photon.Realtime;
 using System.Linq;
 
+#pragma warning disable 649
 public class LobbyMainMenuPanel : MonoBehaviourPunCallbacks {
 
     #region Private Fields

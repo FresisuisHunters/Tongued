@@ -17,6 +17,11 @@ public class HookHeadCollisionDetector : MonoBehaviour
     /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        hook.Collide(collision.collider);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         hook.Collide(collision);
     }
 }
