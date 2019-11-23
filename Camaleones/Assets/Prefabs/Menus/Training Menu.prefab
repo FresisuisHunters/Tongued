@@ -61,3 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7cbd5bd92a4a664fa68cc6538a36beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tmpTrainingScene:
+    sceneAsset: {fileID: 102900000, guid: 41ca434397e86b0409d9fa8752190a7c, type: 3}
+    scenePath: Assets/_Scenes/sce_tMovementDev.unity

@@ -280,6 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865f89462901bd24ea5f3a720080a2eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchControlToggle: {fileID: 8792832364973940569}
+  mouseControlToggle: {fileID: 5451613186908125720}
 --- !u!1 &2249486674808405393
 GameObject:
   m_ObjectHideFlags: 0

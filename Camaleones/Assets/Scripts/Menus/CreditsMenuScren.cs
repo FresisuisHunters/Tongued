@@ -5,5 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class CreditsMenuScren : AMenuScreen
 {
-
+    public override void GoBack()
+    {
+        MenuManager.SetActiveMenuScreen<MainMenuScreen>();
+    }
 }
