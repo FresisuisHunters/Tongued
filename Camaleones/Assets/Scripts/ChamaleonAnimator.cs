@@ -36,7 +36,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private float groundAngle;
     private float minGroundedDotProduct;
 
-    bool mustStayUpright;
+    bool stayUprightWhenAirborne;
 
     bool isGrounded;
     bool tongueIsOut;
@@ -64,14 +64,13 @@ public class ChamaleonAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (mustStayUpright) StayUpright();
+        if (stayUprightWhenAirborne || isGrounded) StayUpright();
     }
 
     #region Animation
     private void RotateTowardsTongue()
     {
-        Vector2 currentTonguePosition = hookThrower.Hook.InterpolatedHeadPosition;
-        Vector2 u = currentTonguePosition - (Vector2) spritesParent.position;
+        Vector2 u = hookThrower.SwingingHingePoint - (Vector2) spritesParent.position;
         Vector2 a = Vector2.right;
 
         float desiredAngle = Vector2.SignedAngle(a, u);
@@ -129,7 +128,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private void OnHookThrown()
     {
         tongueIsOut = true;
-        mustStayUpright = true;
+        stayUprightWhenAirborne = true;
         
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
         headAnimator.SetBool(ATTACHED_PROPERTY, false);
@@ -140,7 +139,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private void OnHookAttached()
     {
         tongueIsOut = true;
-        mustStayUpright = false;
+        stayUprightWhenAirborne = false;
 
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
         headAnimator.SetBool(ATTACHED_PROPERTY, true);
@@ -151,7 +150,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private void OnHookDisabled()
     {
         tongueIsOut = false;
-        mustStayUpright = true;
+        stayUprightWhenAirborne = true;
 
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, false);
         headAnimator.SetBool(ATTACHED_PROPERTY, false);

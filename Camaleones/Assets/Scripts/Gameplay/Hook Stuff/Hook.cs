@@ -49,8 +49,8 @@ public class Hook : MonoBehaviour
         }
     }
 
-    public Vector2 HeadPosition => headRigidbody.position;
-    public Vector2 InterpolatedHeadPosition => headRigidbody.transform.position;
+    public Vector2 SwingingHingePoint => ropeCollider.SwingingHingePoint;
+    
     #endregion
 
     #region Eventos

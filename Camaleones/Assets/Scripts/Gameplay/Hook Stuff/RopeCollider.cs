@@ -34,18 +34,24 @@ public class RopeCollider : MonoBehaviour
     }
     private Vector2 _headPosition;
 
-    public float SwingingSegmentLength {
+    public Vector2 SwingingHingePoint
+    {
         get
         {
             if (contactPoints.Count > 0)
             {
-                return (contactPoints[contactPoints.Count - 1].position - freeSwingingEndPoint).magnitude;
+                return contactPoints[contactPoints.Count - 1].position;
             }
             else
             {
-                return (_headPosition - freeSwingingEndPoint).magnitude;
+                return _headPosition;
             }
-            
+        }
+    }
+    public float SwingingSegmentLength {
+        get
+        {
+            return (SwingingHingePoint - freeSwingingEndPoint).magnitude;   
         }
     }
 

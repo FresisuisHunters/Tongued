@@ -49,6 +49,7 @@ public class HookThrower : MonoBehaviour
     }
     private Hook _hook;
     public Rigidbody2D Rigidbody { get; private set; }
+    public Vector2 SwingingHingePoint => Hook.SwingingHingePoint;
     #endregion
 
     private RaycastHit2D[] raycastHits = new RaycastHit2D[1];
@@ -133,7 +134,7 @@ public class HookThrower : MonoBehaviour
         {
             Hook.Length -= retractDistancePerSecond * time;
 
-            Vector2 u = Hook.HeadPosition - Rigidbody.position;
+            Vector2 u = Hook.SwingingHingePoint - Rigidbody.position;
             Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
         }
     }
