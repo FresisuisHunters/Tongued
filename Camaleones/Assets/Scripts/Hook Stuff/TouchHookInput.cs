@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Photon.Pun;
+using UnityEngine.UI;
 
 [RequireComponent (typeof (HookThrower))]
 public class TouchHookInput : MonoBehaviour {
@@ -11,6 +12,8 @@ public class TouchHookInput : MonoBehaviour {
     private HookThrower hookThrower;
     private Vector2 positionTouchedScreenCoordinates;
     private Vector2 positionTouchedWorldCoordinates;
+    public Image innerCircleSprite;
+    public Image outerCircleSprite;
     private bool touchingScreen;
     private bool retract;
 
@@ -18,6 +21,9 @@ public class TouchHookInput : MonoBehaviour {
         hookThrower = GetComponent<HookThrower>();
         touchingScreen = false;
         retract = false;
+
+        innerCircleSprite = GameObject.FindGameObjectWithTag("InnerCircle").GetComponent<Image>();
+        outerCircleSprite = GameObject.FindGameObjectWithTag("OuterCircle").GetComponent<Image>();
     }
 
     private void Start() {
@@ -54,6 +60,11 @@ public class TouchHookInput : MonoBehaviour {
         if (!hookThrower.HookIsOut) {
             positionTouchedWorldCoordinates = eventData.pressEventCamera.ScreenToWorldPoint(positionTouchedScreenCoordinates);
             hookThrower.ThrowHook(positionTouchedWorldCoordinates);
+
+            innerCircleSprite.gameObject.SetActive(true);
+            outerCircleSprite.gameObject.SetActive(true);
+            innerCircleSprite.rectTransform.localPosition = positionTouchedScreenCoordinates;
+            outerCircleSprite.rectTransform.localPosition = positionTouchedScreenCoordinates;
         }
     }
 
@@ -61,29 +72,18 @@ public class TouchHookInput : MonoBehaviour {
         touchingScreen = false;
         retract = false;
         hookThrower.LetGo();
+
+        innerCircleSprite.gameObject.SetActive(false);
+        outerCircleSprite.gameObject.SetActive(false);
     }
 
     private void OnPointerDrag(PointerEventData eventData) {
         Vector2 screenPosition = eventData.position;
         float distanceToOriginalTouch = Vector2.Distance(positionTouchedScreenCoordinates, screenPosition);
 
-        Debug.Log(distanceToOriginalTouch);
+        outerCircleSprite.rectTransform.localPosition = screenPosition;
 
         retract = distanceToOriginalTouch >= INNER_CIRCLE_RADIUS;
-    }
-
-    void OnDrawGizmos() {
-        if (!touchingScreen) {
-            return;
-        }
-
-        Vector3 gizmoPosition = new Vector3(positionTouchedWorldCoordinates.x, positionTouchedWorldCoordinates.y, -5);
-        
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(gizmoPosition, OUTER_CIRCLE_RADIUS);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(gizmoPosition, INNER_CIRCLE_RADIUS);
     }
 
 }
