@@ -48,7 +48,9 @@ public class Hook : MonoBehaviour
             connectedBodyTransform = value.GetComponent<Transform>();
         }
     }
-    public Vector2 HeadPosition { get => headRigidbody.position; }
+
+    public Vector2 HeadPosition => headRigidbody.position;
+    public Vector2 InterpolatedHeadPosition => headRigidbody.transform.position;
     #endregion
 
     #region Eventos
