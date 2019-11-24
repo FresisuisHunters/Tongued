@@ -14,7 +14,7 @@ public class ChamaleonAnimator : MonoBehaviour
     [SerializeField, Range(0, 90)] private float maxSlopeAngleForGrounded = 45;
 
     private new Rigidbody2D rigidbody;
-    private ContactPoint2D[] contacts = new ContactPoint2D[1];
+    private ContactPoint2D[] contacts = new ContactPoint2D[4];
     private float minGroundedDotProduct;
     bool isGrounded;
 
@@ -27,30 +27,27 @@ public class ChamaleonAnimator : MonoBehaviour
     private void Update()
     {
         bodyAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
+        
     }
 
     #region Grounded Check
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        //Si ya sabemos que estamos tocando el suelo este tick, no nos importa esta colisión.
-        if (isGrounded) return;
-
-        //Comprobamos si estamos tocando el suelo.
-        int contactCount = collision.GetContacts(contacts);
-        Vector2 perfectGroundNormal = Vector2.up;   //TODO: Adapt this to account for cirular gravity map?
-        Vector2 surfaceNormal;
-
-        for (int i = 0; i < contactCount && !isGrounded; i++)
-        {
-            surfaceNormal = contacts[i].normal;
-            if (Vector2.Dot(surfaceNormal, perfectGroundNormal) > minGroundedDotProduct) isGrounded = true;
-        }
-    }
-
     private void FixedUpdate()
     {
-        //FixedUpdate siempre se llama antes que OnCollisionStay. Ponemos isGrounded en falso cada tick para que cuando deje de llamarse OnCollisionStay el valor vuelva siempre a false.
-        isGrounded = false;
+        //Si el Rigidbody está dormido, sabemos que isGrounded no va a cambiar.
+        if (rigidbody.IsAwake())
+        {
+            //Comprobamos si estamos tocando el suelo.
+            int contactCount = rigidbody.GetContacts(contacts);
+            Vector2 perfectGroundNormal = Vector2.up;   //TODO: Adapt this to account for cirular gravity map?
+            Vector2 surfaceNormal;
+
+            isGrounded = false;
+            for (int i = 0; i < contactCount && !isGrounded; i++)
+            {
+                surfaceNormal = contacts[i].normal;
+                if (Vector2.Dot(surfaceNormal, perfectGroundNormal) > minGroundedDotProduct) isGrounded = true;
+            }
+        }
     }
     #endregion
 
@@ -114,5 +111,4 @@ public class ChamaleonAnimator : MonoBehaviour
         minGroundedDotProduct = Mathf.Cos(maxSlopeAngleForGrounded * Mathf.Deg2Rad);
     }
     #endregion
-
 }
