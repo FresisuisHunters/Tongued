@@ -27,7 +27,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private void Update()
     {
         bodyAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
-        
+        headAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
     }
 
     #region Grounded Check
