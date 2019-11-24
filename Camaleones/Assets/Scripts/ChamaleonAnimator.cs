@@ -12,7 +12,6 @@ public class ChamaleonAnimator : MonoBehaviour
     private static int ATTACHED_PROPERTY = Animator.StringToHash("IsAttached");
     private static int POS_REACT_TRIGGER = Animator.StringToHash("PosReact");
     private static int NEG_REACT_TRIGGER = Animator.StringToHash("NegReact");
-    private static Vector2 DEFAULT_ROTATION_FACING = Vector2.left;
     #endregion
 
     #region Inspector
@@ -34,55 +33,69 @@ public class ChamaleonAnimator : MonoBehaviour
 
     #region Private State
     private ContactPoint2D[] contacts = new ContactPoint2D[4];
+    private float groundAngle;
     private float minGroundedDotProduct;
+
+    bool mustStayUpright;
 
     bool isGrounded;
     bool tongueIsOut;
+    bool isAttached;
     #endregion
 
-    #region Rotation
-    private void Update()
+    private bool IsFacingRight
     {
-        if (tongueIsOut)
+        get
         {
-            //FaceTongue();
+            float currentRotation = transform.rotation.eulerAngles.z;
+            return currentRotation < 90 || currentRotation > 270;
         }
-
-        FaceMovementDirection();
-
-        bodyAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
-        headAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
     }
 
-    private void FaceTongue()
+    private void FixedUpdate()
+    {
+        DoGroundedCheck();
+
+        //if (isGrounded) FaceMovementDirection();
+
+        if (tongueIsOut) RotateTowardsTongue();
+        if (isGrounded) AlignWithGround();
+    }
+
+    private void Update()
+    {
+        if (mustStayUpright) StayUpright();
+    }
+
+    #region Animation
+    private void RotateTowardsTongue()
     {
         Vector2 currentTonguePosition = hookThrower.Hook.InterpolatedHeadPosition;
         Vector2 u = currentTonguePosition - (Vector2) spritesParent.position;
+        Vector2 a = Vector2.right;
 
-        float desiredAngle = -Vector2.Angle(DEFAULT_ROTATION_FACING, u);
+        float desiredAngle = Vector2.SignedAngle(a, u);
         float currentAngle = rigidbody.rotation;
 
         rigidbody.angularVelocity = (desiredAngle - currentAngle) / Time.deltaTime;
     }
 
-    private void FaceMovementDirection()
+    private void AlignWithGround()
     {
-        Vector3 currentLocalScale = spritesParent.localScale;
-        //rigidbody.velocity.x
+        transform.rotation = Quaternion.Euler(0, 0, IsFacingRight ? groundAngle : groundAngle + 180);
+    }
 
+    private void StayUpright()
+    {
+        float ySign = IsFacingRight ? 1 : -1;
 
-
+        Vector3 scale = spritesParent.localScale;
+        scale.y = ySign * Mathf.Abs(scale.y);
+        spritesParent.localScale = scale;
     }
     #endregion
 
     #region Grounded Check
-    private void FixedUpdate()
-    {
-        DoGroundedCheck();
-        if (tongueIsOut) FaceTongue();
-
-    }
-
     private void DoGroundedCheck()
     {
         //Si el Rigidbody está dormido, sabemos que isGrounded no va a cambiar.
@@ -97,10 +110,17 @@ public class ChamaleonAnimator : MonoBehaviour
             for (int i = 0; i < contactCount && !isGrounded; i++)
             {
                 surfaceNormal = contacts[i].normal;
-                if (Vector2.Dot(surfaceNormal, perfectGroundNormal) > minGroundedDotProduct) isGrounded = true;
+                if (Vector2.Dot(surfaceNormal, perfectGroundNormal) > minGroundedDotProduct)
+                {
+                    isGrounded = true;
+                    groundAngle = Vector2.SignedAngle(perfectGroundNormal, surfaceNormal);
+                }
             }
 
             rigidbody.freezeRotation = isGrounded;
+
+            bodyAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
+            headAnimator.SetBool(GROUNDED_PROPERTY, isGrounded);
         }
     }
     #endregion
@@ -109,7 +129,8 @@ public class ChamaleonAnimator : MonoBehaviour
     private void OnHookThrown()
     {
         tongueIsOut = true;
-
+        mustStayUpright = true;
+        
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
         headAnimator.SetBool(ATTACHED_PROPERTY, false);
 
@@ -119,6 +140,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private void OnHookAttached()
     {
         tongueIsOut = true;
+        mustStayUpright = false;
 
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
         headAnimator.SetBool(ATTACHED_PROPERTY, true);
@@ -129,6 +151,7 @@ public class ChamaleonAnimator : MonoBehaviour
     private void OnHookDisabled()
     {
         tongueIsOut = false;
+        mustStayUpright = true;
 
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, false);
         headAnimator.SetBool(ATTACHED_PROPERTY, false);
