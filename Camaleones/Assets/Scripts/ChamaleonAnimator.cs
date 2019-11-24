@@ -15,9 +15,11 @@ public class ChamaleonAnimator : MonoBehaviour
     #endregion
 
     #region Inspector
-    [SerializeField]
-    private Transform spritesParent;
-
+    [Header("Transforms")]
+    [SerializeField] private Transform spritesParent;
+    [SerializeField] private Transform headRotator;
+    [SerializeField] private Transform bodyRotator;
+    
     [Header("Animators")]
     [SerializeField] private Animator headAnimator;
     [SerializeField] private Animator bodyAnimator;
@@ -56,27 +58,56 @@ public class ChamaleonAnimator : MonoBehaviour
     {
         DoGroundedCheck();
 
-        //if (isGrounded) FaceMovementDirection();
-
-        if (tongueIsOut) RotateTowardsTongue();
-        if (isGrounded) AlignWithGround();
+        if (isGrounded)
+        {
+            AlignWithGround();
+        }
+        else if (tongueIsOut)
+        {
+            LookAtTongueWhileAirborne();
+        }
     }
 
     private void Update()
     {
+        if (isGrounded) LookAtTongueWhileGrounded();
+
         if (stayUprightWhenAirborne || isGrounded) StayUpright();
     }
 
     #region Animation
-    private void RotateTowardsTongue()
+    private void LookAtTongueWhileAirborne()
     {
-        Vector2 u = hookThrower.SwingingHingePoint - (Vector2) spritesParent.position;
+        Vector2 u = hookThrower.SwingingHingePoint - rigidbody.position;
         Vector2 a = Vector2.right;
 
         float desiredAngle = Vector2.SignedAngle(a, u);
         float currentAngle = rigidbody.rotation;
 
         rigidbody.angularVelocity = (desiredAngle - currentAngle) / Time.deltaTime;
+        headRotator.localRotation = Quaternion.identity;
+    }
+
+    private void LookAtTongueWhileGrounded()
+    {
+        if (tongueIsOut)
+        {
+            Vector2 u = hookThrower.SwingingHingePoint - (Vector2)spritesParent.position;
+
+            if (u.x > 0 != IsFacingRight)
+            {
+                transform.Rotate(0, 0, 180, Space.World);
+            }
+
+            Vector2 a = Vector2.right;
+            float desiredAngle = Vector2.SignedAngle(a, u);
+
+            headRotator.rotation = Quaternion.Euler(0, 0, desiredAngle);
+        }
+        else
+        {
+            headRotator.localRotation = Quaternion.identity;
+        }
     }
 
     private void AlignWithGround()
