@@ -6,7 +6,7 @@ Preset:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DirectTransitionOnEnd
+  m_Name: pre_DirectTransitionOnEnd
   m_TargetType:
     m_NativeTypeID: 1101
     m_ManagedTypePPtr: {fileID: 0}
@@ -23,8 +23,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_DstState
     value: 
-    objectReference: {fileID: 1102595197033958542, guid: 87f5f339b54e8c348b93a787c55a7f09,
-      type: 2}
+    objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_Solo
     value: 0
