@@ -43,6 +43,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             currentCountdown -= Time.deltaTime;
             if (currentCountdown <= 0f) {
                 currentCountdown = 0;
+                startingGame = false;
                 StartGame ();
             }
 
@@ -121,8 +122,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         playerEntry.PlayerName = playerName;
         playerEntry.Room = this;
         playerEntry.Visible = true;
-
-        OnlineLogging.Instance.Write(players.ToStringFull());
     }
 
     private RoomPlayerEntry GetPlayerEntry () {
@@ -200,6 +199,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void StartGame () {
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+            OnlineLogging.Instance.Write("El jugador " + PhotonNetwork.LocalPlayer.NickName + " inicial la partida");
             PhotonNetwork.LoadLevel (ServerConstants.ONLINE_LEVEL);
         }
     }

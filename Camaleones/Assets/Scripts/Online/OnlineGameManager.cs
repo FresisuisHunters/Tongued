@@ -24,7 +24,7 @@ public class OnlineGameManager : MonoBehaviour {
     #region Private Methods
 
     private void InstantiatePlayer () {
-        Debug.Log("Jugador instanciado por " + PhotonNetwork.LocalPlayer.NickName);
+        OnlineLogging.Instance.Write("Jugador instanciado por " + PhotonNetwork.LocalPlayer.NickName);
 
         float positionX = Random.Range (-5.0f, 5.0f);
         float positionY = playerPrefab.transform.position.y;
