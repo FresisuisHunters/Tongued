@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc5e926ccee0904fb4d4968cf14c7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hookProjectileSpeed: 30
+  hookProjectileSpeed: 100
   minEntityHookDistance: 1.5
-  maxHookDistance: 25
+  maxHookDistance: 50
   forceOnAttached: 50
   maxVelocityForForceOnAttached: 8
   hookerVelocityOnPlayerHooked: 6
