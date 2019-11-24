@@ -16,6 +16,7 @@ public class TransferableItem : MonoBehaviour
 
     #region Private Variables
     private HotPotatoHandler hotPotatoHandler;
+    private GameObject player;
     #endregion
 
     protected bool transferActive;
@@ -66,6 +67,7 @@ public class TransferableItem : MonoBehaviour
     /// <param name="target"></param>
     protected virtual void TITransfer(GameObject target)
     {
+        player = target;
         Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
         transform.SetParent(target.transform.Find("SnitchHolder"));
         target.AddComponent<SnitchOnPlayerCommunicator>();
@@ -73,5 +75,10 @@ public class TransferableItem : MonoBehaviour
         transferActive = false;
         StartCoroutine(ActivationTimer());
         hotPotatoHandler.NotifyTransfer();
+    }
+
+    public void AddScore(int score)
+    {
+        GetComponentInParent<ScoreHandler>().AddScore(score);
     }
 }
