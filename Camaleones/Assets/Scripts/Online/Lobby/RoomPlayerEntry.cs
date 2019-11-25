@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
+#pragma warning disable 649
 public class RoomPlayerEntry : MonoBehaviour {
 
     #region Private Fields
@@ -10,7 +11,6 @@ public class RoomPlayerEntry : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI playerNameText;
     [SerializeField] private Button playerReadyButton;
     private RectTransform rectTransform;
-    private RoomPanel room;
     private string playerName;
     private bool buttonClicked;
 
@@ -43,9 +43,9 @@ public class RoomPlayerEntry : MonoBehaviour {
     private void onPlayerReadyButtonClicked () {
         buttonClicked = !buttonClicked;
         if (buttonClicked) {
-            room.photonView.RPC("PlayerIsReady", RpcTarget.All, new object[] { playerName });
+            Room.photonView.RPC("PlayerIsReady", RpcTarget.All, new object[] { playerName });
         } else {
-           room.photonView.RPC("PlayerNotReady", RpcTarget.All, new object[] { playerName });
+           Room.photonView.RPC("PlayerNotReady", RpcTarget.All, new object[] { playerName });
         }
     }
 
@@ -79,10 +79,7 @@ public class RoomPlayerEntry : MonoBehaviour {
         set => playerNameText.text = value;
     }
 
-    public RoomPanel Room {
-        get => room;
-        set => room = value;
-    }
+    public RoomPanel Room { get; set; }
 
     #endregion
 
