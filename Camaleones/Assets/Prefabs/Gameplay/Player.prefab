@@ -446,6 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritesParent: {fileID: 5890763336116366707}
+  durationOfNoInertiaAfterThrow: 0.1
   headAnimator: {fileID: 8206891802529703094}
   bodyAnimator: {fileID: 8393029196324952528}
   maxSlopeAngleForGrounded: 50

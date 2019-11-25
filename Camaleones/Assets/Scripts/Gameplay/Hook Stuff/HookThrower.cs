@@ -1,4 +1,4 @@
-﻿using Action = System.Action;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -26,7 +26,7 @@ public class HookThrower : MonoBehaviour
     #region Eventos
     //Duplica los eventos de Hook. Se hace para que componentes como ChamaleonAnimator puedan suscribirse a los eventos independientemente de si los Hooks remotos se han creado ya.
     //Componentes en el camaleón deberían suscribirse a ESTOS, no a los de Hook.
-    public event Action OnHookThrown;
+    public event Action<Vector2> OnHookThrown;
     public event Action OnHookAttached;
     public event Action OnHookDisabled;
     #endregion
@@ -42,7 +42,7 @@ public class HookThrower : MonoBehaviour
             if (value != null)
             {
                 value.OnAttached += () => OnHookAttached?.Invoke();
-                value.OnThrown += () => OnHookThrown?.Invoke();
+                value.OnThrown += (Vector2 targetPoint) => OnHookThrown?.Invoke(targetPoint);
                 value.OnDisabled += () => OnHookDisabled?.Invoke();
             }
         }

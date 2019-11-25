@@ -15,8 +15,8 @@ public class ChamaleonAnimator : MonoBehaviour
     #endregion
 
     #region Inspector
-    [SerializeField]
-    private Transform spritesParent;
+    [SerializeField] private Transform spritesParent;
+    [SerializeField] private float durationOfNoInertiaAfterThrow = 0.1f;
 
     [Header("Animators")]
     [SerializeField] private Animator headAnimator;
@@ -37,10 +37,12 @@ public class ChamaleonAnimator : MonoBehaviour
     private float minGroundedDotProduct;
 
     bool stayUprightWhenAirborne;
-
     bool isGrounded;
     bool tongueIsOut;
     bool isAttached;
+
+    private Vector2 throwTargetPoint;
+    private float timeSinceThrow;
     #endregion
 
     private bool IsFacingRight
@@ -56,10 +58,10 @@ public class ChamaleonAnimator : MonoBehaviour
     {
         DoGroundedCheck();
 
-        //if (isGrounded) FaceMovementDirection();
-
         if (tongueIsOut) RotateTowardsTongue();
         if (isGrounded) AlignWithGround();
+
+        timeSinceThrow += Time.deltaTime;
     }
 
     private void Update()
@@ -70,13 +72,36 @@ public class ChamaleonAnimator : MonoBehaviour
     #region Animation
     private void RotateTowardsTongue()
     {
-        Vector2 u = hookThrower.SwingingHingePoint - (Vector2) spritesParent.position;
+        Vector2 u;
         Vector2 a = Vector2.right;
+        bool snapWithoutInertia;
+
+        if (timeSinceThrow < durationOfNoInertiaAfterThrow)
+        {
+            u = throwTargetPoint - rigidbody.position;
+            snapWithoutInertia = true;
+        }
+        else
+        {
+            u = hookThrower.SwingingHingePoint - rigidbody.position;
+            snapWithoutInertia = false;
+        }
 
         float desiredAngle = Vector2.SignedAngle(a, u);
-        float currentAngle = rigidbody.rotation;
 
-        rigidbody.angularVelocity = (desiredAngle - currentAngle) / Time.deltaTime;
+        if (snapWithoutInertia)
+        {
+            rigidbody.rotation = desiredAngle;
+            rigidbody.angularVelocity = 0;
+        }
+        else
+        {
+            float currentAngle = rigidbody.rotation;
+            float desiredAngularVelocity = (desiredAngle - currentAngle) / Time.deltaTime;
+            rigidbody.angularVelocity = desiredAngularVelocity;
+        }
+
+        Debug.DrawRay(rigidbody.position, Quaternion.Euler(0, 0, desiredAngle) * Vector3.right * 50, Color.red);        
     }
 
     private void AlignWithGround()
@@ -125,10 +150,13 @@ public class ChamaleonAnimator : MonoBehaviour
     #endregion
 
     #region Event Responses
-    private void OnHookThrown()
+    private void OnHookThrown(Vector2 targetPoint)
     {
         tongueIsOut = true;
         stayUprightWhenAirborne = true;
+
+        throwTargetPoint = targetPoint;
+        timeSinceThrow = 0;
         
         headAnimator.SetBool(TONGUE_OUT_PROPERTY, true);
         headAnimator.SetBool(ATTACHED_PROPERTY, false);

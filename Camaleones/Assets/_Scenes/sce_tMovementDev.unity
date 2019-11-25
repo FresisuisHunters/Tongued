@@ -2502,110 +2502,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
+    - target: {fileID: 5623633419101045841, guid: 56ecb6db886ff21438a9186713dfb793,
         type: 3}
-      propertyPath: currentRetractColorRamp.m_Mode
-      value: 0
+      propertyPath: maxAngularVelocity
+      value: 720
       objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
+    - target: {fileID: 5623633419101045841, guid: 56ecb6db886ff21438a9186713dfb793,
         type: 3}
-      propertyPath: currentRetractColorRamp.atime0
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key0.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key0.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key0.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key1.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key1.g
-      value: 0.4811321
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key1.b
-      value: 0.07922354
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key0.a
-      value: 0.39215687
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key1.a
-      value: 0.39215687
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key2.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.ctime1
-      value: 655
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.ctime2
-      value: 32768
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.m_NumColorKeys
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.ctime0
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key3.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.ctime3
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key2.g
-      value: 0.9371726
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key2.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.key2.a
-      value: 0.5882353
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: currentRetractColorRamp.atime2
-      value: 65535
+      propertyPath: durationOfNoInertiaAfterThrow
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}

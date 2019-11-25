@@ -1,4 +1,4 @@
-﻿using Action = System.Action;
+﻿using System;
 using UnityEngine;
 
 #pragma warning disable 649
@@ -54,7 +54,7 @@ public class Hook : MonoBehaviour
     #endregion
 
     #region Eventos
-    public event Action OnThrown;
+    public event Action<Vector2> OnThrown;
     public event Action OnAttached;
     public event Action OnDisabled;
     #endregion
@@ -83,10 +83,11 @@ public class Hook : MonoBehaviour
         IsAttached = false;
         isBeingThrown = true;
         ropeCollider.ClearContacts();
-
+        
         //Cálculos
         throwOriginPoint = ConnectedBody.position;
         Vector2 throwDirection = (targetPoint - throwOriginPoint).normalized;
+        ropeCollider.HeadPosition = throwOriginPoint;
 
         //Configurar físicas
         headRigidbody.isKinematic = false;
@@ -103,7 +104,7 @@ public class Hook : MonoBehaviour
         Physics2DExtensions.IgnoreCollisions(ConnectedBody, headRigidbody, true);
 
         //Lanzar evento
-        OnThrown?.Invoke();
+        OnThrown?.Invoke(targetPoint);
     }
 
     /// <summary>
