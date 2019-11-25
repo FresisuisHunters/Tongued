@@ -119,13 +119,18 @@ public class RopeCollider : MonoBehaviour {
             UpdateSwingingPoint ();
         }
 
-        if (contactPoints.Count == 0) {
+        if (contactPoints.Count < 2) {
             return;
         }
 
         // Buscamos contactos entre el extremo de la lengua y el punto de contacto previo
-        Vector2 lastContactPoint = contactPoints[contactPoints.Count - 1].position;
+        Vector2 previousContactPointPosition = contactPoints[1].position;
         Vector2 tongueEndPosition = HeadPosition;
+
+        ContactPoint contactPointToFree = contactPoints[0];
+        if (ShouldUndoContact(previousContactPointPosition, contactPointToFree, tongueEndPosition)) {
+            contactPoints.RemoveAt(0);
+        }
     }
 
     private bool ShouldUndoContact (Vector2 previousPoint, ContactPoint contactPoint, Vector2 nextPoint) {
@@ -157,7 +162,6 @@ public class RopeCollider : MonoBehaviour {
         Vector2 tongueEndPosition = HeadPosition;
         if (FindContactPointInSegment (lastContactPoint, tongueEndPosition, out ContactPoint otherContactPoint)) {
             contactPoints.Add (otherContactPoint);
-            // TODO: Actualizar cuerda
         }
     }
 
