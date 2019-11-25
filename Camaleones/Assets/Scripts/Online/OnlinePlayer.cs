@@ -30,13 +30,12 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
         throw new System.Exception ("No player found with username " + username);
     }
 
-    [PunRPC]
     private void DestroyPlayer (GameObject player) {
-        GameObject.Destroy (player);
+        PhotonNetwork.Destroy(player);
     }
 
     private void DestroySelfAndReturnToMenu () {
-        photonView.RPC ("DestroyPlayer", RpcTarget.Others, new object[] { gameObject });
+        DestroyPlayer(gameObject);
         SceneManager.LoadScene ("Lobby_Scene");
     }
 
@@ -54,9 +53,6 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
     public override void OnPlayerLeftRoom (Player otherPlayer) {
         string log= string.Format("OnPlayerLeftRoom: {0}", otherPlayer.ToStringFull());
         OnlineLogging.Instance.Write(log);
-
-        GameObject player = FindPlayerWithName (otherPlayer.NickName);
-        DestroyPlayer (player);
     }
 
     public override void OnLeftRoom () {

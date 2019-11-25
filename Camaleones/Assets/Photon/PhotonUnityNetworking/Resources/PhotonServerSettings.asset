@@ -40,5 +40,9 @@ MonoBehaviour:
   - Disable
   - AttachToPoint
   - RPCAttachToRigidbody
+  - PlayerIsReady
+  - PlayerNotReady
+  - StartGameCountdown
+  - StopGameCountdown
   DisableAutoOpenWizard: 1
   ShowSettings: 0
