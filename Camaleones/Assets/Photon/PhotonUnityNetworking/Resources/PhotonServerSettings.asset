@@ -38,6 +38,8 @@ MonoBehaviour:
   - Attach
   - Throw
   - Disable
+  - AttachToPoint
+  - RPCAttachToRigidbody
   - PlayerIsReady
   - PlayerNotReady
   - StartGameCountdown

@@ -36,8 +36,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hookProjectileSpeed: 30
   maxHookDistance: 25
-  forceOnAttached: 1500
-  maxVelocityForForceOnAttached: 6
+  forceOnAttached: 50
+  maxVelocityForForceOnAttached: 8
+  hookerVelocityOnPlayerHooked: 6
+  hookedVelocityOnPlayerHooked: 6
   headRigidbody: {fileID: 2912626231605923780}
 --- !u!1001 &1672497527257613733
 PrefabInstance:

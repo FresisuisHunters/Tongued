@@ -18,12 +18,17 @@ public class TouchHookInput : MonoBehaviour {
     private bool retract;
 
     private void Awake() {
+
+        //Si el control seleccionado no es Touch, se autodestruye.
+        if ((ControlScheme)PlayerPrefs.GetInt(SettingsMenuScreen.CONTROL_SCHEME_PREF_KEY, 0) != ControlScheme.Touch)
+        {
+            Destroy(this);
+            return;
+        }
+
         hookThrower = GetComponent<HookThrower>();
         touchingScreen = false;
         retract = false;
-
-        innerCircleSprite = GameObject.FindGameObjectWithTag("InnerCircle").GetComponent<Image>();
-        outerCircleSprite = GameObject.FindGameObjectWithTag("OuterCircle").GetComponent<Image>();
     }
 
     private void Start() {
@@ -39,9 +44,12 @@ public class TouchHookInput : MonoBehaviour {
             return;
         }
 
-        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => OnPointerDown(data as PointerEventData));
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => OnPointerUp());
-        inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => OnPointerDrag(data as PointerEventData));
+        innerCircleSprite = GameObject.FindGameObjectWithTag("InnerCircle").GetComponent<Image>();
+        outerCircleSprite = GameObject.FindGameObjectWithTag("OuterCircle").GetComponent<Image>();
+
+        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (enabled) OnPointerDown(data as PointerEventData); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (enabled) OnPointerUp(); });
+        inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (enabled) OnPointerDrag(data as PointerEventData); });
     }
 
     private void Update() {
@@ -71,7 +79,7 @@ public class TouchHookInput : MonoBehaviour {
     private void OnPointerUp() {
         touchingScreen = false;
         retract = false;
-        hookThrower.LetGo();
+        hookThrower.DisableHook();
 
         innerCircleSprite.gameObject.SetActive(false);
         outerCircleSprite.gameObject.SetActive(false);

@@ -3,6 +3,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine.UI;
 
+#pragma warning disable 649
 public class JoinPrivateRoomPanel : MonoBehaviourPunCallbacks
 {
 
