@@ -157,8 +157,6 @@ public class HotPotatoHandler : MonoBehaviour
                 roundType = !roundType;
                 Debug.Log("La ronda cambia");
             }
-            
-            playersHandler.SpawnPlayers();
 
             roundStartTime = Time.time;
             RestartTimer();

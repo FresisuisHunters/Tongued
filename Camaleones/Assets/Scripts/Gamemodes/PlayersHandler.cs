@@ -21,15 +21,16 @@ public class PlayersHandler : MonoBehaviour
 
     #region Private Variables
     private List<GameObject> playerList;
-    private List<GameObject> spawnPoints;
+    #endregion
+
+    #region Protected Variables
+    protected List<GameObject> spawnPoints;
     #endregion
 
     // Start is called before the first frame update
     protected virtual void Awake()
     {
-        playerList = new List<GameObject>(){Instantiate(mainPlayerPrefab)};
-        for (int i = 0; i < playerNumber - 1; i++)
-            playerList.Add(Instantiate(playerPrefab));
+        
         spawnPoints = new List<GameObject>();
         spawnPoints.AddRange(GameObject.FindGameObjectsWithTag("PlayerSpawnPoint"));
 
@@ -47,6 +48,9 @@ public class PlayersHandler : MonoBehaviour
     /// </summary>
     public virtual void SpawnPlayers()
     {
+        playerList = new List<GameObject>() { Instantiate(mainPlayerPrefab) };
+        for (int i = 0; i < playerNumber - 1; i++)
+            playerList.Add(Instantiate(playerPrefab));
         List<GameObject> temp = new List<GameObject>();
         foreach(GameObject g in playerList)
             temp.Add(g);
@@ -57,7 +61,5 @@ public class PlayersHandler : MonoBehaviour
             tempPlayer.transform.position = t.transform.position;
             temp.RemoveAt(randPos);
         }
-        foreach (Hook h in FindObjectsOfType<Hook>())
-            h.Disable();
     }
 }
