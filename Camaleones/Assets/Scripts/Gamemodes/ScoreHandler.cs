@@ -12,18 +12,12 @@ public class ScoreHandler : MonoBehaviour
     [SerializeField]private int score;
     #endregion
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         score = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void AddScore(int score)
+    virtual public void AddScore(int score)
     {
         this.score += score;
     }

@@ -40,5 +40,6 @@ MonoBehaviour:
   - Disable
   - TITransfer
   - RPCTransfer
+  - RPCAddScore
   DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -25,7 +25,7 @@ public class PlayersHandler : MonoBehaviour
     #endregion
 
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         playerList = new List<GameObject>(){Instantiate(mainPlayerPrefab)};
         for (int i = 0; i < playerNumber - 1; i++)
@@ -45,7 +45,7 @@ public class PlayersHandler : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public void SpawnPlayers()
+    public virtual void SpawnPlayers()
     {
         List<GameObject> temp = new List<GameObject>();
         foreach(GameObject g in playerList)
