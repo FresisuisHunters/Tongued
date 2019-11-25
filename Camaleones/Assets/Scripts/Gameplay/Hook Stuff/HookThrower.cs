@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Rigidbody2D))]
 public class HookThrower : MonoBehaviour
 {
+    public float maxRetractSpeed = 10;
     public bool debugAutoAim;
     public bool debugVelocity;
 
@@ -135,7 +136,11 @@ public class HookThrower : MonoBehaviour
             Hook.Length -= retractDistancePerSecond * amountMultiplier * time;
 
             Vector2 u = Hook.SwingingHingePoint - Rigidbody.position;
-            Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
+            if (Vector2.Dot(u, Rigidbody.velocity.normalized) < maxRetractSpeed)
+            {
+                Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
+                Debug.Log(Vector2.Dot(u, Rigidbody.velocity.normalized));
+            }
         }
     }
 
