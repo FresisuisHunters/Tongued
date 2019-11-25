@@ -37,7 +37,7 @@ public class MouseHookInput : MonoBehaviour
     {
         if (hookThrower.HookIsOut && isHoldingPointerDown)
         {
-            hookThrower.Retract(Time.deltaTime);
+            hookThrower.Retract(Time.deltaTime, 1);
         }
     }
 

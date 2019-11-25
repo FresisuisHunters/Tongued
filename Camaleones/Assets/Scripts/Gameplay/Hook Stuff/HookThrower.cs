@@ -128,11 +128,11 @@ public class HookThrower : MonoBehaviour
         Physics2D.queriesStartInColliders = originalQueriesStartInColliders;
     }
 
-    public void Retract(float time)
+    public void Retract(float time, float amountMultiplier)
     {
         if (Hook.IsAttached)
         {
-            Hook.Length -= retractDistancePerSecond * time;
+            Hook.Length -= retractDistancePerSecond * amountMultiplier * time;
 
             Vector2 u = Hook.SwingingHingePoint - Rigidbody.position;
             Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);

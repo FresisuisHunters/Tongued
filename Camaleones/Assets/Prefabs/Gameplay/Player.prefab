@@ -381,6 +381,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b72f7a59b3d26e6a8b3c58b54df4b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  retractDeadzoneRadius: 25
+  retractMaxRadius: 100
+  retractCurrentPrefab: {fileID: 1703278086244197763, guid: c8e01dd0f2473324eaaee9403864bdf6,
+    type: 3}
+  retractMaxPrefab: {fileID: 1703278086244197763, guid: 437d3930e6de14f4181e49d80cad9f40,
+    type: 3}
 --- !u!58 &452793664
 CircleCollider2D:
   m_ObjectHideFlags: 0
