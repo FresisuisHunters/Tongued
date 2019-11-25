@@ -11,11 +11,10 @@ using UnityEngine;
 /// - Sólo encuentra puntos de contacto en PolygonCollider2Ds, ya que son los únicos de los que podemos sacar una lista de vértices.
 /// - Los puntos de contacto son estáticos - no se pueden mover.
 /// - Generamos un array para devolver los puntos cada vez que se pide - eso genera mucha basura.
-[RequireComponent(typeof(DistanceJoint2D))]
-public class RopeCollider : MonoBehaviour
-{
+[RequireComponent (typeof (DistanceJoint2D))]
+public class RopeCollider : MonoBehaviour {
     #region Inspector
-    [SerializeField, Tooltip("Las layers en las que se buscan puntos de contacto.")]
+    [SerializeField, Tooltip ("Las layers en las que se buscan puntos de contacto.")]
     private LayerMask raycastMask;
     #endregion
 
@@ -23,35 +22,27 @@ public class RopeCollider : MonoBehaviour
     /// <summary>
     /// La posición de la cabeza del gancho.
     /// </summary>
-    public Vector2 HeadPosition
-    {
+    public Vector2 HeadPosition {
         get => _headPosition;
-        set
-        {
+        set {
             _headPosition = value;
-            if (contactPoints.Count == 0) UpdateSwingingPoint();
+            if (contactPoints.Count == 0) UpdateSwingingPoint ();
         }
     }
     private Vector2 _headPosition;
 
-    public Vector2 SwingingHingePoint
-    {
-        get
-        {
-            if (contactPoints.Count > 0)
-            {
+    public Vector2 SwingingHingePoint {
+        get {
+            if (contactPoints.Count > 0) {
                 return contactPoints[contactPoints.Count - 1].position;
-            }
-            else
-            {
+            } else {
                 return _headPosition;
             }
         }
     }
     public float SwingingSegmentLength {
-        get
-        {
-            return (SwingingHingePoint - freeSwingingEndPoint).magnitude;   
+        get {
+            return (SwingingHingePoint - freeSwingingEndPoint).magnitude;
         }
     }
 
@@ -67,7 +58,7 @@ public class RopeCollider : MonoBehaviour
     /// <summary>
     /// Mantiene los puntos de contacto en el orden de su posición en la cuerda. Index 0 es el contacto más cercano al punto fijo.
     /// </summary>
-    private List<ContactPoint> contactPoints = new List<ContactPoint>();
+    private List<ContactPoint> contactPoints = new List<ContactPoint> ();
     /// <summary>
     /// Array cacheado para no generar basura al hacer raycasts.
     /// </summary>
@@ -83,12 +74,10 @@ public class RopeCollider : MonoBehaviour
     /// Último index: swinger
     /// </summary>
     /// <returns></returns>
-    public Vector3[] GetRopePoints()
-    {
+    public Vector3[] GetRopePoints () {
         //Idealmente, no crearíamos el array en cada llamada, para evitar generar basura cada frame.
         Vector3[] points = new Vector3[contactPoints.Count + 2];
-        for (int i = 0; i < contactPoints.Count; i++)
-        {
+        for (int i = 0; i < contactPoints.Count; i++) {
             points[i + 1] = contactPoints[i].position;
         }
 
@@ -101,107 +90,112 @@ public class RopeCollider : MonoBehaviour
     /// <summary>
     /// Vacía la lista de contactos.
     /// </summary>
-    public void ClearContacts()
-    {
-        contactPoints.Clear();
-        OnClearedContacts?.Invoke();
+    public void ClearContacts () {
+        contactPoints.Clear ();
+        OnClearedContacts?.Invoke ();
     }
 
-
-    private void FixedUpdate()
-    {
-        DetectUndoneContacts();
-        DetectNewContacts();
+    private void FixedUpdate () {
+        DetectUndoneContacts ();
+        DetectNewContacts ();
     }
 
     #region Deshacer contactos
-    private void DetectUndoneContacts()
-    {
+    private void DetectUndoneContacts () {
         //Si no hay puntos de contacto, no hay nada que deshacer
-        if (contactPoints.Count > 0)
-        {
-            //Miramos si el punto de contacto más cercano al final que cuelga se ha deshecho.
-            Vector2 a = freeSwingingEndPoint;
-            Vector2 b = contactPoints.Count > 1 ? contactPoints[contactPoints.Count - 2].position : HeadPosition;
-
-            ContactPoint mostRecentContact = contactPoints[contactPoints.Count - 1];
-            if (ShouldUndoContact(a, mostRecentContact, b))
-            {
-                //Devolvemos la longitud de este punto de contacto al DistanceJoint2D
-                distanceJoint.distance += mostRecentContact.length;
-                contactPoints.RemoveAt(contactPoints.Count - 1);
-                UpdateSwingingPoint();
-            }
+        if (contactPoints.Count == 0) {
+            return;
         }
+
+        //Miramos si el punto de contacto más cercano al final que cuelga se ha deshecho.
+        Vector2 a = freeSwingingEndPoint;
+        Vector2 b = contactPoints.Count > 1 ? contactPoints[contactPoints.Count - 2].position : HeadPosition;
+
+        ContactPoint mostRecentContact = contactPoints[contactPoints.Count - 1];
+        if (ShouldUndoContact (a, mostRecentContact, b)) {
+            // Devolvemos la longitud de este punto de contacto al DistanceJoint2D
+            distanceJoint.distance += mostRecentContact.length;
+            contactPoints.RemoveAt (contactPoints.Count - 1);
+            UpdateSwingingPoint ();
+        }
+
+        if (contactPoints.Count == 0) {
+            return;
+        }
+
+        // Buscamos contactos entre el extremo de la lengua y el punto de contacto previo
+        Vector2 lastContactPoint = contactPoints[contactPoints.Count - 1].position;
+        Vector2 tongueEndPosition = HeadPosition;
     }
 
-    private bool ShouldUndoContact(Vector2 previousPoint, ContactPoint contactPoint, Vector2 nextPoint)
-    {
+    private bool ShouldUndoContact (Vector2 previousPoint, ContactPoint contactPoint, Vector2 nextPoint) {
         //Un segmento está deshecho cuando el signo del ángulo entre los segmentos que separa deja de ser el mismo que cuando se creó.
-        float currentAngleSign = Mathf.Sign(Vector2.SignedAngle(previousPoint - contactPoint.position, nextPoint - contactPoint.position));
+        float currentAngleSign = Mathf.Sign (Vector2.SignedAngle (previousPoint - contactPoint.position, nextPoint - contactPoint.position));
         return currentAngleSign != contactPoint.angleSign;
     }
     #endregion
 
     #region Encontrar contactos
-    private void DetectNewContacts()
-    {
+    private void DetectNewContacts () {
         //Buscamos contactos entre el final que cuelga y el punto del que cuelga
         Vector2 a = freeSwingingEndPoint;
         Vector2 b = swingHingeRigidbody.position;
 
-        if (FindContactPointInSegment(a, b, out ContactPoint contactPoint))
-        {
+        if (FindContactPointInSegment (a, b, out ContactPoint contactPoint)) {
             //Quitamos la longitud del punto de contacto al DistanceJoint
-            contactPoints.Add(contactPoint);
+            contactPoints.Add (contactPoint);
             distanceJoint.distance -= contactPoint.length;
-            UpdateSwingingPoint();
+            UpdateSwingingPoint ();
+        }
+
+        // Buscamos contactos entre el extremo de la lengua y el punto de contacto previo
+        if (contactPoints.Count == 0) {
+            return;
+        }
+
+        Vector2 lastContactPoint = contactPoints[contactPoints.Count - 1].position;
+        Vector2 tongueEndPosition = HeadPosition;
+        if (FindContactPointInSegment (lastContactPoint, tongueEndPosition, out ContactPoint otherContactPoint)) {
+            contactPoints.Add (otherContactPoint);
+            // TODO: Actualizar cuerda
         }
     }
 
-    private bool FindContactPointInSegment(Vector2 a, Vector2 b, out ContactPoint contactPoint)
-    {
-        //Haceos un raycast entre los dos extremos del segmento
-        int hitCount = Physics2D.RaycastNonAlloc(a, b - a, raycastHits, Vector2.Distance(a, b), raycastMask);
+    private bool FindContactPointInSegment (Vector2 a, Vector2 b, out ContactPoint contactPoint) {
+        //Hacemos un raycast entre los dos extremos del segmento
+        int hitCount = Physics2D.RaycastNonAlloc (a, b - a, raycastHits, Vector2.Distance (a, b), raycastMask);
 
-        if (hitCount > 0)
-        {
+        if (hitCount > 0) {
             RaycastHit2D hit = raycastHits[0];
 
             //Sólo nos importa si es un PolygonCollider2D
-            if (hit.collider is PolygonCollider2D collider)
-            {
+            if (hit.collider is PolygonCollider2D collider) {
                 //Creamos el punto de contacto en el vértice más cercano a la colisión
-                Vector2 position = GetClosestVertex(hit.point, collider);
-                if (!IsDuplicateContactPoint(position))
-                {
-                    contactPoint = new ContactPoint()
-                    {
+                Vector2 position = GetClosestVertex (hit.point, collider);
+                if (!IsDuplicateContactPoint (position)) {
+                    contactPoint = new ContactPoint () {
                         position = position,
-                        angleSign = Mathf.Sign(Vector2.SignedAngle(a - position, b - position)),
-                        length = Vector2.Distance(b, position)
+                        angleSign = Mathf.Sign (Vector2.SignedAngle (a - position, b - position)),
+                        length = Vector2.Distance (b, position)
                     };
                     return true;
                 }
             }
         }
 
-        contactPoint = new ContactPoint();
+        contactPoint = new ContactPoint ();
         return false;
     }
 
-    private bool IsDuplicateContactPoint(Vector2 position)
-    {
-        if (contactPoints.Count > 0)
-        {
+    private bool IsDuplicateContactPoint (Vector2 position) {
+        if (contactPoints.Count > 0) {
             return contactPoints[contactPoints.Count - 1].position == position;
         }
 
         return false;
     }
 
-    private Vector2 GetClosestVertex(Vector2 point, PolygonCollider2D collider)
-    {
+    private Vector2 GetClosestVertex (Vector2 point, PolygonCollider2D collider) {
         Vector2[] vertices = collider.points;
         Transform transform = collider.transform;
 
@@ -209,12 +203,10 @@ public class RopeCollider : MonoBehaviour
         float distance;
         Vector2 closestPoint = Vector2.zero;
         Vector2 vertexInWorldSpace;
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            vertexInWorldSpace = transform.TransformPoint(vertices[i]);
+        for (int i = 0; i < vertices.Length; i++) {
+            vertexInWorldSpace = transform.TransformPoint (vertices[i]);
             distance = (point - vertexInWorldSpace).sqrMagnitude;
-            if (distance < minDistance)
-            {
+            if (distance < minDistance) {
                 minDistance = distance;
                 closestPoint = vertexInWorldSpace;
             }
@@ -224,26 +216,21 @@ public class RopeCollider : MonoBehaviour
     }
     #endregion
 
-    private void UpdateSwingingPoint()
-    {
+    private void UpdateSwingingPoint () {
         Vector2 hingePoint = (contactPoints.Count > 0) ? contactPoints[contactPoints.Count - 1].position : HeadPosition;
         swingHingeRigidbody.position = hingePoint;
     }
 
     #region Initialization
-    private void Awake()
-    {
-        distanceJoint = GetComponent<DistanceJoint2D>();
+    private void Awake () {
+        distanceJoint = GetComponent<DistanceJoint2D> ();
 
-        swingHingeRigidbody = GetComponent<Rigidbody2D>();
+        swingHingeRigidbody = GetComponent<Rigidbody2D> ();
         swingHingeRigidbody.isKinematic = true;
     }
     #endregion
 
-
-
-    public struct ContactPoint
-    {
+    public struct ContactPoint {
         public Vector2 position;
         public float angleSign;
         public float length;
