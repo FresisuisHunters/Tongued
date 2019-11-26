@@ -183,7 +183,7 @@ public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
     #endregion
 
     #region Event Responses
-    void IOnHookedListener.OnHooked(Vector2 pullDirection) => DoNegativeReaction();
+    void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => DoNegativeReaction();
 
     private void OnHookThrown(Vector2 targetPoint)
     {

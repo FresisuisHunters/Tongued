@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ScreenShakeOnHooked : Cinemachine.CinemachineImpulseSource, IOnHookedListener
 {
-    public void OnHooked(Vector2 pullDirection) => base.GenerateImpulse(pullDirection);
+    void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => base.GenerateImpulse(pullDirection);
 }

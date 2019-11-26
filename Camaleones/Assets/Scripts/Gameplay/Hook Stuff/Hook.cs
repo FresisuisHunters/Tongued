@@ -9,6 +9,7 @@ using UnityEngine;
 /// El gancho está dividido en dos partes: la cabeza (la parte que se engancha) 
 /// y el swinging point (el punto del que cuelga el jugador, que puede moverse en algunos casos.
 /// </summary>
+[RequireComponent(typeof(AttachedStruggler))]
 public class Hook : MonoBehaviour
 {
     #region Inspector
@@ -182,7 +183,7 @@ public class Hook : MonoBehaviour
         IOnHookedListener[] onHookedListeners = rigidbodyToAttachTo.GetComponents<IOnHookedListener>();
         for (int i = 0; i < onHookedListeners.Length; i++)
         {
-            onHookedListeners[i].OnHooked((rigidbodyToAttachTo.position - SwingingHingePoint).normalized);
+            onHookedListeners[i].OnHooked((rigidbodyToAttachTo.position - SwingingHingePoint).normalized, this);
         }
 
         //Lanzar evento

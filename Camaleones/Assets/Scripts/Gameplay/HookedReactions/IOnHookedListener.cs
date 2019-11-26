@@ -2,5 +2,5 @@
 
 public interface IOnHookedListener 
 {
-    void OnHooked(Vector2 pullDirection);
+    void OnHooked(Vector2 pullDirection, Hook hook);
 }

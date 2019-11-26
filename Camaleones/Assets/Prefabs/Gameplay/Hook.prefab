@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5011558029675965808}
   - component: {fileID: 5011558029675965807}
+  - component: {fileID: 4205835996028981653}
   m_Layer: 11
   m_Name: Hook
   m_TagString: Untagged
@@ -53,6 +54,18 @@ MonoBehaviour:
   hookerVelocityOnPlayerHooked: 6
   hookedVelocityOnPlayerHooked: 6
   headRigidbody: {fileID: 4566189893678778977}
+--- !u!114 &4205835996028981653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5011558029675965809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1807bcd5011d7444e9218bb29863f96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5449976275112089577
 GameObject:
   m_ObjectHideFlags: 0
