@@ -179,15 +179,15 @@ public class Hook : MonoBehaviour
         fixedJoint.connectedBody = rigidbodyToAttachTo;
         fixedJoint.enabled = true;
 
+        //Lanzar evento
+        OnAttached?.Invoke();
+
         //Avisamos de que ha sido enganchado
         IOnHookedListener[] onHookedListeners = rigidbodyToAttachTo.GetComponents<IOnHookedListener>();
         for (int i = 0; i < onHookedListeners.Length; i++)
         {
             onHookedListeners[i].OnHooked((rigidbodyToAttachTo.position - SwingingHingePoint).normalized, this);
         }
-
-        //Lanzar evento
-        OnAttached?.Invoke();
     }
     #endregion
 
@@ -202,6 +202,8 @@ public class Hook : MonoBehaviour
             {
                 Rigidbody2D hitRigidbody = collision.attachedRigidbody;
                 if (Vector2.Distance(hitRigidbody.position, throwOriginPoint) > minEntityHookDistance) AttachToRigidbody(hitRigidbody);
+
+                Debug.DrawLine(headRigidbody.position, collision.attachedRigidbody.position, Color.red, 1);
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableTerrainLayer"))
             {
