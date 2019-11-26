@@ -66,6 +66,7 @@ public class RopeCollider : MonoBehaviour {
 
     private DistanceJoint2D distanceJoint;
     private Rigidbody2D swingHingeRigidbody;
+    private ContactPoint dynamicContactPoint;
 
     #endregion
 
@@ -124,6 +125,7 @@ public class RopeCollider : MonoBehaviour {
         }
 
         // Buscamos contactos entre el extremo de la lengua y el punto de contacto previo
+        /*
         Vector2 previousContactPointPosition = contactPoints[1].position;
         Vector2 tongueEndPosition = HeadPosition;
 
@@ -131,6 +133,7 @@ public class RopeCollider : MonoBehaviour {
         if (ShouldUndoContact(previousContactPointPosition, contactPointToFree, tongueEndPosition)) {
             contactPoints.RemoveAt(0);
         }
+        */
     }
 
     private bool ShouldUndoContact (Vector2 previousPoint, ContactPoint contactPoint, Vector2 nextPoint) {
@@ -154,14 +157,19 @@ public class RopeCollider : MonoBehaviour {
         }
 
         // Buscamos contactos entre el extremo de la lengua y el punto de contacto previo
-        if (contactPoints.Count == 0) {
-            return;
-        }
-
-        Vector2 lastContactPoint = contactPoints[contactPoints.Count - 1].position;
+        int tongueIsBent = (TongueEndIsAlreadyBent()) ? 1 : 0;
+        Vector2 previousPointPosition = (contactPoints.Count == tongueIsBent) ? swingHingeRigidbody.position : 
+            contactPoints[contactPoints.Count - (1 + tongueIsBent)].position;
         Vector2 tongueEndPosition = HeadPosition;
-        if (FindContactPointInSegment (lastContactPoint, tongueEndPosition, out ContactPoint otherContactPoint)) {
-            contactPoints.Add (otherContactPoint);
+        if (FindContactPointInSegment (previousPointPosition, tongueEndPosition, out ContactPoint otherContactPoint)) {
+            if (!TongueEndIsAlreadyBent()) {
+                dynamicContactPoint = otherContactPoint;
+                contactPoints.Add (dynamicContactPoint);
+            }
+
+            dynamicContactPoint.position = otherContactPoint.position;
+            dynamicContactPoint.length = otherContactPoint.length;
+            dynamicContactPoint.angleSign = otherContactPoint.angleSign;
         }
     }
 
@@ -218,6 +226,11 @@ public class RopeCollider : MonoBehaviour {
 
         return closestPoint;
     }
+
+    private bool TongueEndIsAlreadyBent() {
+        return dynamicContactPoint.length != -1;
+    }
+
     #endregion
 
     private void UpdateSwingingPoint () {
@@ -231,6 +244,8 @@ public class RopeCollider : MonoBehaviour {
 
         swingHingeRigidbody = GetComponent<Rigidbody2D> ();
         swingHingeRigidbody.isKinematic = true;
+
+        dynamicContactPoint.length = -1;
     }
     #endregion
 
