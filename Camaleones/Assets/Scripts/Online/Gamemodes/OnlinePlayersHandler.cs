@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 /// <summary>
 /// 
@@ -25,9 +26,9 @@ public class OnlinePlayersHandler : PlayersHandler
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             List<GameObject> temp = new List<GameObject>();
-            foreach (Gameobject g in spawnPoints)
+            foreach (GameObject g in spawnPoints)
                 temp.Add(g);
-            foreach (Player p in PhotonNetwork.otherPlayers)
+            foreach (Player p in PhotonNetwork.PlayerList)
             {
                 int randPos = Random.Range(0, temp.Count);
                 Vector2 position = temp[randPos].transform.position;
@@ -47,7 +48,7 @@ public class OnlinePlayersHandler : PlayersHandler
         string prefabName = mainPlayerPrefab.name;
         Quaternion rotation = mainPlayerPrefab.transform.rotation;
 
-        GameObject player = PhotonNetwork.Instantiate(mainPlayerPrefab, position, rotation, 0);
+        GameObject player = PhotonNetwork.Instantiate("OnlinePlayer", position, rotation, 0);
         player.name = PhotonNetwork.LocalPlayer.NickName;
     }
 }

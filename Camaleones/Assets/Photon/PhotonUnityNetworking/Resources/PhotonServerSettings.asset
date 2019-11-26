@@ -41,5 +41,6 @@ MonoBehaviour:
   - TITransfer
   - RPCTransfer
   - RPCAddScore
+  - SpawnPlayerOnline
   DisableAutoOpenWizard: 1
   ShowSettings: 0

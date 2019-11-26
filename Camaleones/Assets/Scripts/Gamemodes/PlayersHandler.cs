@@ -14,7 +14,7 @@ public class PlayersHandler : MonoBehaviour
     [Range(1,10)]
     public int playerNumber;
     [Tooltip("")]
-    [SerializeField] private GameObject mainPlayerPrefab;
+    [SerializeField] protected GameObject mainPlayerPrefab;
     [Tooltip("")]
     [SerializeField] private GameObject playerPrefab;
     #endregion
