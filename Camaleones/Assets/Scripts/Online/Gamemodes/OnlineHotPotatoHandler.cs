@@ -1,18 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class OnlineHotPotatoHandler : HotPotatoHandler
+[RequireComponent(typeof(PhotonView))]
+public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private PhotonView photonView;
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
+        if (stream.IsWriting)
+        {
+            stream.SendNext(Length);
+        }
+        else
+        {
+            Length = (float)stream.ReceiveNext();
+        }
+    }
+    protected override void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+        if(PhotonNetwork.LocalPlayer.IsMasterClient)
+            photonView.RequestOwnership();
+        base.Awake();
     }
 }

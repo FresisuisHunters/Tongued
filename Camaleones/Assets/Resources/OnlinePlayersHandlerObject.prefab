@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 5605024581512222763, guid: 37f042deee49a19468c019731925b71f,
         type: 3}
       propertyPath: m_Name
-      value: PlayersHandlerObject
+      value: OnlinePlayersHandlerObject
       objectReference: {fileID: 0}
     - target: {fileID: 871666156373326783, guid: 37f042deee49a19468c019731925b71f,
         type: 3}

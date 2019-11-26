@@ -53,7 +53,7 @@ public class HotPotatoHandler : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    void Awake()
+    protected virtual void Awake()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)
@@ -85,12 +85,6 @@ public class HotPotatoHandler : MonoBehaviour
         }
         timerStartTime = Time.time;
         RestartTimer();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
