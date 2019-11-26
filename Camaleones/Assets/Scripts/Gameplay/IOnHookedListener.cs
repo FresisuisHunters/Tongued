@@ -1,4 +1,6 @@
-﻿public interface IOnHookedListener 
+﻿using UnityEngine;
+
+public interface IOnHookedListener 
 {
-    void OnHooked();
+    void OnHooked(Vector2 pullDirection);
 }

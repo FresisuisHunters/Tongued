@@ -183,7 +183,7 @@ public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
     #endregion
 
     #region Event Responses
-    public void OnHooked() => DoNegativeReaction();
+    void IOnHookedListener.OnHooked(Vector2 pullDirection) => DoNegativeReaction();
 
     private void OnHookThrown(Vector2 targetPoint)
     {
@@ -224,13 +224,11 @@ public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
     private void DoPositiveReaction()
     {
         headAnimator.SetTrigger(POS_REACT_TRIGGER);
-        bodyAnimator.SetTrigger(POS_REACT_TRIGGER);
     }
 
     private void DoNegativeReaction()
     {
         headAnimator.SetTrigger(NEG_REACT_TRIGGER);
-        bodyAnimator.SetTrigger(NEG_REACT_TRIGGER);
     }
     #endregion
 
@@ -255,7 +253,5 @@ public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
     {
         minGroundedDotProduct = Mathf.Cos(maxSlopeAngleForGrounded * Mathf.Deg2Rad);
     }
-
-    
     #endregion
 }

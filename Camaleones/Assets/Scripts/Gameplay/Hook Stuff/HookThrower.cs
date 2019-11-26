@@ -145,7 +145,7 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
         Hook.Disable();
     }
 
-    public void OnHooked() => DisableHook();
+    void IOnHookedListener.OnHooked(Vector2 pullDirection) => DisableHook();
 
     #region Initialization
     private void Awake()

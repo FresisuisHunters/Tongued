@@ -182,7 +182,7 @@ public class Hook : MonoBehaviour
         IOnHookedListener[] onHookedListeners = rigidbodyToAttachTo.GetComponents<IOnHookedListener>();
         for (int i = 0; i < onHookedListeners.Length; i++)
         {
-            onHookedListeners[i].OnHooked();
+            onHookedListeners[i].OnHooked((rigidbodyToAttachTo.position - SwingingHingePoint).normalized);
         }
 
         //Lanzar evento
