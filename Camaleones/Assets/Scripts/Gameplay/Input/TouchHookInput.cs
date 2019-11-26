@@ -139,14 +139,6 @@ public class TouchHookInput : MonoBehaviour {
 
     private void Start()
     {
-        //Si estamos jugando online y no es el jugador local, se destruye.
-        PhotonView photonView = GetComponent<PhotonView>();
-        if (photonView && !photonView.IsMine)
-        {
-            Destroy(this);
-            return;
-        }
-
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver)
         {

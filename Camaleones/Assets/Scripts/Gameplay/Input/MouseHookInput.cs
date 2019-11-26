@@ -49,13 +49,6 @@ public class MouseHookInput : MonoBehaviour
 
     private void Start()
     {
-        Photon.Pun.PhotonView photonView = GetComponent<Photon.Pun.PhotonView>();
-        if (photonView && !photonView.IsMine)
-        {
-            Destroy(this);
-            return;
-        }
-
         if ((ControlScheme) PlayerPrefs.GetInt(SettingsMenuScreen.CONTROL_SCHEME_PREF_KEY, 0) != ControlScheme.Mouse)
         {
             Destroy(this);

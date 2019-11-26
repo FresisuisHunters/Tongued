@@ -113,5 +113,10 @@ public class TrackedWhenOffscreen : MonoBehaviour
         ViewTransform = Instantiate(offscreenViewPrefab, marginHolder);
         IsActive = false;
     }
+
+    private void OnDestroy()
+    {
+        if (ViewTransform) Destroy(ViewTransform.parent.parent.gameObject);
+    }
     #endregion
 }

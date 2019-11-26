@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #pragma warning disable 649
@@ -50,7 +51,6 @@ public class Hook : MonoBehaviour
     }
 
     public Vector2 SwingingHingePoint => ropeCollider.SwingingHingePoint;
-    
     #endregion
 
     #region Eventos
@@ -178,8 +178,12 @@ public class Hook : MonoBehaviour
         fixedJoint.connectedBody = rigidbodyToAttachTo;
         fixedJoint.enabled = true;
 
-        //Si hemos enganchado a otro jugador, desactivar su lengua
-        rigidbodyToAttachTo.GetComponent<HookThrower>()?.DisableHook();
+        //Avisamos de que ha sido enganchado
+        IOnHookedListener[] onHookedListeners = rigidbodyToAttachTo.GetComponents<IOnHookedListener>();
+        for (int i = 0; i < onHookedListeners.Length; i++)
+        {
+            onHookedListeners[i].OnHooked();
+        }
 
         //Lanzar evento
         OnAttached?.Invoke();
