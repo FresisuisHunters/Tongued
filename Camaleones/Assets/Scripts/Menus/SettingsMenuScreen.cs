@@ -15,7 +15,6 @@ public class SettingsMenuScreen : AMenuScreen
 
     protected override void OnOpen(Type previousScreen)
     {
-        
         EnableCorrectControlSchemeToggle();
 
         touchControlToggle.onValueChanged.AddListener(OnTouchControlValueChange);
