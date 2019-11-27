@@ -171,6 +171,7 @@ public class RopeCollider : MonoBehaviour {
             //Quitamos la longitud del punto de contacto al DistanceJoint
             contactPoints.Add (contactPoint);
             distanceJoint.distance -= contactPoint.length;
+
             UpdateSwingingPoint ();
         }
 
@@ -182,9 +183,13 @@ public class RopeCollider : MonoBehaviour {
 
         Vector2 previousContactPointToTongueEndPosition = contactPoints[0].position;
         Vector2 tongueEndPosition = HeadPosition;
-        if (FindContactPointInSegment (tongueEndPosition, previousContactPointToTongueEndPosition,
+        Vector2 tongueDirection = (tongueEndPosition - previousContactPointToTongueEndPosition).normalized;
+        Vector2 contactPointOffset = previousContactPointToTongueEndPosition + tongueDirection;
+        if (FindContactPointInSegment (tongueEndPosition, contactPointOffset,
                 out ContactPoint otherContactPoint)) {
             contactPoints.Insert (0, otherContactPoint);
+            
+            Debug.Log(contactPoints.Count);
         }
     }
 
