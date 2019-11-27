@@ -316,12 +316,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6475681867467041412}
+  - component: {fileID: 452793664}
   - component: {fileID: 6475681867467041408}
   - component: {fileID: 6475681867467041413}
   - component: {fileID: 6475681867467041414}
   - component: {fileID: 5747732493073470295}
-  - component: {fileID: 452793664}
   - component: {fileID: 5623633419101045841}
+  - component: {fileID: 4360831808215422308}
+  - component: {fileID: 2162180728470586987}
   - component: {fileID: 3857252850585075522}
   - component: {fileID: 6356224206501634616}
   m_Layer: 10
@@ -347,6 +349,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &452793664
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681867467041439}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.78
 --- !u!50 &6475681867467041408
 Rigidbody2D:
   serializedVersion: 4
@@ -450,22 +468,6 @@ MonoBehaviour:
     type: 3}
   retractMaxPrefab: {fileID: 1703278086244197763, guid: 437d3930e6de14f4181e49d80cad9f40,
     type: 3}
---- !u!58 &452793664
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6475681867467041439}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.78
 --- !u!114 &5623633419101045841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +487,33 @@ MonoBehaviour:
   headAnimator: {fileID: 8206891802529703094}
   bodyAnimator: {fileID: 8393029196324952528}
   maxSlopeAngleForGrounded: 50
+--- !u!114 &4360831808215422308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681867467041439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b51d5f613e9d6e48a16b169638af8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2162180728470586987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681867467041439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534a8c8230eb3ad4a8a073ebdc3cace1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfAudioSources: 1
+  outputMixerGroup: {fileID: 243762664537332226, guid: cfb8ecc7c433e8741b8bd7660648efc1,
+    type: 2}
 --- !u!114 &3857252850585075522
 MonoBehaviour:
   m_ObjectHideFlags: 0
