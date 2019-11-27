@@ -139,30 +139,6 @@ public class RopeCollider : MonoBehaviour {
 
     #region Encontrar contactos
     private void DetectNewContacts () {
-        /*
-        for (int i = 0; i <= contactPoints.Count; ++i) {
-            Vector2 a = (i == 0) ? freeSwingingEndPoint : contactPoints[contactPoints.Count - i].position;
-            Vector2 b = (i == contactPoints.Count) ? HeadPosition : contactPoints[contactPoints.Count - (i + 1)].position;
-
-            if (FindContactPointInSegment (a, b, out ContactPoint contactPoint)) {
-                bool isContactPointNextToHead = contactPoints.IndexOf (contactPoint) == contactPoints.Count - 1;
-                if (isContactPointNextToHead) {
-                    distanceJoint.distance -= contactPoint.length;
-                } else {
-                    ContactPoint previousContactPoint = contactPoints[contactPoints.Count - i];
-                    previousContactPoint.length -= contactPoint.length;
-                    // Actualizar el siguiente?
-                }
-
-                contactPoints.Insert (contactPoints.Count - i, contactPoint);
-
-                if (isContactPointNextToHead) {
-                    UpdateSwingingPoint ();
-                }
-            }
-        }
-        */
-
         //Buscamos contactos entre el final que cuelga y el punto del que cuelga
         Vector2 a = freeSwingingEndPoint;
         Vector2 b = swingHingeRigidbody.position;
@@ -187,9 +163,11 @@ public class RopeCollider : MonoBehaviour {
         Vector2 contactPointOffset = previousContactPointToTongueEndPosition + tongueDirection;
         if (FindContactPointInSegment (tongueEndPosition, contactPointOffset,
                 out ContactPoint otherContactPoint)) {
+            ContactPoint p = contactPoints[0];
+            p.length -= otherContactPoint.length;
             contactPoints.Insert (0, otherContactPoint);
             
-            Debug.Log(contactPoints.Count);
+            Debug.Log("Contacto al final de la lengua. CP: " + contactPoints.Count);
         }
     }
 
