@@ -14,19 +14,21 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(timerCurrentTime);
+            Debug.Log("Sent " + timerCurrentTime);
         }
         else
         {
             timerCurrentTime = (int)stream.ReceiveNext();
+            Debug.Log("Received " + timerCurrentTime);
         }
     }
     protected override void Awake()
     {
         photonView = GetComponent<PhotonView>();
+        
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            photonView.RequestOwnership();
-
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
             if (!spawnPoint)
             {
