@@ -42,5 +42,6 @@ MonoBehaviour:
   - RPCTransfer
   - RPCAddScore
   - SpawnPlayerOnline
+  - ChangeRoundType
   DisableAutoOpenWizard: 1
   ShowSettings: 0

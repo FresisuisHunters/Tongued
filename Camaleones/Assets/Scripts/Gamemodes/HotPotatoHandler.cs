@@ -24,30 +24,30 @@ public class HotPotatoHandler : MonoBehaviour
     [SerializeField] private GameObject snitch;
     #endregion
 
-    #region Private Variables
+    #region Private/protected Variables
     //Instante en el que empieza la ronda
     private float roundStartTime;
     //Instante en el que empieza el timer de la última posesión de la snitch
-    private float timerStartTime;
+    protected float timerStartTime;
     //tiempo final para el timer en un momento concreto. Se reevalua mirando posessionTimeCurve
-    private float currentEndTime;
+    protected float currentEndTime;
     //Timer que se muestra en pantalla
-    private int timerCurrentTime;
+    protected int timerCurrentTime;
     //
-    private bool hasStarted;
+    protected bool hasStarted;
     //
-    private TextMeshProUGUI timerText;
+    protected TextMeshProUGUI timerText;
     //Tipo de ronda, si se gana por coger la bola o por huir de ella
     //true = coger false = huir
-    private bool roundType;
+    protected bool roundType;
     //
-    private int currentRound;
+    protected int currentRound;
     //
-    private float roundChangeChance;
+    protected float roundChangeChance;
     //
-    private PlayersHandler playersHandler;
+    protected PlayersHandler playersHandler;
     //
-    private TransferableItem snitchReference;
+    protected TransferableItem snitchReference;
     #endregion
 
     /// <summary>
@@ -73,10 +73,15 @@ public class HotPotatoHandler : MonoBehaviour
         playersHandler = GetComponent<PlayersHandler>();
     }
 
+    protected virtual void SpawnSnitch()
+    {
+
+    }
+
     /// <summary>
     /// 
     /// </summary>
-    public void NotifyTransfer()
+    public virtual void NotifyTransfer()
     {
         if (!hasStarted)
         {
@@ -88,7 +93,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if(hasStarted)
         {
@@ -104,16 +109,16 @@ public class HotPotatoHandler : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateTimer()
+    protected virtual void UpdateTimer()
     {
-        float timerTime = Mathf.Ceil(Mathf.Max((currentEndTime - (Time.time - timerStartTime)), 0));
-        timerText.SetText(timerTime.ToString());
+        timerCurrentTime = (int)Mathf.Ceil(Mathf.Max((currentEndTime - (Time.time - timerStartTime)), 0));
+        timerText.SetText(timerCurrentTime.ToString());
     }
 
     /// <summary>
     /// 
     /// </summary>
-    private void RestartTimer()
+    protected virtual void RestartTimer()
     {
         timerStartTime = Time.time;
         currentEndTime = posessionTimeCurve.Evaluate(Time.time - roundStartTime);
@@ -122,7 +127,7 @@ public class HotPotatoHandler : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    private void StartNewRound()
+    protected virtual void StartNewRound()
     {
         if(currentRound==roundNumber-1)
         {

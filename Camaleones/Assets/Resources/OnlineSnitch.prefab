@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 8983007099293887709, guid: 117fa95e07f8da14db73ac43a7ab9054,
         type: 3}
       propertyPath: m_Name
-      value: Snitch Online
+      value: OnlineSnitch
       objectReference: {fileID: 0}
     - target: {fileID: 8983007099293887705, guid: 117fa95e07f8da14db73ac43a7ab9054,
         type: 3}
