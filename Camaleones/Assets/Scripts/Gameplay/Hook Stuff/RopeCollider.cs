@@ -100,6 +100,21 @@ public class RopeCollider : MonoBehaviour {
         DetectNewContacts ();
     }
 
+    private void OnDrawGizmos() {
+        float r = .5f;
+        Gizmos.color = Color.black;
+        foreach (ContactPoint cp in contactPoints) {
+            Gizmos.DrawSphere(cp.position, r);
+        }
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(HeadPosition, r);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(swingHingeRigidbody.position, r);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(freeSwingingEndPoint, r);
+    }
+
     #region Deshacer contactos
     private void DetectUndoneContacts () {
         //Si no hay puntos de contacto, no hay nada que deshacer
@@ -120,6 +135,8 @@ public class RopeCollider : MonoBehaviour {
                     ContactPoint previousContactPoint = contactPoints[contactPoints.Count - i];
                     previousContactPoint.length += contactPoint.length;
                 }
+
+                Debug.LogWarning("Se ha deshecho un contacto");
 
                 contactPoints.RemoveAt (contactPoints.Count - (i + 1));
 
@@ -157,17 +174,18 @@ public class RopeCollider : MonoBehaviour {
             return;
         }
 
-        Vector2 previousContactPointToTongueEndPosition = contactPoints[0].position;
+        Vector2 previousContactPoint = contactPoints[0].position;
         Vector2 tongueEndPosition = HeadPosition;
-        Vector2 tongueDirection = (tongueEndPosition - previousContactPointToTongueEndPosition).normalized;
-        Vector2 contactPointOffset = previousContactPointToTongueEndPosition + tongueDirection;
-        if (FindContactPointInSegment (tongueEndPosition, contactPointOffset,
-                out ContactPoint otherContactPoint)) {
+        // La comprobación se hace en el sentido cabeza->punto de contacto porque sino encontraría el último punto de contacto o uno infinitesimalmente próximo a éste
+        if (FindContactPointInSegment (tongueEndPosition, previousContactPoint, out ContactPoint otherContactPoint)) {
+            Debug.Log("Contacto al final de la lengua. CP: " + contactPoints.Count);
+
+            otherContactPoint.angleSign *= -1;  // Se invierte el angulo dado que el sentido del vector es distinto
             ContactPoint p = contactPoints[0];
             p.length -= otherContactPoint.length;
+            contactPoints[0] = p;
+
             contactPoints.Insert (0, otherContactPoint);
-            
-            Debug.Log("Contacto al final de la lengua. CP: " + contactPoints.Count);
         }
     }
 
@@ -198,10 +216,11 @@ public class RopeCollider : MonoBehaviour {
     }
 
     private bool IsDuplicateContactPoint (Vector2 position) {
-        if (contactPoints.Count > 0) {
-            return contactPoints[contactPoints.Count - 1].position == position;
+        foreach (ContactPoint cp in contactPoints) {
+            if (cp.position.Equals(position)) {
+                return true;
+            }
         }
-
         return false;
     }
 
@@ -245,5 +264,9 @@ public class RopeCollider : MonoBehaviour {
         public Vector2 position;
         public float angleSign;
         public float length;
+
+        public override string ToString() {
+            return string.Format("Position: {0}, AngleSign: {1}, Length: {2}", position, angleSign, length);
+        }
     }
 }
