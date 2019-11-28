@@ -10,24 +10,25 @@ using UnityEngine;
 public class PlayersHandler : MonoBehaviour
 {
     #region Inspector
-    [Tooltip("")]
+    [Tooltip("Numero de jugadores en la partida")]
     [Range(1,10)]
     public int playerNumber;
-    [Tooltip("")]
+    [Tooltip("Prefab que usa el jugador principal")]
     [SerializeField] protected GameObject mainPlayerPrefab;
-    [Tooltip("")]
+    [Tooltip("Prefabs usados para pruebas u otros jugadores en offline")]
     [SerializeField] private GameObject playerPrefab;
     #endregion
 
     #region Private Variables
+    //Lista de jugadores en la partida
     private List<GameObject> playerList;
     #endregion
 
     #region Protected Variables
+    //Lista de puntos donde pueden spawnear los jugadores
     protected List<GameObject> spawnPoints;
     #endregion
 
-    // Start is called before the first frame update
     protected virtual void Awake()
     {
         
@@ -37,14 +38,8 @@ public class PlayersHandler : MonoBehaviour
         SpawnPlayers();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
-    /// 
+    /// Método que spawnea a todos los jugadores
     /// </summary>
     public virtual void SpawnPlayers()
     {

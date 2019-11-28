@@ -6,7 +6,7 @@ using TMPro;
 #pragma warning disable 649
 
 /// <summary>
-/// 
+/// Clase que gestiona el modo de juego Hot Potato
 /// </summary>
 [RequireComponent(typeof(PlayersHandler))]
 public class HotPotatoHandler : MonoBehaviour
@@ -14,10 +14,6 @@ public class HotPotatoHandler : MonoBehaviour
     #region Inspector
     [Tooltip("Numero de rondas que tendrá la partida")]
     [SerializeField] private int roundNumber;
-    /*
-    [Tooltip("Tiempo inicial que necesita tener un jugador la snitch para ganar. Se ira reduciendo durante la ronda")]
-    [SerializeField] private float baseSnitchPossesionTimer;
-    */
     [Tooltip("Curva que define como se reduce el tiempo necesario de posesión de la snitch para cada ronda")]
     [SerializeField] private AnimationCurve posessionTimeCurve;
     [Tooltip("Prefab de la snitch")]
@@ -33,26 +29,23 @@ public class HotPotatoHandler : MonoBehaviour
     protected float currentEndTime;
     //Timer que se muestra en pantalla
     protected int timerCurrentTime;
-    //
+    //Bool para saber si se ha cogido la snitch por primera vez, empezando el juego
     protected bool hasStarted;
-    //
+    //Textmesh del timer
     protected TextMeshProUGUI timerText;
     //Tipo de ronda, si se gana por coger la bola o por huir de ella
     //true = coger false = huir
     protected bool roundType;
-    //
+    //numero de la ronda actual
     protected int currentRound;
-    //
+    //probabilidades de cambiar de ronda al acabar la actual
     protected float roundChangeChance;
-    //
+    //objeto que gestiona a los jugadores
     protected PlayersHandler playersHandler;
-    //
+    //referencia al objeto snitch
     protected TransferableItem snitchReference;
     #endregion
 
-    /// <summary>
-    /// 
-    /// </summary>
     protected virtual void Awake()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
@@ -73,13 +66,8 @@ public class HotPotatoHandler : MonoBehaviour
         playersHandler = GetComponent<PlayersHandler>();
     }
 
-    protected virtual void SpawnSnitch()
-    {
-
-    }
-
     /// <summary>
-    /// 
+    /// Este método es llamado por la snitch cada vez que cambia de usuario
     /// </summary>
     public virtual void NotifyTransfer()
     {
@@ -107,7 +95,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Este metodo actualiza el timer en pantalla
     /// </summary>
     protected virtual void UpdateTimer()
     {
@@ -116,7 +104,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Este metodo reinicia el timer cada vez que la snitch cambia de persona
     /// </summary>
     protected virtual void RestartTimer()
     {
@@ -125,7 +113,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Este método se llama cada vez que termina la ronda
     /// </summary>
     protected virtual void StartNewRound()
     {

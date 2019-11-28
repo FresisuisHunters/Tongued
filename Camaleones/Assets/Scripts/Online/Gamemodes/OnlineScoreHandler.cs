@@ -15,6 +15,10 @@ public class OnlineScoreHandler : ScoreHandler
         base.Awake();
     }
 
+    /// <summary>
+    /// Metodo que suma la puntuacion al jugador con la snitch
+    /// </summary>
+    /// <param name="score"></param>
     public override void AddScore(int score)
     {
         photonView.RPC("RPCAddScore", RpcTarget.Others, score);

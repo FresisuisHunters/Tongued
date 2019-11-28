@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 /// <summary>
-/// 
+/// Clase que gestiona tareas relacionadas con los jugadores de la partida
 /// </summary>
 [RequireComponent(typeof(PhotonView))]
 public class OnlinePlayersHandler : PlayersHandler
@@ -19,7 +19,7 @@ public class OnlinePlayersHandler : PlayersHandler
     }
 
     /// <summary>
-    /// 
+    /// Este método instancia a los jugadores desde master
     /// </summary>
     public override void SpawnPlayers()
     {
@@ -39,7 +39,7 @@ public class OnlinePlayersHandler : PlayersHandler
     }
 
     /// <summary>
-    /// 
+    /// Este método instancia a un jugador en la posición recibida de master
     /// </summary>
     /// <param name="position"></param>
     [PunRPC]

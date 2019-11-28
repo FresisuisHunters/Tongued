@@ -8,7 +8,7 @@ public class ScoreHandler : MonoBehaviour
 {
 
     #region Private Variables
-    [Tooltip("")]
+    [Tooltip("Puntuacion del jugador")]
     [SerializeField]private int score;
     #endregion
     // Start is called before the first frame update
@@ -17,6 +17,10 @@ public class ScoreHandler : MonoBehaviour
         score = 0;
     }
 
+    /// <summary>
+    /// metodo que añade la puntuacion recibida al jugador
+    /// </summary>
+    /// <param name="score"></param>
     virtual public void AddScore(int score)
     {
         this.score += score;
