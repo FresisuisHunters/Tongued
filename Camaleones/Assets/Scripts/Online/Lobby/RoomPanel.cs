@@ -10,7 +10,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #region Constant Fields
 
-    private const float GAME_COUNTDOWN = 5f;
+    private const float GAME_COUNTDOWN = .5f;
 
     #endregion
 

@@ -2,10 +2,12 @@
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class OnlinePlayer : MonoBehaviourPunCallbacks {
 
     [System.NonSerialized] public OnlinePlayer localInstance;
+    private TextMeshProUGUI nameOnScreen;
 
     #region Unity Callbacks
 
@@ -13,6 +15,21 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             localInstance = this;
         }
+    }
+
+    protected void Update() {
+        if (!photonView.IsMine) {
+            return;
+        }
+
+        float offset = 5f;
+        Vector2 namePosition = new Vector2
+        (
+            transform.position.x,
+            transform.position.y
+        );
+
+        nameOnScreen.rectTransform.localPosition = namePosition;
     }
 
     #endregion
@@ -62,4 +79,14 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
     }
 
     #endregion
+
+    #region Properties
+
+    public TextMeshProUGUI NicknameOnCanvas {
+        get => nameOnScreen;
+        set => nameOnScreen = value;
+    }
+
+    #endregion
+
 }
