@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd2f863c76600547949b2638014ed04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxRetractSpeed: 1000000
   debugAutoAim: 0
   debugVelocity: 0
   retractDistancePerSecond: 6
