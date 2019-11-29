@@ -1,13 +1,11 @@
 ﻿using Photon.Pun;
 using UnityEngine;
-using TMPro;
 
 public class OnlineGameManager : MonoBehaviour {
 
     #region Public Members
 
     public GameObject playerPrefab;
-    public GameObject nicknameOnScreenPrefab;
 
     #endregion
 
@@ -26,23 +24,17 @@ public class OnlineGameManager : MonoBehaviour {
     #region Private Methods
 
     private void InstantiatePlayer () {
+        OnlineLogging.Instance.Write("Jugador instanciado por " + PhotonNetwork.LocalPlayer.NickName);
+
         float positionX = Random.Range (-5.0f, 5.0f);
         float positionY = playerPrefab.transform.position.y;
 
+        string prefabName = playerPrefab.name;
         Vector2 position = new Vector2 (positionX, positionY);
         Quaternion rotation = playerPrefab.transform.rotation;
 
-        GameObject player = PhotonNetwork.Instantiate (playerPrefab.name, position, rotation, 0);
+        GameObject player = PhotonNetwork.Instantiate (prefabName, position, rotation, 0);
         player.name = PhotonNetwork.LocalPlayer.NickName;
-
-        GameObject nicknameCanvas = GameObject.FindGameObjectWithTag("NicknameCanvas");
-        GameObject nicknameOnScreen = PhotonNetwork.Instantiate(nicknameOnScreenPrefab.name, position, rotation, 0);
-        nicknameOnScreen.transform.SetParent(nicknameCanvas.transform, true);
-
-        OnlinePlayer playerScript = player.GetComponent<OnlinePlayer>();
-        TextMeshProUGUI playerNicknameText = nicknameOnScreen.GetComponent<TextMeshProUGUI>();
-        playerScript.NicknameOnCanvas = nicknameOnScreen.GetComponent<TextMeshProUGUI>();
-        playerNicknameText.text = player.name;
     }
 
     #endregion

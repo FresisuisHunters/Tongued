@@ -7,7 +7,6 @@ TagManager:
   - Platform
   - Opponent
   - CameraBounds
-  - NicknameCanvas
   layers:
   - Default
   - TransparentFX
