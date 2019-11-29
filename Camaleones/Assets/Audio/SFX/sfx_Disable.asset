@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b300c1e1f2028d24f957a51de6c29f8f, type: 3}
   - {fileID: 8300000, guid: 4a8db1f79a25c9246ad08aeca4b7a968, type: 3}
   - {fileID: 8300000, guid: 4151d2324bafe214983267e5a87e0553, type: 3}
-  _volume: 1
+  _volume: 0.604
   _pitchVariance: 0.1
   _priority: 0
   duplicateGroup: VOICE

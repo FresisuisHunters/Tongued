@@ -142,7 +142,7 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
 
     public void DisableHook()
     {
-        Hook.Disable();
+        if (HookIsOut) Hook.Disable();
     }
 
     void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => DisableHook();

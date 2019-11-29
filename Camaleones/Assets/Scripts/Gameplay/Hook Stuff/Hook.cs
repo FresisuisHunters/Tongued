@@ -243,10 +243,7 @@ public class Hook : MonoBehaviour
         fixedJoint.connectedAnchor = Vector2.zero;
 
         ropeCollider = GetComponentInChildren<RopeCollider>();
-    }
 
-    private void Start()
-    {
         Disable();
     }
     #endregion

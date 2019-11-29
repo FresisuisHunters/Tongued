@@ -499,6 +499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b51d5f613e9d6e48a16b169638af8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throwHookSFX: {fileID: 11400000, guid: 9cb906163ca4397428dfae701a69b23b, type: 2}
+  disableHookSFX: {fileID: 11400000, guid: cd4aa8ec5654c1b46a580b3aec7139e6, type: 2}
 --- !u!114 &2162180728470586987
 MonoBehaviour:
   m_ObjectHideFlags: 0
