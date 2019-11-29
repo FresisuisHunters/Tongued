@@ -7,11 +7,8 @@ using UnityEngine.EventSystems;
 /// Componente encargado de dar órdenes al gancho.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
-public class HookThrower : MonoBehaviour
+public class HookThrower : MonoBehaviour, IOnHookedListener
 {
-    public bool debugAutoAim;
-    public bool debugVelocity;
-
     #region Inspector
     [Header("Hook")]
     public float retractDistancePerSecond = 10f;
@@ -21,6 +18,10 @@ public class HookThrower : MonoBehaviour
     [SerializeField] private int autoAimRayCount = 5;
     [SerializeField] private float autoAimConeAngle = 10;
     [SerializeField] private LayerMask autoAimLayerMask;
+
+    [Header("Debug")]
+    public bool debugAutoAim;
+    public bool debugVelocity;
     #endregion
 
     #region Eventos
@@ -144,7 +145,9 @@ public class HookThrower : MonoBehaviour
         Hook.Disable();
     }
 
+    void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => DisableHook();
 
+    #region Initialization
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -160,8 +163,9 @@ public class HookThrower : MonoBehaviour
 
         if (Hook) Hook.ConnectedBody = Rigidbody;
     }
+    #endregion
 
-
+    //Debug only
     private void OnGUI()
     {
         if (debugVelocity) GUI.TextArea(new Rect(0, 0, 170, 30), $"{name}'s velocity: {Rigidbody.velocity.magnitude.ToString()}");

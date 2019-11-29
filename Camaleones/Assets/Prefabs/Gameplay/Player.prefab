@@ -85,8 +85,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1149131227
+  m_SortingLayer: 2
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 35e4b80d4aee23e499a7c03ae1989cc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -293,8 +293,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1149131227
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 613c170907c72604a91c215836cd045a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -322,6 +322,8 @@ GameObject:
   - component: {fileID: 5747732493073470295}
   - component: {fileID: 452793664}
   - component: {fileID: 5623633419101045841}
+  - component: {fileID: 3857252850585075522}
+  - component: {fileID: 6356224206501634616}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -378,8 +380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd2f863c76600547949b2638014ed04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugAutoAim: 0
-  debugVelocity: 0
   retractDistancePerSecond: 6
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
@@ -388,6 +388,8 @@ MonoBehaviour:
   autoAimLayerMask:
     serializedVersion: 2
     m_Bits: 8704
+  debugAutoAim: 0
+  debugVelocity: 0
 --- !u!114 &6475681867467041414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +485,60 @@ MonoBehaviour:
   headAnimator: {fileID: 8206891802529703094}
   bodyAnimator: {fileID: 8393029196324952528}
   maxSlopeAngleForGrounded: 50
+--- !u!114 &3857252850585075522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681867467041439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a12a225c45f9b4d9b8e18cfd51a71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 61b74121ed89e6d4f9c5240a9950e649, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.4
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+--- !u!114 &6356224206501634616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681867467041439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66425def10415994fa34f2ab3cc94808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detachCountdownLength: 1
 --- !u!1 &8036909048616442037
 GameObject:
   m_ObjectHideFlags: 0

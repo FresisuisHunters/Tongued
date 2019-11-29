@@ -139,14 +139,6 @@ public class TouchHookInput : MonoBehaviour {
 
     private void Start()
     {
-        //Si estamos jugando online y no es el jugador local, se destruye.
-        PhotonView photonView = GetComponent<PhotonView>();
-        if (photonView && !photonView.IsMine)
-        {
-            Destroy(this);
-            return;
-        }
-
         InputEventReceiver inputEventReceiver = FindObjectOfType<InputEventReceiver>();
         if (!inputEventReceiver)
         {
@@ -154,9 +146,9 @@ public class TouchHookInput : MonoBehaviour {
             return;
         }
 
-        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (enabled) OnPointerDown(data as PointerEventData); });
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (enabled) OnPointerUp(); });
-        inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (enabled) OnPointerDrag(data as PointerEventData); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (this && enabled) OnPointerDown(data as PointerEventData); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (this && enabled) OnPointerUp(); });
+        inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (this && enabled) OnPointerDrag(data as PointerEventData); });
 
         canvasTransform = inputEventReceiver.GetComponent<RectTransform>();
         retractCurrentTransform = Instantiate(retractCurrentPrefab, canvasTransform, false);
