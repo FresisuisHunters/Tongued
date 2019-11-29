@@ -38,10 +38,11 @@ MonoBehaviour:
   - Attach
   - Throw
   - Disable
-  - TITransfer
-  - RPCTransfer
-  - RPCAddScore
-  - SpawnPlayerOnline
-  - ChangeRoundType
+  - AttachToPoint
+  - RPCAttachToRigidbody
+  - PlayerIsReady
+  - PlayerNotReady
+  - StartGameCountdown
+  - StopGameCountdown
   DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+#pragma warning disable 649
 public class CreateRoomPanel : MonoBehaviourPunCallbacks {
 
     #region Private Fields

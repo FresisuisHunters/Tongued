@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-
 /// <summary>
 /// Hijo de Hook, le añade funcionalidades necesarias para sincronizar Hook.
 /// Hace override a las funcione que hay que sincronizar, llamando el RCP al resto de jugadores si es el jugador local.
 /// </summary>
-[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonView), typeof(AttachedStruggler))]
 public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
 {
     private PhotonView photonView;
@@ -42,12 +41,29 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
     }
 
     [PunRPC]
-    protected override void Attach(Vector2 attachPoint)
+    protected override void AttachToPoint(Vector2 attachPoint)
     {
         //Como RpcTarget es others, si somos el jugador local es que hemos llegado aquí por lógica de juego, no RPC. Mandamos el mensaje al resto.
-        if (photonView.IsMine) photonView.RPC("Attach", RpcTarget.Others, attachPoint);
+        if (photonView.IsMine) photonView.RPC("AttachToPoint", RpcTarget.Others, attachPoint);
 
-        base.Attach(attachPoint);
+        base.AttachToPoint(attachPoint);
+    }
+
+
+    protected override void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
+    {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("RPCAttachToRigidbody", RpcTarget.Others, PhotonView.Get(rigidbodyToAttachTo).ViewID);
+            base.AttachToRigidbody(rigidbodyToAttachTo);
+        }
+    }
+
+    [PunRPC]
+    private void RPCAttachToRigidbody(int attachedPhotonViewID)
+    {
+        Rigidbody2D rigidbodyToAttachTo = PhotonView.Find(attachedPhotonViewID).GetComponent<Rigidbody2D>();
+        base.AttachToRigidbody(rigidbodyToAttachTo);
     }
 
     protected override void Awake()
@@ -66,7 +82,7 @@ public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
         PhotonView throwerView = PhotonView.Find((int) photonView.InstantiationData[0]);
 
         HookThrower thrower = throwerView.GetComponent<HookThrower>();
-        thrower.hook = this;
+        thrower.Hook = this;
         ConnectedBody = thrower.Rigidbody;
     }
 }
