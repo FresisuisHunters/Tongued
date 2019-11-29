@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
+  m_Name: sfx_UI_ButtonClicked
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 3733862870b19904881b6dee2ffcc693, type: 3}
+  - {fileID: 8300000, guid: bfeaba2c527bd2843a5e91319d326772, type: 3}
+  - {fileID: 8300000, guid: 90871972839d3124e89320ed646334fb, type: 3}
+  - {fileID: 8300000, guid: 95a53a88acd0ca341ad14348470cc2d0, type: 3}
+  - {fileID: 8300000, guid: cbec57060049521478f2db3d0e84c3f1, type: 3}
+  - {fileID: 8300000, guid: dfeecb2766e6a6f4eadb426ba32a6dae, type: 3}
+  _volume: 1
+  _pitchVariance: 0.1
+  _priority: 2
+  duplicateGroup: 
+  duplicateBehaviour: 1

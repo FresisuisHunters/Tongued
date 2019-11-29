@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
+  m_Name: sfx_Weee
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 1d1903fb73efbb945a72d9b320ac1e4e, type: 3}
+  - {fileID: 8300000, guid: 9818c413dac6e89498062489a1f84302, type: 3}
+  - {fileID: 8300000, guid: 5e33d797f3c38fa4f81944000e9b8b33, type: 3}
+  _volume: 1
+  _pitchVariance: 0.1
+  _priority: 0
+  duplicateGroup: VOICE
+  duplicateBehaviour: 1

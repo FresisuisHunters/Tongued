@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
+  m_Name: sfx_Disable
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 8e9c039aea038f44992566014abe7a1c, type: 3}
+  - {fileID: 8300000, guid: d3df07e21767e0e4da4465f101420baf, type: 3}
+  - {fileID: 8300000, guid: 65d767b5c98e2bf478401d3488be0fb3, type: 3}
+  - {fileID: 8300000, guid: cffaf30e87f5f33419d4484641f85af7, type: 3}
+  - {fileID: 8300000, guid: b300c1e1f2028d24f957a51de6c29f8f, type: 3}
+  - {fileID: 8300000, guid: 4a8db1f79a25c9246ad08aeca4b7a968, type: 3}
+  - {fileID: 8300000, guid: 4151d2324bafe214983267e5a87e0553, type: 3}
+  _volume: 1
+  _pitchVariance: 0.1
+  _priority: 0
+  duplicateGroup: VOICE
+  duplicateBehaviour: 1

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
+  m_Name: sfx_Attach_Terrain
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: df479a66063d4e94cb6e9792b29e5969, type: 3}
+  - {fileID: 8300000, guid: e72b47deb2ea97f418d541eb92616b18, type: 3}
+  - {fileID: 8300000, guid: aa84f8c90f9d13041988f99d773fea79, type: 3}
+  - {fileID: 8300000, guid: 5e0e46649b585414ba8e175422ab7616, type: 3}
+  - {fileID: 8300000, guid: e3c016a6112755a4a831d8a425005655, type: 3}
+  _volume: 1
+  _pitchVariance: 0.1
+  _priority: 0
+  duplicateGroup: 
+  duplicateBehaviour: 1

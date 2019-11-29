@@ -10,11 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
-  m_Name: sfx_Test
+  m_Name: sfx_NegReact
   m_EditorClassIdentifier: 
-  audioClips: []
+  audioClips:
+  - {fileID: 8300000, guid: aa7fef812f22eed4f87b835b309aae87, type: 3}
+  - {fileID: 8300000, guid: ca2e5239c9a4e2d498077a2b8c1aa7de, type: 3}
+  - {fileID: 8300000, guid: fc2205f769d78d34f9e498f2a64580b5, type: 3}
+  - {fileID: 8300000, guid: fbd6cfd93435778478e210291605e5ed, type: 3}
   _volume: 1
   _pitchVariance: 0.1
-  _priority: 0
-  duplicateGroup: 
+  _priority: 2
+  duplicateGroup: VOICE
   duplicateBehaviour: 1

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
+  m_Name: sfx_RetractTick
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: c7ab2df243c3c5046b4e4c75bf0a5549, type: 3}
+  - {fileID: 8300000, guid: 9a009e79d5e01894294e2439ac9410ab, type: 3}
+  - {fileID: 8300000, guid: 6e77f1ddb42f18445a363b66dedce2f7, type: 3}
+  - {fileID: 8300000, guid: 34fb2d6528f6b3c4ba80f388fb21a532, type: 3}
+  - {fileID: 8300000, guid: 3902c1df7dde99b4294d055d488d24bb, type: 3}
+  - {fileID: 8300000, guid: f965b6faf2e02b74bbb52d6998d1273e, type: 3}
+  - {fileID: 8300000, guid: 21517365a7773cb40a80905c1b23b2ac, type: 3}
+  - {fileID: 8300000, guid: 536d384bb6c46934db9852df128b4826, type: 3}
+  - {fileID: 8300000, guid: f421fe2ecc67b5148b9dd1b701e40632, type: 3}
+  - {fileID: 8300000, guid: 30d6c4d344a3ab840a33a4fddcc65971, type: 3}
+  - {fileID: 8300000, guid: 5b03729fbd84def4a97a9789eb944ca8, type: 3}
+  - {fileID: 8300000, guid: 7aeb12d4a9c82054385a86464cf17861, type: 3}
+  - {fileID: 8300000, guid: 8580158a155a433448157496ed4c3f61, type: 3}
+  - {fileID: 8300000, guid: 7809614647d8f3d43a5ee0e1cb71ac4a, type: 3}
+  - {fileID: 8300000, guid: 3739a4c34f3598448bae0a58c5517ff4, type: 3}
+  - {fileID: 8300000, guid: 0bb7ec31081a32e429ea899861fc781e, type: 3}
+  - {fileID: 8300000, guid: cb10b18295945544f9cb3f51daa44c43, type: 3}
+  - {fileID: 8300000, guid: 6dce685a109eb97439b7d02658d1cba1, type: 3}
+  - {fileID: 8300000, guid: f19515fec69a19f46a3c8c2e8345d832, type: 3}
+  - {fileID: 8300000, guid: ae60b7573a21aa44381321f43444332d, type: 3}
+  _volume: 1
+  _pitchVariance: 0.1
+  _priority: 0
+  duplicateGroup: 
+  duplicateBehaviour: 1
