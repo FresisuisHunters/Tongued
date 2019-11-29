@@ -3,18 +3,15 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine.UI;
 
 public class OnlinePlayer : MonoBehaviourPunCallbacks {
 
     [System.NonSerialized] public OnlinePlayer localInstance;
     private TextMeshProUGUI nameOnScreen;
-    private Canvas playerNamesCanvas;
 
     #region Unity Callbacks
 
     protected void Awake () {
-        playerNamesCanvas = GameObject.FindGameObjectWithTag("NicknameCanvas").GetComponent<Canvas>();
         if (photonView.IsMine) {
             localInstance = this;
         }
@@ -25,18 +22,14 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
             return;
         }
 
+        float offset = 5f;
         Vector2 namePosition = new Vector2
         (
             transform.position.x,
             transform.position.y
         );
-        
-        Vector2 viewPos = Camera.main.WorldToViewportPoint(transform.position);
-        nameOnScreen.rectTransform.anchoredPosition = new Vector2
-        (
-            viewPos.x * playerNamesCanvas.pixelRect.size.x,
-            viewPos.y * playerNamesCanvas.pixelRect.size.y
-        );
+
+        nameOnScreen.rectTransform.localPosition = namePosition;
     }
 
     #endregion
