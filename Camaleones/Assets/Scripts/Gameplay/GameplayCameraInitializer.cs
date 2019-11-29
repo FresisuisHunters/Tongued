@@ -19,18 +19,18 @@ public class GameplayCameraInitializer : MonoBehaviour
     {
         Transform playerTransform = null;
 
-        PhotonView[] photonView = FindObjectsOfType<PhotonView>();
-        if (photonView.Length == 0)
+        PhotonView[] photonViews = FindObjectsOfType<PhotonView>();
+        if (photonViews.Length == 0)
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         }
         else
         {
-            for (int i = 0; i < photonView.Length; i++)
+            for (int i = 0; i < photonViews.Length; i++)
             {
-                if (photonView[i].IsMine)
+                if (photonViews[i].IsMine && photonViews[i].CompareTag("Player"))
                 {
-                    playerTransform = photonView[i].transform;
+                    playerTransform = photonViews[i].transform;
                     break;
                 }
             }

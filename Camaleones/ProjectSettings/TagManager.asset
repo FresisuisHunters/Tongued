@@ -44,3 +44,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Behind Chamaleons
+    uniqueID: 2390176469
+    locked: 0
+  - name: Chamaleons
+    uniqueID: 1149131227
+    locked: 0
+  - name: In Front Of Chamaleons
+    uniqueID: 3033616763
+    locked: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 #pragma warning disable 649
 [RequireComponent(typeof(HookThrower), typeof(Rigidbody2D))]
-public class ChamaleonAnimator : MonoBehaviour
+public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
 {
     #region Constants
     private static int GROUNDED_PROPERTY = Animator.StringToHash("IsGrounded");
@@ -56,6 +56,7 @@ public class ChamaleonAnimator : MonoBehaviour
             return currentRotation < 90 || currentRotation > 270;
         }
     }
+
 
     private void FixedUpdate()
     {
@@ -182,6 +183,8 @@ public class ChamaleonAnimator : MonoBehaviour
     #endregion
 
     #region Event Responses
+    void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => DoNegativeReaction();
+
     private void OnHookThrown(Vector2 targetPoint)
     {
         tongueIsOut = true;
@@ -221,13 +224,11 @@ public class ChamaleonAnimator : MonoBehaviour
     private void DoPositiveReaction()
     {
         headAnimator.SetTrigger(POS_REACT_TRIGGER);
-        bodyAnimator.SetTrigger(POS_REACT_TRIGGER);
     }
 
     private void DoNegativeReaction()
     {
         headAnimator.SetTrigger(NEG_REACT_TRIGGER);
-        bodyAnimator.SetTrigger(NEG_REACT_TRIGGER);
     }
     #endregion
 
