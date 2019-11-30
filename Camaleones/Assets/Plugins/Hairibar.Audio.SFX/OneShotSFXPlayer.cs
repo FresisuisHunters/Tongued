@@ -234,7 +234,8 @@ namespace Hairibar.Audio.SFX
             audioSources = new AudioSource[numberOfAudioSources];
 
             GameObject holder = new GameObject("OneShotSFXPlayer AudioSources");
-            holder.transform.SetParent(transform);
+            holder.transform.SetParent(transform, false);
+            
 
 
             for (int i = 0; i < numberOfAudioSources; i++)

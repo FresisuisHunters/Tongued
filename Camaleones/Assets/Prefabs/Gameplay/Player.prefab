@@ -502,6 +502,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   retractSFXMaxFrequency: 16
   retractSFX: {fileID: 11400000, guid: b519d898c33ca9d4387f29853a70787f, type: 2}
+  weeeSFX: {fileID: 11400000, guid: ae692905d73f10c4c940882285b3cae5, type: 2}
+  minVelocityForWeeeSFX: 20
+  weeeSFXChance: 0.3
   throwHookSFX: {fileID: 11400000, guid: 9cb906163ca4397428dfae701a69b23b, type: 2}
   disableHookSFX: {fileID: 11400000, guid: cd4aa8ec5654c1b46a580b3aec7139e6, type: 2}
 --- !u!114 &2162180728470586987

@@ -59,7 +59,7 @@ namespace Hairibar.Audio.SFX
             audioSources = new AudioSource[2];
 
             GameObject holder = new GameObject("RepeatAtFrequencySFXPlayer AudioSources");
-            holder.transform.SetParent(transform);
+            holder.transform.SetParent(transform, false);
 
             audioSources[0] = holder.AddComponent<AudioSource>();
             audioSources[1] = holder.AddComponent<AudioSource>();

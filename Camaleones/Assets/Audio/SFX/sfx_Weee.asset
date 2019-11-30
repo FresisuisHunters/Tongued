@@ -16,7 +16,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1d1903fb73efbb945a72d9b320ac1e4e, type: 3}
   - {fileID: 8300000, guid: 9818c413dac6e89498062489a1f84302, type: 3}
   - {fileID: 8300000, guid: 5e33d797f3c38fa4f81944000e9b8b33, type: 3}
-  _volume: 1
+  _volume: 0.709
   _pitchVariance: 0.1
   _priority: 0
   duplicateGroup: VOICE
