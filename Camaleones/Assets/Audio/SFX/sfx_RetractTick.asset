@@ -33,7 +33,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6dce685a109eb97439b7d02658d1cba1, type: 3}
   - {fileID: 8300000, guid: f19515fec69a19f46a3c8c2e8345d832, type: 3}
   - {fileID: 8300000, guid: ae60b7573a21aa44381321f43444332d, type: 3}
-  _volume: 1
+  _volume: 0.318
   _pitchVariance: 0.1
   _priority: 0
   duplicateGroup: 

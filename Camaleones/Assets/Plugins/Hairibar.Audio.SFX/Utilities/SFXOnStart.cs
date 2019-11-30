@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Hairibar.Audio.SFX;
 
-[RequireComponent(typeof(SFXPlayer))]
+[RequireComponent(typeof(OneShotSFXPlayer))]
 public class SFXOnStart : MonoBehaviour
 {
     [SerializeField]
@@ -9,7 +9,7 @@ public class SFXOnStart : MonoBehaviour
 
     void Start()
     {
-        GetComponent<SFXPlayer>().RequestSFX(sfx);
+        GetComponent<OneShotSFXPlayer>().RequestSFX(sfx);
         Destroy(this);
     }
 }

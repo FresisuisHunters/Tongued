@@ -2318,21 +2318,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6475681867467041413, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: autoAimRayCount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6475681867467041413, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: autoAimConeAngle
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6475681867467041408, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4403137476620298104, guid: 56ecb6db886ff21438a9186713dfb793,
         type: 3}
       propertyPath: m_ImpulseDefinition.m_RawSignal

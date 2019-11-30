@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 namespace Hairibar.Audio.SFX
 {
-    public class SFXPlayer : MonoBehaviour
+    public class OneShotSFXPlayer : MonoBehaviour
     {
         #region Inspector
         [SerializeField]
@@ -224,31 +224,22 @@ namespace Hairibar.Audio.SFX
         #region Initialization
         private void Awake()
         {
-            CollectAudioSources();
+            CreateAudioSources();
 
             InitializeSFXInstances();
         }
 
-        private void CollectAudioSources()
+        private void CreateAudioSources()
         {
             audioSources = new AudioSource[numberOfAudioSources];
 
-            AudioSource[] alreadyPresentSources = GetComponents<AudioSource>();
-            int i = 0;
+            GameObject holder = new GameObject("OneShotSFXPlayer AudioSources");
+            holder.transform.SetParent(transform);
 
-            while (i < numberOfAudioSources)
+
+            for (int i = 0; i < numberOfAudioSources; i++)
             {
-                if (i < alreadyPresentSources.Length) audioSources[i] = alreadyPresentSources[i];
-                else audioSources[i] = gameObject.AddComponent<AudioSource>();
-
-                i++;
-            }
-
-            //Delete already present excess if necessary
-            while (i < alreadyPresentSources.Length)
-            {
-                Destroy(alreadyPresentSources[i]);
-                i++;
+                audioSources[i] = holder.AddComponent<AudioSource>();
             }
 
             //Set them up

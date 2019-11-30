@@ -30,6 +30,7 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
     public event Action<Vector2> OnHookThrown;
     public event Action OnHookAttached;
     public event Action OnHookDisabled;
+    public event Action<float> OnRetracted;
     #endregion
 
     #region Propiedades Públicas
@@ -49,6 +50,7 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
         }
     }
     private Hook _hook;
+
     public Rigidbody2D Rigidbody { get; private set; }
     public Vector2 SwingingHingePoint => Hook.SwingingHingePoint;
     #endregion
@@ -137,6 +139,8 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
 
             Vector2 u = Hook.SwingingHingePoint - Rigidbody.position;
             Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
+
+            OnRetracted?.Invoke(amountMultiplier);
         }
     }
 

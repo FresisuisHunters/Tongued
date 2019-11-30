@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Random = System.Random;
 using UnityEngine;
 
+#pragma warning disable 649
 namespace Hairibar.Audio.SFX
 {
     [CreateAssetMenu(fileName ="sfx_NewSFXClip", menuName ="Audio/SFX Clip")]
     public class SFXClip : ScriptableObject
     {
         public const string NO_DUPLICATE_GROUP = "";
+
+        public static Random rnd = new Random();
 
         private bool TMP_hasBeenWarnedEmpty = false;
 
@@ -60,10 +63,11 @@ namespace Hairibar.Audio.SFX
 
                     return EmptyAudioClip;
                 }
-                return audioClips[Random.Range(0, audioClips.Length)];
+                
+                return audioClips[rnd.Next(audioClips.Length)];
             }
         }
-        public float RandomPitch { get { return Random.Range(1 - _pitchVariance, 1 + _pitchVariance); } }
+        public float RandomPitch { get { return (float) (1 + (rnd.NextDouble() * (_pitchVariance * 2) - _pitchVariance)); } }
         #endregion
 
         #region Empty Failsafe

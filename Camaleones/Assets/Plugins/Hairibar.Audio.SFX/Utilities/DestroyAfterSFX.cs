@@ -2,7 +2,7 @@
 
 namespace Hairibar.Audio.SFX
 {
-    [RequireComponent(typeof(SFXPlayer))]
+    [RequireComponent(typeof(OneShotSFXPlayer))]
     public class DestroyAfterSFX : MonoBehaviour
     {
         [SerializeField]
@@ -10,7 +10,7 @@ namespace Hairibar.Audio.SFX
 
         private void Start()
         {
-            GetComponent<SFXPlayer>().RequestSFX(sfxClip, DestroySelf);
+            GetComponent<OneShotSFXPlayer>().RequestSFX(sfxClip, DestroySelf);
         }
 
         private void DestroySelf()
