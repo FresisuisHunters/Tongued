@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class ServerConstants {
 
     public const string GAME_VERSION = "b0.1";
-    public const string ONLINE_LEVEL = "sce_tOnlinePlay";
+    public const string ONLINE_LEVEL = "sce_tLevel1";
 
     #region Game Mode Constants
 
