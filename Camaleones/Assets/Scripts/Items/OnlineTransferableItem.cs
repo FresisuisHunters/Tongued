@@ -8,15 +8,7 @@ public class OnlineTransferableItem : TransferableItem
 {
     private PhotonView photonView;
 
-    /// <summary>
-    /// El único cambio es que asignamos photonview
-    /// </summary>
-    protected override void Awake()
-    {
-        photonView = GetComponent<PhotonView>();
-        base.Awake();
-    }
-
+    
     public override void Collide(GameObject collisionObject)
     {
         //Ignoramos esta colisión si este objeto no es nuestro
@@ -34,14 +26,16 @@ public class OnlineTransferableItem : TransferableItem
         photonView.RPC("RPCTransfer", RpcTarget.Others, target.GetComponent<PhotonView>().ViewID);
         base.TITransfer(target);
     }
-
-    /// <summary>
-    /// Este es el método que recibe el evento con el id del gameobject del jugador que ha cogido la snitch. A partir de ahí coge el gameobject y ejecuta el código de la clase padre.
-    /// </summary>
     [PunRPC]
     private void RPCTransfer(int id)
     {
         TransferableItemHolder target = PhotonView.Find(id).GetComponent<TransferableItemHolder>();
         base.TITransfer(target);
+    }
+
+
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
     }
 }

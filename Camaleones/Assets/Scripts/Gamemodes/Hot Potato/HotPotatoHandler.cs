@@ -40,7 +40,6 @@ public class HotPotatoHandler : MonoBehaviour
     /// </summary>
     private float currentChanceOfSameRound = 0.5f;
 
-    protected PlayersHandler playersHandler;
     public TransferableItem Snitch { get; protected set; }
     #endregion
 
@@ -64,14 +63,14 @@ public class HotPotatoHandler : MonoBehaviour
         }
         else
         {
-            //TODO: Update the score through ScoreHandler. The snitch shouldn't know about score.
+            ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
             switch (currentRoundType)
             {
                 case RoundType.Blessing:
-                    //snitch.AddScore(1);
+                    scoreHandler.AddScore(1);
                     break;
                 case RoundType.Curse:
-                    //snitch.AddScore(-1);
+                    scoreHandler.AddScore(-1);
                     break;
             }
 
@@ -145,11 +144,6 @@ public class HotPotatoHandler : MonoBehaviour
     protected virtual void Awake()
     {
         SpawnSnitch();
-
-        //TODO: Move UI to a different component
-        //timerText = GetComponentInChildren<TextMeshProUGUI>();
-
-        playersHandler = GetComponent<PlayersHandler>();
     }
 
     private void SpawnSnitch()

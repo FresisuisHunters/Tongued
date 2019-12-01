@@ -1,24 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-#pragma warning disable 649
+﻿using UnityEngine;
 
 public class ScoreHandler : MonoBehaviour
 {
-    public int CurrentScore { get; private set; }
-    
-    
-    protected virtual void Awake()
-    {
-        CurrentScore = 0;
+    public int CurrentScore {
+        get => _currentScore;
+        protected set
+        {
+            _currentScore = value;
+            OnScoreChanged?.Invoke(_currentScore);
+        }
     }
+    private int _currentScore;
 
-    /// <summary>
-    /// Método que añade la puntuacion recibida al jugador
-    /// </summary>
-    virtual public void AddScore(int score)
+    public event System.Action<int> OnScoreChanged;
+
+
+    public virtual void AddScore(int diff)
     {
-        this.CurrentScore += score;
+        CurrentScore += diff;
     }
 }

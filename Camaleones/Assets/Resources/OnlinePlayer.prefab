@@ -38,6 +38,18 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &114664761294156974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36215425079325772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2663e745ed61a940af9b05f7be11db7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114669252183212142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +161,8 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7780253788792849445, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
 --- !u!1 &36215425079325772 stripped
 GameObject:

@@ -20,10 +20,10 @@ public class PlayersHandler : MonoBehaviour
     #endregion
 
     #region Private Variables
-    //Lista de jugadores en la partida
+    public IEnumerable Players => playerList;
     private List<GameObject> playerList;
     #endregion
-
+    
     #region Protected Variables
     //Lista de puntos donde pueden spawnear los jugadores
     protected List<GameObject> spawnPoints;
