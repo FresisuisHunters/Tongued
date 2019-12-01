@@ -512,8 +512,10 @@ MonoBehaviour:
   normalGameplaySnapshot: {fileID: 245628392342628406, guid: cfb8ecc7c433e8741b8bd7660648efc1,
     type: 2}
   snapshotTransitionLength: 0.5
+  minVelocityForSplash: 5
   throwHookSFX: {fileID: 11400000, guid: 9cb906163ca4397428dfae701a69b23b, type: 2}
   disableHookSFX: {fileID: 11400000, guid: cd4aa8ec5654c1b46a580b3aec7139e6, type: 2}
+  hookedReactionSFX: {fileID: 11400000, guid: 599a842079967f34d8f854bfb6cd0310, type: 2}
 --- !u!114 &2162180728470586987
 MonoBehaviour:
   m_ObjectHideFlags: 0

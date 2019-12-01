@@ -4,7 +4,7 @@ using Hairibar.Audio.SFX;
 
 #pragma warning disable 649
 [RequireComponent(typeof(OneShotSFXPlayer), typeof(HookThrower), typeof(Rigidbody2D)), RequireComponent(typeof(RepeatAtFrequencySFXPlayer))]
-public class ChamaleonSFX : MonoBehaviour
+public class ChamaleonSFX : MonoBehaviour, IOnHookedListener
 {
     #region Inspector
     [Header("Retract")]
@@ -28,8 +28,8 @@ public class ChamaleonSFX : MonoBehaviour
     [Header("Others")]
     [SerializeField] private SFXClip throwHookSFX;
     [SerializeField] private SFXClip disableHookSFX;
+    [SerializeField] private SFXClip hookedReactionSFX;
     #endregion
-
 
     #region References
     private new Rigidbody2D rigidbody;
@@ -83,6 +83,11 @@ public class ChamaleonSFX : MonoBehaviour
             if (isLocalPlayer) normalGameplaySnapshot.TransitionTo(snapshotTransitionLength);
             if (Mathf.Abs(rigidbody.velocity.y) > minVelocityForSplash) sfxPlayer.RequestSFX(splashOut);
         }
+    }
+
+    void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook)
+    {
+        sfxPlayer.RequestSFX(hookedReactionSFX);
     }
 
     #region Initialization
