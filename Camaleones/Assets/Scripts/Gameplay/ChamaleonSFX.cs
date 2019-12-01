@@ -62,17 +62,15 @@ public class ChamaleonSFX : MonoBehaviour, IOnHookedListener
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Water") && Mathf.Abs(rigidbody.velocity.y) > minVelocityForSplash)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Water"))
         {
-            if (isLocalPlayer)
+            if (Mathf.Abs(rigidbody.velocity.y) > minVelocityForSplash)
             {
-                sfxPlayer.RequestSFX(localSplashIn);
-                underwaterSnapshot.TransitionTo(snapshotTransitionLength);
+                if (isLocalPlayer) sfxPlayer.RequestSFX(localSplashIn);
+                else sfxPlayer.RequestSFX(remoteSplashIn);
             }
-            else
-            {
-                sfxPlayer.RequestSFX(remoteSplashIn);
-            }
+
+            if (isLocalPlayer) underwaterSnapshot.TransitionTo(snapshotTransitionLength);
         }
     }
 

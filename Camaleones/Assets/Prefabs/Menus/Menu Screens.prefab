@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7010398537277171443}
   - component: {fileID: 2017669901}
   - component: {fileID: 253094880692555278}
+  - component: {fileID: 3453999204812750408}
+  - component: {fileID: 3813100606967449219}
   m_Layer: 0
   m_Name: Menu Screens
   m_TagString: Untagged
@@ -152,6 +154,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMenuScreen: {fileID: 6706952360062045490}
+--- !u!114 &3453999204812750408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6706952360090726608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534a8c8230eb3ad4a8a073ebdc3cace1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfAudioSources: 1
+  outputMixerGroup: {fileID: 243762664537332226, guid: cfb8ecc7c433e8741b8bd7660648efc1,
+    type: 2}
+--- !u!114 &3813100606967449219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6706952360090726608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c8a20cf112a2e4193d253af3d8229f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClickedSFX: {fileID: 11400000, guid: 4f2c4154faf4b2e4585dd8819231c92b, type: 2}
 --- !u!1001 &340877452586313835
 PrefabInstance:
   m_ObjectHideFlags: 0
