@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #region Constant Fields
-
     private const float GAME_COUNTDOWN = 5f;
+    private const string HOT_POTATO_HANDLER_NAME = "Online Hot Potato Manager";
 
     #endregion
 
@@ -201,7 +201,11 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     private void StartGame () {
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
             OnlineLogging.Instance.Write("El jugador " + PhotonNetwork.LocalPlayer.NickName + " inicial la partida");
-            PhotonNetwork.LoadLevel (ServerConstants.ONLINE_LEVEL);
+
+            SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
+            {
+                PhotonNetwork.Instantiate(HOT_POTATO_HANDLER_NAME, Vector3.zero, Quaternion.identity);
+            });
         }
     }
 

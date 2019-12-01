@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public static class SceneManagerExtensions
 {
@@ -11,6 +12,19 @@ public static class SceneManagerExtensions
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
 
         SceneManager.activeSceneChanged += CallbackInvoker;
+
+        void CallbackInvoker(Scene previousScene, Scene newScene)
+        {
+            SceneManager.activeSceneChanged -= CallbackInvoker;
+
+            onSceneActiveCallback();
+        }
+    }
+
+    public static void PhotonLoadScene(string sceneName, Action onSceneActiveCallback)
+    {
+        SceneManager.activeSceneChanged += CallbackInvoker;
+        PhotonNetwork.LoadLevel(sceneName);
 
         void CallbackInvoker(Scene previousScene, Scene newScene)
         {

@@ -7,6 +7,8 @@ TagManager:
   - Platform
   - Opponent
   - CameraBounds
+  - PlayerSpawnPoint
+  - SnitchSpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - HookLayer
   - RopeLayer
   - HookableEntityLayer
-  - 
+  - PlayerContactLayer
   - 
   - 
   - 
