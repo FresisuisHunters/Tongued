@@ -13259,6 +13259,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gameplay Camera Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 4578321903277610792, guid: 96d5293ec8631bf478e3b170b780b3c2,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578321903277610795, guid: 96d5293ec8631bf478e3b170b780b3c2,
+        type: 3}
+      propertyPath: m_BoundingShape2D
+      value: 
+      objectReference: {fileID: 9614271}
     - target: {fileID: 5169436663381717332, guid: 96d5293ec8631bf478e3b170b780b3c2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13314,16 +13324,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4578321903277610792, guid: 96d5293ec8631bf478e3b170b780b3c2,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578321903277610795, guid: 96d5293ec8631bf478e3b170b780b3c2,
-        type: 3}
-      propertyPath: m_BoundingShape2D
-      value: 
-      objectReference: {fileID: 9614271}
     - target: {fileID: 4578321903914351623, guid: 96d5293ec8631bf478e3b170b780b3c2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -13357,6 +13357,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 4709478262823600794, guid: a6de9fb84f0103b46b88b7344e5b6941,
+        type: 3}
+      propertyPath: m_Layer
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4709478262823600793, guid: a6de9fb84f0103b46b88b7344e5b6941,
         type: 3}

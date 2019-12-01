@@ -19,5 +19,5 @@ MonoBehaviour:
   _volume: 1
   _pitchVariance: 0.1
   _priority: 1
-  duplicateGroup: 
+  duplicateGroup: WATER
   duplicateBehaviour: 1

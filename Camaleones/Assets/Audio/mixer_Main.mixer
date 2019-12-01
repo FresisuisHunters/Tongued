@@ -10,8 +10,9 @@ AudioMixerController:
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
+  - {fileID: 245628392342628406}
   - {fileID: 24500006}
-  m_StartSnapshot: {fileID: 24500006}
+  m_StartSnapshot: {fileID: 245628392342628406}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
@@ -38,6 +39,7 @@ AudioMixerGroupController:
   m_Pitch: ad41b88fb32e7a346a4c2a2480fa6cdc
   m_Effects:
   - {fileID: 24400004}
+  - {fileID: 244499477463054504}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -62,10 +64,11 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snapshot
+  m_Name: snap_Underwater
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: d2c1bb5d1eb09ff47a002972c71fb641
-  m_FloatValues: {}
+  m_FloatValues:
+    39c001eec60aca54b9d0a5b99e8b1016: 728
   m_TransitionOverrides: {}
 --- !u!243 &243762664537332226
 AudioMixerGroupController:
@@ -85,6 +88,36 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &244452449673102658
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: b499b077a08a8604c938f0ec8a6d6c42
+  m_EffectName: Send
+  m_MixLevel: 80a9c47d9365748438fa6cb70da366b4
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &244499477463054504
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: fae772a67abd0b84186b1347feee19e6
+  m_EffectName: Lowpass Simple
+  m_MixLevel: 8a3e0b499c67cbd45912062fcf37a98a
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 39c001eec60aca54b9d0a5b99e8b1016
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &244865318665503458
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -99,3 +132,15 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &245628392342628406
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: snap_StandardGameplay
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 3edd90300843483479398d87ca3e727e
+  m_FloatValues:
+    39c001eec60aca54b9d0a5b99e8b1016: 22000
+  m_TransitionOverrides: {}

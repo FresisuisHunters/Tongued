@@ -505,6 +505,13 @@ MonoBehaviour:
   weeeSFX: {fileID: 11400000, guid: ae692905d73f10c4c940882285b3cae5, type: 2}
   minVelocityForWeeeSFX: 20
   weeeSFXChance: 0.3
+  localSplashIn: {fileID: 11400000, guid: 0e3228cc3d8f81146a4e0e41ca28c1bf, type: 2}
+  remoteSplashIn: {fileID: 11400000, guid: 69db638a003ebd240bc30c671ed80156, type: 2}
+  splashOut: {fileID: 11400000, guid: 428313f4f943db340ad149ecdfd15aec, type: 2}
+  underwaterSnapshot: {fileID: 24500006, guid: cfb8ecc7c433e8741b8bd7660648efc1, type: 2}
+  normalGameplaySnapshot: {fileID: 245628392342628406, guid: cfb8ecc7c433e8741b8bd7660648efc1,
+    type: 2}
+  snapshotTransitionLength: 0.5
   throwHookSFX: {fileID: 11400000, guid: 9cb906163ca4397428dfae701a69b23b, type: 2}
   disableHookSFX: {fileID: 11400000, guid: cd4aa8ec5654c1b46a580b3aec7139e6, type: 2}
 --- !u!114 &2162180728470586987
