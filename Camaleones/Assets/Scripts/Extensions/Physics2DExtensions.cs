@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Physics2DExtensions
 {
     //Creamos y guardamos arrays de Colliders al principio para no generar basura cada vez que se llama IgnoreCollisions.
-    private const int COLLIDER_ARRAY_SIZE = 2;
+    private const int COLLIDER_ARRAY_SIZE = 3;
     private static Collider2D[] aColliders = new Collider2D[COLLIDER_ARRAY_SIZE];
     private static Collider2D[] bColliders = new Collider2D[COLLIDER_ARRAY_SIZE];
 

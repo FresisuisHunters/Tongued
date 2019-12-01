@@ -67,11 +67,13 @@ public class TransferableItem : MonoBehaviour
     /// <param name="newHolder"></param>
     protected virtual void TITransfer(TransferableItemHolder newHolder)
     {
-        currentHolder.hasItem = false;
+        if (currentHolder) currentHolder.item = null;
         currentHolder = newHolder;
         
         transform.SetParent(newHolder.ItemParent);
-        currentHolder.hasItem = true;
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        currentHolder.item = this;
 
         GetComponent<Collider2D>().enabled = false;
         transferActive = false;

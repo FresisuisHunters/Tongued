@@ -48,5 +48,7 @@ MonoBehaviour:
   - RPCAddScore
   - RPCTransfer
   - SpawnPlayerOnline
+  - RPC_EndHotPotatoMatch
+  - RPC_StartHotPotatoRound
   DisableAutoOpenWizard: 1
   ShowSettings: 0

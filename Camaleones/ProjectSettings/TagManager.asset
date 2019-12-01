@@ -24,7 +24,7 @@ TagManager:
   - HookLayer
   - RopeLayer
   - HookableEntityLayer
-  - 
+  - PlayerContactLayer
   - 
   - 
   - 

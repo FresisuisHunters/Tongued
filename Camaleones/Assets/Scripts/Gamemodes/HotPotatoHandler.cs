@@ -25,7 +25,8 @@ public class HotPotatoHandler : MonoBehaviour
 
     #region Private state
     private float timeElapsedThisRound = 0;
-    protected float timeLeftInRound;
+    public float TimeLeftInRound { get; protected set; }
+    public float RoundDurationSinceLastReset { get; private set; }
 
     /// <summary>
     /// Bool para saber si se ha cogido la snitch por primera vez, empezando el juego
@@ -67,10 +68,10 @@ public class HotPotatoHandler : MonoBehaviour
             switch (currentRoundType)
             {
                 case RoundType.Blessing:
-                    snitch.AddScore(1);
+                    //snitch.AddScore(1);
                     break;
                 case RoundType.Curse:
-                    snitch.AddScore(-1);
+                    //snitch.AddScore(-1);
                     break;
             }
 
@@ -124,9 +125,9 @@ public class HotPotatoHandler : MonoBehaviour
         if (firstRoundHasStarted)
         {
             timeElapsedThisRound += Time.deltaTime;
-            timeLeftInRound -= Time.deltaTime;
+            TimeLeftInRound -= Time.deltaTime;
             
-            if(timeLeftInRound <= 0)
+            if(TimeLeftInRound <= 0)
             {
                 EndRound();
             }
@@ -135,7 +136,8 @@ public class HotPotatoHandler : MonoBehaviour
 
     private void ResetTimer()
     {
-        timeLeftInRound = posessionTimeCurve.Evaluate(timeElapsedThisRound);
+        RoundDurationSinceLastReset = posessionTimeCurve.Evaluate(timeElapsedThisRound);
+        TimeLeftInRound = RoundDurationSinceLastReset;
     }
 
 
