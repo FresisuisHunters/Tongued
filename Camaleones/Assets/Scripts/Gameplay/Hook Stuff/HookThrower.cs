@@ -43,7 +43,7 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
             _hook = value;
             if (value != null)
             {
-                value.OnAttached += () => OnHookAttached?.Invoke();
+                value.OnAttached += (Hook.AttachPointType attachPointType) => OnHookAttached?.Invoke();
                 value.OnThrown += (Vector2 targetPoint) => OnHookThrown?.Invoke(targetPoint);
                 value.OnDisabled += () => OnHookDisabled?.Invoke();
             }

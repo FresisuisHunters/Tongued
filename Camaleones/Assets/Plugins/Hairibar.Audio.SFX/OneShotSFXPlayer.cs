@@ -244,9 +244,10 @@ namespace Hairibar.Audio.SFX
             }
 
             //Set them up
-            for (int j = 0; j < audioSources.Length; j++)
+            foreach (AudioSource audioSource in audioSources)
             {
-                audioSources[j].outputAudioMixerGroup = outputMixerGroup;
+                audioSource.outputAudioMixerGroup = outputMixerGroup;
+                audioSource.playOnAwake = false;
             }
         }
 

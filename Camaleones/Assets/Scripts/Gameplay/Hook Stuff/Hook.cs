@@ -56,7 +56,7 @@ public class Hook : MonoBehaviour
 
     #region Eventos
     public event Action<Vector2> OnThrown;
-    public event Action OnAttached;
+    public event Action<AttachPointType> OnAttached;
     public event Action OnDisabled;
     #endregion
 
@@ -151,7 +151,7 @@ public class Hook : MonoBehaviour
         distanceJoint.enabled = true;
 
         //Lanzar evento
-        OnAttached?.Invoke();
+        OnAttached?.Invoke(AttachPointType.Terrain);
     }
 
     protected virtual void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
@@ -180,7 +180,7 @@ public class Hook : MonoBehaviour
         fixedJoint.enabled = true;
 
         //Lanzar evento
-        OnAttached?.Invoke();
+        OnAttached?.Invoke(AttachPointType.Entity);
 
         //Avisamos de que ha sido enganchado
         IOnHookedListener[] onHookedListeners = rigidbodyToAttachTo.GetComponents<IOnHookedListener>();
@@ -247,4 +247,10 @@ public class Hook : MonoBehaviour
         Disable();
     }
     #endregion
+
+    public enum AttachPointType
+    {
+        Terrain,
+        Entity
+    }
 }

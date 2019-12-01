@@ -58,6 +58,8 @@ GameObject:
   - component: {fileID: 5011558029675965808}
   - component: {fileID: 5011558029675965807}
   - component: {fileID: 4205835996028981653}
+  - component: {fileID: 2264303171403686573}
+  - component: {fileID: 4221412684816412427}
   m_Layer: 11
   m_Name: Hook
   m_TagString: Untagged
@@ -114,6 +116,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finalTongueTint: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &2264303171403686573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5011558029675965809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 368d1e1f2f73bee4aa6b9523562df491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachToTerrainSFX: {fileID: 11400000, guid: 38ed1633f5c04554cab19f2441a06cff, type: 2}
+  attachToEntitySFX: {fileID: 11400000, guid: 403811b9cc337a34f80e2f1bd28c6653, type: 2}
+--- !u!114 &4221412684816412427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5011558029675965809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534a8c8230eb3ad4a8a073ebdc3cace1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfAudioSources: 1
+  outputMixerGroup: {fileID: 243762664537332226, guid: cfb8ecc7c433e8741b8bd7660648efc1,
+    type: 2}
 --- !u!1 &5449976275112089577
 GameObject:
   m_ObjectHideFlags: 0
