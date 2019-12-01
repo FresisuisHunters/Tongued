@@ -7,6 +7,8 @@ TagManager:
   - Platform
   - Opponent
   - CameraBounds
+  - PlayerSpawnPoint
+  - SnitchSpawnPoint
   layers:
   - Default
   - TransparentFX

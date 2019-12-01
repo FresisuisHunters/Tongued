@@ -7,88 +7,84 @@ using TMPro;
 [RequireComponent(typeof(PhotonView))]
 public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
 {
-
     private PhotonView photonView;
+
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(timerCurrentTime);
-            Debug.Log("Sent " + timerCurrentTime);
+            stream.SendNext(timeLeftInRound);
         }
         else
         {
-            timerCurrentTime = (int)stream.ReceiveNext();
-            Debug.Log("Received " + timerCurrentTime);
+            timeLeftInRound = (float) stream.ReceiveNext();
         }
     }
+
+
+    protected override void StartRound(RoundType roundType)
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            base.StartRound(roundType);
+        }
+
+        photonView.RPC("RPC_StartHotPotatoRound", RpcTarget.Others, roundType);
+    }
+    [PunRPC]
+    private void RPC_StartHotPotatoRound(RoundType roundType)
+    {
+        base.StartRound(roundType);
+    }
+
+
+    protected override void EndRound()
+    {
+        //Los clientes no master nunca ejecutan EndRound.
+        if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
+
+        base.EndRound();
+    }
+
+    protected override void EndMatch()
+    {
+        if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
+        base.EndMatch();
+        photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_EndHotPotatoMatch()
+    {
+        base.EndMatch();
+    }
+
+
+
+    #region Initialization
     protected override void Awake()
     {
         photonView = GetComponent<PhotonView>();
-        
+
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
-            if (!spawnPoint)
-            {
-                Debug.LogError("There is no SnitchSpawnPoint in the scene.");
-            }
-
-            snitchReference = PhotonNetwork.Instantiate("OnlineSnitch", spawnPoint.transform.position, Quaternion.identity, 0).GetComponent<TransferableItem>();
+            SpawnSnitch();
         }
-
-        timerText = GetComponentInChildren<TextMeshProUGUI>();
-
-        roundType = true;
-        currentRound = 0;
-        roundChangeChance = 0.5f;
 
         playersHandler = GetComponent<PlayersHandler>();
     }
-    protected override void UpdateTimer()
-    {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            base.UpdateTimer();
-        else
-            timerText.SetText(timerCurrentTime.ToString());
-    }
 
-    public override void NotifyTransfer()
+    protected override void SpawnSnitch()
     {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            base.NotifyTransfer();
-        else if (!hasStarted)
-            hasStarted = true;
-    }
-
-    protected override void RestartTimer()
-    {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            base.RestartTimer();
-    }
-
-    protected override void StartNewRound()
-    {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
+        if (!spawnPoint)
         {
-            base.StartNewRound();
-            photonView.RPC("ChangeRoundType", RpcTarget.Others, roundType);
+            Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
-    }
 
-    [PunRPC]
-    private void ChangeRoundType(bool type)
-    {
-        roundType = type;
+        snitch = PhotonNetwork.Instantiate("OnlineSnitch", spawnPoint.transform.position, Quaternion.identity, 0).GetComponent<TransferableItem>();
+        snitch.OnItemTransfered += OnSnitchTransfered;
     }
-
-    protected override void Update()
-    {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            base.Update();
-        else if (hasStarted)
-            UpdateTimer();
-    }
-
+    #endregion
 }

@@ -44,5 +44,9 @@ MonoBehaviour:
   - PlayerNotReady
   - StartGameCountdown
   - StopGameCountdown
+  - ChangeRoundType
+  - RPCAddScore
+  - RPCTransfer
+  - SpawnPlayerOnline
   DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -19,33 +19,29 @@ public class OnlineTransferableItem : TransferableItem
 
     public override void Collide(GameObject collisionObject)
     {
-        if (transferActive)
+        //Ignoramos esta colisión si este objeto no es nuestro
+        if (collisionObject.GetComponent<PhotonView>()?.IsMine ?? false)
         {
-            if (collisionObject.layer == LayerMask.NameToLayer("MainPlayerLayer"))
-            {
-                TITransfer(collisionObject);
-            }
+            base.Collide(collisionObject);
         }
     }
 
     /// <summary>
     /// Mandamos al resto de jugadores el evento indicando que hemos cogido la snitch con la id de nuestro photonview y luego ejecutamos el código de la clase padre
     /// </summary>
-    /// <param name="target"></param>
-    protected override void TITransfer(GameObject target)
+    protected override void TITransfer(TransferableItemHolder target)
     {
-        photonView.RPC("RPCTransfer", RpcTarget.Others, target.GetPhotonView().ViewID);
+        photonView.RPC("RPCTransfer", RpcTarget.Others, target.GetComponent<PhotonView>().ViewID);
         base.TITransfer(target);
     }
 
     /// <summary>
     /// Este es el método que recibe el evento con el id del gameobject del jugador que ha cogido la snitch. A partir de ahí coge el gameobject y ejecuta el código de la clase padre.
     /// </summary>
-    /// <param name="id"></param>
     [PunRPC]
     private void RPCTransfer(int id)
     {
-        GameObject target = PhotonView.Find(id).gameObject;
+        TransferableItemHolder target = PhotonView.Find(id).GetComponent<TransferableItemHolder>();
         base.TITransfer(target);
     }
 }

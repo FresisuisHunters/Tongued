@@ -6,23 +6,19 @@ using UnityEngine;
 
 public class ScoreHandler : MonoBehaviour
 {
-
-    #region Private Variables
-    [Tooltip("Puntuacion del jugador")]
-    [SerializeField]private int score;
-    #endregion
-    // Start is called before the first frame update
+    public int CurrentScore { get; private set; }
+    
+    
     protected virtual void Awake()
     {
-        score = 0;
+        CurrentScore = 0;
     }
 
     /// <summary>
-    /// metodo que añade la puntuacion recibida al jugador
+    /// Método que añade la puntuacion recibida al jugador
     /// </summary>
-    /// <param name="score"></param>
     virtual public void AddScore(int score)
     {
-        this.score += score;
+        this.CurrentScore += score;
     }
 }

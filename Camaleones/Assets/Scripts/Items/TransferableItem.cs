@@ -14,9 +14,11 @@ public class TransferableItem : MonoBehaviour
     [SerializeField] private float cooldownToTransfer;
     #endregion
 
+    public event System.Action<TransferableItemHolder> OnItemTransfered;
+
     #region Private Variables
     private HotPotatoHandler hotPotatoHandler;
-    private GameObject player;
+    private TransferableItemHolder currentHolder;
     #endregion
 
     protected bool transferActive;
@@ -54,29 +56,33 @@ public class TransferableItem : MonoBehaviour
     {
         if (transferActive)
         {
-            if (collisionObject.layer == LayerMask.NameToLayer("MainPlayerLayer") || collisionObject.layer == LayerMask.NameToLayer("PlayerLayer"))
-            {
-                TITransfer(collisionObject);
-            }
+            TransferableItemHolder newHolder = collisionObject.GetComponent<TransferableItemHolder>();
+            if (newHolder) TITransfer(newHolder);
         }
     }
 
     /// <summary>
     /// Este método transfiere el objeto a otro jugador
     /// </summary>
-    /// <param name="target"></param>
-    protected virtual void TITransfer(GameObject target)
+    /// <param name="newHolder"></param>
+    protected virtual void TITransfer(TransferableItemHolder newHolder)
     {
-        player = target;
-        Destroy(GetComponentInParent<SnitchOnPlayerCommunicator>());
-        transform.SetParent(target.transform.Find("SnitchHolder"));
-        target.AddComponent<SnitchOnPlayerCommunicator>();
+        currentHolder.hasItem = false;
+        currentHolder = newHolder;
+        
+        transform.SetParent(newHolder.ItemParent);
+        currentHolder.hasItem = true;
+
         GetComponent<Collider2D>().enabled = false;
         transferActive = false;
         StartCoroutine(ActivationTimer());
-        hotPotatoHandler.NotifyTransfer();
+
+        //TODO: Subscribe to this event at HotPotatoHandler
+        OnItemTransfered?.Invoke(currentHolder);
+        //hotPotatoHandler.NotifyTransfer();
     }
 
+    //TODO: Move this away from here.
     public void AddScore(int score)
     {
         GetComponentInParent<ScoreHandler>().AddScore(score);
