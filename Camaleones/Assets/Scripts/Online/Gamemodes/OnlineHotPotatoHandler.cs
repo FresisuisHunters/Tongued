@@ -83,8 +83,8 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 
-        snitch = PhotonNetwork.Instantiate("OnlineSnitch", spawnPoint.transform.position, Quaternion.identity, 0).GetComponent<TransferableItem>();
-        snitch.OnItemTransfered += OnSnitchTransfered;
+        Snitch = PhotonNetwork.Instantiate("OnlineSnitch", spawnPoint.transform.position, Quaternion.identity, 0).GetComponent<TransferableItem>();
+        Snitch.OnItemTransfered += OnSnitchTransfered;
     }
     #endregion
 }

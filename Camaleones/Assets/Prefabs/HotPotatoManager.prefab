@@ -638,3 +638,7 @@ MonoBehaviour:
   - {fileID: 5067524033205186415}
   - {fileID: 3573912989215466457}
   tintCrossfadeLength: 0.5
+  blessingRoundSnitchImage: {fileID: 21300000, guid: 7377013011b4c3348809ff574abe799e,
+    type: 3}
+  curseRoundSnitchImage: {fileID: 21300000, guid: 6306cc1f5366b25439e06fc9c607cef1,
+    type: 3}

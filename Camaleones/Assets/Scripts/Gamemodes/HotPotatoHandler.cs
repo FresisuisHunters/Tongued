@@ -41,7 +41,7 @@ public class HotPotatoHandler : MonoBehaviour
     private float currentChanceOfSameRound = 0.5f;
 
     protected PlayersHandler playersHandler;
-    protected TransferableItem snitch;
+    public TransferableItem Snitch { get; protected set; }
     #endregion
 
     protected virtual void StartRound(RoundType roundType)
@@ -178,8 +178,8 @@ public class HotPotatoHandler : MonoBehaviour
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 
-        snitch = Instantiate(snitchPrefab, spawnPoint.transform.position, Quaternion.identity);
-        snitch.OnItemTransfered += OnSnitchTransfered;
+        Snitch = Instantiate(snitchPrefab, spawnPoint.transform.position, Quaternion.identity);
+        Snitch.OnItemTransfered += OnSnitchTransfered;
     }
     #endregion
 
