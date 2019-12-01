@@ -25,15 +25,25 @@ public class OnlinePlayersHandler : PlayersHandler
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            List<GameObject> temp = new List<GameObject>();
+            List<GameObject> spawnPointPool = new List<GameObject>();
             foreach (GameObject g in spawnPoints)
-                temp.Add(g);
+                spawnPointPool.Add(g);
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                int randPos = Random.Range(0, temp.Count);
-                Vector2 position = temp[randPos].transform.position;
+                Vector2 position;
+                if (spawnPointPool.Count > 0)
+                {
+                    int randIndex = Random.Range(0, spawnPointPool.Count);
+                    position = spawnPointPool[randIndex].transform.position;
+                    spawnPointPool.RemoveAt(randIndex);
+                }
+                else
+                {
+                    position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
+                    Debug.LogWarning("No hay suficientes spawnpoints en este mapa.", this);
+                }
+                
                 photonView.RPC("SpawnPlayerOnline", p, position);
-                temp.RemoveAt(randPos);
             }
         }
     }
@@ -41,7 +51,6 @@ public class OnlinePlayersHandler : PlayersHandler
     /// <summary>
     /// Este método instancia a un jugador en la posición recibida de master
     /// </summary>
-    /// <param name="position"></param>
     [PunRPC]
     private void SpawnPlayerOnline(Vector2 position)
     {

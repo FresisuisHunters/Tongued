@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+#pragma warning disable 649
 [RequireComponent(typeof(HotPotatoHandler))]
 public class HotPotatoUI : MonoBehaviour
 {
@@ -50,6 +51,7 @@ public class HotPotatoUI : MonoBehaviour
 
         offscreenSnitchViewImage.sprite = offscreenSprite;
     }
+
 
     private void Awake()
     {

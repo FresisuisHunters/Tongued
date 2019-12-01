@@ -141,24 +141,6 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
 
-
-    #region Must Mmove to UI component
-    /*
-    /// <summary>
-    /// Este metodo actualiza el timer en pantalla
-    /// </summary>
-    protected virtual void UpdateTimer()
-    {
-        //timerCurrentTime = (int)Mathf.Ceil(Mathf.Max((currentEndTime - (Time.time - timerStartTime)), 0));
-        //timerText.SetText(timerCurrentTime.ToString());
-    }
-    */
-    #endregion
-
-
-
-    
-
     #region Initialization
     protected virtual void Awake()
     {
@@ -170,7 +152,7 @@ public class HotPotatoHandler : MonoBehaviour
         playersHandler = GetComponent<PlayersHandler>();
     }
 
-    protected virtual void SpawnSnitch()
+    private void SpawnSnitch()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)

@@ -59,32 +59,29 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         base.EndMatch();
     }
 
-
-
     #region Initialization
     protected override void Awake()
     {
+        base.Awake();
+
         photonView = GetComponent<PhotonView>();
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            SpawnSnitch();
-        }
 
-        playersHandler = GetComponent<PlayersHandler>();
+            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
+            snitchPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            PhotonNetwork.AllocateViewID(snitchPhotonView);
+
+            photonView.RPC("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
+        }
     }
 
-    protected override void SpawnSnitch()
+    [PunRPC]
+    private void RPC_SetSnitchViewID(int id)
     {
-        GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
-        if (!spawnPoint)
-        {
-            Debug.LogError("There is no SnitchSpawnPoint in the scene.");
-        }
-
-        Snitch = PhotonNetwork.Instantiate("OnlineSnitch", spawnPoint.transform.position, Quaternion.identity, 0).GetComponent<TransferableItem>();
-        Snitch.OnItemTransfered += OnSnitchTransfered;
+        Snitch.GetComponent<PhotonView>().ViewID = id;
     }
     #endregion
 }

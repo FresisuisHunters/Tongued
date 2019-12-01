@@ -50,5 +50,6 @@ MonoBehaviour:
   - SpawnPlayerOnline
   - RPC_EndHotPotatoMatch
   - RPC_StartHotPotatoRound
+  - RPC_SetSnitchViewID
   DisableAutoOpenWizard: 1
   ShowSettings: 0

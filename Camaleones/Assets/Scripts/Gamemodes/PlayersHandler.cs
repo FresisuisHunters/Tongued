@@ -31,7 +31,6 @@ public class PlayersHandler : MonoBehaviour
 
     protected virtual void Awake()
     {
-        
         spawnPoints = new List<GameObject>();
         spawnPoints.AddRange(GameObject.FindGameObjectsWithTag("PlayerSpawnPoint"));
 
