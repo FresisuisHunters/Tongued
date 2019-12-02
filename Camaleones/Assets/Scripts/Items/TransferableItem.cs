@@ -14,16 +14,13 @@ public class TransferableItem : MonoBehaviour
     [SerializeField] private float cooldownToTransfer;
     #endregion
 
-    public event System.Action<TransferableItemHolder> OnItemTransfered;
+    public event System.Action<TransferableItemHolder, TransferableItemHolder> OnItemTransfered;
 
     public TransferableItemHolder CurrentHolder { get; private set; }
 
     protected bool transferActive = true;
 
 
-    /// <summary>
-    /// Al tocar un jugador o su lengua si la transferencia está activa le añade un componente de este tipo y se autodestruye, quitandolo del objeto que lo tenia antes
-    /// </summary>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Collide(collision.gameObject);
@@ -42,12 +39,13 @@ public class TransferableItem : MonoBehaviour
     }
 
     /// <summary>
-    /// Este método transfiere el objeto a otro jugador
+    /// Transfiere el objeto a otro jugador
     /// </summary>
     protected virtual void TITransfer(TransferableItemHolder newHolder)
     {
-        if (CurrentHolder) CurrentHolder.item = null;
+        TransferableItemHolder oldHolder = CurrentHolder;
         CurrentHolder = newHolder;
+        if (oldHolder) oldHolder.item = null;
         
         transform.SetParent(newHolder.ItemParent);
         transform.localPosition = Vector3.zero;
@@ -58,7 +56,7 @@ public class TransferableItem : MonoBehaviour
         transferActive = false;
         StartCoroutine(ActivationTimer());
 
-        OnItemTransfered?.Invoke(CurrentHolder);
+        OnItemTransfered?.Invoke(oldHolder, newHolder);
     }
 
     /// <summary>

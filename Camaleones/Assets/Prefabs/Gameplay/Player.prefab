@@ -535,7 +535,7 @@ MonoBehaviour:
   spritesParent: {fileID: 5890763336116366707}
   headRotator: {fileID: 5464763174658110684}
   bodyRotator: {fileID: 440097821223697788}
-  durationOfNoInertiaAfterThrow: 0.1
+  durationOfNoInertiaAfterThrow: 0.3
   headAnimator: {fileID: 8206891802529703094}
   bodyAnimator: {fileID: 8393029196324952528}
   maxSlopeAngleForGrounded: 50
@@ -564,6 +564,10 @@ MonoBehaviour:
     type: 2}
   snapshotTransitionLength: 0.5
   minVelocityForSplash: 5
+  positiveReactionSFX: {fileID: 11400000, guid: 30e6a6a0551494f4599b0072b7f28a1f,
+    type: 2}
+  negativeReactionSFX: {fileID: 11400000, guid: 599a842079967f34d8f854bfb6cd0310,
+    type: 2}
   throwHookSFX: {fileID: 11400000, guid: 9cb906163ca4397428dfae701a69b23b, type: 2}
   disableHookSFX: {fileID: 11400000, guid: cd4aa8ec5654c1b46a580b3aec7139e6, type: 2}
   hookedReactionSFX: {fileID: 11400000, guid: 599a842079967f34d8f854bfb6cd0310, type: 2}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 #pragma warning disable 649
 [RequireComponent(typeof(HookThrower), typeof(Rigidbody2D))]
-public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
+public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener, IPlayerReactionListener
 {
     #region Constants
     private static int GROUNDED_PROPERTY = Animator.StringToHash("IsGrounded");
@@ -184,6 +184,19 @@ public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener
 
     #region Event Responses
     void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => DoNegativeReaction();
+
+    void IPlayerReactionListener.DoReaction(PlayerReactionType reactionType)
+    {
+        switch (reactionType)
+        {
+            case PlayerReactionType.Positive:
+                DoPositiveReaction();
+                break;
+            case PlayerReactionType.Negative:
+                DoNegativeReaction();
+                break;
+        }
+    }
 
     private void OnHookThrown(Vector2 targetPoint)
     {

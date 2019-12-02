@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
-using TMPro;
+﻿using UnityEngine;
 
 #pragma warning disable 649
-
 /// <summary>
 /// Clase que gestiona el modo de juego Hot Potato
 /// </summary>
@@ -107,7 +102,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
 
-    protected void OnSnitchTransfered(TransferableItemHolder newSnitchHolder)
+    protected void OnSnitchTransfered(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
     {
         if (!firstRoundHasStarted)
         {
@@ -116,6 +111,44 @@ public class HotPotatoHandler : MonoBehaviour
         else
         {
             ResetTimer();
+        }
+
+        //Provoca las reacciones de los jugadores
+        PlayerReactionType oldHolderReaction;
+        PlayerReactionType newHolderReaction;
+        switch (currentRoundType)
+        {
+            case RoundType.Blessing:
+                oldHolderReaction = PlayerReactionType.Negative;
+                newHolderReaction = PlayerReactionType.Positive;
+                break;
+            case RoundType.Curse:
+                oldHolderReaction = PlayerReactionType.Positive;
+                newHolderReaction = PlayerReactionType.Negative;
+                break;
+            default:
+                //Nunca debería llegarse aquí.
+                oldHolderReaction = PlayerReactionType.Negative;
+                newHolderReaction = PlayerReactionType.Positive;
+                break;
+        }
+
+        IPlayerReactionListener[] listeners;
+        if (oldSnitchHolder)
+        {
+            listeners = oldSnitchHolder.GetComponents<IPlayerReactionListener>();
+            for (int i = 0; i < listeners.Length; i++)
+            {
+                listeners[i].DoReaction(oldHolderReaction);
+            }
+        }
+        if (newSnitchHolder)
+        {
+            listeners = newSnitchHolder.GetComponents<IPlayerReactionListener>();
+            for (int i = 0; i < listeners.Length; i++)
+            {
+                listeners[i].DoReaction(newHolderReaction);
+            }
         }
     }
 

@@ -4,7 +4,7 @@ using Hairibar.Audio.SFX;
 
 #pragma warning disable 649
 [RequireComponent(typeof(OneShotSFXPlayer), typeof(HookThrower), typeof(Rigidbody2D)), RequireComponent(typeof(RepeatAtFrequencySFXPlayer))]
-public class ChamaleonSFX : MonoBehaviour, IOnHookedListener
+public class ChamaleonSFX : MonoBehaviour, IOnHookedListener, IPlayerReactionListener
 {
     #region Inspector
     [Header("Retract")]
@@ -25,10 +25,17 @@ public class ChamaleonSFX : MonoBehaviour, IOnHookedListener
     [SerializeField] private float snapshotTransitionLength;
     [SerializeField] private float minVelocityForSplash = 5;
 
+    [Header("Reactions")]
+    [SerializeField] private SFXClip positiveReactionSFX;
+    [SerializeField] private SFXClip negativeReactionSFX;
+
     [Header("Others")]
     [SerializeField] private SFXClip throwHookSFX;
     [SerializeField] private SFXClip disableHookSFX;
     [SerializeField] private SFXClip hookedReactionSFX;
+
+
+    
     #endregion
 
     #region References
@@ -83,9 +90,23 @@ public class ChamaleonSFX : MonoBehaviour, IOnHookedListener
         }
     }
 
+
     void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook)
     {
         sfxPlayer.RequestSFX(hookedReactionSFX);
+    }
+
+    void IPlayerReactionListener.DoReaction(PlayerReactionType reactionType)
+    {
+        switch (reactionType)
+        {
+            case PlayerReactionType.Positive:
+                if (isLocalPlayer) sfxPlayer.RequestSFX(positiveReactionSFX);
+                break;
+            case PlayerReactionType.Negative:
+                if (isLocalPlayer) sfxPlayer.RequestSFX(negativeReactionSFX);
+                break;
+        }
     }
 
     #region Initialization
