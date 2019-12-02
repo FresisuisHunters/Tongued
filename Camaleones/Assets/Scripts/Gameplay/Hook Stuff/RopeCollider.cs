@@ -73,7 +73,6 @@ public class RopeCollider : MonoBehaviour {
     /// Index 0: punto fijo
     /// Último index: swinger
     /// </summary>
-    /// <returns></returns>
     public Vector3[] GetRopePoints () {
         //Idealmente, no crearíamos el array en cada llamada, para evitar generar basura cada frame.
         Vector3[] points = new Vector3[contactPoints.Count + 2];
@@ -136,7 +135,7 @@ public class RopeCollider : MonoBehaviour {
                     previousContactPoint.length += contactPoint.length;
                 }
 
-                Debug.LogWarning("Se ha deshecho un contacto");
+                //Debug.LogWarning("Se ha deshecho un contacto");
 
                 contactPoints.RemoveAt (contactPoints.Count - (i + 1));
 
@@ -178,7 +177,7 @@ public class RopeCollider : MonoBehaviour {
         Vector2 tongueEndPosition = HeadPosition;
         // La comprobación se hace en el sentido cabeza->punto de contacto porque sino encontraría el último punto de contacto o uno infinitesimalmente próximo a éste
         if (FindContactPointInSegment (tongueEndPosition, previousContactPoint, out ContactPoint otherContactPoint)) {
-            Debug.Log("Contacto al final de la lengua. CP: " + contactPoints.Count);
+            //Debug.Log("Contacto al final de la lengua. CP: " + contactPoints.Count);
 
             otherContactPoint.angleSign *= -1;  // Se invierte el angulo dado que el sentido del vector es distinto
             ContactPoint p = contactPoints[0];
