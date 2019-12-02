@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #pragma warning disable 649
@@ -8,6 +9,7 @@ using UnityEngine;
 /// El gancho está dividido en dos partes: la cabeza (la parte que se engancha) 
 /// y el swinging point (el punto del que cuelga el jugador, que puede moverse en algunos casos.
 /// </summary>
+[RequireComponent(typeof(AttachedStruggler))]
 public class Hook : MonoBehaviour
 {
     #region Inspector
@@ -50,12 +52,11 @@ public class Hook : MonoBehaviour
     }
 
     public Vector2 SwingingHingePoint => ropeCollider.SwingingHingePoint;
-    
     #endregion
 
     #region Eventos
     public event Action<Vector2> OnThrown;
-    public event Action OnAttached;
+    public event Action<AttachPointType> OnAttached;
     public event Action OnDisabled;
     #endregion
 
@@ -150,7 +151,7 @@ public class Hook : MonoBehaviour
         distanceJoint.enabled = true;
 
         //Lanzar evento
-        OnAttached?.Invoke();
+        OnAttached?.Invoke(AttachPointType.Terrain);
     }
 
     protected virtual void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
@@ -178,11 +179,15 @@ public class Hook : MonoBehaviour
         fixedJoint.connectedBody = rigidbodyToAttachTo;
         fixedJoint.enabled = true;
 
-        //Si hemos enganchado a otro jugador, desactivar su lengua
-        rigidbodyToAttachTo.GetComponent<HookThrower>()?.DisableHook();
-
         //Lanzar evento
-        OnAttached?.Invoke();
+        OnAttached?.Invoke(AttachPointType.Entity);
+
+        //Avisamos de que ha sido enganchado
+        IOnHookedListener[] onHookedListeners = rigidbodyToAttachTo.GetComponents<IOnHookedListener>();
+        for (int i = 0; i < onHookedListeners.Length; i++)
+        {
+            onHookedListeners[i].OnHooked((rigidbodyToAttachTo.position - SwingingHingePoint).normalized, this);
+        }
     }
     #endregion
 
@@ -197,6 +202,8 @@ public class Hook : MonoBehaviour
             {
                 Rigidbody2D hitRigidbody = collision.attachedRigidbody;
                 if (Vector2.Distance(hitRigidbody.position, throwOriginPoint) > minEntityHookDistance) AttachToRigidbody(hitRigidbody);
+
+                Debug.DrawLine(headRigidbody.position, collision.attachedRigidbody.position, Color.red, 1);
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableTerrainLayer"))
             {
@@ -236,11 +243,14 @@ public class Hook : MonoBehaviour
         fixedJoint.connectedAnchor = Vector2.zero;
 
         ropeCollider = GetComponentInChildren<RopeCollider>();
-    }
 
-    private void Start()
-    {
         Disable();
     }
     #endregion
+
+    public enum AttachPointType
+    {
+        Terrain,
+        Entity
+    }
 }

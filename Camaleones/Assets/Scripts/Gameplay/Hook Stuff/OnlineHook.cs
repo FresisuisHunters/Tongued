@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-
 /// <summary>
 /// Hijo de Hook, le añade funcionalidades necesarias para sincronizar Hook.
 /// Hace override a las funcione que hay que sincronizar, llamando el RCP al resto de jugadores si es el jugador local.
 /// </summary>
-[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonView), typeof(AttachedStruggler))]
 public class OnlineHook : Hook, IPunObservable, IPunInstantiateMagicCallback
 {
     private PhotonView photonView;

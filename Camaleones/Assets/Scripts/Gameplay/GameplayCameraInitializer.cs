@@ -8,35 +8,37 @@ public class GameplayCameraInitializer : MonoBehaviour
 {
     void Start()
     { 
-        FindPlayer();
         FindBoundingShape();
         AssignCameraAtInputReceiver();
+    }
 
-        Destroy(this);
-    }    
-
-    private void FindPlayer()
+    private void Update()
     {
-        Transform playerTransform = null;
+        if (FindPlayer()) Destroy(this);
+    }
 
-        PhotonView[] photonView = FindObjectsOfType<PhotonView>();
-        if (photonView.Length == 0)
+    private bool FindPlayer()
+    {
+        GameObject[] potentialPlayers = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < potentialPlayers.Length; i++)
         {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        }
-        else
-        {
-            for (int i = 0; i < photonView.Length; i++)
+            PhotonView photonView = potentialPlayers[i].GetComponent<PhotonView>();
+            if (photonView)
             {
-                if (photonView[i].IsMine)
+                if (photonView.IsMine)
                 {
-                    playerTransform = photonView[i].transform;
-                    break;
+                    GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = photonView.transform;
+                    return true;
                 }
+            }
+            else
+            {
+                GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = potentialPlayers[i].transform;
+                return true;
             }
         }
 
-        GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = playerTransform;
+        return false;
     }
 
     private void FindBoundingShape()

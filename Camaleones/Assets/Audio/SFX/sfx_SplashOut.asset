@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
+  m_Name: sfx_SplashOut
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 9f1b25b6244d1164885edd4f16bc82db, type: 3}
+  - {fileID: 8300000, guid: 3b6cf30dee31b594e9f51c4af84f3324, type: 3}
+  - {fileID: 8300000, guid: ea8578d69dbdbfd49a4324c8955d43c3, type: 3}
+  _volume: 1
+  _pitchVariance: 0.1
+  _priority: 1
+  duplicateGroup: WATER
+  duplicateBehaviour: 1

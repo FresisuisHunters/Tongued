@@ -2,32 +2,19 @@
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class OnlinePlayer : MonoBehaviourPunCallbacks {
 
     [System.NonSerialized] public OnlinePlayer localInstance;
-    public TextMeshPro playerNameOnScreen;
-
-    private Vector3 positionOffset;
 
     #region Unity Callbacks
-
-    protected void Awake () {
-        playerNameOnScreen.text = photonView.Owner.NickName;
-        positionOffset = transform.position - playerNameOnScreen.rectTransform.position;
-        if (photonView.IsMine) {
-            playerNameOnScreen.color = Color.yellow;
+    protected void Awake()
+    {
+        if (photonView.IsMine)
+        {
             localInstance = this;
         }
     }
-
-    protected void LateUpdate() {
-        // Para que no se mueva/rote el texto junto con el camaleon
-        playerNameOnScreen.rectTransform.rotation = Quaternion.identity;
-        playerNameOnScreen.rectTransform.position = transform.position - positionOffset;
-    }
-
     #endregion
 
     #region Private Methods

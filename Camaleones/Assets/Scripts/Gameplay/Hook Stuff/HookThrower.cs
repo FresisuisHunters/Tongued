@@ -7,11 +7,8 @@ using UnityEngine.EventSystems;
 /// Componente encargado de dar órdenes al gancho.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
-public class HookThrower : MonoBehaviour
+public class HookThrower : MonoBehaviour, IOnHookedListener
 {
-    public bool debugAutoAim;
-    public bool debugVelocity;
-
     #region Inspector
     [Header("Hook")]
     public float retractDistancePerSecond = 10f;
@@ -21,6 +18,10 @@ public class HookThrower : MonoBehaviour
     [SerializeField] private int autoAimRayCount = 5;
     [SerializeField] private float autoAimConeAngle = 10;
     [SerializeField] private LayerMask autoAimLayerMask;
+
+    [Header("Debug")]
+    public bool debugAutoAim;
+    public bool debugVelocity;
     #endregion
 
     #region Eventos
@@ -29,6 +30,7 @@ public class HookThrower : MonoBehaviour
     public event Action<Vector2> OnHookThrown;
     public event Action OnHookAttached;
     public event Action OnHookDisabled;
+    public event Action<float> OnRetracted;
     #endregion
 
     #region Propiedades Públicas
@@ -41,13 +43,14 @@ public class HookThrower : MonoBehaviour
             _hook = value;
             if (value != null)
             {
-                value.OnAttached += () => OnHookAttached?.Invoke();
+                value.OnAttached += (Hook.AttachPointType attachPointType) => OnHookAttached?.Invoke();
                 value.OnThrown += (Vector2 targetPoint) => OnHookThrown?.Invoke(targetPoint);
                 value.OnDisabled += () => OnHookDisabled?.Invoke();
             }
         }
     }
     private Hook _hook;
+
     public Rigidbody2D Rigidbody { get; private set; }
     public Vector2 SwingingHingePoint => Hook.SwingingHingePoint;
     #endregion
@@ -136,15 +139,19 @@ public class HookThrower : MonoBehaviour
 
             Vector2 u = Hook.SwingingHingePoint - Rigidbody.position;
             Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
+
+            OnRetracted?.Invoke(amountMultiplier);
         }
     }
 
     public void DisableHook()
     {
-        Hook.Disable();
+        if (HookIsOut) Hook.Disable();
     }
 
+    void IOnHookedListener.OnHooked(Vector2 pullDirection, Hook hook) => DisableHook();
 
+    #region Initialization
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -160,8 +167,9 @@ public class HookThrower : MonoBehaviour
 
         if (Hook) Hook.ConnectedBody = Rigidbody;
     }
+    #endregion
 
-
+    //Debug only
     private void OnGUI()
     {
         if (debugVelocity) GUI.TextArea(new Rect(0, 0, 170, 30), $"{name}'s velocity: {Rigidbody.velocity.magnitude.ToString()}");
