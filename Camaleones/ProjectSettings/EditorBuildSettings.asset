@@ -12,15 +12,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/sce_mLobby.unity
     guid: 86219efa1ce13da81a2d105d7f42912e
   - enabled: 1
-    path: Assets/_Scenes/sce_tOnlinePlay.unity
-    guid: 1c0e353a8ef5248498d537546b2fc785
-  - enabled: 1
     path: Assets/_Scenes/sce_tMovementDev.unity
     guid: 41ca434397e86b0409d9fa8752190a7c
   - enabled: 1
-    path: Assets/_Scenes/sce_tLevel1.unity
-    guid: af435feb641ef1540ae89739f8621a89
-  - enabled: 1
-    path: Assets/_Scenes/sce_tAnimationDev.unity
-    guid: 6d96bc6ab83ca2a49b0361326cdc28b9
+    path: Assets/_Scenes/sce_tLevel3.unity
+    guid: 20129b8809f698341858fbd64392c0e2
   m_configObjects: {}
