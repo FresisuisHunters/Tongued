@@ -22,6 +22,7 @@ public class AskUsernamePanel : MonoBehaviourPunCallbacks {
     private void Awake () {
         connectToServerButton.onClick.AddListener (() => OnConnectToServerButtonClicked ());
         goToMainMenuButton.onClick.AddListener (() => OnGoToMainMenuButtonClicked ());
+        usernameInputField.keyboardType = TouchScreenKeyboardType.ASCIICapable;
     }
 
     protected new void OnEnable() {
