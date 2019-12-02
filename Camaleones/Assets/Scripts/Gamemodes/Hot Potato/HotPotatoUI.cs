@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 #pragma warning disable 649
 [RequireComponent(typeof(HotPotatoHandler))]
@@ -8,22 +9,33 @@ public class HotPotatoUI : MonoBehaviour
     [Header("Timer")]
     [SerializeField] private Slider timeLeftInRoundSlider;
 
-    [Header("Round info")]
+    [Header("Round tint")]
     [SerializeField] private Color blessingRoundTint = Color.green;
     [SerializeField] private Color curseRoundTint = Color.red;
     [SerializeField] private Graphic[] graphicsToTintOnRoundChange;
     [SerializeField] private float tintCrossfadeLength = 0.5f;
 
+    [Header("Mission Text")]
+    [SerializeField] private TextMeshProUGUI missionText;
+    [SerializeField] private string msgBlessingHasTotem = "Keep the totem!";
+    [SerializeField] private string msgBlessingDoesntHaveTotem = "Get the totem!";
+    [SerializeField] private string msgCurseHasTotem = "Get rid of the totem!";
+    [SerializeField] private string msgCurseDoesntHaveTotem = "Keep off the totem!";
+
     [Header("Offscreen Snitch View")]
     [SerializeField] private Sprite blessingRoundSnitchImage;
     [SerializeField] private Sprite curseRoundSnitchImage;
 
+
+    private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
     private Image offscreenSnitchViewImage;
 
 
     private void Update()
     {
+        if (!localPlayer) InitializationUtilities.FindLocalPlayer(out localPlayer);
+
         timeLeftInRoundSlider.maxValue = hotPotatoHandler.RoundDurationSinceLastReset;
         timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
     }
@@ -50,6 +62,20 @@ public class HotPotatoUI : MonoBehaviour
         if (roundType == HotPotatoHandler.RoundType.Curse) offscreenSprite = curseRoundSnitchImage;
 
         offscreenSnitchViewImage.sprite = offscreenSprite;
+
+        UpdateMissionText();
+    }
+
+    private void UpdateMissionText()
+    {
+        bool localPlayerHasTotem = hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
+        HotPotatoHandler.RoundType roundType = hotPotatoHandler.CurrentRoundType;
+
+        string message = string.Empty;
+        if (roundType == HotPotatoHandler.RoundType.Blessing) message = localPlayerHasTotem ? msgBlessingHasTotem : msgBlessingDoesntHaveTotem;
+        else if (roundType == HotPotatoHandler.RoundType.Curse) message = localPlayerHasTotem ? msgCurseHasTotem : msgCurseDoesntHaveTotem;
+
+        missionText.SetText(message);
     }
 
 
@@ -64,6 +90,9 @@ public class HotPotatoUI : MonoBehaviour
         timeLeftInRoundSlider.gameObject.SetActive(false);
         hotPotatoHandler.OnNewRound += OnNewRound;
 
+        hotPotatoHandler.Snitch.OnItemTransfered += (TransferableItemHolder oldHolder, TransferableItemHolder newHolder) => UpdateMissionText();
         offscreenSnitchViewImage = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>().ViewTransform.GetComponent<Image>();
+
+        missionText.text = msgBlessingDoesntHaveTotem;
     }
 }

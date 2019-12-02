@@ -27,7 +27,7 @@ public class HotPotatoHandler : MonoBehaviour
     /// Bool para saber si se ha cogido la snitch por primera vez, empezando el juego
     /// </summary>
     private bool firstRoundHasStarted = false;
-    private RoundType currentRoundType;
+    public RoundType CurrentRoundType { get; private set; }
     
     private int currentRoundNumber = 0;
     /// <summary>
@@ -42,7 +42,7 @@ public class HotPotatoHandler : MonoBehaviour
     {
         firstRoundHasStarted = true;
         currentRoundNumber++;
-        currentRoundType = roundType;
+        CurrentRoundType = roundType;
 
         OnNewRound?.Invoke(roundType);
 
@@ -59,7 +59,7 @@ public class HotPotatoHandler : MonoBehaviour
         else
         {
             ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
-            switch (currentRoundType)
+            switch (CurrentRoundType)
             {
                 case RoundType.Blessing:
                     scoreHandler.AddScore(1);
@@ -73,12 +73,12 @@ public class HotPotatoHandler : MonoBehaviour
             if (Random.value < currentChanceOfSameRound)
             {
                 currentChanceOfSameRound /= 2;
-                newRoundType = currentRoundType;
+                newRoundType = CurrentRoundType;
             }
             else
             {
                 currentChanceOfSameRound = 0.5f;
-                switch (currentRoundType)
+                switch (CurrentRoundType)
                 {
                     case RoundType.Blessing:
                         newRoundType = RoundType.Curse;
@@ -118,7 +118,7 @@ public class HotPotatoHandler : MonoBehaviour
         //Provoca las reacciones de los jugadores
         PlayerReactionType oldHolderReaction;
         PlayerReactionType newHolderReaction;
-        switch (currentRoundType)
+        switch (CurrentRoundType)
         {
             case RoundType.Blessing:
                 oldHolderReaction = PlayerReactionType.Negative;

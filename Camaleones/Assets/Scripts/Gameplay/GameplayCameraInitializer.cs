@@ -19,23 +19,10 @@ public class GameplayCameraInitializer : MonoBehaviour
 
     private bool FindPlayer()
     {
-        GameObject[] potentialPlayers = GameObject.FindGameObjectsWithTag("Player");
-        for (int i = 0; i < potentialPlayers.Length; i++)
+        if (InitializationUtilities.FindLocalPlayer(out Transform player))
         {
-            PhotonView photonView = potentialPlayers[i].GetComponent<PhotonView>();
-            if (photonView)
-            {
-                if (photonView.IsMine)
-                {
-                    GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = photonView.transform;
-                    return true;
-                }
-            }
-            else
-            {
-                GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = potentialPlayers[i].transform;
-                return true;
-            }
+            GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().Follow = player;
+            return true;
         }
 
         return false;
