@@ -21,7 +21,7 @@ public class HotPotatoHandler : MonoBehaviour
     #region Private state
     private float timeElapsedThisRound = 0;
     public float TimeLeftInRound { get; protected set; }
-    public float RoundDurationSinceLastReset { get; private set; }
+    public float RoundDurationSinceLastReset { get; protected set; }
 
     /// <summary>
     /// Bool para saber si se ha cogido la snitch por primera vez, empezando el juego
@@ -69,13 +69,14 @@ public class HotPotatoHandler : MonoBehaviour
                     break;
             }
 
+            RoundType newRoundType;
             if (Random.value < currentChanceOfSameRound)
             {
-                currentChanceOfSameRound = currentChanceOfSameRound / 2;
+                currentChanceOfSameRound /= 2;
+                newRoundType = currentRoundType;
             }
             else
             {
-                RoundType newRoundType;
                 currentChanceOfSameRound = 0.5f;
                 switch (currentRoundType)
                 {
@@ -89,9 +90,10 @@ public class HotPotatoHandler : MonoBehaviour
                         //Nunca debería llegarse aquí, pero si no le doy un valor en el caso default el compilador se enfada.
                         newRoundType = RoundType.Blessing;
                         break;
-                }
-                StartRound(newRoundType);
+                }   
             }
+
+            StartRound(newRoundType);
         }
     }
 

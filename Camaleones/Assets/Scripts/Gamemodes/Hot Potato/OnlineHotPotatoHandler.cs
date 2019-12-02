@@ -15,10 +15,12 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(TimeLeftInRound);
+            stream.SendNext(RoundDurationSinceLastReset);
         }
         else
         {
             TimeLeftInRound = (float) stream.ReceiveNext();
+            RoundDurationSinceLastReset = (float) stream.ReceiveNext();
         }
     }
 
