@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class AlphaThresholdForImageEvents : MonoBehaviour
 {
-    [SerializeField, Range(0, 1)] private float alphaThreshold;
+    [SerializeField, Range(0, 1)] private float alphaThreshold = 0.1f;
 
     private void Start()
     {
