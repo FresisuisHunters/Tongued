@@ -1,24 +1,48 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
 
 #pragma warning disable 649
 [RequireComponent(typeof(Button))]
-public class ExitGameplaySceneButton : MonoBehaviour
+public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks
 {
+    private enum SceneToLoadOnDisconnect {
+        ONLINE_MAIN_MENU,
+        LOBBY_MENU
+    }
+
     [SerializeField] private GameObject confirmScreen;
     [SerializeField] private SceneReference mainMenuScene;
     [SerializeField] private SceneReference lobbyScene;
-
+    private SceneToLoadOnDisconnect sceneToLoad;
+    
     public void ToggleConfirmScreen()
     {
         confirmScreen.SetActive(!confirmScreen.activeSelf);
     }
 
+    public override void OnLeftRoom() {
+        switch (sceneToLoad) {
+            case SceneToLoadOnDisconnect.LOBBY_MENU:
+                SceneManager.LoadScene(lobbyScene, LoadSceneMode.Single);
+                break;
+            case SceneToLoadOnDisconnect.ONLINE_MAIN_MENU:
+                SceneManagerExtensions.LoadScene(mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
+                    FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
+                break;
+        }
+    }
+
     public void GoBackToMainMenu()
     {
-        SceneManagerExtensions.LoadScene(mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
+        if (PhotonNetwork.IsConnected) {
+            sceneToLoad = SceneToLoadOnDisconnect.ONLINE_MAIN_MENU;
+            PhotonNetwork.LeaveRoom();
+        } else {
+            SceneManagerExtensions.LoadScene(mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
             FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
+        }
     }
 
     public void GoBackToTrainingScreen()
@@ -29,7 +53,8 @@ public class ExitGameplaySceneButton : MonoBehaviour
 
     public void GoToLobby()
     {
-        SceneManager.LoadScene(lobbyScene, LoadSceneMode.Single);
+        sceneToLoad = SceneToLoadOnDisconnect.LOBBY_MENU;
+        PhotonNetwork.LeaveRoom();
     }
 
     
