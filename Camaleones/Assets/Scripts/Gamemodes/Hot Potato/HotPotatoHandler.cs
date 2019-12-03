@@ -26,10 +26,10 @@ public class HotPotatoHandler : MonoBehaviour
     /// <summary>
     /// Bool para saber si se ha cogido la snitch por primera vez, empezando el juego
     /// </summary>
-    private bool firstRoundHasStarted = false;
+    public bool FirstRoundHasStarted => CurrentRoundNumber > 0;
     public RoundType CurrentRoundType { get; private set; }
     
-    private int currentRoundNumber = 0;
+    public int CurrentRoundNumber { get; private set; }
     /// <summary>
     /// Probabilidades de cambiar de ronda al acabar la actual
     /// </summary>
@@ -40,8 +40,7 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void StartRound(RoundType roundType)
     {
-        firstRoundHasStarted = true;
-        currentRoundNumber++;
+        CurrentRoundNumber++;
         CurrentRoundType = roundType;
 
         OnNewRound?.Invoke(roundType);
@@ -52,7 +51,7 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndRound()
     {
-        if (currentRoundNumber == numberOfRounds - 1)
+        if (CurrentRoundNumber == numberOfRounds - 1)
         {
             EndMatch();
         }
@@ -106,7 +105,7 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected void OnSnitchTransfered(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
     {
-        if (!firstRoundHasStarted)
+        if (!FirstRoundHasStarted)
         {
             StartRound(RoundType.Blessing);
         }
@@ -156,7 +155,7 @@ public class HotPotatoHandler : MonoBehaviour
 
     private void Update()
     {
-        if (firstRoundHasStarted)
+        if (FirstRoundHasStarted)
         {
             timeElapsedThisRound += Time.deltaTime;
             TimeLeftInRound -= Time.deltaTime;
