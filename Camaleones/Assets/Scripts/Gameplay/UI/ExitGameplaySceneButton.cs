@@ -17,6 +17,10 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks
     [SerializeField] private SceneReference lobbyScene;
     private SceneToLoadOnDisconnect sceneToLoad;
     
+    private void OnApplicationQuit() {
+        OnlineLogging.Instance.Close();
+    }
+
     public void ToggleConfirmScreen()
     {
         confirmScreen.SetActive(!confirmScreen.activeSelf);
