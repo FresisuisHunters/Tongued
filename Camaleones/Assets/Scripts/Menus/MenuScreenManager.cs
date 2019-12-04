@@ -3,8 +3,6 @@
 #pragma warning disable 649
 public class MenuScreenManager : MonoBehaviour
 {
-    public const string CONTROL_SCHEME_PREF_KEY = "ControlScheme";
-
     public AMenuScreen startingMenuScreen;
 
     private AMenuScreen[] menuScreens;
@@ -47,8 +45,8 @@ public class MenuScreenManager : MonoBehaviour
     }
 
     private void SetControls() {
-        int controlScheme = (Application.isMobilePlatform) ? (int)ControlScheme.Touch : (int)ControlScheme.Mouse;
-        PlayerPrefs.SetInt(CONTROL_SCHEME_PREF_KEY, controlScheme);
+        int controlScheme = (Application.isMobilePlatform) ? (int)Controls.ControlScheme.Touch : (int)Controls.ControlScheme.Mouse;
+        PlayerPrefs.SetInt(Controls.CONTROL_SCHEME_PREF_KEY, controlScheme);
         PlayerPrefs.Save();
     }
 
