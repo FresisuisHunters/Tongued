@@ -16,6 +16,7 @@ public class RopeCollider : MonoBehaviour {
     #region Inspector
     [SerializeField, Tooltip ("Las layers en las que se buscan puntos de contacto.")]
     private LayerMask raycastMask;
+    [SerializeField] private bool debugContactLengths;
     #endregion
 
     #region Public members
@@ -26,7 +27,13 @@ public class RopeCollider : MonoBehaviour {
         get => _headPosition;
         set {
             _headPosition = value;
-            if (contactPoints.Count == 0) UpdateSwingingPoint ();
+            if (contactPoints.Count == 0) UpdateSwingingPoint();
+            else
+            {
+                ContactPoint closestContactPointToHead = contactPoints[0];
+                closestContactPointToHead.length = Vector2.Distance(closestContactPointToHead.position, _headPosition);
+                contactPoints[0] = closestContactPointToHead;
+            }
         }
     }
     private Vector2 _headPosition;
@@ -114,6 +121,17 @@ public class RopeCollider : MonoBehaviour {
         Gizmos.DrawSphere(freeSwingingEndPoint, r);
     }
 
+    private void OnGUI()
+    {
+        if (debugContactLengths)
+        {
+            foreach (ContactPoint contactPoint in contactPoints)
+            {
+                GUI.Label(new Rect(contactPoint.position, new Vector2(100, 50)), contactPoint.length.ToString());
+            }
+        }
+    }
+
     #region Deshacer contactos
     private void DetectUndoneContacts () {
         //Si no hay puntos de contacto, no hay nada que deshacer
@@ -173,18 +191,23 @@ public class RopeCollider : MonoBehaviour {
             return;
         }
 
-        Vector2 previousContactPoint = contactPoints[0].position;
+        ContactPoint previousContactPoint = contactPoints[0];
         Vector2 tongueEndPosition = HeadPosition;
         // La comprobación se hace en el sentido cabeza->punto de contacto porque sino encontraría el último punto de contacto o uno infinitesimalmente próximo a éste
-        if (FindContactPointInSegment (tongueEndPosition, previousContactPoint, out ContactPoint otherContactPoint)) {
+        if (FindContactPointInSegment (tongueEndPosition, previousContactPoint.position, out ContactPoint newContactPoint)) {
             //Debug.Log("Contacto al final de la lengua. CP: " + contactPoints.Count);
 
-            otherContactPoint.angleSign *= -1;  // Se invierte el angulo dado que el sentido del vector es distinto
-            ContactPoint p = contactPoints[0];
-            p.length -= otherContactPoint.length;
-            contactPoints[0] = p;
+            newContactPoint.angleSign *= -1;  // Se invierte el angulo dado que el sentido del vector es distinto
+            
+            float deltaJointDistance = 0;
+            deltaJointDistance += previousContactPoint.length;
 
-            contactPoints.Insert (0, otherContactPoint);
+            previousContactPoint.length = Vector2.Distance(previousContactPoint.position, newContactPoint.position);
+            deltaJointDistance -= previousContactPoint.length;
+            contactPoints[0] = previousContactPoint;
+
+            deltaJointDistance -= newContactPoint.length;
+            contactPoints.Insert (0, newContactPoint);
         }
     }
 

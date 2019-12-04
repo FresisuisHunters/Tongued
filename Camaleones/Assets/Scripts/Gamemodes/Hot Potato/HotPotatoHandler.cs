@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 #pragma warning disable 649
 /// <summary>
@@ -14,6 +16,10 @@ public class HotPotatoHandler : MonoBehaviour
     [SerializeField] private AnimationCurve posessionTimeCurve;
     [Tooltip("Prefab de la snitch")]
     [SerializeField] private TransferableItem snitchPrefab;
+    [Tooltip("Prefab del objeto que guarda las puntuaciones al final.")]
+    [SerializeField] GameObject scoreCollector;
+    [Tooltip("Escena de puntuaciones")]
+    [SerializeField] protected string scoreSceneName;
     #endregion
 
     public event System.Action<RoundType> OnNewRound;
@@ -51,23 +57,23 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndRound()
     {
-        if (CurrentRoundNumber == numberOfRounds - 1)
+        ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
+        switch (CurrentRoundType)
+        {
+            case RoundType.Blessing:
+                scoreHandler.AddScore(1);
+                break;
+            case RoundType.Curse:
+                scoreHandler.AddScore(-1);
+                break;
+        }
+
+        if (CurrentRoundNumber == numberOfRounds)
         {
             EndMatch();
         }
         else
         {
-            ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
-            switch (CurrentRoundType)
-            {
-                case RoundType.Blessing:
-                    scoreHandler.AddScore(1);
-                    break;
-                case RoundType.Curse:
-                    scoreHandler.AddScore(-1);
-                    break;
-            }
-
             RoundType newRoundType;
             if (Random.value < currentChanceOfSameRound)
             {
@@ -98,8 +104,15 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndMatch()
     {
-        //SE ACABA LA PARTIDA, NO SÉ QUÉ PONER AHORA MISMO
         Debug.Log("Se acabó wey");
+        ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
+        scollector.CollectScores();
+        GoToScoresScene(scollector.GetScores());
+    }
+
+    protected virtual void GoToScoresScene(List<PlayerScoreData> scores)
+    {
+        SceneManagerExtensions.LoadScene(scoreSceneName, LoadSceneMode.Single, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
     }
 
 

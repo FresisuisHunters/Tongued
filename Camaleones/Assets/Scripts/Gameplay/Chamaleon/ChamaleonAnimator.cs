@@ -100,6 +100,7 @@ public class ChamaleonAnimator : MonoBehaviour, IOnHookedListener, IPlayerReacti
         }
 
         float desiredAngle = Vector2.SignedAngle(a, u);
+        desiredAngle = rigidbody.rotation + Mathf.DeltaAngle(rigidbody.rotation, desiredAngle);
         headRotator.localRotation = Quaternion.identity;
 
         if (snapWithoutInertia)
