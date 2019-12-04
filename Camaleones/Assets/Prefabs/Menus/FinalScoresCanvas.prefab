@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 3553120481010571448}
   - component: {fileID: 3553120481010571454}
   - component: {fileID: 3553120481010571455}
+  - component: {fileID: 6805165181917320472}
   m_Layer: 5
   m_Name: ScoresPanel
   m_TagString: Untagged
@@ -227,6 +228,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &6805165181917320472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3553120481010571449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e3b2aa6fd043949a8e270a3297e301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scorePanelPrefab: {fileID: 953504406486592807, guid: 67014dfa42c043c46b8b2085b7bcf90c,
+    type: 3}
 --- !u!1 &3553120481137994963
 GameObject:
   m_ObjectHideFlags: 0

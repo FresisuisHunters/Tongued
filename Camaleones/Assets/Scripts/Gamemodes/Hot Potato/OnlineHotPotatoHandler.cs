@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
 public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
 {
     private PhotonView photonView;
-
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -54,6 +54,12 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
         base.EndMatch();
         photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
+    }
+
+    protected override void goToScoresScene(List<PlayerScoreData> scores) 
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            SceneManagerExtensions.PhotonLoadScene(scoreSceneName, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
     }
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
