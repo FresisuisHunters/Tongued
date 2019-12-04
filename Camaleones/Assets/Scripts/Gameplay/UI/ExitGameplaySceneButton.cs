@@ -23,6 +23,8 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom() {
+        OnlineLogging.Instance.Write("Left room and game");
+
         switch (sceneToLoad) {
             case SceneToLoadOnDisconnect.LOBBY_MENU:
                 SceneManager.LoadScene(lobbyScene, LoadSceneMode.Single);
