@@ -9,6 +9,7 @@ public class RoomScreen : AMenuScreen
     protected override void OnOpen(Type previousScreen)
     {
         roomPanel.SetActive(true);
+        roomPanel.GetComponent<RoomPanel>().Enable();
     }
 
     protected override void OnClose(Type nextScreen)

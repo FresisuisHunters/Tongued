@@ -17,7 +17,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     #region Private Fields
 
     [SerializeField] private GameObject playerEntryGameObject;
-    [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI roomSizeText;
     [SerializeField] private TextMeshProUGUI roomNameText;
     [SerializeField] private TextMeshProUGUI gameCountdownText;
@@ -49,21 +48,19 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             gameCountdownText.text = string.Format ("{0}", currentCountdown);
         }
     }
+    #endregion
 
-    protected new void OnEnable () {
-        base.OnEnable ();
-
+    public void Enable()
+    {
         startingGame = false;
-        UpdateGameModeText ();
         UpdateRoomCapacityText();
-        foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values) {
+        foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
+        {
             CreatePlayerEntry(player);
         }
         UpdateStartGameButton();
         UpdatePlayersList();
     }
-
-    #endregion
 
     #region Photon Callbacks
 
@@ -114,6 +111,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     #region Private Methods
 
     private void CreatePlayerEntry (Player newPlayer) {
+        Debug.Log("Creating entry");
         string playerName = newPlayer.NickName;
         RoomPlayerEntry playerEntry = GetPlayerEntry ();
 
@@ -143,11 +141,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
         entry.Visible = false;
         unusedPlayerEntries.Push (entry);
-    }
-
-    private void UpdateGameModeText () {
-        string gameMode = (string) PhotonNetwork.CurrentRoom.CustomProperties[ServerConstants.GAME_MODE_ROOM_KEY];
-        gameModeText.text = gameMode;
     }
 
     private void UpdateRoomCapacityText () {
