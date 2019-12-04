@@ -21,6 +21,20 @@ public static class SceneManagerExtensions
         }
     }
 
+    public static void LoadScene(string sceneName, LoadSceneMode loadSceneMode, Action onSceneActiveCallback)
+    {
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+
+        SceneManager.activeSceneChanged += CallbackInvoker;
+
+        void CallbackInvoker(Scene previousScene, Scene newScene)
+        {
+            SceneManager.activeSceneChanged -= CallbackInvoker;
+
+            onSceneActiveCallback();
+        }
+    }
+
     public static void PhotonLoadScene(string sceneName, Action onSceneActiveCallback)
     {
         SceneManager.activeSceneChanged += CallbackInvoker;

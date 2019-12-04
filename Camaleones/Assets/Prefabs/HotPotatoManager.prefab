@@ -446,6 +446,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   snitchPrefab: {fileID: 8983007099293887703, guid: 117fa95e07f8da14db73ac43a7ab9054,
     type: 3}
+  scoreCollector: {fileID: 2730517842930102311, guid: 8fb6b669dd634a649b197e6a838a9957,
+    type: 3}
+  scoreSceneName: sce_mScoresMenu
 --- !u!114 &3734268034237521591
 MonoBehaviour:
   m_ObjectHideFlags: 0
