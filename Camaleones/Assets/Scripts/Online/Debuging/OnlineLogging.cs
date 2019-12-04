@@ -19,6 +19,8 @@ public class OnlineLogging {
 
         this.path = string.Format ("./{0}.txt", player);
         this.streamWriter = new StreamWriter (this.path, false);
+
+        Application.quitting += Close;
     }
 
     public void Write (string text) {
@@ -49,6 +51,12 @@ public class OnlineLogging {
 
             return instance;
         }
+    }
+    
+
+    private void OnApplicationQuit()
+    {
+        Close();
     }
 
 }

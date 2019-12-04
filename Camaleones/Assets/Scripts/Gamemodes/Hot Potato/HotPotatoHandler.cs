@@ -15,7 +15,7 @@ public class HotPotatoHandler : MonoBehaviour
     [Tooltip("Curva que define como se reduce el tiempo necesario de posesión de la snitch para cada ronda")]
     [SerializeField] private AnimationCurve posessionTimeCurve;
     [Tooltip("Prefab de la snitch")]
-    [SerializeField] private TransferableItem snitchPrefab;
+    [SerializeField] protected TransferableItem snitchPrefab;
     [Tooltip("Prefab del objeto que guarda las puntuaciones al final.")]
     [SerializeField] protected GameObject scoreCollector;
     [Tooltip("Escena de puntuaciones")]
@@ -57,8 +57,10 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndRound()
     {
-        ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
-        switch (CurrentRoundType)
+        ScoreHandler scoreHandler = Snitch?.CurrentHolder?.GetComponent<ScoreHandler>();
+        if (scoreHandler)
+        {
+            switch (CurrentRoundType)
         {
             case RoundType.Blessing:
                 scoreHandler.AddScore(1);
@@ -67,13 +69,14 @@ public class HotPotatoHandler : MonoBehaviour
                 scoreHandler.AddScore(-1);
                 break;
         }
+        }
 
         if (CurrentRoundNumber == numberOfRounds)
         {
             EndMatch();
         }
         else
-        {
+        {            
             RoundType newRoundType;
             if (Random.value < currentChanceOfSameRound)
             {
@@ -166,7 +169,7 @@ public class HotPotatoHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         if (FirstRoundHasStarted)
         {
@@ -193,11 +196,12 @@ public class HotPotatoHandler : MonoBehaviour
         SpawnSnitch();
     }
 
-    private void SpawnSnitch()
+    protected void SpawnSnitch()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)
         {
+            OnlineLogging.Instance.Write("There is no SnitchSpawnPoint in the scene.");
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 
