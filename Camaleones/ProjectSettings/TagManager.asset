@@ -9,6 +9,7 @@ TagManager:
   - CameraBounds
   - PlayerSpawnPoint
   - SnitchSpawnPoint
+  - Snitch
   layers:
   - Default
   - TransparentFX

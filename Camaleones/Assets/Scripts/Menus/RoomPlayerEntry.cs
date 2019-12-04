@@ -21,13 +21,12 @@ public class RoomPlayerEntry : MonoBehaviour {
     private void Awake () {
         rectTransform = GetComponent<RectTransform>();
         buttonClicked = false;
-        playerReadyButton.onClick.AddListener (() => onPlayerReadyButtonClicked ());
+        playerReadyButton.onClick.AddListener (() => OnPlayerReadyButtonClicked ());
     }
 
     #endregion
 
     #region Public Methods
-
     public void ShowButton(bool show) {
         playerReadyButton.gameObject.SetActive(show);
     }
@@ -35,17 +34,16 @@ public class RoomPlayerEntry : MonoBehaviour {
     public override string ToString() {
         return string.Format("ROOM_PLAYER_ENTRY: {0}, {1}", playerName, rectTransform.position);
     }
-
     #endregion
 
     #region UI Callbacks
 
-    private void onPlayerReadyButtonClicked () {
+    private void OnPlayerReadyButtonClicked () {
         buttonClicked = !buttonClicked;
         if (buttonClicked) {
-            Room.photonView.RPC("PlayerIsReady", RpcTarget.All, new object[] { playerName });
+            Room.photonView.RPC("RPC_PlayerIsReady", RpcTarget.All, new object[] { playerName });
         } else {
-           Room.photonView.RPC("PlayerNotReady", RpcTarget.All, new object[] { playerName });
+           Room.photonView.RPC("RPC_PlayerNotReady", RpcTarget.All, new object[] { playerName });
         }
     }
 
@@ -79,7 +77,7 @@ public class RoomPlayerEntry : MonoBehaviour {
         set => playerNameText.text = value;
     }
 
-    public RoomPanel Room { get; set; }
+    public RoomScreen Room { get; set; }
 
     #endregion
 

@@ -59,7 +59,7 @@ public class TouchHookInput : MonoBehaviour {
             positionTouchedWorldCoordinates = eventData.pressEventCamera.ScreenToWorldPoint(positionTouchedScreenCoordinates);
             hookThrower.ThrowHook(positionTouchedWorldCoordinates);
 
-            //Prepara y activa los círculos
+            //Prepara y activa los cï¿½rculos
             SetCirclePosition(eventData.position, eventData.pressEventCamera);
             SetCircleSizes(0, retractMaxRadius);
             SetCirclesActive(true);
@@ -127,7 +127,7 @@ public class TouchHookInput : MonoBehaviour {
     private void Awake()
     {
         //Si el control seleccionado no es Touch, se autodestruye.
-        if ((ControlScheme)PlayerPrefs.GetInt(SettingsMenuScreen.CONTROL_SCHEME_PREF_KEY, 0) != ControlScheme.Touch)
+        if ((Controls.ControlScheme)PlayerPrefs.GetInt(Controls.CONTROL_SCHEME_PREF_KEY, 0) != Controls.ControlScheme.Touch)
         {
             Destroy(this);
             return;

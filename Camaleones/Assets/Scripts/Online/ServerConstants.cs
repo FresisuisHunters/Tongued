@@ -4,28 +4,19 @@ using System.Collections.Generic;
 public class ServerConstants {
 
     public const string GAME_VERSION = "b0.1";
-    public const string ONLINE_LEVEL = "sce_tLevel3";
+    public const string ONLINE_LEVEL = "sce_gLevel3";
 
     #region Game Mode Constants
-
-    public const string GAME_MODE_1 = "Mode 1";
-    public const string GAME_MODE_2 = "Mode 2";
-    public const string GAME_MODE_3 = "Mode 3";
-    public static readonly string[] GAME_MODES = new string[] { GAME_MODE_1, GAME_MODE_2, GAME_MODE_3 };
-
+    public const string GAME_MODE_1 = "Hot potato";
     #endregion
 
     #region Lobbies
 
     public static readonly TypedLobby GAME_MODE_1_LOBBY = new TypedLobby(GAME_MODE_1, LobbyType.SqlLobby);
-    public static readonly TypedLobby GAME_MODE_2_LOBBY = new TypedLobby(GAME_MODE_2, LobbyType.SqlLobby);
-    public static readonly TypedLobby GAME_MODE_3_LOBBY = new TypedLobby(GAME_MODE_3, LobbyType.SqlLobby);
     
     // TODO: Tal vez no hardcodearlos
     public static readonly Dictionary<string, TypedLobby> GAME_MODES_LOBBIES = new Dictionary<string, TypedLobby> {
         { GAME_MODE_1, GAME_MODE_1_LOBBY },
-        { GAME_MODE_2, GAME_MODE_2_LOBBY },
-        { GAME_MODE_3, GAME_MODE_3_LOBBY }
     };
 
     #endregion

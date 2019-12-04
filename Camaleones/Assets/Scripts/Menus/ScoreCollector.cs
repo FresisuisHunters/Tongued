@@ -25,6 +25,7 @@ public class ScoreCollector : MonoBehaviour
         foreach(ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
         {
             scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
+            Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
         }
     }
     /// <summary>

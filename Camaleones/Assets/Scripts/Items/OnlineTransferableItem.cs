@@ -7,7 +7,6 @@ using Photon.Pun;
 public class OnlineTransferableItem : TransferableItem 
 {
     private PhotonView photonView;
-
     
     public override void Collide(GameObject collisionObject)
     {
@@ -23,14 +22,26 @@ public class OnlineTransferableItem : TransferableItem
     /// </summary>
     protected override void TITransfer(TransferableItemHolder target)
     {
-        photonView.RPC("RPCTransfer", RpcTarget.Others, target.GetComponent<PhotonView>().ViewID);
-        base.TITransfer(target);
+        int targetId = target.GetComponent<PhotonView>().ViewID;
+        photonView.RPC("RPCTransferOwnership", RpcTarget.MasterClient, targetId);
+        photonView.RPC("RPCTransfer", RpcTarget.All, targetId);
     }
+
     [PunRPC]
     private void RPCTransfer(int id)
     {
-        TransferableItemHolder target = PhotonView.Find(id).GetComponent<TransferableItemHolder>();
+        PhotonView targetPhotonView = PhotonView.Find(id);
+        TransferableItemHolder target = targetPhotonView.GetComponent<TransferableItemHolder>();
+        
         base.TITransfer(target);
+    }
+
+    [PunRPC]
+    private void RPCTransferOwnership(int targetId) {
+        OnlineLogging.Instance.Write("PASANDO TESTIGO A " + targetId);
+
+        PhotonView targetPhotonView = PhotonView.Find(targetId);
+        photonView.TransferOwnership(targetPhotonView.Owner);
     }
 
 

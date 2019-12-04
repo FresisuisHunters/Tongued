@@ -15,7 +15,8 @@ public class ScoresScreen : MonoBehaviour
     /// </summary>
     /// <param name="scores"></param>
     public void ShowScores(List<PlayerScoreData> scores)
-    { 
+    {
+        Debug.Log("Recibido: " + scores[0].getName());
         scores.Sort((b, a) => a.getScore().CompareTo(b.getScore()));
         
         for(int i = 0; i<scores.Count; i++)
