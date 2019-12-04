@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 
 #pragma warning disable 649
-[RequireComponent(typeof(HotPotatoHandler))]
+[RequireComponent(typeof(HotPotatoHandler), typeof(Animator))]
 public class HotPotatoUI : MonoBehaviour
 {
     [Header("Timer")]
@@ -22,15 +22,39 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private string msgCurseHasTotem = "Get rid of the totem!";
     [SerializeField] private string msgCurseDoesntHaveTotem = "Keep off the totem!";
 
-    [Header("Offscreen Snitch View")]
-    [SerializeField] private Sprite blessingRoundSnitchImage;
-    [SerializeField] private Sprite curseRoundSnitchImage;
+    [Header("Snitch sprites")]
+    [SerializeField] private Sprite blessingRoundSnitchSprite;
+    [SerializeField] private Sprite curseRoundSnitchSprite;
+
+    [Header("Round change animation")]
+    [SerializeField] private Image roundChangeAnimationSnitchImage;
 
 
     private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
     private Image offscreenSnitchViewImage;
 
+    private Sprite CurrentAppropiateSnitchSprite
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingRoundSnitchSprite;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseRoundSnitchSprite;
+                default:
+                    return null;
+            }
+        }
+    }
+
+
+    public void AnimEvt_SwapSnitchSprite()
+    {
+        roundChangeAnimationSnitchImage.sprite = CurrentAppropiateSnitchSprite;
+    }
 
     private void Update()
     {
@@ -57,12 +81,12 @@ public class HotPotatoUI : MonoBehaviour
         }
 
         //Set the offscreen view image
-        Sprite offscreenSprite = null;
-        if (roundType == HotPotatoHandler.RoundType.Blessing) offscreenSprite = blessingRoundSnitchImage;
-        if (roundType == HotPotatoHandler.RoundType.Curse) offscreenSprite = curseRoundSnitchImage;
+        offscreenSnitchViewImage.sprite = CurrentAppropiateSnitchSprite;
 
-        offscreenSnitchViewImage.sprite = offscreenSprite;
+        //Do the round change animation, except for the first round.
+        if (hotPotatoHandler.CurrentRoundNumber > 1) GetComponent<Animator>().Play("anim_RoundChange");
 
+        Debug.Log(hotPotatoHandler.CurrentRoundNumber);
         UpdateMissionText();
     }
 
@@ -77,6 +101,7 @@ public class HotPotatoUI : MonoBehaviour
 
         missionText.SetText(message);
     }
+
 
 
     private void Awake()
