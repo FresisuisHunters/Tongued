@@ -15,12 +15,11 @@ public class HotPotatoHandler : MonoBehaviour
     [Tooltip("Curva que define como se reduce el tiempo necesario de posesión de la snitch para cada ronda")]
     [SerializeField] private AnimationCurve posessionTimeCurve;
     [Tooltip("Prefab de la snitch")]
-    [SerializeField] private TransferableItem snitchPrefab;
+    [SerializeField] protected TransferableItem snitchPrefab;
     [Tooltip("Prefab del objeto que guarda las puntuaciones al final.")]
     [SerializeField] GameObject scoreCollector;
     [Tooltip("Escena de puntuaciones")]
     [SerializeField] protected string scoreSceneName;
-    [SerializeField] protected TransferableItem snitchPrefab;
     #endregion
 
     public event System.Action<RoundType> OnNewRound;

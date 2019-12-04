@@ -29,9 +29,7 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         connectionStatusText.text = CONNECTION_STATUS_MESSAGE + PhotonNetwork.NetworkClientState;
     }
 
-    protected void OnApplicationQuit() {
-        OnlineLogging.Instance.Close();
-    }
+    
     #endregion
 
     #region Photon Callbacks
