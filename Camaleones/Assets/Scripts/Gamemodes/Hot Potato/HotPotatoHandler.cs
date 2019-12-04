@@ -17,7 +17,7 @@ public class HotPotatoHandler : MonoBehaviour
     [Tooltip("Prefab de la snitch")]
     [SerializeField] private TransferableItem snitchPrefab;
     [Tooltip("Prefab del objeto que guarda las puntuaciones al final.")]
-    [SerializeField] GameObject scoreCollector;
+    [SerializeField] protected GameObject scoreCollector;
     [Tooltip("Escena de puntuaciones")]
     [SerializeField] protected string scoreSceneName;
     #endregion

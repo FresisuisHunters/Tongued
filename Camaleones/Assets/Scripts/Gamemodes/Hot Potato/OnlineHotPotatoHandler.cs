@@ -64,7 +64,9 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
     {
-        base.EndMatch();
+        Debug.Log("Se acabó wey");
+        ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
+        scollector.CollectScores();
     }
 
     #region Initialization
