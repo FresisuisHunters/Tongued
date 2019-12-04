@@ -17,6 +17,14 @@ public class OnlineLobbyManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
+    public override void OnEnable() {
+        base.OnEnable();
+
+        if (PhotonNetwork.IsConnectedAndReady) {
+            SwitchToLobbyMainMenu();
+        }
+    }
+
     private void Update () {
         connectionStatusText.text = CONNECTION_STATUS_MESSAGE + PhotonNetwork.NetworkClientState;
     }

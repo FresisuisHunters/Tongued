@@ -8,20 +8,21 @@ using UnityEngine.UI;
 #pragma warning disable 649
 public class RoomPanel : MonoBehaviourPunCallbacks {
 
-    /*
     #region Constant Fields
     private const float GAME_COUNTDOWN = 5f;
-    
+    private const string HOT_POTATO_HANDLER_NAME = "Online Hot Potato Manager";
 
     #endregion
 
     #region Private Fields
 
     [SerializeField] private GameObject playerEntryGameObject;
+    [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI roomSizeText;
     [SerializeField] private TextMeshProUGUI roomNameText;
     [SerializeField] private TextMeshProUGUI gameCountdownText;
     [SerializeField] private Button startGameButton;
+    [SerializeField] private Button quitRoomButton;
 
     private Dictionary<string, RoomPlayerEntry> players = new Dictionary<string, RoomPlayerEntry> ();
     private Stack<RoomPlayerEntry> unusedPlayerEntries = new Stack<RoomPlayerEntry> ();
@@ -31,22 +32,90 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     #endregion
 
+    #region Unity Callbacks
+
+    private void Awake () {
+        startGameButton.onClick.AddListener (() => OnStartGameButtonClicked ());
+        quitRoomButton.onClick.AddListener (() => OnQuitRoomButtonClicked ());
+    }
+
+    private void Update () {
+        if (startingGame) {
+            currentCountdown -= Time.deltaTime;
+            if (currentCountdown <= 0f) {
+                currentCountdown = 0;
+                startingGame = false;
+                StartGame ();
+            }
+
+            gameCountdownText.text = string.Format ("{0}", currentCountdown);
+        }
+    }
+
+    protected new void OnEnable () {
+        base.OnEnable ();
+
+        startingGame = false;
+        UpdateGameModeText ();
+        UpdateRoomCapacityText();
+        foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values) {
+            CreatePlayerEntry(player);
+        }
+        UpdateStartGameButton();
+        UpdatePlayersList();
+    }
+
+    #endregion
+
     #region Photon Callbacks
-    /*
+
     public override void OnLeftRoom () {
         players.Clear ();
         playersReady.Clear ();
     }
-    */
- 
-        /*
+
+    public override void OnPlayerEnteredRoom (Player newPlayer) {
+        OnlineLogging.Instance.Write ("OnPlayerEnteredRoom");
+
+        CreatePlayerEntry (newPlayer);
+        UpdateRoomCapacityText ();
+        UpdatePlayersList ();
+        UpdateStartGameButton ();
+    }
+
+    public override void OnPlayerLeftRoom (Player otherPlayer) {
+        OnlineLogging.Instance.Write ("OnPlayerLeftRoom");
+
+        RemovePlayerEntry (otherPlayer);
+        UpdateRoomCapacityText ();
+        UpdatePlayersList ();
+        UpdateStartGameButton ();
+    }
+
     #endregion
 
- 
+    #region Public Methods
+
+    [PunRPC]
+    public void PlayerIsReady (string playerName) {
+        playersReady.Add (playerName);
+        players[playerName].Text = string.Format("* {0}", playerName);
+        UpdateStartGameButton ();
+    }
+
+    [PunRPC]
+    public void PlayerNotReady (string playerName) {
+        photonView.RPC("StopGameCountdown", RpcTarget.All, null);
+        players[playerName].Text = playerName;
+        playersReady.Remove (playerName);
+        UpdateStartGameButton ();
+    }
+
+    #endregion
+
     #region Private Methods
 
     private void CreatePlayerEntry (Player newPlayer) {
-        Debug.Log("Creating entry");
         string playerName = newPlayer.NickName;
         RoomPlayerEntry playerEntry = GetPlayerEntry ();
 
@@ -78,6 +147,11 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         unusedPlayerEntries.Push (entry);
     }
 
+    private void UpdateGameModeText () {
+        string gameMode = (string) PhotonNetwork.CurrentRoom.CustomProperties[ServerConstants.GAME_MODE_ROOM_KEY];
+        gameModeText.text = gameMode;
+    }
+
     private void UpdateRoomCapacityText () {
         byte currentPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         byte maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
@@ -105,7 +179,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void UpdateStartGameButton () {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
-        bool allPlayersAreReady = playersReady.Count == players.Count;
+        bool allPlayersAreReady = playersReady.Count == players.Count;// && players.Count > 1;  TODO
 
         startGameButton.gameObject.SetActive (localIsRoomOwner);
         startGameButton.interactable = allPlayersAreReady;
@@ -124,7 +198,17 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         startingGame = false;
     }
 
-    
+    private void StartGame () {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+            OnlineLogging.Instance.Write("El jugador " + PhotonNetwork.LocalPlayer.NickName + " inicial la partida");
+
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
+            {
+                PhotonNetwork.InstantiateSceneObject(HOT_POTATO_HANDLER_NAME, Vector3.zero, Quaternion.identity);
+            });
+        }
+    }
 
     #endregion
 
@@ -134,6 +218,11 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         startGameButton.interactable = false;
         photonView.RPC("StartGameCountdown", RpcTarget.All, null);
     }
+
+    private void OnQuitRoomButtonClicked () {
+        PhotonNetwork.LeaveRoom ();
+    }
+
     #endregion
-    */
+
 }

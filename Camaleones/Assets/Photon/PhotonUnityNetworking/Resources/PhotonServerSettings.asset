@@ -52,9 +52,6 @@ MonoBehaviour:
   - RPC_StartHotPotatoRound
   - RPC_SetSnitchViewID
   - RPC_SetScore
-  - RPC_PlayerIsReady
-  - RPC_PlayerNotReady
-  - StartCountdown
-  - StopCountdown
+  - RPCTransferOwnership
   DisableAutoOpenWizard: 1
   ShowSettings: 0

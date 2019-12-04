@@ -20,6 +20,7 @@ public class HotPotatoHandler : MonoBehaviour
     [SerializeField] GameObject scoreCollector;
     [Tooltip("Escena de puntuaciones")]
     [SerializeField] protected string scoreSceneName;
+    [SerializeField] protected TransferableItem snitchPrefab;
     #endregion
 
     public event System.Action<RoundType> OnNewRound;
@@ -57,8 +58,10 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndRound()
     {
-        ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
-        switch (CurrentRoundType)
+        ScoreHandler scoreHandler = Snitch?.CurrentHolder?.GetComponent<ScoreHandler>();
+        if (scoreHandler)
+        {
+            switch (CurrentRoundType)
         {
             case RoundType.Blessing:
                 scoreHandler.AddScore(1);
@@ -67,13 +70,14 @@ public class HotPotatoHandler : MonoBehaviour
                 scoreHandler.AddScore(-1);
                 break;
         }
+        }
 
         if (CurrentRoundNumber == numberOfRounds)
         {
             EndMatch();
         }
         else
-        {
+        {            
             RoundType newRoundType;
             if (Random.value < currentChanceOfSameRound)
             {
@@ -166,7 +170,7 @@ public class HotPotatoHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         if (FirstRoundHasStarted)
         {
@@ -193,11 +197,12 @@ public class HotPotatoHandler : MonoBehaviour
         SpawnSnitch();
     }
 
-    private void SpawnSnitch()
+    protected void SpawnSnitch()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)
         {
+            OnlineLogging.Instance.Write("There is no SnitchSpawnPoint in the scene.");
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 
