@@ -7,7 +7,6 @@ using Photon.Pun;
 public class OnlineTransferableItem : TransferableItem 
 {
     private PhotonView photonView;
-
     
     public override void Collide(GameObject collisionObject)
     {
@@ -26,6 +25,7 @@ public class OnlineTransferableItem : TransferableItem
         photonView.RPC("RPCTransfer", RpcTarget.Others, target.GetComponent<PhotonView>().ViewID);
         base.TITransfer(target);
     }
+
     [PunRPC]
     private void RPCTransfer(int id)
     {

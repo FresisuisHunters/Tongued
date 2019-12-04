@@ -75,8 +75,6 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
         photonView = GetComponent<PhotonView> ();
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-            // photonView.TransferOwnership (PhotonNetwork.LocalPlayer);
-
             PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView> ();
             snitchPhotonView.TransferOwnership (PhotonNetwork.LocalPlayer);
             PhotonNetwork.AllocateViewID (snitchPhotonView);
@@ -89,5 +87,6 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
     private void RPC_SetSnitchViewID (int id) {
         Snitch.GetComponent<PhotonView> ().ViewID = id;
     }
+    
     #endregion
 }
