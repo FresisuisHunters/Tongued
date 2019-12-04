@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Base para pantallas de menú.
@@ -14,6 +15,8 @@ public abstract class AMenuScreen : MonoBehaviour
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+
+        SetInteractable(true);
 
         OnOpen(previousScreen);
     }
@@ -35,6 +38,14 @@ public abstract class AMenuScreen : MonoBehaviour
     protected virtual void OnOpen(System.Type previousScreen) { }
     protected virtual void OnClose(System.Type nextScreen) { }
 
+    protected void SetInteractable(bool interactable)
+    {
+        Selectable[] selectables = GetComponentsInChildren<Selectable>();
+        for (int i = 0; i < selectables.Length; i++)
+        {
+            selectables[i].interactable = interactable;
+        }
+    }
     
 
     /// <summary>
