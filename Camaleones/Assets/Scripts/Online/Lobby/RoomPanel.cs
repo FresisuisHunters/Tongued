@@ -179,7 +179,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void UpdateStartGameButton () {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
-        bool allPlayersAreReady = playersReady.Count == players.Count;
+        bool allPlayersAreReady = playersReady.Count == players.Count;// && players.Count > 1;  TODO
 
         startGameButton.gameObject.SetActive (localIsRoomOwner);
         startGameButton.interactable = allPlayersAreReady;
@@ -202,6 +202,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
             OnlineLogging.Instance.Write("El jugador " + PhotonNetwork.LocalPlayer.NickName + " inicial la partida");
 
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
             {
                 PhotonNetwork.Instantiate(HOT_POTATO_HANDLER_NAME, Vector3.zero, Quaternion.identity);

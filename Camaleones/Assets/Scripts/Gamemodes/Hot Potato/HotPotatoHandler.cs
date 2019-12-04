@@ -57,17 +57,19 @@ public class HotPotatoHandler : MonoBehaviour
         }
         else
         {
-            ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
-            switch (CurrentRoundType)
-            {
-                case RoundType.Blessing:
-                    scoreHandler.AddScore(1);
-                    break;
-                case RoundType.Curse:
-                    scoreHandler.AddScore(-1);
-                    break;
+            if (Snitch != null) {
+                ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
+                switch (CurrentRoundType)
+                {
+                    case RoundType.Blessing:
+                        scoreHandler.AddScore(1);
+                        break;
+                    case RoundType.Curse:
+                        scoreHandler.AddScore(-1);
+                        break;
+                }
             }
-
+            
             RoundType newRoundType;
             if (Random.value < currentChanceOfSameRound)
             {
@@ -155,6 +157,11 @@ public class HotPotatoHandler : MonoBehaviour
 
     private void Update()
     {
+        if (GameObject.FindGameObjectWithTag("Snitch") == null) {
+            OnlineLogging.Instance.Write("There is no Snitch in the scene.");
+            SpawnSnitch();
+        }
+
         if (FirstRoundHasStarted)
         {
             timeElapsedThisRound += Time.deltaTime;
@@ -185,6 +192,7 @@ public class HotPotatoHandler : MonoBehaviour
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)
         {
+            OnlineLogging.Instance.Write("There is no SnitchSpawnPoint in the scene.");
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 
