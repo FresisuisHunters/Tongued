@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 1826028317615844397}
   - component: {fileID: 1826028317615844399}
   - component: {fileID: 1826028317615844396}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Training Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1826028317615844397
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7cbd5bd92a4a664fa68cc6538a36beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmpTrainingScene:
-    sceneAsset: {fileID: 102900000, guid: 41ca434397e86b0409d9fa8752190a7c, type: 3}
-    scenePath: Assets/_Scenes/sce_tMovementDev.unity
+  trainingScene:
+    sceneAsset: {fileID: 102900000, guid: 20129b8809f698341858fbd64392c0e2, type: 3}
+    scenePath: Assets/_Scenes/sce_gLevel3.unity
+  playerPrefab: {fileID: 6475681867467041439, guid: 56ecb6db886ff21438a9186713dfb793,
+    type: 3}

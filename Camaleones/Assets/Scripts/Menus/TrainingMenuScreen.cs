@@ -7,10 +7,17 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(CanvasGroup))]
 public class TrainingMenuScreen : AMenuScreen
 {
-    [SerializeField] SceneReference tmpTrainingScene;
+    [SerializeField] SceneReference trainingScene;
+    [SerializeField] GameObject playerPrefab;
 
     protected override void OnOpen(System.Type previousScreen)
     {
-        SceneManager.LoadScene(tmpTrainingScene);
+        SceneManagerExtensions.LoadScene(trainingScene, LoadSceneMode.Single, () =>
+        {
+            Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+
+            GameObject player = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
+            Destroy(player.GetComponentInChildren<PlayerNameAndScoreDisplay>().gameObject);
+        });
     }
 }
