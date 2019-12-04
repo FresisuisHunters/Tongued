@@ -85,15 +85,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2884409975824493111, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6475681867467041439, guid: 56ecb6db886ff21438a9186713dfb793,
         type: 3}
       propertyPath: m_Name
       value: OnlinePlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2884409975824493111, guid: 56ecb6db886ff21438a9186713dfb793,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6475681867467041412, guid: 56ecb6db886ff21438a9186713dfb793,
         type: 3}
@@ -156,11 +161,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6322763850661062814, guid: 0fbf36625e422534197d7638f57e8ce8,
         type: 3}
-    - target: {fileID: 5747732493073470295, guid: 56ecb6db886ff21438a9186713dfb793,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7780253788792849445, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 56ecb6db886ff21438a9186713dfb793, type: 3}
