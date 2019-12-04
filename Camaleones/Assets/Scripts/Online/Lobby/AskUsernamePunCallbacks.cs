@@ -8,6 +8,7 @@ public class AskUsernamePunCallbacks : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         GetComponent<AskUsernameScreen>().GoToLobbyScreen();
+        Debug.Log("connected to master");
     }
 }
 

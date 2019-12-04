@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 /// <summary>
 /// Base para pantallas de menú.
@@ -38,12 +39,15 @@ public abstract class AMenuScreen : MonoBehaviour
     protected virtual void OnOpen(System.Type previousScreen) { }
     protected virtual void OnClose(System.Type nextScreen) { }
 
-    protected void SetInteractable(bool interactable)
+    protected void SetInteractable(bool interactable, params Selectable[] exceptions)
     {
         Selectable[] selectables = GetComponentsInChildren<Selectable>();
         for (int i = 0; i < selectables.Length; i++)
         {
-            selectables[i].interactable = interactable;
+            if (exceptions != null && !exceptions.Contains(selectables[i]))
+            {
+                selectables[i].interactable = interactable;
+            }
         }
     }
     

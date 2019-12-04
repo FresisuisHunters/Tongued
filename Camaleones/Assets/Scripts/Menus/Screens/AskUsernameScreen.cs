@@ -1,15 +1,18 @@
-﻿using System;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+#pragma warning disable 649
 public class AskUsernameScreen : AMenuScreen
 {
     [SerializeField] private SceneReference mainMenuScene;
     [SerializeField] private TMPro.TMP_InputField usernameInputField;
+    [SerializeField] private Button backButton;
 
     public override void GoBack()
     {
+        PhotonNetwork.Disconnect();
         SceneManagerExtensions.LoadScene(mainMenuScene, LoadSceneMode.Single, () =>
             FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
     }
@@ -37,6 +40,6 @@ public class AskUsernameScreen : AMenuScreen
         PhotonNetwork.GameVersion = ServerConstants.GAME_VERSION;
         PhotonNetwork.ConnectUsingSettings();
 
-        SetInteractable(false);
+        SetInteractable(false, backButton);
     }
 }

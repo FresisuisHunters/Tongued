@@ -22,7 +22,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
     [SerializeField] private TextMeshProUGUI roomNameText;
     [SerializeField] private TextMeshProUGUI gameCountdownText;
     [SerializeField] private Button startGameButton;
-    [SerializeField] private Button quitRoomButton;
 
     private Dictionary<string, RoomPlayerEntry> players = new Dictionary<string, RoomPlayerEntry> ();
     private Stack<RoomPlayerEntry> unusedPlayerEntries = new Stack<RoomPlayerEntry> ();
@@ -36,7 +35,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
 
     private void Awake () {
         startGameButton.onClick.AddListener (() => OnStartGameButtonClicked ());
-        quitRoomButton.onClick.AddListener (() => OnQuitRoomButtonClicked ());
     }
 
     private void Update () {
@@ -217,11 +215,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
         startGameButton.interactable = false;
         photonView.RPC("StartGameCountdown", RpcTarget.All, null);
     }
-
-    private void OnQuitRoomButtonClicked () {
-        PhotonNetwork.LeaveRoom ();
-    }
-
     #endregion
 
 }

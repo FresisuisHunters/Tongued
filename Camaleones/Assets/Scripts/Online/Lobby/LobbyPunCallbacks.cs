@@ -6,12 +6,17 @@ public class LobbyPunCallbacks : MonoBehaviourPunCallbacks
 {
     public override void OnJoinedLobby()
     {
-        GetComponent<LobbyScreen>().JoinOrCreateRoom();
+        GetComponent<LobbyScreen>().JoinOrCreatePublicRoom();
     }
 
     public override void OnJoinedRoom()
     {
         GetComponent<LobbyScreen>().GoToRoom();
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        GetComponent<LobbyScreen>().OnJoinRoomFailed(returnCode, message);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -21,14 +26,11 @@ public class LobbyPunCallbacks : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        OnlineLobbyManager.Instance.SwitchToRoomPanel();
+        GetComponent<LobbyScreen>().GoToRoom();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        string log = string.Format("Error creating room\nReturn code: {0}\nError message: {1}", returnCode, message);
-        OnlineLogging.Instance.Write(log);
-
-        //MakeUIInteractable();
+        GetComponent<LobbyScreen>().OnCreateRoomFailed(returnCode, message);
     }
 }
