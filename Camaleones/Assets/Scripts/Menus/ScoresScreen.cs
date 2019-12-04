@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+#pragma warning disable 649
 public class ScoresScreen : MonoBehaviour
 {
     [Tooltip("Prefab del panel que se usa para cada puntuacion")]

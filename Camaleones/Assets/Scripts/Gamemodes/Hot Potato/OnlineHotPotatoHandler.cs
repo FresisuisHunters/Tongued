@@ -56,7 +56,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
     }
 
-    protected override void goToScoresScene(List<PlayerScoreData> scores) 
+    protected override void GoToScoresScene(List<PlayerScoreData> scores) 
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
             SceneManagerExtensions.PhotonLoadScene(scoreSceneName, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));

@@ -67,7 +67,8 @@ public class HotPotatoHandler : MonoBehaviour
                 scoreHandler.AddScore(-1);
                 break;
         }
-        if (currentRoundNumber == numberOfRounds)
+
+        if (CurrentRoundNumber == numberOfRounds)
         {
             EndMatch();
         }
@@ -103,14 +104,13 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndMatch()
     {
-        //SE ACABA LA PARTIDA, NO SÉ QUÉ PONER AHORA MISMO
         Debug.Log("Se acabó wey");
         ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
         scollector.CollectScores();
-        goToScoresScene(scollector.GetScores());
+        GoToScoresScene(scollector.GetScores());
     }
 
-    protected virtual void goToScoresScene(List<PlayerScoreData> scores)
+    protected virtual void GoToScoresScene(List<PlayerScoreData> scores)
     {
         SceneManagerExtensions.LoadScene(scoreSceneName, LoadSceneMode.Single, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
     }
