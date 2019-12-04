@@ -52,5 +52,6 @@ MonoBehaviour:
   - RPC_StartHotPotatoRound
   - RPC_SetSnitchViewID
   - RPC_SetScore
+  - RPCTransferOwnership
   DisableAutoOpenWizard: 1
   ShowSettings: 0

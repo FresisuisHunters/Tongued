@@ -50,35 +50,32 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
     }
 
     protected new void Update () {
-        base.Update ();
-
         if (PhotonNetwork.IsMasterClient) {
             SpawnSnitchIfNonExistent ();
         }
+
+        base.Update ();
     }
 
     private void SpawnSnitchIfNonExistent () {
         if (Snitch == null) {
-            OnlineLogging.Instance.Write ("There is no Snitch in the scene.");
-            base.SpawnSnitch ();
+            GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
+            Snitch = PhotonNetwork.InstantiateSceneObject(snitchPrefab.name, spawnPoint.transform.position, Quaternion.identity).GetComponent<TransferableItem>();
+            Snitch.OnItemTransfered += OnSnitchTransfered;
 
             PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView> ();
             snitchPhotonView.TransferOwnership (PhotonNetwork.LocalPlayer);
-            PhotonNetwork.AllocateViewID (snitchPhotonView);
         }
     }
 
     #region Initialization
     protected override void Awake () {
-        base.Awake ();
-
         photonView = GetComponent<PhotonView> ();
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView> ();
-            snitchPhotonView.TransferOwnership (PhotonNetwork.LocalPlayer);
-            PhotonNetwork.AllocateViewID (snitchPhotonView);
+            SpawnSnitchIfNonExistent();
 
+            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView> ();
             photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
         }
     }
@@ -87,6 +84,6 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
     private void RPC_SetSnitchViewID (int id) {
         Snitch.GetComponent<PhotonView> ().ViewID = id;
     }
-    
+
     #endregion
 }
