@@ -155,13 +155,8 @@ public class HotPotatoHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
-        if (GameObject.FindGameObjectWithTag("Snitch") == null) {
-            OnlineLogging.Instance.Write("There is no Snitch in the scene.");
-            SpawnSnitch();
-        }
-
         if (FirstRoundHasStarted)
         {
             timeElapsedThisRound += Time.deltaTime;
@@ -187,7 +182,7 @@ public class HotPotatoHandler : MonoBehaviour
         SpawnSnitch();
     }
 
-    private void SpawnSnitch()
+    protected void SpawnSnitch()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)

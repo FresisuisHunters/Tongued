@@ -205,7 +205,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
             {
-                PhotonNetwork.Instantiate(HOT_POTATO_HANDLER_NAME, Vector3.zero, Quaternion.identity);
+                PhotonNetwork.InstantiateSceneObject(HOT_POTATO_HANDLER_NAME, Vector3.zero, Quaternion.identity);
             });
         }
     }
