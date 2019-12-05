@@ -77,13 +77,11 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     }
     #endregion
 
-    #region In Room Calbacks
-    
+    #region In Room Calbacks    
     void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
     {
-        if (PhotonNetwork.CountOfPlayersInRooms == 1)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
         {
-            Debug.Log("Am master:" + PhotonNetwork.IsMasterClient);
             EndMatch();
         }
     }

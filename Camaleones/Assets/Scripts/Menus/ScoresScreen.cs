@@ -31,7 +31,13 @@ public class ScoresScreen : MonoBehaviour
             scoreObject.GetComponent<RectTransform>().localScale = Vector3.one;
             scoreObject.GetComponentInChildren<TextMeshProUGUI>().SetText((i + 1) + "º " + scores[i].getName() + " - " + Mathf.Max(scores[i].getScore(), 0));
         }
+
+        Invoke("GoToRoom", 3);
         
+    }
+
+    private void GoToRoom()
+    {
         SceneManagerExtensions.PhotonLoadScene("sce_mLobby", () =>
         {
             MenuScreenManager manager = FindObjectOfType<MenuScreenManager>();
@@ -39,4 +45,6 @@ public class ScoresScreen : MonoBehaviour
             manager.startingMenuScreen = FindObjectOfType<RoomScreen>();
         });
     }
+
+    
 }

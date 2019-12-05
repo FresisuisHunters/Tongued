@@ -23,11 +23,7 @@ public class ScoreCollector : MonoBehaviour
         scores = new List<PlayerScoreData>();
         foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
         {
-            PhotonView pv = sh.GetComponent<PhotonView>();
-            if (pv)
-                scores.Add(new PlayerScoreData(pv.Owner.NickName, sh.CurrentScore));
-            else
-                scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
+            scores.Add(new PlayerScoreData(sh.Name, sh.CurrentScore));
             Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
         }
     }

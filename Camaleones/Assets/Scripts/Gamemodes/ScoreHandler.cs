@@ -16,6 +16,8 @@ public class ScoreHandler : MonoBehaviour
     }
     private int _currentScore;
 
+    public string Name { get; private set; }
+
     public event System.Action<int> OnScoreChanged;
 
 
@@ -31,5 +33,10 @@ public class ScoreHandler : MonoBehaviour
         {
             listeners[i].DoReaction(reactionType);
         }
+    }
+
+    private void Start()
+    {
+        Name = GetComponent<Photon.Pun.PhotonView>()?.Owner?.NickName ?? gameObject.name;
     }
 }

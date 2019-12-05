@@ -48,6 +48,8 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         PhotonNetwork.AddCallbackTarget(this);
         PhotonNetwork.AutomaticallySyncScene = true;
 
+        ClearPlayerEntryState();
+
         foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
             CreatePlayerEntry(player);
@@ -68,14 +70,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     protected override void OnClose(Type nextScreen)
     {
         PhotonNetwork.RemoveCallbackTarget(this);
-
-        foreach (RoomPlayerEntry entry in players.Values)
-        {
-            Destroy(entry.gameObject);
-        }
-
-        players.Clear();
-        playersReady.Clear();
+        ClearPlayerEntryState();
     }
 
     public override void GoBack()
@@ -157,6 +152,17 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     #endregion
 
     #region UI Operations
+    private void ClearPlayerEntryState()
+    {
+        foreach (RoomPlayerEntry entry in players.Values)
+        {
+            Destroy(entry.gameObject);
+        }
+
+        players.Clear();
+        playersReady.Clear();
+    }
+
     private void CreatePlayerEntry(Player newPlayer)
     {
         string playerName = newPlayer.NickName;
@@ -174,7 +180,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         players.Remove(playerName);
         playersReady.Remove(playerName);
 
-        Destroy(entry);
+        Destroy(entry.gameObject);
     }
 
     private void UpdateRoomCapacityText()
