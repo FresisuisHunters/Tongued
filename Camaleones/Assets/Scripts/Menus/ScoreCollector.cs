@@ -9,13 +9,11 @@ public class ScoreCollector : MonoBehaviour
 {
     private List<PlayerScoreData> scores;
 
-    /// <summary>
-    /// Hacemos que no se destruya el objeto al cambiar la escena para llevar las puntuaciones a la escena siguiente
-    /// </summary>
     private void Awake()
     {
         DontDestroyOnLoad(this);
     }
+
     /// <summary>
     /// Guardamos las puntuaciones de todos los jugadores, así si uno se desconecta no habrá problemas
     /// </summary>

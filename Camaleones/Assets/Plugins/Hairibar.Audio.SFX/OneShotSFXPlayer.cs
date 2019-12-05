@@ -3,6 +3,7 @@ using UnityEngine.Audio;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+#pragma warning disable 649
 namespace Hairibar.Audio.SFX
 {
     public class OneShotSFXPlayer : MonoBehaviour
