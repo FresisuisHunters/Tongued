@@ -26,8 +26,12 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private Sprite blessingRoundSnitchSprite;
     [SerializeField] private Sprite curseRoundSnitchSprite;
 
+    [Header("Totem sprites")]
+    [SerializeField] private Sprite blessingTotemSprite;
+    [SerializeField] private Sprite curseTotemSprite;
+
     [Header("Round change animation")]
-    [SerializeField] private Image roundChangeAnimationSnitchImage;
+    [SerializeField] private Image roundChangeAnimationTotemImage;
 
 
     private TransferableItemHolder localPlayer;
@@ -50,10 +54,28 @@ public class HotPotatoUI : MonoBehaviour
         }
     }
 
+    private Sprite CurrentAppropiateTotemSprite
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingTotemSprite;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseTotemSprite;
+                default:
+                    return null;
+            }
+        }
+    }
+
 
     public void AnimEvt_SwapSnitchSprite()
     {
-        roundChangeAnimationSnitchImage.sprite = CurrentAppropiateSnitchSprite;
+        roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
+        offscreenSnitchViewImage.sprite = CurrentAppropiateSnitchSprite;
+        if (hotPotatoHandler.Snitch) hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
     }
 
     private void Update()
@@ -80,13 +102,9 @@ public class HotPotatoUI : MonoBehaviour
             graphic.CrossFadeColor(roundTint, tintCrossfadeLength, true, false);
         }
 
-        //Set the offscreen view image
-        offscreenSnitchViewImage.sprite = CurrentAppropiateSnitchSprite;
-
         //Do the round change animation, except for the first round.
         if (hotPotatoHandler.CurrentRoundNumber > 1) GetComponent<Animator>().Play("anim_RoundChange");
 
-        Debug.Log(hotPotatoHandler.CurrentRoundNumber);
         UpdateMissionText();
     }
 

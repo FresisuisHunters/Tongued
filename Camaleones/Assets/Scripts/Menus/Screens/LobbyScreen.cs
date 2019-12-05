@@ -21,10 +21,15 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
     private byte currentAtempts;
 
     #region Screen Operations
-    protected override void OnOpen(System.Type previousScreen)
+    protected override void OnOpen(Type previousScreen)
     {
         PhotonNetwork.AddCallbackTarget(this);
         currentAtempts = 0;
+
+        joinPublicRoomButton.gameObject.SetActive(true);
+        cancelPublicSearchButton.gameObject.SetActive(false);
+
+        messageField.text = "";
     }
 
     protected override void OnClose(Type nextScreen) => PhotonNetwork.RemoveCallbackTarget(this);
@@ -46,22 +51,29 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
         cancelPublicSearchButton.gameObject.SetActive(true);
 
         SetInteractable(false, cancelPublicSearchButton, backButton);
+
+        messageField.text = "Searching...";
     }
 
     public void CancelPublicSearch()
     {
-        PhotonNetwork.LeaveLobby();
+        if (PhotonNetwork.InLobby) PhotonNetwork.LeaveLobby();
         CancelInvoke();
 
         joinPublicRoomButton.gameObject.SetActive(true);
         cancelPublicSearchButton.gameObject.SetActive(false);
 
         SetInteractable(true);
+
+        messageField.text = "";
     }
 
     public void CreatePrivateRoom()
     {
         string roomName = roomNameInput.text;
+        print(roomName);
+        print(roomNameInput.textComponent.text);
+
         if (string.IsNullOrEmpty(roomName) || string.IsNullOrWhiteSpace(roomName))
         {
             return;
@@ -140,6 +152,9 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
         OnlineLogging.Instance.Write(log);
 
         SetInteractable(true);
+
+        if (returnCode == ErrorCode.GameIdAlreadyExists) message = "That room name is already taken.";
+        messageField.text = message;
     }
 
     void IMatchmakingCallbacks.OnJoinedRoom() => GoToRoom();
@@ -150,6 +165,10 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
         OnlineLogging.Instance.Write(log);
 
         SetInteractable(true);
+
+        if (returnCode == ErrorCode.GameFull) message = "This room is already full.";
+        else if (returnCode == ErrorCode.GameClosed) message = "This room is closed.";
+        else if (returnCode == ErrorCode.GameDoesNotExist) message = "There is no room with that name.";
         messageField.text = message;
     }
 

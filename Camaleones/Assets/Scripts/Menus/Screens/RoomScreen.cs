@@ -6,6 +6,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
 
+#pragma warning disable 649
 [RequireComponent(typeof(PhotonView))]
 public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 {
@@ -197,8 +198,9 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
         bool allPlayersAreReady = playersReady.Count == players.Count;
+        bool thereAreEnoughPlayers = playersReady.Count > 1;
 
-        if (localIsRoomOwner && allPlayersAreReady) photonView.RPC("StartCountdown", RpcTarget.All, null);
+        if (localIsRoomOwner && allPlayersAreReady && thereAreEnoughPlayers) photonView.RPC("StartCountdown", RpcTarget.All, null);
     }
     #endregion
 

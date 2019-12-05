@@ -17,4 +17,9 @@ public class TransferableItemHolder : MonoBehaviour
     {
         item?.Collide(collision.transform.root.gameObject);
     }
+
+    private void OnDestroy()
+    {
+        if (item) item.SetToNoHolder();
+    }
 }
