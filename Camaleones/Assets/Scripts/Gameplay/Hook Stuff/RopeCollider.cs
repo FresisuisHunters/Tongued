@@ -13,10 +13,10 @@ using UnityEngine;
 /// - Generamos un array para devolver los puntos cada vez que se pide - eso genera mucha basura.
 [RequireComponent (typeof (DistanceJoint2D))]
 public class RopeCollider : MonoBehaviour {
+    
     #region Inspector
     [SerializeField, Tooltip ("Las layers en las que se buscan puntos de contacto.")]
     private LayerMask raycastMask;
-    [SerializeField] private bool debugContactLengths;
     #endregion
 
     #region Public members
@@ -107,28 +107,22 @@ public class RopeCollider : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        float r = .5f;
-        Gizmos.color = Color.black;
-        foreach (ContactPoint cp in contactPoints) {
-            Gizmos.DrawSphere(cp.position, r);
-        }
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(HeadPosition, r);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(swingHingeRigidbody.position, r);
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(freeSwingingEndPoint, r);
-    }
-
-    private void OnGUI()
-    {
-        if (debugContactLengths)
+        if (Application.isPlaying)
         {
-            foreach (ContactPoint contactPoint in contactPoints)
+            float r = .5f;
+            Gizmos.color = Color.black;
+            foreach (ContactPoint cp in contactPoints)
             {
-                GUI.Label(new Rect(contactPoint.position, new Vector2(100, 50)), contactPoint.length.ToString());
+                Gizmos.DrawSphere(cp.position, r);
             }
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(HeadPosition, r);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(swingHingeRigidbody.position, r);
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(freeSwingingEndPoint, r);
         }
     }
 
