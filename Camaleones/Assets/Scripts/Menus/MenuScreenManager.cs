@@ -32,6 +32,10 @@ public class MenuScreenManager : MonoBehaviour
         menuScreen.Open(previousScreen?.GetType());
     }
     
+    public void GoBack()
+    {
+        currentActiveMenuScreen.GoBack();
+    }
 
     private void Awake()
     {

@@ -21,12 +21,18 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
     protected override void OnOpen(Type previousScreen) {
         PhotonNetwork.AddCallbackTarget(this);
 
+        if (previousScreen == typeof(LobbyScreen) && Settings.IS_PHONE)
+        {
+            GoBack();
+            return;
+        }
+
         if (PhotonNetwork.IsConnectedAndReady) {
             GoToLobbyScreen();
         }
 
         if (Settings.IS_PHONE) {
-            usernameInputField.text = TonguedUsernamesBank.RetriveUsername();
+            usernameInputField.text = TonguedUsernamesBank.RetrieveUsername();
             HideInterface();
             ConnectToServer();
         }
