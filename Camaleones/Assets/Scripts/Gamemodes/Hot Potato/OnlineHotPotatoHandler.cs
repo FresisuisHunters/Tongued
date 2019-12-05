@@ -72,12 +72,6 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
         ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
         scollector.CollectScores();
     }
-
-    protected override void GoToScoresScene(List<PlayerScoreData> scores)
-    {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            SceneManagerExtensions.PhotonLoadScene(scoreSceneName, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
-    }
     #endregion
 
     #region In Room Calbacks
