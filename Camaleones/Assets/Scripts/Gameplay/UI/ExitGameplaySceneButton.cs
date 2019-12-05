@@ -65,9 +65,14 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
     }
 
     public void GoToLobby () {
+        GoBackToMainMenu();
+
+        // TODO
+        /*
         sceneToLoad = SceneToLoadOnDisconnect.LOBBY_MENU;
         OnlineLogging.Instance.Write ("Id of player who left: " + PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LeaveRoom ();
+        */
     }
 
 }
