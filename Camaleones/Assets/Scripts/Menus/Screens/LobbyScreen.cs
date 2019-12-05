@@ -29,7 +29,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
         joinPublicRoomButton.gameObject.SetActive(true);
         cancelPublicSearchButton.gameObject.SetActive(false);
 
-        messageField.text = "";
+        messageField.text = string.Format("Welcome to the lobby, {0}!", PhotonNetwork.LocalPlayer.NickName);
     }
 
     protected override void OnClose(Type nextScreen) => PhotonNetwork.RemoveCallbackTarget(this);

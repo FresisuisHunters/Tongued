@@ -197,7 +197,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     private void CheckIfShouldStartCountdown()
     {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
-        bool allPlayersAreReady = playersReady.Count == players.Count;
+        bool allPlayersAreReady = true;// playersReady.Count == players.Count; TODO
         bool thereAreEnoughPlayers = playersReady.Count > 1;
 
         if (localIsRoomOwner && allPlayersAreReady && thereAreEnoughPlayers) photonView.RPC("StartCountdown", RpcTarget.All, null);
