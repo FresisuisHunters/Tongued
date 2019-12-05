@@ -127,7 +127,7 @@ public class TouchHookInput : MonoBehaviour {
     private void Awake()
     {
         //Si el control seleccionado no es Touch, se autodestruye.
-        if ((Controls.ControlScheme)PlayerPrefs.GetInt(Controls.CONTROL_SCHEME_PREF_KEY, 0) != Controls.ControlScheme.Touch)
+        if (Settings.controlScheme != Settings.ControlScheme.Touch)
         {
             Destroy(this);
             return;

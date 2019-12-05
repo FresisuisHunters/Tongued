@@ -18,7 +18,6 @@ public class HorizontalParallax : MonoBehaviour
         lastCameraPos = newCameraPos;
     }
 
-
     private void Start()
     {
         cameraTransform = Camera.main.transform;
