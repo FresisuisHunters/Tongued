@@ -12,6 +12,7 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
     #region Inspector
     [Header("Hook")]
     public float retractDistancePerSecond = 10f;
+    public float minHookLength = 0.3f;
     [SerializeField] private Hook hookPrefab;
 
     [Header("Autoaim")]
@@ -135,7 +136,9 @@ public class HookThrower : MonoBehaviour, IOnHookedListener
     {
         if (Hook.IsAttached)
         {
-            Hook.Length -= retractDistancePerSecond * amountMultiplier * time;
+            float newLength = Hook.Length - retractDistancePerSecond * amountMultiplier * time;
+            newLength = Mathf.Max(newLength, minHookLength);
+            Hook.Length = newLength;
 
             Vector2 u = Hook.SwingingHingePoint - Rigidbody.position;
             Rigidbody.AddForce(u * retractDistancePerSecond * time, ForceMode2D.Impulse);
