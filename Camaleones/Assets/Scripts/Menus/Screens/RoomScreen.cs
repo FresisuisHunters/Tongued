@@ -120,8 +120,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            OnlineLogging.Instance.Write("El jugador " + PhotonNetwork.LocalPlayer.NickName + " inicia la partida.");
-
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
             {
                 PhotonNetwork.InstantiateSceneObject(HOT_POTATO_HANDLER_PREFAB_NAME, Vector3.zero, Quaternion.identity);
