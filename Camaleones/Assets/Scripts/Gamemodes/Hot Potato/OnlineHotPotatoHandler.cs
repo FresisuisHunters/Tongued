@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 [RequireComponent(typeof (PhotonView))]
-public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
+public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomCallbacks
 { 
     private PhotonView photonView;
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -24,32 +27,39 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         }
     }
 
-
-    protected override void StartRound (RoundType roundType) {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-            base.StartRound (roundType);
+    #region Rounds
+    protected override void StartRound(RoundType roundType)
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            base.StartRound(roundType);
         }
 
-        photonView.RPC ("RPC_StartHotPotatoRound", RpcTarget.Others, roundType);
+        photonView.RPC("RPC_StartHotPotatoRound", RpcTarget.Others, roundType, currentChanceOfSameRound);
     }
     [PunRPC]
-    private void RPC_StartHotPotatoRound (RoundType roundType) {
-        base.StartRound (roundType);
+    private void RPC_StartHotPotatoRound(RoundType roundType, float currentChanceOfSameRound)
+    {
+        this.currentChanceOfSameRound = currentChanceOfSameRound;
+        base.StartRound(roundType);
     }
 
-
-    protected override void EndRound () {
+    protected override void EndRound()
+    {
         //Los clientes no master nunca ejecutan EndRound.
         if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
 
-        base.EndRound ();
+        base.EndRound();
     }
+    #endregion
 
-    protected override void EndMatch () {
+    #region Match End
+    protected override void EndMatch()
+    {
         if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
 
-        base.EndMatch ();
-        photonView.RPC ("RPC_EndHotPotatoMatch", RpcTarget.Others);
+        base.EndMatch();
+        photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
     }
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
@@ -58,14 +68,33 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         scollector.CollectScores();
     }
 
-    protected override void GoToScoresScene(List<PlayerScoreData> scores) 
+    protected override void GoToScoresScene(List<PlayerScoreData> scores)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
             SceneManagerExtensions.PhotonLoadScene(scoreSceneName, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
     }
+    #endregion
+
+    #region In Room Calbacks
+    
+    void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (PhotonNetwork.CountOfPlayersInRooms == 1)
+        {
+            Debug.Log("Am master:" + PhotonNetwork.IsMasterClient);
+            EndMatch();
+        }
+    }
+
+    void IInRoomCallbacks.OnPlayerEnteredRoom(Player newPlayer) { }
+    void IInRoomCallbacks.OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) { }
+    void IInRoomCallbacks.OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps) { }
+    void IInRoomCallbacks.OnMasterClientSwitched(Player newMasterClient) { }
+    #endregion
 
     #region Initialization
-    protected override void Awake () {
+    protected override void Awake ()
+    {
         photonView = GetComponent<PhotonView> ();
         SpawnSnitch();
 
@@ -74,6 +103,13 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
             PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
             photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
         }
+
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDestroy()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
     }
 
     [PunRPC]
