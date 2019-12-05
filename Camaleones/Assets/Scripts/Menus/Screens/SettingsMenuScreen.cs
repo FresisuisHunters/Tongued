@@ -43,10 +43,9 @@ public class SettingsMenuScreen : AMenuScreen
 
         mouseControlToggle.onValueChanged.AddListener((value) => {
             SetControlScheme();
-            UpdateToggle(mouseControlToggle, Settings.controlScheme == Settings.ControlScheme.Mouse);
+            UpdateToggle(mouseControlToggle, value);
         });
-        touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle,
-            Settings.controlScheme == Settings.ControlScheme.Touch));
+        touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle, value));
     }
 
     private void UpdateToggles() {
@@ -56,8 +55,8 @@ public class SettingsMenuScreen : AMenuScreen
         UpdateToggle(musicOffToggle, !Settings.enableMusic);
         UpdateToggle(musicOnToggle, Settings.enableMusic);
 
-        UpdateToggle(mouseControlToggle, Settings.controlScheme == Settings.ControlScheme.Mouse);
         UpdateToggle(touchControlToggle, Settings.controlScheme == Settings.ControlScheme.Touch);
+        UpdateToggle(mouseControlToggle, Settings.controlScheme == Settings.ControlScheme.Mouse);
     }
 
     private void SetSoundVolume(bool enable) {
@@ -80,7 +79,11 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void UpdateToggle(Toggle toggle, bool isOn) {
+        Debug.LogFormat("Toggle {0} actualizando. IsOn: {1}. IsOn argumento: {2}", toggle.name, toggle.isOn, isOn);
+
         toggle.isOn = isOn;
+
+        Debug.LogFormat("Toggle {0} actualizado. IsOn: {1}", toggle.name, toggle.isOn);
 
         Image toggleImage = toggle.image;
         toggleImage.color = (toggle.isOn) ? Color.white : Color.grey;

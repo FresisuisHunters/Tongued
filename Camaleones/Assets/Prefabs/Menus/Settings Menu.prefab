@@ -91,7 +91,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 40
+  m_fontSize: 27
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 5775386833433216913}
   - component: {fileID: 6721830358766956071}
   m_Layer: 0
-  m_Name: Toggle Area
+  m_Name: Control Scheme Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,10 +188,10 @@ RectTransform:
   m_Father: {fileID: 2156702876747956077}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 160.4}
-  m_SizeDelta: {x: 562.5, y: 141.3}
+  m_AnchorMin: {x: 0, y: 0.66700006}
+  m_AnchorMax: {x: 1, y: 0.9238682}
+  m_AnchoredPosition: {x: 0.25, y: 0.3999939}
+  m_SizeDelta: {x: 0.5, y: 1.300003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6721830358766956071
 MonoBehaviour:
@@ -291,9 +291,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.8564569, y: 0.83668}
-  m_AnchoredPosition: {x: 17.277, y: 91.797}
-  m_SizeDelta: {x: 55.04, y: -113.75}
+  m_AnchorMax: {x: 1, y: 0.83668}
+  m_AnchoredPosition: {x: 0.27700043, y: 91.797}
+  m_SizeDelta: {x: 21.04, y: -113.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7244657827591005714
 CanvasRenderer:
@@ -448,8 +448,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -69.56, y: -25}
-  m_SizeDelta: {x: 101.6, y: 150.8}
+  m_AnchoredPosition: {x: -55.274994, y: -19.3}
+  m_SizeDelta: {x: 130.17, y: 150.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6986632320149058822
 MonoBehaviour:
@@ -608,9 +608,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.8564569, y: 0.83668}
-  m_AnchoredPosition: {x: 17.277, y: 92.465}
-  m_SizeDelta: {x: 55.04, y: -115.2}
+  m_AnchorMax: {x: 1, y: 0.8715406}
+  m_AnchoredPosition: {x: 0.27700043, y: 88.965}
+  m_SizeDelta: {x: 21.04, y: -122.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &543781294656230984
 CanvasRenderer:
@@ -816,8 +816,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.000030518, y: 0}
+  m_AnchoredPosition: {x: 0.0000076293945, y: 0.0000076293945}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5158723527201298628
 CanvasRenderer:
@@ -1123,8 +1123,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 120, y: -12.315}
-  m_SizeDelta: {x: 119.3, y: 165.93}
+  m_AnchoredPosition: {x: 110.3, y: 0.000014544}
+  m_SizeDelta: {x: 140.08, y: 194.83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2644224419162259594
 MonoBehaviour:
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!222 &8825520051007619632
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1412,7 +1412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -93, y: 0}
+  m_AnchoredPosition: {x: -120.7, y: 0.000030518}
   m_SizeDelta: {x: 101.6, y: 141.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2608933810640536904
@@ -1611,8 +1611,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 69.56, y: -24.999985}
-  m_SizeDelta: {x: 101.6, y: 150.8}
+  m_AnchoredPosition: {x: 60.339996, y: -19.6}
+  m_SizeDelta: {x: 120.04, y: 150.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5267829078191316349
 MonoBehaviour:
@@ -1857,6 +1857,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Back Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636091913566670135, guid: 73687b6e4750e624a8fe87e3350eba20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7052438087436764978, guid: 73687b6e4750e624a8fe87e3350eba20,
         type: 3}

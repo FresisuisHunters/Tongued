@@ -40,7 +40,7 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
     }
 
     public void QuitGame() {
-        if (PhotonNetwork.IsConnected) {
+        if (PhotonNetwork.IsConnectedAndReady) {
             PhotonNetwork.LeaveRoom();
         } else {
             GoToMainMenu();
