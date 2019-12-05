@@ -7,6 +7,8 @@ using UnityEngine;
 public class TongueVisualizer : MonoBehaviour
 {
     [SerializeField] private Transform headTransform;
+    [SerializeField] private Transform headSpriteTransform;
+    [SerializeField] private Vector2 defaultHeadSpriteFacing;
 
     private Transform swingerTransform;
     private LineRenderer lineRenderer;
@@ -29,9 +31,12 @@ public class TongueVisualizer : MonoBehaviour
         points[0] = headTransform.position;
         points[points.Length - 1] = swingerTransform.position;
 
-        
         lineRenderer.positionCount = points.Length;
         lineRenderer.SetPositions(points);
+
+        Vector2 lastSegmentU = points[0] - points[1];
+        float headSpriteAngle = Vector2.SignedAngle(defaultHeadSpriteFacing, lastSegmentU);
+        headSpriteTransform.rotation = Quaternion.Euler(0, 0, headSpriteAngle);
     }
 
     private void OnClearedContacts()
