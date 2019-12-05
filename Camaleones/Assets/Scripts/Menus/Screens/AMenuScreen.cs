@@ -65,4 +65,9 @@ public abstract class AMenuScreen : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         gameObject.SetActive(true);
     }
+
+    private void OnDestroy()
+    {
+        OnClose(null);
+    }
 }
