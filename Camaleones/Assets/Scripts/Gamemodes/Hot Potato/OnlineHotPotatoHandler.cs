@@ -64,7 +64,10 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     protected override void GoToScoresScene(List<PlayerScoreData> scores) 
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            PhotonNetwork.DestroyAll();
             PhotonNetwork.LoadLevel(scoreSceneName);
+        }
     }
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
