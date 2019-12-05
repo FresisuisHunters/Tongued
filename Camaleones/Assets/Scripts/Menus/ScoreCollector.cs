@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +21,21 @@ public class ScoreCollector : MonoBehaviour
     public void CollectScores()
     {
         scores = new List<PlayerScoreData>();
-        foreach(ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
+        foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
+        {
+            PhotonView pv = sh.GetComponent<PhotonView>();
+            if (pv)
+                scores.Add(new PlayerScoreData(pv.Owner.NickName, sh.CurrentScore));
+            else
+                scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
+            Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
+        }
+    }
+
+    public void CollectOnlineScores()
+    {
+        scores = new List<PlayerScoreData>();
+        foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
         {
             scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
             Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
