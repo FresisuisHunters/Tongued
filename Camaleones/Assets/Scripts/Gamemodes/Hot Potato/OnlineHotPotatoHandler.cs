@@ -56,10 +56,15 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     #region Match End
     protected override void EndMatch()
     {
-        if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
-
-        base.EndMatch();
         photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            base.EndMatch();
+    }
+
+    protected override void GoToScoresScene(List<PlayerScoreData> scores) 
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            PhotonNetwork.LoadLevel(scoreSceneName);
     }
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
