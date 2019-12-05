@@ -12,16 +12,20 @@ public class SettingsMenuScreen : AMenuScreen
 
     [SerializeField] private AudioMixer audioMixer;
 
-    [SerializeField] private ToggleGroup soundOptionsToggleGroup;
     [SerializeField] private Toggle soundOnToggle;
     [SerializeField] private Toggle soundOffToggle;
-    [SerializeField] private ToggleGroup musicOptionsToggleGroup;
     [SerializeField] private Toggle musicOnToggle;
     [SerializeField] private Toggle musicOffToggle;
+    [SerializeField] private Toggle mouseControlToggle;
+    [SerializeField] private Toggle touchControlToggle;
 
     public override void GoBack()
     {
         MenuManager.SetActiveMenuScreen<MainMenuScreen>();
+    }
+
+    protected override void OnOpen(System.Type previousScreen) {
+        UpdateToggles();
     }
 
     private void Awake() {
@@ -36,18 +40,24 @@ public class SettingsMenuScreen : AMenuScreen
             UpdateToggle(musicOnToggle, value);
         });
         musicOffToggle.onValueChanged.AddListener((value) => UpdateToggle(musicOffToggle, value));
-    }
 
-    private void OnEnable() {
-        UpdateToggles();
+        mouseControlToggle.onValueChanged.AddListener((value) => {
+            SetControlScheme();
+            UpdateToggle(mouseControlToggle, Settings.controlScheme == Settings.ControlScheme.Mouse);
+        });
+        touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle,
+            Settings.controlScheme == Settings.ControlScheme.Touch));
     }
 
     private void UpdateToggles() {
-        UpdateToggle(soundOnToggle, Settings.enableSound);
         UpdateToggle(soundOffToggle, !Settings.enableSound);
+        UpdateToggle(soundOnToggle, Settings.enableSound);
 
-        UpdateToggle(musicOnToggle, Settings.enableMusic);
         UpdateToggle(musicOffToggle, !Settings.enableMusic);
+        UpdateToggle(musicOnToggle, Settings.enableMusic);
+
+        UpdateToggle(mouseControlToggle, Settings.controlScheme == Settings.ControlScheme.Mouse);
+        UpdateToggle(touchControlToggle, Settings.controlScheme == Settings.ControlScheme.Touch);
     }
 
     private void SetSoundVolume(bool enable) {
@@ -61,7 +71,12 @@ public class SettingsMenuScreen : AMenuScreen
         Settings.enableMusic = enable;
 
         float volume = (enable) ? 0 : -80;
-        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume);
+        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume); // TODO
+    }
+
+    private void SetControlScheme() {
+        Settings.ControlScheme controlScheme = (touchControlToggle.isOn) ? Settings.ControlScheme.Touch : Settings.ControlScheme.Mouse;
+        Settings.controlScheme = controlScheme;
     }
 
     private void UpdateToggle(Toggle toggle, bool isOn) {
