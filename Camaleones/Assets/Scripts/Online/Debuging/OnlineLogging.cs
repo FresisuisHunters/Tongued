@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿#define DONT_OUTPUT_LOGGING
+
+using System.IO;
 using UnityEngine;
 using Photon.Pun;
 
@@ -13,6 +15,11 @@ public class OnlineLogging {
     private OnlineLogging (string player) {
         this.player = player;
         this.closed = Application.isEditor; // To create log files only in builds
+
+        #if (DONT_OUTPUT_LOGGING)
+        this.closed = true;
+        #endif
+
         if (this.closed) {
             return;
         }
