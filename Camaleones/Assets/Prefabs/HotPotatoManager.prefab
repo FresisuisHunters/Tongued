@@ -666,11 +666,14 @@ MonoBehaviour:
   msgBlessingDoesntHaveTotem: GET THE TOTEM!
   msgCurseHasTotem: GET RID OF THE TOTEM!
   msgCurseDoesntHaveTotem: KEEP OFF THE TOTEM!
-  blessingRoundSnitchSprite: {fileID: 21300000, guid: f00feafcf0675cd47a48f83ae42b06d4,
+  blessingRoundSnitchSprite: {fileID: 21300000, guid: b932ff8adf444474ebfae19dffd2a639,
     type: 3}
-  curseRoundSnitchSprite: {fileID: 21300000, guid: 6306cc1f5366b25439e06fc9c607cef1,
+  curseRoundSnitchSprite: {fileID: 21300000, guid: 0d843719435dbe449b5d8a8d52d4ddd7,
     type: 3}
-  roundChangeAnimationSnitchImage: {fileID: 1628084705}
+  blessingTotemSprite: {fileID: 21300000, guid: b932ff8adf444474ebfae19dffd2a639,
+    type: 3}
+  curseTotemSprite: {fileID: 21300000, guid: 0d843719435dbe449b5d8a8d52d4ddd7, type: 3}
+  roundChangeAnimationTotemImage: {fileID: 1628084705}
 --- !u!95 &684314758
 Animator:
   serializedVersion: 3

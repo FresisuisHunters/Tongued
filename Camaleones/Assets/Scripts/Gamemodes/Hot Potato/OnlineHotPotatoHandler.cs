@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using TMPro;
-using UnityEngine.SceneManagement;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
-[RequireComponent(typeof(PhotonView))]
-public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
-{
+[RequireComponent(typeof (PhotonView))]
+public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomCallbacks
+{ 
     private PhotonView photonView;
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -24,7 +27,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
         }
     }
 
-
+    #region Rounds
     protected override void StartRound(RoundType roundType)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -32,14 +35,14 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
             base.StartRound(roundType);
         }
 
-        photonView.RPC("RPC_StartHotPotatoRound", RpcTarget.Others, roundType);
+        photonView.RPC("RPC_StartHotPotatoRound", RpcTarget.Others, roundType, currentChanceOfSameRound);
     }
     [PunRPC]
-    private void RPC_StartHotPotatoRound(RoundType roundType)
+    private void RPC_StartHotPotatoRound(RoundType roundType, float currentChanceOfSameRound)
     {
+        this.currentChanceOfSameRound = currentChanceOfSameRound;
         base.StartRound(roundType);
     }
-
 
     protected override void EndRound()
     {
@@ -48,7 +51,9 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
 
         base.EndRound();
     }
+    #endregion
 
+    #region Match End
     protected override void EndMatch()
     {
         photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
@@ -64,33 +69,56 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
     {
-        Debug.Log("Se acabó wey");
         ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
         scollector.CollectScores();
     }
 
-    #region Initialization
-    protected override void Awake()
+    protected override void GoToScoresScene(List<PlayerScoreData> scores)
     {
-        base.Awake();
-
-        photonView = GetComponent<PhotonView>();
-
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            SceneManagerExtensions.PhotonLoadScene(scoreSceneName, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
+    }
+    #endregion
+
+    #region In Room Calbacks
+    
+    void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (PhotonNetwork.CountOfPlayersInRooms == 1)
         {
-            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-
-            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
-            snitchPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            PhotonNetwork.AllocateViewID(snitchPhotonView);
-
-            photonView.RPC("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
+            Debug.Log("Am master:" + PhotonNetwork.IsMasterClient);
+            EndMatch();
         }
     }
 
-    [PunRPC]
-    private void RPC_SetSnitchViewID(int id)
+    void IInRoomCallbacks.OnPlayerEnteredRoom(Player newPlayer) { }
+    void IInRoomCallbacks.OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) { }
+    void IInRoomCallbacks.OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps) { }
+    void IInRoomCallbacks.OnMasterClientSwitched(Player newMasterClient) { }
+    #endregion
+
+    #region Initialization
+    protected override void Awake ()
     {
+        photonView = GetComponent<PhotonView> ();
+        SpawnSnitch();
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
+            PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
+            photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
+        }
+
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDestroy()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    [PunRPC]
+    private void RPC_SetSnitchViewID (int id) {
         Snitch.GetComponent<PhotonView>().ViewID = id;
     }
     #endregion

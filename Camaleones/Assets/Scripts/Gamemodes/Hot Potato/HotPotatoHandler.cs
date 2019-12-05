@@ -15,7 +15,7 @@ public class HotPotatoHandler : MonoBehaviour
     [Tooltip("Curva que define como se reduce el tiempo necesario de posesión de la snitch para cada ronda")]
     [SerializeField] private AnimationCurve posessionTimeCurve;
     [Tooltip("Prefab de la snitch")]
-    [SerializeField] private TransferableItem snitchPrefab;
+    [SerializeField] protected TransferableItem snitchPrefab;
     [Tooltip("Prefab del objeto que guarda las puntuaciones al final.")]
     [SerializeField] protected GameObject scoreCollector;
     [Tooltip("Escena de puntuaciones")]
@@ -39,7 +39,7 @@ public class HotPotatoHandler : MonoBehaviour
     /// <summary>
     /// Probabilidades de cambiar de ronda al acabar la actual
     /// </summary>
-    private float currentChanceOfSameRound = 0.5f;
+    protected float currentChanceOfSameRound = 0.5f;
 
     public TransferableItem Snitch { get; protected set; }
     #endregion
@@ -57,15 +57,18 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndRound()
     {
-        ScoreHandler scoreHandler = Snitch.CurrentHolder.GetComponent<ScoreHandler>();
-        switch (CurrentRoundType)
+        ScoreHandler scoreHandler = Snitch?.CurrentHolder?.GetComponent<ScoreHandler>();
+        if (scoreHandler)
         {
-            case RoundType.Blessing:
-                scoreHandler.AddScore(1);
-                break;
-            case RoundType.Curse:
-                scoreHandler.AddScore(-1);
-                break;
+            switch (CurrentRoundType)
+            {
+                case RoundType.Blessing:
+                    scoreHandler.AddScore(1);
+                    break;
+                case RoundType.Curse:
+                    scoreHandler.AddScore(-1);
+                    break;
+            }
         }
 
         if (CurrentRoundNumber == numberOfRounds)
@@ -73,7 +76,7 @@ public class HotPotatoHandler : MonoBehaviour
             EndMatch();
         }
         else
-        {
+        {            
             RoundType newRoundType;
             if (Random.value < currentChanceOfSameRound)
             {
@@ -104,7 +107,6 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndMatch()
     {
-        Debug.Log("Se acabó wey");
         ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
         scollector.CollectScores();
         GoToScoresScene(scollector.GetScores());
@@ -166,7 +168,7 @@ public class HotPotatoHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         if (FirstRoundHasStarted)
         {
@@ -193,11 +195,12 @@ public class HotPotatoHandler : MonoBehaviour
         SpawnSnitch();
     }
 
-    private void SpawnSnitch()
+    protected void SpawnSnitch()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
         if (!spawnPoint)
         {
+            OnlineLogging.Instance.Write("There is no SnitchSpawnPoint in the scene.");
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 

@@ -40,6 +40,14 @@ public class MenuScreenManager : MonoBehaviour
         {
             menuScreens[i].Initialize(this);
         }
+
+        SetControls();
+    }
+
+    private void SetControls() {
+        int controlScheme = (Application.isMobilePlatform) ? (int)Controls.ControlScheme.Touch : (int)Controls.ControlScheme.Mouse;
+        PlayerPrefs.SetInt(Controls.CONTROL_SCHEME_PREF_KEY, controlScheme);
+        PlayerPrefs.Save();
     }
 
     private void Start()
