@@ -25,38 +25,13 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
         confirmScreen.SetActive (!confirmScreen.activeSelf);
     }
 
-    public override void OnMasterClientSwitched (Player newMasterClient) {
-        OnlineLogging.Instance.Write ("New master player: " + newMasterClient.ActorNumber);
-    }
-
-    public override void OnPlayerLeftRoom (Player otherPlayer) {
-        OnlineLogging.Instance.Write (otherPlayer.ActorNumber + " left room and game");
+    public override void OnDisconnected(DisconnectCause cause) {
+        GoToMainMenu();
     }
 
     public override void OnLeftRoom () {
-        OnlineLogging.Instance.Write ("Left room and game");
-        OnlineLogging.Instance.Write ("Id of player who left: " + PhotonNetwork.LocalPlayer.ActorNumber);
-
-        switch (sceneToLoad) {
-            case SceneToLoadOnDisconnect.LOBBY_MENU:
-                SceneManager.LoadScene (lobbyScene, LoadSceneMode.Single);
-                break;
-            case SceneToLoadOnDisconnect.ONLINE_MAIN_MENU:
-                SceneManagerExtensions.LoadScene (mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
-                    FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<MainMenuScreen> ());
-                break;
-        }
-    }
-
-    public void GoBackToMainMenu () {
-        if (PhotonNetwork.IsConnected) {
-            sceneToLoad = SceneToLoadOnDisconnect.ONLINE_MAIN_MENU;
-            OnlineLogging.Instance.Write ("Id of player who left: " + PhotonNetwork.LocalPlayer.ActorNumber);
-            PhotonNetwork.LeaveRoom ();
-        } else {
-            SceneManagerExtensions.LoadScene (mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
-                FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<MainMenuScreen> ());
-        }
+        // TODO: Ir al lobby
+        PhotonNetwork.Disconnect();
     }
 
     public void GoBackToTrainingScreen () {
@@ -64,15 +39,17 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
             FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<TrainingMenuScreen> ());
     }
 
-    public void GoToLobby () {
-        GoBackToMainMenu();
+    public void QuitGame() {
+        if (PhotonNetwork.IsConnected) {
+            PhotonNetwork.LeaveRoom();
+        } else {
+            GoToMainMenu();
+        }
+    }
 
-        // TODO
-        /*
-        sceneToLoad = SceneToLoadOnDisconnect.LOBBY_MENU;
-        OnlineLogging.Instance.Write ("Id of player who left: " + PhotonNetwork.LocalPlayer.ActorNumber);
-        PhotonNetwork.LeaveRoom ();
-        */
+    private void GoToMainMenu() {
+        SceneManagerExtensions.LoadScene (mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
+                FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<MainMenuScreen> ());
     }
 
 }
