@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 public class MouseHookInput : MonoBehaviour
 {
     private HookThrower hookThrower;
-    [SerializeField]
     private bool isHoldingPointerDown;
 
     private void OnPointerDown(PointerEventData eventData)
@@ -27,24 +26,15 @@ public class MouseHookInput : MonoBehaviour
         {
             hookThrower.DisableHook();
         }
-
-        Debug.Log("OnPointerDown");
     }
 
     private void OnPointerUp(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            isHoldingPointerDown = false;
-            Debug.Log("OnPointerUp");
-        }
-        
-        
+        if (eventData.button == PointerEventData.InputButton.Left) isHoldingPointerDown = false;
     }
 
     private void Update()
     {
-        //Debug.Log($"HookIsOut: {hookThrower.HookIsOut}, isHoldingPointerDown: {isHoldingPointerDown}");
         if (hookThrower.HookIsOut && isHoldingPointerDown)
         {
             hookThrower.Retract(Time.deltaTime, 1);
