@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 public class SettingsMenuScreen : AMenuScreen
 {
 
-    private const string AUDIO_MIXER_MASTER_KEY = "Master";
+    private const string AUDIO_MIXER_MUSIC_KEY = "MusicKey";
     private const string AUDIO_MIXER_SFX_KEY = "SFXVolume";
 
     [SerializeField] private AudioMixer audioMixer;
@@ -61,7 +61,7 @@ public class SettingsMenuScreen : AMenuScreen
         Settings.enableMusic = enable;
 
         float volume = (enable) ? 0 : -80;
-        // audioMixer.SetFloat(AUDIO_MIXER_MASTER_KEY, volume); TODO
+        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume);
     }
 
     private void UpdateToggle(Toggle toggle, bool isOn) {

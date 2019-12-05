@@ -12,10 +12,29 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
     #region Inspector
     [SerializeField] private SceneReference mainMenuScene;
     [SerializeField] private TMPro.TMP_InputField usernameInputField;
+    [SerializeField] private Button connectToServerButton;
     [SerializeField] private Button backButton;
     #endregion
 
-    protected override void OnOpen(Type previousScreen) => PhotonNetwork.AddCallbackTarget(this);
+    protected override void OnOpen(Type previousScreen) {
+        PhotonNetwork.AddCallbackTarget(this);
+
+        if (previousScreen == typeof(LobbyScreen) && Settings.IS_PHONE)
+        {
+            GoBack();
+            return;
+        }
+
+        if (PhotonNetwork.IsConnectedAndReady) {
+            GoToLobbyScreen();
+        }
+
+        if (Settings.IS_PHONE) {
+            usernameInputField.text = TonguedUsernamesBank.RetrieveUsername();
+            HideInterface();
+            ConnectToServer();
+        }
+    }
     protected override void OnClose(Type nextScreen) => PhotonNetwork.RemoveCallbackTarget(this);
 
     public override void GoBack()
@@ -23,6 +42,11 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
         PhotonNetwork.Disconnect();
         SceneManagerExtensions.LoadScene(mainMenuScene, LoadSceneMode.Single, () =>
             FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
+    }
+
+    private void HideInterface() {
+        usernameInputField.gameObject.SetActive(false);
+        connectToServerButton.gameObject.SetActive(false);
     }
 
     public void ConnectToServer()
@@ -54,6 +78,7 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
     void IConnectionCallbacks.OnRegionListReceived(RegionHandler regionHandler) { }
     void IConnectionCallbacks.OnCustomAuthenticationResponse(Dictionary<string, object> data) { }
     void IConnectionCallbacks.OnCustomAuthenticationFailed(string debugMessage) { }
+
     #endregion
 
     private void GoToLobbyScreen()

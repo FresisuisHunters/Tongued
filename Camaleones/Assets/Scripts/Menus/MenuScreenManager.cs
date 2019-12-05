@@ -13,7 +13,7 @@ public class MenuScreenManager : MonoBehaviour
     {
         for (int i = 0; i < menuScreens.Length; i++)
         {
-            if (menuScreens[i] is T)
+            if (menuScreens[i] && menuScreens[i] is T)
             {
                 SetActiveMenuScreen(menuScreens[i]);
                 return;
@@ -32,16 +32,25 @@ public class MenuScreenManager : MonoBehaviour
         menuScreen.Open(previousScreen?.GetType());
     }
     
+    public void GoBack()
+    {
+        currentActiveMenuScreen.GoBack();
+    }
 
     private void Awake()
+    {
+        InitializeMenuScreens();
+
+        SetControls();
+    }
+
+    public void InitializeMenuScreens()
     {
         menuScreens = GetComponentsInChildren<AMenuScreen>(true);
         for (int i = 0; i < menuScreens.Length; i++)
         {
             menuScreens[i].Initialize(this);
         }
-
-        SetControls();
     }
 
     private void SetControls() {
