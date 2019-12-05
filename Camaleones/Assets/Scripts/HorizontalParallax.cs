@@ -14,7 +14,7 @@ public class HorizontalParallax : MonoBehaviour
         float newCameraPos = cameraTransform.position.x;
         float worldSpaceCameraDelta = newCameraPos - lastCameraPos;
 
-        transform.position += new Vector3(worldSpaceCameraDelta * velocityFactor, 0, 01);
+        transform.position += new Vector3(worldSpaceCameraDelta * velocityFactor, 0, 0);
         lastCameraPos = newCameraPos;
     }
 
