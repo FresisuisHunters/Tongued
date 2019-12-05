@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 #pragma warning disable 649
+
 
 /// <summary>
 /// Este script define un objeto que se transfiere entre jugadores por contacto, o al tocarlo cuando no lo lleva un jugador, al principio de la partida.
 /// </summary>
+[RequireComponent(typeof(ParentConstraint))]
 public class TransferableItem : MonoBehaviour
 {
     #region Inspector
@@ -18,6 +21,7 @@ public class TransferableItem : MonoBehaviour
 
     public TransferableItemHolder CurrentHolder { get; private set; }
 
+    private ParentConstraint parentConstraint;
     protected bool transferActive = true;
 
 
@@ -38,6 +42,11 @@ public class TransferableItem : MonoBehaviour
         }
     }
 
+    public void SetToNoHolder()
+    {
+        TITransfer(null);
+    }
+
     /// <summary>
     /// Transfiere el objeto a otro jugador
     /// </summary>
@@ -46,13 +55,11 @@ public class TransferableItem : MonoBehaviour
         TransferableItemHolder oldHolder = CurrentHolder;
         CurrentHolder = newHolder;
         if (oldHolder) oldHolder.item = null;
-        
-        transform.SetParent(newHolder.ItemParent);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        CurrentHolder.item = this;
 
-        GetComponent<Collider2D>().enabled = false;
+        SetParentConstraint(newHolder?.ItemParent);
+        if (newHolder) CurrentHolder.item = this;
+
+        GetComponent<Collider2D>().enabled = !newHolder;
         transferActive = false;
         StartCoroutine(ActivationTimer());
 
@@ -66,5 +73,37 @@ public class TransferableItem : MonoBehaviour
     {
         yield return new WaitForSeconds(cooldownToTransfer);
         transferActive = true;
+    }
+
+    private void SetParentConstraint(Transform newParent)
+    {
+        for (int i = parentConstraint.sourceCount - 1; i >= 0; i--)
+        {
+            parentConstraint.RemoveSource(i);
+        }
+
+        if (newParent)
+        {
+            ConstraintSource constraint = new ConstraintSource();
+            constraint.sourceTransform = newParent;
+            constraint.weight = 1;
+            parentConstraint.AddSource(constraint);
+
+            parentConstraint.SetTranslationOffset(0, Vector3.zero);
+            parentConstraint.SetRotationOffset(0, Vector3.zero);
+            
+            parentConstraint.weight = 1;
+            parentConstraint.enabled = true;
+        }
+        else
+        {
+            parentConstraint.enabled = false;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        parentConstraint = GetComponent<ParentConstraint>();
+        parentConstraint.enabled = false;
     }
 }

@@ -22,31 +22,26 @@ public class OnlineTransferableItem : TransferableItem
     /// </summary>
     protected override void TITransfer(TransferableItemHolder target)
     {
-        int targetId = target.GetComponent<PhotonView>().ViewID;
-        photonView.RPC("RPCTransferOwnership", RpcTarget.MasterClient, targetId);
+        int targetId = target?.GetComponent<PhotonView>().ViewID ?? -1;
         photonView.RPC("RPCTransfer", RpcTarget.All, targetId);
     }
 
     [PunRPC]
     private void RPCTransfer(int id)
     {
-        PhotonView targetPhotonView = PhotonView.Find(id);
-        TransferableItemHolder target = targetPhotonView.GetComponent<TransferableItemHolder>();
-        
-        base.TITransfer(target);
+        if (id == -1) base.TITransfer(null);
+        else
+        {
+            PhotonView targetPhotonView = PhotonView.Find(id);
+            TransferableItemHolder target = targetPhotonView.GetComponent<TransferableItemHolder>();
+
+            base.TITransfer(target);
+        }
     }
 
-    [PunRPC]
-    private void RPCTransferOwnership(int targetId) {
-        OnlineLogging.Instance.Write("PASANDO TESTIGO A " + targetId);
-
-        PhotonView targetPhotonView = PhotonView.Find(targetId);
-        photonView.TransferOwnership(targetPhotonView.Owner);
-    }
-
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         photonView = GetComponent<PhotonView>();
     }
 }

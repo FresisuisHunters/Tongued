@@ -61,14 +61,14 @@ public class HotPotatoHandler : MonoBehaviour
         if (scoreHandler)
         {
             switch (CurrentRoundType)
-        {
-            case RoundType.Blessing:
-                scoreHandler.AddScore(1);
-                break;
-            case RoundType.Curse:
-                scoreHandler.AddScore(-1);
-                break;
-        }
+            {
+                case RoundType.Blessing:
+                    scoreHandler.AddScore(1);
+                    break;
+                case RoundType.Curse:
+                    scoreHandler.AddScore(-1);
+                    break;
+            }
         }
 
         if (CurrentRoundNumber == numberOfRounds)
@@ -107,7 +107,6 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected virtual void EndMatch()
     {
-        Debug.Log("Se acabó wey");
         ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
         scollector.CollectScores();
         GoToScoresScene(scollector.GetScores());

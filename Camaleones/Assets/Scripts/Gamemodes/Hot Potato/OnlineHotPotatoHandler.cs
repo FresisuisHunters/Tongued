@@ -6,7 +6,8 @@ using Photon.Pun;
 using TMPro;
 
 [RequireComponent(typeof (PhotonView))]
-public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
+public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable
+{ 
     private PhotonView photonView;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -23,6 +24,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
         }
     }
 
+
     protected override void StartRound (RoundType roundType) {
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
             base.StartRound (roundType);
@@ -30,11 +32,11 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
 
         photonView.RPC ("RPC_StartHotPotatoRound", RpcTarget.Others, roundType);
     }
-
     [PunRPC]
     private void RPC_StartHotPotatoRound (RoundType roundType) {
         base.StartRound (roundType);
     }
+
 
     protected override void EndRound () {
         //Los clientes no master nunca ejecutan EndRound.
@@ -45,8 +47,15 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
 
     protected override void EndMatch () {
         if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
+
         base.EndMatch ();
         photonView.RPC ("RPC_EndHotPotatoMatch", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_EndHotPotatoMatch()
+    {
+        ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
+        scollector.CollectScores();
     }
 
     protected override void GoToScoresScene(List<PlayerScoreData> scores) 
@@ -54,49 +63,22 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
             SceneManagerExtensions.PhotonLoadScene(scoreSceneName, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
     }
-    [PunRPC]
-    private void RPC_EndHotPotatoMatch()
-    {
-        Debug.Log("Se acabó wey");
-        ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
-        scollector.CollectScores();
-    }
-
-    protected new void Update () {
-        if (PhotonNetwork.IsMasterClient) {
-            SpawnSnitchIfNonExistent ();
-        }
-
-        base.Update ();
-    }
-
-    private void SpawnSnitchIfNonExistent () {
-        if (Snitch == null) {
-            GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
-            Snitch = PhotonNetwork.InstantiateSceneObject(snitchPrefab.name, spawnPoint.transform.position, Quaternion.identity).GetComponent<TransferableItem>();
-            Snitch.OnItemTransfered += OnSnitchTransfered;
-
-            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView> ();
-            snitchPhotonView.TransferOwnership (PhotonNetwork.LocalPlayer);
-        }
-    }
 
     #region Initialization
     protected override void Awake () {
         photonView = GetComponent<PhotonView> ();
+        SpawnSnitch();
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-            SpawnSnitchIfNonExistent();
-
-            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView> ();
+            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
+            PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
             photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
         }
     }
 
     [PunRPC]
     private void RPC_SetSnitchViewID (int id) {
-        Snitch.GetComponent<PhotonView> ().ViewID = id;
+        Snitch.GetComponent<PhotonView>().ViewID = id;
     }
-
     #endregion
 }
