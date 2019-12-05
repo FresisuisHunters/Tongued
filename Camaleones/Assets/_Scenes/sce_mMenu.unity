@@ -194,54 +194,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &200852502 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6755829370620905375, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2017669898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &530865946 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8976795571130246146, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2017669898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &679322708 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5975358576761762173, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2017669898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1945156916 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7852824873942065693, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2017669898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2017669898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387,22 +339,22 @@ PrefabInstance:
     - target: {fileID: 6220484634263974344, guid: 4a1cf5d8680d9f14c994469718de6c0d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -427.9111
+      value: -395.6785
       objectReference: {fileID: 0}
     - target: {fileID: 6220484635067919486, guid: 4a1cf5d8680d9f14c994469718de6c0d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -225.15987
+      value: -250.00671
       objectReference: {fileID: 0}
     - target: {fileID: 6220484633589693197, guid: 4a1cf5d8680d9f14c994469718de6c0d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -645.7258
+      value: -716.983
       objectReference: {fileID: 0}
     - target: {fileID: 6220484633351524487, guid: 4a1cf5d8680d9f14c994469718de6c0d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -2.0263805
+      value: -2.2500072
       objectReference: {fileID: 0}
     - target: {fileID: 2006641587, guid: 4a1cf5d8680d9f14c994469718de6c0d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -434,26 +386,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 24100000, guid: cfb8ecc7c433e8741b8bd7660648efc1,
         type: 2}
-    - target: {fileID: 172527234883523595, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: soundOnToggle
-      value: 
-      objectReference: {fileID: 200852502}
-    - target: {fileID: 172527234883523595, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: musicOnToggle
-      value: 
-      objectReference: {fileID: 1945156916}
-    - target: {fileID: 172527234883523595, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: musicOffToggle
-      value: 
-      objectReference: {fileID: 679322708}
-    - target: {fileID: 172527234883523595, guid: 4a1cf5d8680d9f14c994469718de6c0d,
-        type: 3}
-      propertyPath: soundOffToggle
-      value: 
-      objectReference: {fileID: 530865946}
     - target: {fileID: 4383155721199468350, guid: 4a1cf5d8680d9f14c994469718de6c0d,
         type: 3}
       propertyPath: m_textInfo.characterCount

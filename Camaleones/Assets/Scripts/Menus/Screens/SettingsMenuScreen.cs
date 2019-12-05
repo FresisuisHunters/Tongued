@@ -12,8 +12,10 @@ public class SettingsMenuScreen : AMenuScreen
 
     [SerializeField] private AudioMixer audioMixer;
 
+    [SerializeField] private ToggleGroup soundOptionsToggleGroup;
     [SerializeField] private Toggle soundOnToggle;
     [SerializeField] private Toggle soundOffToggle;
+    [SerializeField] private ToggleGroup musicOptionsToggleGroup;
     [SerializeField] private Toggle musicOnToggle;
     [SerializeField] private Toggle musicOffToggle;
 
@@ -22,16 +24,30 @@ public class SettingsMenuScreen : AMenuScreen
         MenuManager.SetActiveMenuScreen<MainMenuScreen>();
     }
 
-    private void Start() {
-        soundOnToggle.onValueChanged.AddListener((value) => SetSoundVolume(value));
-        musicOnToggle.onValueChanged.AddListener((value) => SetMusicVolume(value));
+    private void Awake() {
+        soundOnToggle.onValueChanged.AddListener((value) => {
+            SetSoundVolume(value);
+            UpdateToggle(soundOnToggle, value);
+        });
+        soundOffToggle.onValueChanged.AddListener((value) => UpdateToggle(soundOffToggle, value));
+        
+        musicOnToggle.onValueChanged.AddListener((value) => {
+            SetMusicVolume(value);
+            UpdateToggle(musicOnToggle, value);
+        });
+        musicOffToggle.onValueChanged.AddListener((value) => UpdateToggle(musicOffToggle, value));
     }
 
     private void OnEnable() {
-        soundOnToggle.isOn = Settings.enableSound;
-        soundOffToggle.isOn = !Settings.enableSound;
-        musicOnToggle.isOn = Settings.enableMusic;
-        musicOffToggle.isOn = !Settings.enableMusic;
+        UpdateToggles();
+    }
+
+    private void UpdateToggles() {
+        UpdateToggle(soundOnToggle, Settings.enableSound);
+        UpdateToggle(soundOffToggle, !Settings.enableSound);
+
+        UpdateToggle(musicOnToggle, Settings.enableMusic);
+        UpdateToggle(musicOffToggle, !Settings.enableMusic);
     }
 
     private void SetSoundVolume(bool enable) {
@@ -45,7 +61,14 @@ public class SettingsMenuScreen : AMenuScreen
         Settings.enableMusic = enable;
 
         float volume = (enable) ? 0 : -80;
-        audioMixer.SetFloat(AUDIO_MIXER_MASTER_KEY, volume);
+        // audioMixer.SetFloat(AUDIO_MIXER_MASTER_KEY, volume); TODO
+    }
+
+    private void UpdateToggle(Toggle toggle, bool isOn) {
+        toggle.isOn = isOn;
+
+        Image toggleImage = toggle.image;
+        toggleImage.color = (toggle.isOn) ? Color.white : Color.grey;
     }
 
 }
