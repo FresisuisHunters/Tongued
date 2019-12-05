@@ -87,8 +87,8 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     #region Countdown & Game Start
     public void SetLocalPlayerReady(bool isReady)
     {
-        if (isReady) photonView.RPC("RPC_PlayerIsReady", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer.NickName });
-        else photonView.RPC("RPC_PlayerNotReady", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer.NickName });
+        if (isReady) photonView.RPC("RPC_PlayerIsReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName);
+        else photonView.RPC("RPC_PlayerNotReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName);
 
         readyButton.gameObject.SetActive(!isReady);
         notReadyButton.gameObject.SetActive(isReady);
