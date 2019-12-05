@@ -14,8 +14,6 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
     [SerializeField] private TMPro.TMP_InputField usernameInputField;
     [SerializeField] private Button connectToServerButton;
     [SerializeField] private Button backButton;
-    [SerializeField] private AMenuScreen desktopLobby;
-    [SerializeField] private AMenuScreen phoneLobby;
     #endregion
 
     protected override void OnOpen(Type previousScreen) {
@@ -85,10 +83,6 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
 
     private void GoToLobbyScreen()
     {
-        if (Settings.IS_PHONE) {
-            MenuManager.SetActiveMenuScreen(phoneLobby);
-        } else {
-            MenuManager.SetActiveMenuScreen(desktopLobby);
-        }
+        MenuManager.SetActiveMenuScreen<LobbyScreen>();
     }
 }

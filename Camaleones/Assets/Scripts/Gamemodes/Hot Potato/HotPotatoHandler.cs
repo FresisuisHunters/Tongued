@@ -39,7 +39,7 @@ public class HotPotatoHandler : MonoBehaviour
     /// <summary>
     /// Probabilidades de cambiar de ronda al acabar la actual
     /// </summary>
-    private float currentChanceOfSameRound = 0.5f;
+    protected float currentChanceOfSameRound = 0.5f;
 
     public TransferableItem Snitch { get; protected set; }
     #endregion

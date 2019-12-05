@@ -37,8 +37,10 @@ public static class SceneManagerExtensions
 
     public static void PhotonLoadScene(string sceneName, Action onSceneActiveCallback)
     {
-        SceneManager.activeSceneChanged += CallbackInvoker;
+        
         PhotonNetwork.LoadLevel(sceneName);
+
+        SceneManager.activeSceneChanged += CallbackInvoker;
 
         void CallbackInvoker(Scene previousScene, Scene newScene)
         {

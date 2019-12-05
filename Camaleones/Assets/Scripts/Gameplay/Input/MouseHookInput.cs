@@ -28,9 +28,9 @@ public class MouseHookInput : MonoBehaviour
         }
     }
 
-    private void OnPointerUp()
+    private void OnPointerUp(PointerEventData eventData)
     {
-        isHoldingPointerDown = false;
+        if (eventData.button == PointerEventData.InputButton.Left) isHoldingPointerDown = false;
     }
 
     private void Update()
@@ -64,6 +64,6 @@ public class MouseHookInput : MonoBehaviour
         }
 
         inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (this && enabled) OnPointerDown(data as PointerEventData); });
-        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (this && enabled) OnPointerUp(); });
+        inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (this && enabled) OnPointerUp(data as PointerEventData); });
     }
 }

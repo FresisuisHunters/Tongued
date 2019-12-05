@@ -112,7 +112,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &1627276920
+--- !u!1 &305718499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3553120482423492126, guid: a5c512e992b9abc4498d0405de1a1120,
+    type: 3}
+  m_PrefabInstance: {fileID: 1574977018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &305718500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305718499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac9b551267a495409dfc19cbfaab63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingMenuScreen: {fileID: 0}
+--- !u!1001 &1574977018
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -227,21 +246,6 @@ PrefabInstance:
     - target: {fileID: 3553120482423492578, guid: a5c512e992b9abc4498d0405de1a1120,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553120481010571448, guid: a5c512e992b9abc4498d0405de1a1120,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553120481010571448, guid: a5c512e992b9abc4498d0405de1a1120,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553120481010571448, guid: a5c512e992b9abc4498d0405de1a1120,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3553120480771080420, guid: a5c512e992b9abc4498d0405de1a1120,

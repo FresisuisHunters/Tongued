@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 #pragma warning disable 649
 [RequireComponent(typeof(PhotonView))]
@@ -13,22 +14,32 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     private const string HOT_POTATO_HANDLER_PREFAB_NAME = "Online Hot Potato Manager";
 
     #region Inspector
+    [SerializeField] private TextMeshProUGUI roomNameField;
+
+    [Header("Countdown")]
     [SerializeField] private float countdownLength;
     [SerializeField] private TextMeshProUGUI countdownTextField;
     [SerializeField] private TextMeshProUGUI playerCountTextField;
-    [SerializeField] private GameObject playerEntryPrefab;
+
+    [Header("Player table")]
+    [SerializeField] private RoomPlayerEntry playerEntryPrefab;
+    [SerializeField] private RectTransform playerTableParent;
+
+    [Header("Ready button")]
+    [SerializeField] private Button readyButton;
+    [SerializeField] private Button notReadyButton;
     #endregion
 
     #region Private State
+    public bool LocalPlayerIsReady { get; private set; }
+
     private bool isDoingCountdown;
     private float currentCountdownValue;
 
     private Dictionary<string, RoomPlayerEntry> players = new Dictionary<string, RoomPlayerEntry>();
     private List<string> playersReady = new List<string>();
-    private Stack<RoomPlayerEntry> unusedPlayerEntries = new Stack<RoomPlayerEntry>();
 
-    public PhotonView photonView { get; private set; }
-
+    private PhotonView photonView;
     #endregion
 
     #region Screen Operations
@@ -37,23 +48,32 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         PhotonNetwork.AddCallbackTarget(this);
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        isDoingCountdown = false;
-        UpdateRoomCapacityText();
-
         foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
             CreatePlayerEntry(player);
         }
 
-        CheckIfShouldStartCountdown();
-        UpdatePlayersList();
+        isDoingCountdown = false;
 
         countdownTextField.gameObject.SetActive(false);
+        SetLocalPlayerReady(false);
+
+        if (!PhotonNetwork.CurrentRoom.IsVisible) roomNameField.text = "ROOM: " + PhotonNetwork.CurrentRoom.Name;
+        else roomNameField.text = "";
+
+        UpdateRoomCapacityText();
+        CheckIfShouldStartCountdown();
     }
 
     protected override void OnClose(Type nextScreen)
     {
         PhotonNetwork.RemoveCallbackTarget(this);
+
+        foreach (RoomPlayerEntry entry in players.Values)
+        {
+            Destroy(entry.gameObject);
+        }
+
         players.Clear();
         playersReady.Clear();
     }
@@ -65,6 +85,15 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     #endregion
 
     #region Countdown & Game Start
+    public void SetLocalPlayerReady(bool isReady)
+    {
+        if (isReady) photonView.RPC("RPC_PlayerIsReady", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer.NickName });
+        else photonView.RPC("RPC_PlayerNotReady", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer.NickName });
+
+        readyButton.gameObject.SetActive(!isReady);
+        notReadyButton.gameObject.SetActive(isReady);
+    }
+
     private void Update()
     {
         if (isDoingCountdown && currentCountdownValue > 0)
@@ -112,7 +141,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     public void RPC_PlayerIsReady(string playerName)
     {
         playersReady.Add(playerName);
-        players[playerName].Text = string.Format("* {0}", playerName);
+        players[playerName].IsReady = true;
         CheckIfShouldStartCountdown();
     }
 
@@ -120,39 +149,22 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     public void RPC_PlayerNotReady(string playerName)
     {
         photonView.RPC("StopCountdown", RpcTarget.All, null);
-        players[playerName].Text = playerName;
+
         playersReady.Remove(playerName);
+        players[playerName].IsReady = false;
         CheckIfShouldStartCountdown();
     }
-
-
     #endregion
 
     #region UI Operations
     private void CreatePlayerEntry(Player newPlayer)
     {
-        Debug.Log("Creating entry");
         string playerName = newPlayer.NickName;
-        RoomPlayerEntry playerEntry = GetPlayerEntry();
+        RoomPlayerEntry playerEntry = Instantiate(playerEntryPrefab, playerTableParent, false);
 
         players.Add(playerName, playerEntry);
         playerEntry.PlayerName = playerName;
-        playerEntry.Room = this;
-        playerEntry.Visible = true;
-    }
-
-    private RoomPlayerEntry GetPlayerEntry()
-    {
-        if (unusedPlayerEntries.Count != 0)
-        {
-            RoomPlayerEntry entry = unusedPlayerEntries.Pop();
-            return entry;
-        }
-
-        GameObject newEntry = GameObject.Instantiate(playerEntryPrefab, Vector3.zero, Quaternion.identity);
-        newEntry.transform.SetParent(transform, false);
-
-        return newEntry.GetComponent<RoomPlayerEntry>();
+        playerEntry.IsReady = false;
     }
 
     private void RemovePlayerEntry(Player otherPlayer)
@@ -162,8 +174,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         players.Remove(playerName);
         playersReady.Remove(playerName);
 
-        entry.Visible = false;
-        unusedPlayerEntries.Push(entry);
+        Destroy(entry);
     }
 
     private void UpdateRoomCapacityText()
@@ -172,26 +183,6 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         byte maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
 
         playerCountTextField.text = string.Format("{0}/{1}", currentPlayers, maxPlayers);
-
-        //roomNameText.text = PhotonNetwork.CurrentRoom.Name;
-    }
-
-    private void UpdatePlayersList()
-    {
-        Vector3 firstEntryPosition = Vector3.zero;
-
-        int i = 0;
-        foreach (RoomPlayerEntry playerEntry in players.Values)
-        {
-            float y = i * -20f; // TODO: Declarar offset como constante
-            ++i;
-
-            Vector3 position = new Vector3(firstEntryPosition.x, y, 0f);
-            playerEntry.Position = position;
-
-            bool isLocalPlayer = playerEntry.PlayerName.Equals(PhotonNetwork.LocalPlayer.NickName);
-            playerEntry.ShowButton(isLocalPlayer);
-        }
     }
 
     private void CheckIfShouldStartCountdown()
@@ -222,7 +213,6 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 
         CreatePlayerEntry(newPlayer);
         UpdateRoomCapacityText();
-        UpdatePlayersList();
         CheckIfShouldStartCountdown();
     }
 
@@ -230,7 +220,6 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     {
         RemovePlayerEntry(otherPlayer);
         UpdateRoomCapacityText();
-        UpdatePlayersList();
         CheckIfShouldStartCountdown();
     }
 
@@ -243,6 +232,4 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     {
         photonView = GetComponent<PhotonView>();
     }
-
-
 }

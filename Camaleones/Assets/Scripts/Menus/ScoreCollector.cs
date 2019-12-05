@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,20 +10,32 @@ public class ScoreCollector : MonoBehaviour
 {
     private List<PlayerScoreData> scores;
 
-    /// <summary>
-    /// Hacemos que no se destruya el objeto al cambiar la escena para llevar las puntuaciones a la escena siguiente
-    /// </summary>
     private void Awake()
     {
         DontDestroyOnLoad(this);
     }
+
     /// <summary>
     /// Guardamos las puntuaciones de todos los jugadores, así si uno se desconecta no habrá problemas
     /// </summary>
     public void CollectScores()
     {
         scores = new List<PlayerScoreData>();
-        foreach(ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
+        foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
+        {
+            PhotonView pv = sh.GetComponent<PhotonView>();
+            if (pv)
+                scores.Add(new PlayerScoreData(pv.Owner.NickName, sh.CurrentScore));
+            else
+                scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
+            Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
+        }
+    }
+
+    public void CollectOnlineScores()
+    {
+        scores = new List<PlayerScoreData>();
+        foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
         {
             scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
             Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);

@@ -667,6 +667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   retractDistancePerSecond: 6
+  minHookLength: 0.78
   hookPrefab: {fileID: 5011558029675965807, guid: 6095acb78956457468798741fbde3179,
     type: 3}
   autoAimRayCount: 10
@@ -704,10 +705,10 @@ MonoBehaviour:
   retractMaxRadius: 100
   currentRetractColorRamp:
     serializedVersion: 2
-    key0: {r: 0, g: 0, b: 0, a: 0.39215687}
-    key1: {r: 0, g: 0.4811321, b: 0.07922354, a: 0.39215687}
-    key2: {r: 1, g: 0.9371726, b: 0, a: 0.5882353}
-    key3: {r: 1, g: 0, b: 0, a: 0}
+    key0: {r: 0, g: 0, b: 0, a: 0.5882353}
+    key1: {r: 0.14509805, g: 0.7294118, b: 0.49019608, a: 0.39215687}
+    key2: {r: 0.96862745, g: 0.78431374, b: 0.32941177, a: 0.5882353}
+    key3: {r: 0.96862745, g: 0.32941177, b: 0.6039216, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
