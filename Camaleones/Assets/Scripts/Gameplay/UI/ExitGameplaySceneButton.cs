@@ -7,15 +7,10 @@ using UnityEngine.UI;
 #pragma warning disable 649
 [RequireComponent (typeof (Button))]
 public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
-    private enum SceneToLoadOnDisconnect {
-        ONLINE_MAIN_MENU,
-        LOBBY_MENU
-    }
 
     [SerializeField] private GameObject confirmScreen;
     [SerializeField] private SceneReference mainMenuScene;
     [SerializeField] private SceneReference lobbyScene;
-    private SceneToLoadOnDisconnect sceneToLoad;
 
     private void OnApplicationQuit () {
         OnlineLogging.Instance.Close ();
@@ -30,8 +25,12 @@ public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
     }
 
     public override void OnLeftRoom () {
-        // TODO: Ir al lobby
-        PhotonNetwork.Disconnect();
+        GoToLobby();
+    }
+
+    private void GoToLobby() {
+        SceneManagerExtensions.LoadScene (lobbyScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
+                FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<LobbyScreen> ());
     }
 
     public void GoBackToTrainingScreen () {
