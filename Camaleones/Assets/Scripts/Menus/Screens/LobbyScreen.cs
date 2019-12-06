@@ -166,10 +166,10 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
 
         SetInteractable(true);
 
-        if (returnCode == ErrorCode.GameFull) message = "This room is already full.";
-        else if (returnCode == ErrorCode.GameClosed) message = "This room is closed.";
+        if (returnCode == ErrorCode.GameFull) message = "That room is already full.";
+        else if (returnCode == ErrorCode.GameClosed) message = "That room is closed.";
         else if (returnCode == ErrorCode.GameDoesNotExist) message = "There is no room with that name.";
-        else if (returnCode == ErrorCode.JoinFailedFoundActiveJoiner) message = "There is a player with your same username in this room";
+        else if (returnCode == ErrorCode.JoinFailedFoundActiveJoiner) message = "There is someone with the same username as you in that room.";
         messageField.text = message;
     }
 
