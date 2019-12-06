@@ -1,8 +1,8 @@
 
 # Camaleones
-![alt text](https://i.redd.it/rdzla6wc32z01.jpg)
+![alt text](https://raw.githubusercontent.com/FresisuisHunters/Camaleones/master/Concept%20Art/Logos/img_tongued_logo.png)
 
-Las parántesis con iterrogación denotan detalles necesitan ser prototipados antes de tomar la decisión final.
+
 
 # Movimiento
 El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona el punto al que quiere engancharse (aproximadamente, esto se explica unas líneas mas abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el jugador cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
@@ -74,3 +74,24 @@ Varias posibilidades para los que hay abajo:
 Mapa circular en el que la gravedad no es direccional, si no que es hacia un punto central.
 Temáticamente, podría ser un planeta muy pequeño, o los camaleones pueden haber bajado al núcleo de la tierra. Cuantos más assets se puedan reutilizar mejor. Podemos utilizar iluminación diferente/un filtro para diferenciar más los mapas visualemente.
 
+# Modelo de Negocio
+## ¿Cómo generamos dinero?
+El juego es free to play. El dinero se genera con la venta de cosméticos y un sistema de usuario premium, a modo de pase de temporada.
+
+## La tienda
+En la tienda solo se podrán comprar cosméticos, oro, gemas, pases y el pase de temporada. No existen ventajas sobre el juego de ningún tipo.
+
+## Modos de juego y su función en el Modelo
+Partida Normal: modos clásicos dónde cumplir desafíos. Ganas oro y pases (usuario premium). Se entra gratis.
+Evento de Fin de Semana: modo fijo multiplayer o con rotación de unos pocos. Se entra con pases.
+Aventura de Temporada: eventos singleplayer con mas "historia". Tematización por temporada.
+
+## Divisas del juego
+Oro: compra de skins básicas, compra de pases de evento. Se ganan en desafios base, recompensas de partida normal o con gemas.
+Gemas: moneda comprable con dinero real. Convertible en oro. También se ganan en eventos y aventuras.
+Tickets: utilizables para jugar eventos. Comprables con oro y conseguibles completando desafios Premium.
+
+## El Usuario Premium en resumen
+Desafios Premium extra: dan pases de evento de fin de semana (por tanto mayor accesibilidad a este modo).
+Aventuras exclusivas.
+Cosméticos exclusivos (solo a cambio de gemas, por tanto sólo conseguibles con facilidad y rentabilidad por usuarios premium).
