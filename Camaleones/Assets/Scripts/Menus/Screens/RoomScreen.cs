@@ -63,7 +63,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         if (!PhotonNetwork.CurrentRoom.IsVisible) roomNameField.text = "ROOM: " + PhotonNetwork.CurrentRoom.Name;
         else roomNameField.text = "";
 
-        // SetLocalPlayerReady(false);
+        SetLocalPlayerReady(false);
 
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
@@ -136,19 +136,22 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     [PunRPC]
     public void RPC_PlayerIsReady(string playerName)
     {
-        playersReady.Add(playerName);
-        players[playerName].IsReady = true;
-        CheckIfShouldStartCountdown();
+        if (players.ContainsKey(playerName)) {
+            playersReady.Add(playerName);
+            players[playerName].IsReady = true;
+            CheckIfShouldStartCountdown();
+        }
     }
 
     [PunRPC]
     public void RPC_PlayerNotReady(string playerName)
     {
-        photonView.RPC("StopCountdown", RpcTarget.All, null);
+        if (players.ContainsKey(playerName)) {
+            photonView.RPC("StopCountdown", RpcTarget.All, null);
 
-        playersReady.Remove(playerName);
-        players[playerName].IsReady = false;
-        CheckIfShouldStartCountdown();
+            playersReady.Remove(playerName);
+            players[playerName].IsReady = false;
+        }
     }
     #endregion
 
