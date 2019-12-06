@@ -2,14 +2,13 @@
 
 public class Settings
 {
-    public static readonly bool IS_PHONE = Application.isMobilePlatform;
-
     public enum ControlScheme
     {
-        Touch = 0, 
-        Mouse = 1
+        Touch,
+        Mouse
     }
 
+    public static readonly bool IS_PHONE = Application.isMobilePlatform;
     public static bool enableSound = true;
     public static bool enableMusic = true;
     public static ControlScheme controlScheme = (Application.isMobilePlatform) ? ControlScheme.Touch : ControlScheme.Mouse;

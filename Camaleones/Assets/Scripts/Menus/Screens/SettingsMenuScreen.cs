@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using TMPro;
 
 #pragma warning disable 649
 [RequireComponent(typeof(CanvasGroup))]
@@ -17,6 +18,7 @@ public class SettingsMenuScreen : AMenuScreen
     [SerializeField] private Toggle musicOnToggle;
     [SerializeField] private Toggle musicOffToggle;
     [SerializeField] private Toggle mouseControlToggle;
+    [SerializeField] private TextMeshProUGUI notAvailableText;
     [SerializeField] private Toggle touchControlToggle;
 
     public override void GoBack()
@@ -29,6 +31,11 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void Awake() {
+        InitializeSoundToggles();
+        InitializeControlToggles();
+    }
+
+    private void InitializeSoundToggles() {
         soundOnToggle.onValueChanged.AddListener((value) => {
             SetSoundVolume(value);
             UpdateToggle(soundOnToggle, value);
@@ -40,12 +47,22 @@ public class SettingsMenuScreen : AMenuScreen
             UpdateToggle(musicOnToggle, value);
         });
         musicOffToggle.onValueChanged.AddListener((value) => UpdateToggle(musicOffToggle, value));
+    }
 
-        mouseControlToggle.onValueChanged.AddListener((value) => {
-            SetControlScheme();
-            UpdateToggle(mouseControlToggle, value);
-        });
-        touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle, value));
+    private void InitializeControlToggles() {
+        if (Settings.IS_PHONE) {
+            mouseControlToggle.enabled = false;
+            touchControlToggle.isOn = true;
+            notAvailableText.gameObject.SetActive(true);
+
+            Settings.controlScheme = Settings.ControlScheme.Touch;
+        } else {
+            mouseControlToggle.onValueChanged.AddListener((value) => {
+                SetControlScheme();
+                UpdateToggle(mouseControlToggle, value);
+            });
+            touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle, value));
+        }
     }
 
     private void UpdateToggles() {
