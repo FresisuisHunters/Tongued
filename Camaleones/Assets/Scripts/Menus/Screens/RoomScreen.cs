@@ -82,8 +82,8 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     #region Countdown & Game Start
     public void SetLocalPlayerReady(bool isReady)
     {
-        if (isReady) photonView.RPC("RPC_PlayerIsReady", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer.NickName });
-        else photonView.RPC("RPC_PlayerNotReady", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer.NickName });
+        if (isReady) photonView.RPC("RPC_PlayerIsReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName);
+        else photonView.RPC("RPC_PlayerNotReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName);
 
         readyButton.gameObject.SetActive(!isReady);
         notReadyButton.gameObject.SetActive(isReady);
@@ -115,8 +115,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            OnlineLogging.Instance.Write("El jugador " + PhotonNetwork.LocalPlayer.NickName + " inicia la partida.");
-
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
             {
                 PhotonNetwork.InstantiateSceneObject(HOT_POTATO_HANDLER_PREFAB_NAME, Vector3.zero, Quaternion.identity);

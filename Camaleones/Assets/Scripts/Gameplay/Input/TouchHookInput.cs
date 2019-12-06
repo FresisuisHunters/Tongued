@@ -48,6 +48,11 @@ public class TouchHookInput : MonoBehaviour {
     #region Events
     private void OnPointerDown(PointerEventData eventData)
     {
+        // Ignorar clic derecho y central si se esta jugando en sobremesa
+        if (!Settings.IS_PHONE && eventData.button != PointerEventData.InputButton.Left) {
+           return;
+        }
+
         if (isTouchingScreen) return;
 
         isTouchingScreen = true;
@@ -127,7 +132,7 @@ public class TouchHookInput : MonoBehaviour {
     private void Awake()
     {
         //Si el control seleccionado no es Touch, se autodestruye.
-        if ((Controls.ControlScheme)PlayerPrefs.GetInt(Controls.CONTROL_SCHEME_PREF_KEY, 0) != Controls.ControlScheme.Touch)
+        if (Settings.controlScheme != Settings.ControlScheme.Touch)
         {
             Destroy(this);
             return;

@@ -49,7 +49,7 @@ public class MouseHookInput : MonoBehaviour
 
     private void Start()
     {
-        if ((Controls.ControlScheme) PlayerPrefs.GetInt(Controls.CONTROL_SCHEME_PREF_KEY, 0) != Controls.ControlScheme.Mouse)
+        if (Settings.controlScheme != Settings.ControlScheme.Mouse)
         {
             Destroy(this);
             return;
