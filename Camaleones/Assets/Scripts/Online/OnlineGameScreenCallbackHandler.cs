@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 
+#pragma warning disable 649
 public class OnlineGameScreenCallbackHandler : MonoBehaviourPunCallbacks
 {
     [SerializeField] private SceneReference lobbyScene;

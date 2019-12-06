@@ -16,7 +16,7 @@ public class TrainingMenuScreen : AMenuScreen
         {
             Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
 
-            GameObject player = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
+            GameObject player = Instantiate(playerPrefab, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
             Destroy(player.GetComponentInChildren<PlayerNameAndScoreDisplay>().gameObject);
         });
     }
