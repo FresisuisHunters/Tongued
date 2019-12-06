@@ -12,7 +12,7 @@ public class PlayersHandler : MonoBehaviour
     #region Inspector
     [Tooltip("Numero de jugadores en la partida")]
     [Range(1,10)]
-    public int playerNumber;
+    [SerializeField] protected int playerNumber;
     [Tooltip("Prefab que usa el jugador principal")]
     [SerializeField] protected GameObject mainPlayerPrefab;
     [Tooltip("Prefabs usados para pruebas u otros jugadores en offline")]
@@ -20,14 +20,18 @@ public class PlayersHandler : MonoBehaviour
     #endregion
 
     #region Private Variables
-    public IEnumerable Players => playerList;
-    private List<GameObject> playerList;
+    public IEnumerable<GameObject> Players => playerList;
+    protected List<GameObject> playerList;
     #endregion
     
     #region Protected Variables
     //Lista de puntos donde pueden spawnear los jugadores
     protected List<GameObject> spawnPoints;
+    protected int spawnedPlayerCount = 0;
     #endregion
+
+    public bool AllPlayersHaveSpawned => spawnedPlayerCount == playerNumber;
+
 
     protected virtual void Awake()
     {
@@ -55,5 +59,7 @@ public class PlayersHandler : MonoBehaviour
             tempPlayer.transform.position = t.transform.position;
             temp.RemoveAt(randPos);
         }
+
+        spawnedPlayerCount = playerNumber;
     }
 }

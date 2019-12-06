@@ -23,7 +23,9 @@ public class HotPotatoHandler : MonoBehaviour
     #endregion
 
     public int TotalRoundCount => numberOfRounds;
+
     public event System.Action<RoundType> OnNewRound;
+    public event System.Action<TransferableItemHolder, TransferableItemHolder> OnSnitchTransfered;
 
     #region Private state
     private float timeElapsedThisRound = 0;
@@ -119,7 +121,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
 
-    protected void OnSnitchTransfered(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
+    protected void OnSnitchTransferedHandler(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
     {
         if (!FirstRoundHasStarted)
         {
@@ -167,6 +169,8 @@ public class HotPotatoHandler : MonoBehaviour
                 listeners[i].DoReaction(newHolderReaction);
             }
         }
+
+        OnSnitchTransfered?.Invoke(oldSnitchHolder, newSnitchHolder);
     }
 
     protected void Update()
@@ -206,7 +210,7 @@ public class HotPotatoHandler : MonoBehaviour
         }
 
         Snitch = Instantiate(snitchPrefab, spawnPoint.transform.position, Quaternion.identity);
-        Snitch.OnItemTransfered += OnSnitchTransfered;
+        Snitch.OnItemTransfered += OnSnitchTransferedHandler;
     }
     #endregion
 

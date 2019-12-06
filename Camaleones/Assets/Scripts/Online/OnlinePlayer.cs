@@ -15,6 +15,11 @@ public class OnlinePlayer : MonoBehaviourPunCallbacks {
             localInstance = this;
         }
     }
+
+    private void Start()
+    {
+        FindObjectOfType<OnlinePlayersHandler>()?.RegisterSpawnedPlayer(this);
+    }
     #endregion
 
     #region Private Methods
