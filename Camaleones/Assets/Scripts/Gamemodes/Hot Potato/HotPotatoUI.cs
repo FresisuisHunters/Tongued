@@ -13,6 +13,11 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private Sprite blessingSliderFill;
     [SerializeField] private Sprite curseSliderFill;
 
+    [Header("Start countdown")]
+    [SerializeField] private TextMeshProUGUI countdownTextField;
+    [SerializeField] private int shownCountdownLength = 5;
+    [SerializeField] private GameObject roundCounterLabel;
+
     [Header("Round tint")]
     [SerializeField] private Color blessingRoundTint = Color.green;
     [SerializeField] private Color curseRoundTint = Color.red;
@@ -148,6 +153,7 @@ public class HotPotatoUI : MonoBehaviour
     }
     #endregion
 
+
     public void AnimEvt_SwapSnitchSprite()
     {
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
@@ -159,14 +165,26 @@ public class HotPotatoUI : MonoBehaviour
     {
         if (!localPlayer) InitializationUtilities.FindLocalPlayer(out localPlayer);
 
-        timeLeftInRoundSlider.maxValue = hotPotatoHandler.RoundDurationSinceLastReset;
-        timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
+        if (!hotPotatoHandler.SnitchHasActivated)
+        {
+            timeLeftInRoundSlider.value = hotPotatoHandler.TimeBeforeSnitchActivation;
+            if (hotPotatoHandler.TimeBeforeSnitchActivation < shownCountdownLength)
+            {
+                countdownTextField.gameObject.SetActive(true);
+                countdownTextField.text = Mathf.CeilToInt(hotPotatoHandler.TimeBeforeSnitchActivation).ToString();
+            }
+        }
+        else
+        {
+            timeLeftInRoundSlider.maxValue = hotPotatoHandler.RoundDurationSinceLastReset;
+            timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
+        }
     }
 
     private void SetRoundUI(HotPotatoHandler.RoundType roundType)
     {
         //Make sure the slider is active and updated
-        timeLeftInRoundSlider.gameObject.SetActive(true);
+        //timeLeftInRoundSlider.gameObject.SetActive(true);
         Update();
 
         //Tint the relevant UI
@@ -209,6 +227,15 @@ public class HotPotatoUI : MonoBehaviour
         missionText.SetText(message);
     }
 
+    private void OnSnitchActivated()
+    {
+        countdownTextField.gameObject.SetActive(false);
+        roundCounterTextField.gameObject.SetActive(true);
+        totemImage.gameObject.SetActive(true);
+        roundCounterLabel.SetActive(true);
+        timeLeftInRoundSlider.gameObject.SetActive(true);
+    }
+
 
     #region Initialization
     private void Awake()
@@ -216,16 +243,22 @@ public class HotPotatoUI : MonoBehaviour
         hotPotatoHandler = GetComponent<HotPotatoHandler>();
     }
 
-    public void OnSpawnCountdownEnded() {
-        timeLeftInRoundSlider.minValue = 0;
-        timeLeftInRoundSlider.gameObject.SetActive(false);
+    private void Start()
+    {
         hotPotatoHandler.OnNewRound += SetRoundUI;
+        hotPotatoHandler.OnSnitchActivated += OnSnitchActivated;
 
-        hotPotatoHandler.Snitch.OnItemTransfered += (TransferableItemHolder oldHolder, TransferableItemHolder newHolder) => UpdateMissionText();
-        offscreenSnitchViewImage = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>().ViewTransform.GetComponent<Image>();
+        missionText.text = "WAIT FOR THE GEM!";
+        timeLeftInRoundSlider.maxValue = hotPotatoHandler.matchStartCountdownLength;
+        timeLeftInRoundSlider.minValue = 0;
+        timeLeftInRoundSlider.value = hotPotatoHandler.TimeBeforeSnitchActivation;
 
-        missionText.text = msgBlessingDoesntHaveTotem;
+        countdownTextField.gameObject.SetActive(false);
+        roundCounterTextField.gameObject.SetActive(false);
+        totemImage.gameObject.SetActive(false);
+        roundCounterLabel.SetActive(false);
+
+        timeLeftInRoundSlider.gameObject.SetActive(false);
     }
-
     #endregion
 }

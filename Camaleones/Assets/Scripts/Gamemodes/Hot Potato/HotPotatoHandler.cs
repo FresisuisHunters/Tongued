@@ -25,6 +25,8 @@ public class HotPotatoHandler : MonoBehaviour
     #endregion
 
     public int TotalRoundCount => numberOfRounds;
+
+    public event System.Action OnSnitchActivated;
     public event System.Action<RoundType> OnNewRound;
 
     #region Private state
@@ -35,10 +37,6 @@ public class HotPotatoHandler : MonoBehaviour
     public float TimeLeftInRound { get; protected set; }
     public float RoundDurationSinceLastReset { get; protected set; }
 
-    /// <summary>
-    /// Bool para saber si se ha cogido la snitch por primera vez, empezando el juego
-    /// </summary>
-    public bool FirstRoundHasStarted => CurrentRoundNumber > 0;
     public RoundType CurrentRoundType { get; private set; }
     
     public int CurrentRoundNumber { get; private set; }
@@ -126,14 +124,7 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected void OnSnitchTransfered(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
     {
-        if (!FirstRoundHasStarted)
-        {
-            StartRound(RoundType.Blessing);
-        }
-        else
-        {
-            ResetTimer();
-        }
+        ResetTimer();
 
         //Provoca las reacciones de los jugadores
         PlayerReactionType oldHolderReaction;
@@ -215,14 +206,15 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected void SpawnSnitch()
     {
-        GameObject spawnPoint = GameObject.FindGameObjectWithTag("SnitchSpawnPoint");
-        if (!spawnPoint)
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SnitchSpawnPoint");
+        int choice = Random.Range(0, spawnPoints.Length);
+        if (spawnPoints.Length == 0)
         {
             OnlineLogging.Instance.Write("There is no SnitchSpawnPoint in the scene.");
             Debug.LogError("There is no SnitchSpawnPoint in the scene.");
         }
 
-        Snitch = Instantiate(snitchPrefab, spawnPoint.transform.position, Quaternion.identity);
+        Snitch = Instantiate(snitchPrefab, spawnPoints[choice].transform.position, Quaternion.identity);
         Snitch.OnItemTransfered += OnSnitchTransfered;
 
         Snitch.gameObject.SetActive(false);
@@ -232,6 +224,8 @@ public class HotPotatoHandler : MonoBehaviour
     {
         SnitchHasActivated = true;
         Snitch.gameObject.SetActive(true);
+
+        OnSnitchActivated?.Invoke();
     }
 
     #endregion

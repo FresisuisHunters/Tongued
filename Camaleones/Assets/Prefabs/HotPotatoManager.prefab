@@ -690,10 +690,10 @@ RectTransform:
   m_Father: {fileID: 4445803214292949081}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.4}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 263.99997}
-  m_SizeDelta: {x: 500, y: -528}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3113462915684867013
 GameObject:
@@ -921,7 +921,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.567, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1044,6 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21ca49ef7f4864468e4cd9b561be5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  matchStartCountdownLength: 10
   numberOfRounds: 10
   posessionTimeCurve:
     serializedVersion: 2
@@ -1116,6 +1117,9 @@ MonoBehaviour:
   sliderFillImage: {fileID: 3573912989215466457}
   blessingSliderFill: {fileID: 21300000, guid: 68e0973bebe8d6f4faaf944680789fef, type: 3}
   curseSliderFill: {fileID: 21300000, guid: c815ad71267ef5e479b250ea51079603, type: 3}
+  countdownTextField: {fileID: 2892703132021229380}
+  shownCountdownLength: 5
+  roundCounterLabel: {fileID: 1770411693030136531}
   blessingRoundTint: {r: 0.14117648, g: 0.15294118, b: 0.9019608, a: 1}
   curseRoundTint: {r: 1, g: 0, b: 0.1882353, a: 1}
   graphicsToTintOnRoundChange:
@@ -1183,7 +1187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3359175947880220167
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1238,10 +1242,10 @@ RectTransform:
   m_Father: {fileID: 4142274667727127012}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 30.000025}
-  m_SizeDelta: {x: 0, y: -60}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2781055472129612417
 CanvasRenderer:
@@ -1269,10 +1273,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GET RID OF THE TOTEM!
+  m_text: 4
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 685bb0308b09a6144a7732ffe90a9305, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 9e9f50333affd114d9f6b5b0c0e2318d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 58aa0d8816c9dd740af7630db2e64e37, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 6c1c187461184414ca7952125821aff4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1297,10 +1301,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 38.5
-  m_fontSizeBase: 36
+  m_fontSize: 300
+  m_fontSizeBase: 300
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1338,10 +1342,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2892703132021229380}
-    characterCount: 21
+    characterCount: 1
     spriteCount: 0
-    spaceCount: 4
-    wordCount: 5
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
