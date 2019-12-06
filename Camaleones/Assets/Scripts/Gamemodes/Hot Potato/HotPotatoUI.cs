@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 
 #pragma warning disable 649
-[RequireComponent(typeof(HotPotatoHandler), typeof(Animator))]
+[RequireComponent(typeof(HotPotatoHandler), typeof(Animator), typeof(PlayersHandler))]
 public class HotPotatoUI : MonoBehaviour
 {
     #region Inspector
@@ -17,7 +17,6 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private Color blessingRoundTint = Color.green;
     [SerializeField] private Color curseRoundTint = Color.red;
     [SerializeField] private Graphic[] graphicsToTintOnRoundChange;
-    [SerializeField] private float tintCrossfadeLength = 0.5f;
 
     [SerializeField] private TextMeshProUGUI[] jungleFeverTextsToTintOnRoundChange;
     [SerializeField] private Material jungleFeverBlessingTextMaterial;
@@ -49,11 +48,17 @@ public class HotPotatoUI : MonoBehaviour
 
     [Header("Round change animation")]
     [SerializeField] private Image roundChangeAnimationTotemImage;
+
+    [Header("Target Detector")]
+    [SerializeField] TargetDetector targetDetectorPrefab;
     #endregion
 
     private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
+    private PlayersHandler playersHandler;
     private Image offscreenSnitchViewImage;
+
+    private bool initializedTargetDetectors = false;
 
     #region Appropiate Properties
     private Color CurrentAppropiateUIColor
@@ -148,6 +153,7 @@ public class HotPotatoUI : MonoBehaviour
     }
     #endregion
 
+    private bool LocalPlayerHasSnith => hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
 
 
     public void AnimEvt_SwapSnitchSprite()
@@ -155,14 +161,6 @@ public class HotPotatoUI : MonoBehaviour
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
         offscreenSnitchViewImage.sprite = CurrentAppropiateSnitchSprite;
         if (hotPotatoHandler.Snitch) hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
-    }
-
-    private void Update()
-    {
-        if (!localPlayer) InitializationUtilities.FindLocalPlayer(out localPlayer);
-
-        timeLeftInRoundSlider.maxValue = hotPotatoHandler.RoundDurationSinceLastReset;
-        timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
     }
 
     private void SetRoundUI(HotPotatoHandler.RoundType roundType)
@@ -196,38 +194,89 @@ public class HotPotatoUI : MonoBehaviour
         //Do the round change animation, except for the first round.
         if (hotPotatoHandler.CurrentRoundNumber > 1) GetComponent<Animator>().Play("anim_RoundChange");
 
-        UpdateMissionText();
+        UpdateMissionText(LocalPlayerHasSnith, roundType);
+        UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, roundType);
     }
 
-    private void UpdateMissionText()
+    private void OnSnitchTransfered(TransferableItemHolder oldHolder, TransferableItemHolder newHolder)
     {
-        bool localPlayerHasTotem = hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
-        HotPotatoHandler.RoundType roundType = hotPotatoHandler.CurrentRoundType;
+        UpdateMissionText(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);
+        UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);   
+    }
+    
+    
 
+    private void Update()
+    {
+        if (!localPlayer) InitializationUtilities.FindLocalPlayer(out localPlayer);
+        else if (!initializedTargetDetectors && playersHandler.AllPlayersHaveSpawned) InitializeTargetDetectors();
+        
+
+        timeLeftInRoundSlider.maxValue = hotPotatoHandler.RoundDurationSinceLastReset;
+        timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
+    }
+
+    private void UpdateMissionText(bool localPlayerHasSnitch, HotPotatoHandler.RoundType roundType)
+    {
         string message = string.Empty;
-        if (roundType == HotPotatoHandler.RoundType.Blessing) message = localPlayerHasTotem ? msgBlessingHasTotem : msgBlessingDoesntHaveTotem;
-        else if (roundType == HotPotatoHandler.RoundType.Curse) message = localPlayerHasTotem ? msgCurseHasTotem : msgCurseDoesntHaveTotem;
+        if (roundType == HotPotatoHandler.RoundType.Blessing) message = localPlayerHasSnitch ? msgBlessingHasTotem : msgBlessingDoesntHaveTotem;
+        else if (roundType == HotPotatoHandler.RoundType.Curse) message = localPlayerHasSnitch ? msgCurseHasTotem : msgCurseDoesntHaveTotem;
 
         missionText.SetText(message);
     }
+
+    private void UpdateLocalPlayerTargetDetectors(bool localPlayerHasSnitch, HotPotatoHandler.RoundType roundType)
+    {
+        TargetDetector[] targetDetectors = localPlayer.GetComponentsInChildren<TargetDetector>(true);
+        for (int i = 0; i < targetDetectors.Length; i++)
+        {
+            targetDetectors[i].gameObject.SetActive(localPlayerHasSnitch && roundType == HotPotatoHandler.RoundType.Curse);
+        }
+    }
+
+    
 
 
     #region Initialization
     private void Awake()
     {
         hotPotatoHandler = GetComponent<HotPotatoHandler>();
+        playersHandler = GetComponent<PlayersHandler>();
     }
 
     private void Start()
     {
         timeLeftInRoundSlider.minValue = 0;
         timeLeftInRoundSlider.gameObject.SetActive(false);
-        hotPotatoHandler.OnNewRound += SetRoundUI;
 
-        hotPotatoHandler.Snitch.OnItemTransfered += (TransferableItemHolder oldHolder, TransferableItemHolder newHolder) => UpdateMissionText();
+        hotPotatoHandler.OnNewRound += SetRoundUI;
+        hotPotatoHandler.OnSnitchTransfered += OnSnitchTransfered;
+
         offscreenSnitchViewImage = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>().ViewTransform.GetComponent<Image>();
 
         missionText.text = msgBlessingDoesntHaveTotem;
     }
+
+    private void InitializeTargetDetectors()
+    {
+        GameObject localPlayer = this.localPlayer.gameObject;
+        Camera camera = Camera.main;
+
+        foreach (GameObject player in playersHandler.Players)
+        {
+            if (player != localPlayer)
+            {
+                TargetDetector targetDetector = Instantiate(targetDetectorPrefab, localPlayer.transform, false);
+                targetDetector.target = player.transform;
+                targetDetector.camera = camera;
+            }
+        }
+
+        initializedTargetDetectors = true;
+
+        UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);
+    }
+
+    
     #endregion
 }
