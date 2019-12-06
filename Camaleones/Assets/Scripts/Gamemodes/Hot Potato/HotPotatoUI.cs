@@ -12,6 +12,9 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private Image sliderFillImage;
     [SerializeField] private Sprite blessingSliderFill;
     [SerializeField] private Sprite curseSliderFill;
+    [SerializeField] private Image sliderBackgroundImage;
+    [SerializeField] private Color blessingSliderBackgroundColor;
+    [SerializeField] private Color curseSliderBackgroundColor;
 
     [Header("Round tint")]
     [SerializeField] private Color blessingRoundTint = Color.green;
@@ -71,6 +74,21 @@ public class HotPotatoUI : MonoBehaviour
                     return blessingRoundTint;
                 case HotPotatoHandler.RoundType.Curse:
                     return curseRoundTint;
+                default:
+                    return Color.white;
+            }
+        }
+    }
+    private Color CurrentAppropiateSliderBackgroundColor
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingSliderBackgroundColor;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseSliderBackgroundColor;
                 default:
                     return Color.white;
             }
@@ -170,6 +188,8 @@ public class HotPotatoUI : MonoBehaviour
         Update();
 
         //Tint the relevant UI
+        sliderBackgroundImage.color = CurrentAppropiateSliderBackgroundColor;
+
         foreach (Graphic graphic in graphicsToTintOnRoundChange)
         {
             graphic.color = CurrentAppropiateUIColor;
@@ -186,6 +206,8 @@ public class HotPotatoUI : MonoBehaviour
         }
 
         sliderFillImage.sprite = CurrentAppropiateSliderFillSprite;
+        sliderFillImage.type = Image.Type.Tiled;
+
         totemImage.sprite = CurrentAppropiateTotemSprite;
 
         //Set the counter

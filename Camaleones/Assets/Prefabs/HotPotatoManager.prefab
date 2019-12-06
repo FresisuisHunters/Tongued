@@ -135,7 +135,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6306cc1f5366b25439e06fc9c607cef1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0dbe75033c0333447971e4a185a31c7f, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1150,12 +1150,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeLeftInRoundSlider: {fileID: 7049762275597358908}
   sliderFillImage: {fileID: 3573912989215466457}
-  blessingSliderFill: {fileID: 21300000, guid: 68e0973bebe8d6f4faaf944680789fef, type: 3}
-  curseSliderFill: {fileID: 21300000, guid: c815ad71267ef5e479b250ea51079603, type: 3}
+  blessingSliderFill: {fileID: 21300000, guid: 8b14c323f07d7274f846237372991ec2, type: 3}
+  curseSliderFill: {fileID: 21300000, guid: a749f3eadf0d8584a95852610e37a569, type: 3}
+  sliderBackgroundImage: {fileID: 5067524033205186415}
+  blessingSliderBackgroundColor: {r: 0.30980393, g: 0.31764707, b: 0.6313726, a: 1}
+  curseSliderBackgroundColor: {r: 0.52156866, g: 0.19215687, b: 0.20784314, a: 1}
   blessingRoundTint: {r: 0.14117648, g: 0.15294118, b: 0.9019608, a: 1}
   curseRoundTint: {r: 1, g: 0, b: 0.1882353, a: 1}
-  graphicsToTintOnRoundChange:
-  - {fileID: 5067524033205186415}
+  graphicsToTintOnRoundChange: []
   jungleFeverTextsToTintOnRoundChange:
   - {fileID: 2499709011182009033}
   - {fileID: 7195615666623801762}
