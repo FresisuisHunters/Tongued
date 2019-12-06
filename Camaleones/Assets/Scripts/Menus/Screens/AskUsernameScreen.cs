@@ -5,14 +5,16 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using System;
+using TMPro;
 
 #pragma warning disable 649
 public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
 {
     #region Inspector
     [SerializeField] private SceneReference mainMenuScene;
-    [SerializeField] private TMPro.TMP_InputField usernameInputField;
+    [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private Button connectToServerButton;
+    [SerializeField] private TextMeshProUGUI messageField;
     [SerializeField] private Button backButton;
     #endregion
 
@@ -24,6 +26,8 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
             GoBack();
             return;
         }
+
+        messageField.text = "Welcome to Tongued Online";
 
         if (PhotonNetwork.IsConnectedAndReady) {
             GoToLobbyScreen();
@@ -56,7 +60,6 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
         {
             return;
         }
-        PhotonNetwork.LocalPlayer.NickName = username;
 
         if (PhotonNetwork.IsConnected)
         {
@@ -64,9 +67,11 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
             return;
         }
 
+        PhotonNetwork.LocalPlayer.NickName = username;
         PhotonNetwork.GameVersion = ServerConstants.GAME_VERSION;
         PhotonNetwork.ConnectUsingSettings();
 
+        messageField.text = "Connecting to server...";
         SetInteractable(false, backButton);
     }
 
