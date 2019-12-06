@@ -27,7 +27,8 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
             return;
         }
 
-        messageField.text = "Welcome to Tongued Online";
+        usernameInputField.text = string.Empty;
+        messageField.text = "Please enter your username.";
 
         if (PhotonNetwork.IsConnectedAndReady) {
             GoToLobbyScreen();
@@ -58,12 +59,14 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
         string username = usernameInputField.text;
         if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
         {
+            messageField.text = "Your username can't be empty.";
             return;
         }
 
         if (PhotonNetwork.IsConnected)
         {
             OnlineLogging.Instance.Write("Player already connected to Photon server");
+            messageField.text = "You're already connected to the server.";
             return;
         }
 
