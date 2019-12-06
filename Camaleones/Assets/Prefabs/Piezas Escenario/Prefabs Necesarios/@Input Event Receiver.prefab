@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2587267510903102949}
   - component: {fileID: 2587267510903102946}
   m_Layer: 8
-  m_Name: Input Event Receiver
+  m_Name: '@Input Event Receiver'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!222 &2587267510903102947
 CanvasRenderer:
