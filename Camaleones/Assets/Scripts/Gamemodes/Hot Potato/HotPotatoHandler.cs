@@ -28,6 +28,7 @@ public class HotPotatoHandler : MonoBehaviour
 
     public event System.Action OnSnitchActivated;
     public event System.Action<RoundType> OnNewRound;
+    public event System.Action<TransferableItemHolder, TransferableItemHolder> OnSnitchTransfered;
 
     #region Private state
     public bool SnitchHasActivated { get; protected set; }
@@ -122,7 +123,7 @@ public class HotPotatoHandler : MonoBehaviour
     }
 
 
-    protected void OnSnitchTransfered(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
+    protected void OnSnitchTransferedHandler(TransferableItemHolder oldSnitchHolder, TransferableItemHolder newSnitchHolder)
     {
         ResetTimer();
 
@@ -163,6 +164,8 @@ public class HotPotatoHandler : MonoBehaviour
                 listeners[i].DoReaction(newHolderReaction);
             }
         }
+
+        OnSnitchTransfered?.Invoke(oldSnitchHolder, newSnitchHolder);
     }
 
     protected void Update()

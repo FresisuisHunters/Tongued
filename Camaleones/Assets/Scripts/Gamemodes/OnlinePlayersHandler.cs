@@ -18,16 +18,27 @@ public class OnlinePlayersHandler : PlayersHandler
         base.Awake();
     }
 
+
+    public void RegisterSpawnedPlayer(OnlinePlayer registeredPlayer)
+    {
+        spawnedPlayerCount++;
+        playerList.Add(registeredPlayer.gameObject);
+    }
+
     /// <summary>
     /// Este método instancia a los jugadores desde master
     /// </summary>
     public override void SpawnPlayers()
     {
+        playerList = new List<GameObject>();
+        playerNumber = PhotonNetwork.CurrentRoom.PlayerCount;
+
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             List<GameObject> spawnPointPool = new List<GameObject>();
             foreach (GameObject g in spawnPoints)
                 spawnPointPool.Add(g);
+
             foreach (Player p in PhotonNetwork.PlayerList)
             {
                 Vector2 position;
@@ -42,7 +53,7 @@ public class OnlinePlayersHandler : PlayersHandler
                     position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
                     Debug.LogWarning("No hay suficientes spawnpoints en este mapa.", this);
                 }
-                
+
                 photonView.RPC("SpawnPlayerOnline", p, position);
             }
         }
@@ -59,5 +70,7 @@ public class OnlinePlayersHandler : PlayersHandler
 
         GameObject player = PhotonNetwork.Instantiate("OnlinePlayer", position, rotation, 0);
         player.name = PhotonNetwork.LocalPlayer.NickName;
+
+        playerList.Add(player);
     }
 }

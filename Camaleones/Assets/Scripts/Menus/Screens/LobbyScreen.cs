@@ -26,6 +26,8 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
         PhotonNetwork.AddCallbackTarget(this);
         currentAtempts = 0;
 
+        if (roomNameInput) roomNameInput.text = string.Empty;
+
         joinPublicRoomButton.gameObject.SetActive(true);
         cancelPublicSearchButton.gameObject.SetActive(false);
 
