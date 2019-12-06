@@ -9,10 +9,9 @@ namespace Hairibar.Audio.SFX
     public class OneShotSFXPlayer : MonoBehaviour
     {
         #region Inspector
-        [SerializeField]
-        private int numberOfAudioSources = 1;
-        [SerializeField]
-        private AudioMixerGroup outputMixerGroup;
+        [SerializeField] private AudioSource configurationAudioSource;
+        [SerializeField] private int numberOfAudioSources = 1;
+        [SerializeField] private AudioMixerGroup outputMixerGroup;
         #endregion
 
         #region References
@@ -235,22 +234,36 @@ namespace Hairibar.Audio.SFX
         private void CreateAudioSources()
         {
             audioSources = new AudioSource[numberOfAudioSources];
+            GameObject holder;
 
-            GameObject holder = new GameObject("OneShotSFXPlayer AudioSources");
-            holder.transform.SetParent(transform, false);
-            
-
+            if (configurationAudioSource) holder = configurationAudioSource.gameObject;
+            else
+            {
+                holder = new GameObject("OneShotSFXPlayer AudioSources");
+                holder.transform.SetParent(transform, false);
+            }
 
             for (int i = 0; i < numberOfAudioSources; i++)
             {
-                audioSources[i] = holder.AddComponent<AudioSource>();
+                if (configurationAudioSource)
+                {
+                    if (i == 0) audioSources[i] = configurationAudioSource;
+                    else audioSources[i] = Instantiate(configurationAudioSource);
+                }
+                else
+                {
+                    audioSources[i] = holder.AddComponent<AudioSource>();
+                }
             }
 
-            //Set them up
-            foreach (AudioSource audioSource in audioSources)
+            if (!configurationAudioSource)
             {
-                audioSource.outputAudioMixerGroup = outputMixerGroup;
-                audioSource.playOnAwake = false;
+                //Set them up
+                foreach (AudioSource audioSource in audioSources)
+                {
+                    audioSource.outputAudioMixerGroup = outputMixerGroup;
+                    audioSource.playOnAwake = false;
+                }
             }
         }
 

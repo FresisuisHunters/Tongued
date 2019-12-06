@@ -19,7 +19,7 @@ public class ScoresScreen : MonoBehaviour
     private TextMeshProUGUI timerText;
     #endregion
 
-    private void Awake()
+    private void Start()
     {
         ShowScores(FindObjectOfType<ScoreCollector>().GetScores());
         startTime = Time.time;

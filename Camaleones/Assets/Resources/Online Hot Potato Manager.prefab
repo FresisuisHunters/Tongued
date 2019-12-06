@@ -64,9 +64,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 4
-  mainPlayerPrefab: {fileID: 36215425079325772, guid: 23d69b8a83f8fe447a1eb84312e7b824,
+  mainPlayerPrefab: {fileID: 6439751531149499929, guid: 23d69b8a83f8fe447a1eb84312e7b824,
     type: 3}
-  playerPrefab: {fileID: 36215425079325772, guid: 23d69b8a83f8fe447a1eb84312e7b824,
+  playerPrefab: {fileID: 6439751531149499929, guid: 23d69b8a83f8fe447a1eb84312e7b824,
     type: 3}
 --- !u!114 &9015057327002550433
 MonoBehaviour:
@@ -157,11 +157,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4445803214292949081, guid: cbf04359ae330a74f84c495db6dc0153,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8890342415137276031, guid: cbf04359ae330a74f84c495db6dc0153,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -170,6 +165,11 @@ PrefabInstance:
     - target: {fileID: 8890342415137276031, guid: cbf04359ae330a74f84c495db6dc0153,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445803214292949081, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
