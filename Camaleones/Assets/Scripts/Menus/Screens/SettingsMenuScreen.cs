@@ -23,6 +23,7 @@ public class SettingsMenuScreen : AMenuScreen
 
     public override void GoBack()
     {
+        Settings.SaveSettings();
         MenuManager.SetActiveMenuScreen<MainMenuScreen>();
     }
 
