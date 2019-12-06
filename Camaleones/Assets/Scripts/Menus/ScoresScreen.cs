@@ -51,7 +51,7 @@ public class ScoresScreen : MonoBehaviour
 
         Destroy(FindObjectOfType<ScoreCollector>());
 
-        Invoke("GoToRoom", exitTime);
+        //Invoke("GoToRoom", exitTime);
         
     }
 
@@ -59,6 +59,8 @@ public class ScoresScreen : MonoBehaviour
     {
         int timeLeft = (int)Mathf.Max(Mathf.Ceil(exitTime - (Time.time - startTime)),0);
         timerText.SetText(timeLeft.ToString());
+        if (timeLeft <= 0)
+            GoToRoom();
     }
 
     private void GoToRoom()
