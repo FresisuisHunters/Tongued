@@ -64,7 +64,7 @@ public class TouchHookInput : MonoBehaviour {
             positionTouchedWorldCoordinates = eventData.pressEventCamera.ScreenToWorldPoint(positionTouchedScreenCoordinates);
             hookThrower.ThrowHook(positionTouchedWorldCoordinates);
 
-            //Prepara y activa los c�rculos
+            //Prepara y activa los circulos
             SetCirclePosition(eventData.position, eventData.pressEventCamera);
             SetCircleSizes(0, retractMaxRadius);
             SetCirclesActive(true);
@@ -154,6 +154,9 @@ public class TouchHookInput : MonoBehaviour {
         inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (this && enabled) OnPointerDown(data as PointerEventData); });
         inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (this && enabled) OnPointerUp(); });
         inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (this && enabled) OnPointerDrag(data as PointerEventData); });
+
+        Canvas canvas = inputEventReceiver.GetComponent<Canvas>();
+        canvas.sortingLayerName = "In Front Of Chamaleons";
 
         canvasTransform = inputEventReceiver.GetComponent<RectTransform>();
         retractCurrentTransform = Instantiate(retractCurrentPrefab, canvasTransform, false);
