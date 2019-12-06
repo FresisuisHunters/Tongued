@@ -37,7 +37,9 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
             base.Update();
         } else {
             currentCountdown -= Time.deltaTime;
-            countdownText.text = string.Format("Game starts in {0}...", currentCountdown);
+
+            float clampedCountdown = Mathf.Max(currentCountdown, 0);
+            countdownText.text = string.Format("Game starts in {0}...", Mathf.CeilToInt(clampedCountdown));
 
             if (currentCountdown <= 0f) {
                 gameHasStarted = true;

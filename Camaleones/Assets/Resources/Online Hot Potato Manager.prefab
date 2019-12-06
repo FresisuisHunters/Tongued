@@ -51,7 +51,7 @@ MonoBehaviour:
   scoreCollector: {fileID: 2730517842930102311, guid: 8fb6b669dd634a649b197e6a838a9957,
     type: 3}
   scoreSceneName: sce_mScoresMenu
-  countdownBeforeSpawn: 5
+  countdownBeforeSpawn: 10
   inGameUI: {fileID: 8540447047503756693}
   countdownText: {fileID: 153901224801923673}
 --- !u!114 &7267744718523341161
