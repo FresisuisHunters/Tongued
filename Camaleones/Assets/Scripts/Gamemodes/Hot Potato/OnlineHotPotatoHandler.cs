@@ -10,8 +10,11 @@ using ExitGames.Client.Photon;
 [RequireComponent(typeof (PhotonView))]
 public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomCallbacks
 { 
-    private PhotonView photonView;
+    public float countdownBeforeSpawn = 5f;
 
+    private PhotonView photonView;
+    private bool gameHasStarted = false;
+    private float currentCountdown;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -24,6 +27,34 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
         {
             TimeLeftInRound = (float) stream.ReceiveNext();
             RoundDurationSinceLastReset = (float) stream.ReceiveNext();
+        }
+    }
+
+    protected new void Update() {
+        if (gameHasStarted) {
+            base.Update();
+        } else {
+            currentCountdown -= Time.deltaTime;
+
+            Debug.LogWarning(currentCountdown);
+
+            if (currentCountdown <= 0f) {
+                gameHasStarted = true;
+                SpawnOnlineSnitch();
+
+                GetComponent<HotPotatoUI>().OnSpawnCountdownEnded();
+            }
+        }
+    }
+
+    private void SpawnOnlineSnitch() {
+        SpawnSnitch();
+
+        photonView = GetComponent<PhotonView> ();
+        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
+            PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
+            photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
         }
     }
 
@@ -95,16 +126,13 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     #region Initialization
     protected override void Awake ()
     {
-        photonView = GetComponent<PhotonView> ();
-        SpawnSnitch();
-
-        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
-            PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
-            photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
-        }
-
+        StartSpawnCountdown();
         PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void StartSpawnCountdown() {
+        currentCountdown = countdownBeforeSpawn;
+        gameHasStarted = false;
     }
 
     private void OnDestroy()

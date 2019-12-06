@@ -220,6 +220,10 @@ public class HotPotatoUI : MonoBehaviour
 
     private void Start()
     {
+        
+    }
+
+    public void OnSpawnCountdownEnded() {
         timeLeftInRoundSlider.minValue = 0;
         timeLeftInRoundSlider.gameObject.SetActive(false);
         hotPotatoHandler.OnNewRound += SetRoundUI;
@@ -229,5 +233,6 @@ public class HotPotatoUI : MonoBehaviour
 
         missionText.text = msgBlessingDoesntHaveTotem;
     }
+
     #endregion
 }
