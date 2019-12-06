@@ -2,11 +2,12 @@
 using TMPro;
 using Photon.Pun;
 
+#pragma warning disable 649
 [RequireComponent(typeof(TextMeshPro))]
 public class PlayerNameAndScoreDisplay : MonoBehaviour
 {
-    public static readonly Color LOCAL_PLAYER_COLOR = Color.yellow;
-    public static readonly Color REMOTE_PLAYER_COLOR = Color.magenta;
+    [SerializeField] private Material localPlayerTextMaterial;
+    [SerializeField] private Material remotePlayerTextMaterial;
 
     private string playerName;
     private Vector3 positionOffset;
@@ -38,14 +39,16 @@ public class PlayerNameAndScoreDisplay : MonoBehaviour
     private void Start()
     {
         Photon.Pun.PhotonView photonView = GetComponentInParent<Photon.Pun.PhotonView>();
-        if (!photonView) {
+        if (!photonView)
+        {
             // Por si se llegase a usar en entrenamiento
             playerName = "You";
-            text.color = LOCAL_PLAYER_COLOR;
-        } else {
-            bool photonViewBelongsToLocalPlayer = photonView.Owner.NickName.Equals(PhotonNetwork.LocalPlayer.NickName);
+            text.fontMaterial = localPlayerTextMaterial;
+        }
+        else
+        {
             playerName = photonView.Owner.NickName;
-            text.color = (photonViewBelongsToLocalPlayer) ? LOCAL_PLAYER_COLOR : REMOTE_PLAYER_COLOR;
+            text.fontMaterial = (photonView.Owner.IsLocal) ? localPlayerTextMaterial : remotePlayerTextMaterial;
         }
 
         ScoreHandler scoreHandler = GetComponentInParent<ScoreHandler>();
