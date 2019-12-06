@@ -92,4 +92,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6f695d6d2f0084ebc337e2482da09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFacing: {x: -1, y: 1}
+  baseFacing: {x: 0, y: 1}
