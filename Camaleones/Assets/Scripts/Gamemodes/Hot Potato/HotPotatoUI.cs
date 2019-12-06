@@ -188,6 +188,7 @@ public class HotPotatoUI : MonoBehaviour
     private void Update()
     {
         if (!localPlayer) InitializationUtilities.FindLocalPlayer(out localPlayer);
+        else if (!initializedTargetDetectors && playersHandler.AllPlayersHaveSpawned) InitializeTargetDetectors();
 
         if (!hotPotatoHandler.SnitchHasActivated)
         {
@@ -247,18 +248,6 @@ public class HotPotatoUI : MonoBehaviour
     {
         UpdateMissionText(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);
         UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);   
-    }
-    
-    
-
-    private void Update()
-    {
-        if (!localPlayer) InitializationUtilities.FindLocalPlayer(out localPlayer);
-        else if (!initializedTargetDetectors && playersHandler.AllPlayersHaveSpawned) InitializeTargetDetectors();
-        
-
-        timeLeftInRoundSlider.maxValue = hotPotatoHandler.RoundDurationSinceLastReset;
-        timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
     }
 
     private void UpdateMissionText(bool localPlayerHasSnitch, HotPotatoHandler.RoundType roundType)
