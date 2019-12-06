@@ -266,7 +266,7 @@ public class HotPotatoUI : MonoBehaviour
         UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, roundType);
     }
 
-    private void OnSnitchTransfered(TransferableItemHolder oldHolder, TransferableItemHolder newHolder)
+    private void OnSnitchTransfered()
     {
         UpdateMissionText(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);
         UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);   
@@ -313,6 +313,7 @@ public class HotPotatoUI : MonoBehaviour
     {
         hotPotatoHandler.OnNewRound += SetRoundUI;
         hotPotatoHandler.OnSnitchActivated += OnSnitchActivated;
+        hotPotatoHandler.OnSnitchTransfered += (TransferableItemHolder oldHolder, TransferableItemHolder newHolder) => OnSnitchTransfered();
 
         snitchTracker = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>();
 
