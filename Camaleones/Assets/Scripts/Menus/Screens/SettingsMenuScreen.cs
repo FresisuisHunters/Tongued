@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 public class SettingsMenuScreen : AMenuScreen
 {
 
-    private const string AUDIO_MIXER_MUSIC_KEY = "MusicKey";
+    private const string AUDIO_MIXER_MUSIC_KEY = "MusicVolume";
     private const string AUDIO_MIXER_SFX_KEY = "SFXVolume";
 
     [SerializeField] private AudioMixer audioMixer;
@@ -70,7 +70,7 @@ public class SettingsMenuScreen : AMenuScreen
         Settings.enableMusic = enable;
 
         float volume = (enable) ? 0 : -80;
-        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume); // TODO
+        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume);
     }
 
     private void SetControlScheme() {
@@ -79,11 +79,7 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void UpdateToggle(Toggle toggle, bool isOn) {
-        Debug.LogFormat("Toggle {0} actualizando. IsOn: {1}. IsOn argumento: {2}", toggle.name, toggle.isOn, isOn);
-
         toggle.isOn = isOn;
-
-        Debug.LogFormat("Toggle {0} actualizado. IsOn: {1}", toggle.name, toggle.isOn);
 
         Image toggleImage = toggle.image;
         toggleImage.color = (toggle.isOn) ? Color.white : Color.grey;
