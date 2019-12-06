@@ -44,24 +44,29 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
             if (currentCountdown <= 0f) {
                 gameHasStarted = true;
 
-                SpawnOnlineSnitch();
-
-                inGameUI.SetActive(true);
-                GetComponent<HotPotatoUI>().OnSpawnCountdownEnded();
-                countdownText.gameObject.SetActive(false);
+                if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+                    photonView.RPC("SpawnOnlineSnitch", RpcTarget.All);
+                }
             }
         }
     }
 
+    [PunRPC]
     private void SpawnOnlineSnitch() {
+        Debug.Log("SpawnOnlineSnitch");
+
+        gameHasStarted = true;
         SpawnSnitch();
 
-        photonView = GetComponent<PhotonView> ();
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
             PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
             PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
             photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
         }
+
+        inGameUI.SetActive(true);
+        GetComponent<HotPotatoUI>().OnSpawnCountdownEnded();
+        countdownText.gameObject.SetActive(false);
     }
 
     #region Rounds
@@ -146,8 +151,13 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
+    public void Start() {
+        photonView = GetComponent<PhotonView> ();
+    }
+
     [PunRPC]
     private void RPC_SetSnitchViewID (int id) {
+        Debug.Log("SpawnOnlineSnitch");
         Snitch.GetComponent<PhotonView>().ViewID = id;
     }
     #endregion

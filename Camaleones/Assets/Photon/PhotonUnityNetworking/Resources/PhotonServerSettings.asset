@@ -57,5 +57,6 @@ MonoBehaviour:
   - RPC_PlayerNotReady
   - StartCountdown
   - StopCountdown
+  - SpawnOnlineSnitch
   DisableAutoOpenWizard: 1
   ShowSettings: 0
