@@ -52,6 +52,8 @@ MonoBehaviour:
     type: 3}
   scoreSceneName: sce_mScoresMenu
   countdownBeforeSpawn: 5
+  inGameUI: {fileID: 8540447047503756693}
+  countdownText: {fileID: 153901224801923673}
 --- !u!114 &7267744718523341161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +175,31 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2892703132021229380, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: m_text
+      value: TOTEM SPAWNIN IN X...
+      objectReference: {fileID: 0}
+    - target: {fileID: 2892703132021229380, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 37.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2892703132021229380, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2892703132021229380, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2892703132021229380, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5776635366822123110, guid: cbf04359ae330a74f84c495db6dc0153, type: 3}
     - {fileID: 3734268034237521591, guid: cbf04359ae330a74f84c495db6dc0153, type: 3}
@@ -183,3 +210,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3028167676030219549}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8540447047503756693 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6666441400678566024, guid: cbf04359ae330a74f84c495db6dc0153,
+    type: 3}
+  m_PrefabInstance: {fileID: 3028167676030219549}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &153901224801923673 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2892703132021229380, guid: cbf04359ae330a74f84c495db6dc0153,
+    type: 3}
+  m_PrefabInstance: {fileID: 3028167676030219549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

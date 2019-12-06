@@ -218,11 +218,6 @@ public class HotPotatoUI : MonoBehaviour
         hotPotatoHandler = GetComponent<HotPotatoHandler>();
     }
 
-    private void Start()
-    {
-        
-    }
-
     public void OnSpawnCountdownEnded() {
         timeLeftInRoundSlider.minValue = 0;
         timeLeftInRoundSlider.gameObject.SetActive(false);

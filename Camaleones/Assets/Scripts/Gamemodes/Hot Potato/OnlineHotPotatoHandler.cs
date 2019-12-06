@@ -12,6 +12,8 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
 { 
     public float countdownBeforeSpawn = 5f;
 
+    [SerializeField] private GameObject inGameUI;
+    [SerializeField] private TextMeshProUGUI countdownText;
     private PhotonView photonView;
     private bool gameHasStarted = false;
     private float currentCountdown;
@@ -35,14 +37,16 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
             base.Update();
         } else {
             currentCountdown -= Time.deltaTime;
-
-            Debug.LogWarning(currentCountdown);
+            countdownText.text = string.Format("Game starts in {0}...", currentCountdown);
 
             if (currentCountdown <= 0f) {
                 gameHasStarted = true;
+
                 SpawnOnlineSnitch();
 
+                inGameUI.SetActive(true);
                 GetComponent<HotPotatoUI>().OnSpawnCountdownEnded();
+                countdownText.gameObject.SetActive(false);
             }
         }
     }
