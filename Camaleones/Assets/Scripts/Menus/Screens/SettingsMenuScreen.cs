@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using TMPro;
 
 #pragma warning disable 649
 [RequireComponent(typeof(CanvasGroup))]
 public class SettingsMenuScreen : AMenuScreen
 {
 
-    private const string AUDIO_MIXER_MUSIC_KEY = "MusicKey";
+    private const string AUDIO_MIXER_MUSIC_KEY = "MusicVolume";
     private const string AUDIO_MIXER_SFX_KEY = "SFXVolume";
 
     [SerializeField] private AudioMixer audioMixer;
@@ -17,6 +18,7 @@ public class SettingsMenuScreen : AMenuScreen
     [SerializeField] private Toggle musicOnToggle;
     [SerializeField] private Toggle musicOffToggle;
     [SerializeField] private Toggle mouseControlToggle;
+    [SerializeField] private TextMeshProUGUI notAvailableText;
     [SerializeField] private Toggle touchControlToggle;
 
     public override void GoBack()
@@ -29,6 +31,11 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void Awake() {
+        InitializeSoundToggles();
+        InitializeControlToggles();
+    }
+
+    private void InitializeSoundToggles() {
         soundOnToggle.onValueChanged.AddListener((value) => {
             SetSoundVolume(value);
             UpdateToggle(soundOnToggle, value);
@@ -40,12 +47,22 @@ public class SettingsMenuScreen : AMenuScreen
             UpdateToggle(musicOnToggle, value);
         });
         musicOffToggle.onValueChanged.AddListener((value) => UpdateToggle(musicOffToggle, value));
+    }
 
-        mouseControlToggle.onValueChanged.AddListener((value) => {
-            SetControlScheme();
-            UpdateToggle(mouseControlToggle, value);
-        });
-        touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle, value));
+    private void InitializeControlToggles() {
+        if (Settings.IS_PHONE) {
+            mouseControlToggle.enabled = false;
+            touchControlToggle.isOn = true;
+            notAvailableText.gameObject.SetActive(true);
+
+            Settings.controlScheme = Settings.ControlScheme.Touch;
+        } else {
+            mouseControlToggle.onValueChanged.AddListener((value) => {
+                SetControlScheme();
+                UpdateToggle(mouseControlToggle, value);
+            });
+            touchControlToggle.onValueChanged.AddListener((value) => UpdateToggle(touchControlToggle, value));
+        }
     }
 
     private void UpdateToggles() {
@@ -70,7 +87,7 @@ public class SettingsMenuScreen : AMenuScreen
         Settings.enableMusic = enable;
 
         float volume = (enable) ? 0 : -80;
-        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume); // TODO
+        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume);
     }
 
     private void SetControlScheme() {
@@ -79,11 +96,7 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void UpdateToggle(Toggle toggle, bool isOn) {
-        Debug.LogFormat("Toggle {0} actualizando. IsOn: {1}. IsOn argumento: {2}", toggle.name, toggle.isOn, isOn);
-
         toggle.isOn = isOn;
-
-        Debug.LogFormat("Toggle {0} actualizado. IsOn: {1}", toggle.name, toggle.isOn);
 
         Image toggleImage = toggle.image;
         toggleImage.color = (toggle.isOn) ? Color.white : Color.grey;

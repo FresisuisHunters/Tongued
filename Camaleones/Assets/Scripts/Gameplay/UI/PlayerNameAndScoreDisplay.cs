@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
+#pragma warning disable 649
 [RequireComponent(typeof(TextMeshPro))]
 public class PlayerNameAndScoreDisplay : MonoBehaviour
 {
+    [SerializeField] private Material localPlayerTextMaterial;
+    [SerializeField] private Material remotePlayerTextMaterial;
+
     private string playerName;
     private Vector3 positionOffset;
 
@@ -34,12 +39,17 @@ public class PlayerNameAndScoreDisplay : MonoBehaviour
     private void Start()
     {
         Photon.Pun.PhotonView photonView = GetComponentInParent<Photon.Pun.PhotonView>();
-        if (photonView)
+        if (!photonView)
+        {
+            // Por si se llegase a usar en entrenamiento
+            playerName = "You";
+            text.fontMaterial = localPlayerTextMaterial;
+        }
+        else
         {
             playerName = photonView.Owner.NickName;
-            text.color = Color.yellow;
+            text.fontMaterial = (photonView.Owner.IsLocal) ? localPlayerTextMaterial : remotePlayerTextMaterial;
         }
-        else playerName = transform.root.name;
 
         ScoreHandler scoreHandler = GetComponentInParent<ScoreHandler>();
         if (scoreHandler)

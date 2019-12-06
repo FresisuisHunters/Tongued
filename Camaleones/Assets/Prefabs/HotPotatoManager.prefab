@@ -1083,7 +1083,6 @@ MonoBehaviour:
   curseRoundTint: {r: 1, g: 0, b: 0.1882353, a: 1}
   graphicsToTintOnRoundChange:
   - {fileID: 5067524033205186415}
-  tintCrossfadeLength: 0
   jungleFeverTextsToTintOnRoundChange:
   - {fileID: 2499709011182009033}
   - {fileID: 7195615666623801762}
@@ -1112,6 +1111,8 @@ MonoBehaviour:
     type: 3}
   curseTotemSprite: {fileID: 21300000, guid: d4020ca0e250304428558ea8f05668d9, type: 3}
   roundChangeAnimationTotemImage: {fileID: 1628084705}
+  targetDetectorPrefab: {fileID: 8749511808532262547, guid: d7f4e19f98e3123459138fb3db069686,
+    type: 3}
 --- !u!95 &684314758
 Animator:
   serializedVersion: 3
