@@ -63,6 +63,12 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
             return;
         }
 
+        AuthenticationValues authenticationValues = new AuthenticationValues();
+        authenticationValues.AuthType = CustomAuthenticationType.Custom;
+        authenticationValues.UserId = username;
+        PhotonNetwork.AuthValues = authenticationValues;
+
+        PhotonNetwork.LocalPlayer.NickName = username;
         if (PhotonNetwork.IsConnected)
         {
             OnlineLogging.Instance.Write("Player already connected to Photon server");
@@ -79,7 +85,10 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
     }
 
     #region Connection Callbacks
-    void IConnectionCallbacks.OnConnectedToMaster() => GoToLobbyScreen();
+    void IConnectionCallbacks.OnConnectedToMaster() {
+        Debug.Log(PhotonNetwork.LocalPlayer.UserId);
+        GoToLobbyScreen();
+    }
 
     void IConnectionCallbacks.OnConnected() { }
     void IConnectionCallbacks.OnDisconnected(DisconnectCause cause) { }
