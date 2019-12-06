@@ -218,7 +218,7 @@ public class HotPotatoHandler : MonoBehaviour
         }
 
         Snitch = Instantiate(snitchPrefab, spawnPoints[choice].transform.position, Quaternion.identity);
-        Snitch.OnItemTransfered += OnSnitchTransfered;
+        Snitch.OnItemTransfered += OnSnitchTransferedHandler;
 
         Snitch.gameObject.SetActive(false);
     }
