@@ -161,5 +161,6 @@ public class TouchHookInput : MonoBehaviour {
         retractCurrentImage = retractCurrentTransform.GetComponent<Image>();
         SetCirclesActive(false);
     }
+    
     #endregion
 }

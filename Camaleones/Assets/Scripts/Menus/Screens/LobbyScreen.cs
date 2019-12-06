@@ -169,6 +169,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
         if (returnCode == ErrorCode.GameFull) message = "This room is already full.";
         else if (returnCode == ErrorCode.GameClosed) message = "This room is closed.";
         else if (returnCode == ErrorCode.GameDoesNotExist) message = "There is no room with that name.";
+        else if (returnCode == ErrorCode.JoinFailedFoundActiveJoiner) message = "There is a player with your same username in this room";
         messageField.text = message;
     }
 
