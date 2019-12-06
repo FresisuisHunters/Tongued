@@ -387,31 +387,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5776635366822123110, guid: cbf04359ae330a74f84c495db6dc0153,
-        type: 3}
-      propertyPath: posessionTimeCurve.m_Curve.Array.data[0].value
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5776635366822123110, guid: cbf04359ae330a74f84c495db6dc0153,
-        type: 3}
-      propertyPath: posessionTimeCurve.m_Curve.Array.data[0].inSlope
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5776635366822123110, guid: cbf04359ae330a74f84c495db6dc0153,
-        type: 3}
-      propertyPath: posessionTimeCurve.m_Curve.Array.data[0].outSlope
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5776635366822123110, guid: cbf04359ae330a74f84c495db6dc0153,
-        type: 3}
-      propertyPath: posessionTimeCurve.m_Curve.Array.data[1].inSlope
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5776635366822123110, guid: cbf04359ae330a74f84c495db6dc0153,
-        type: 3}
-      propertyPath: numberOfRounds
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 8890342415137276031, guid: cbf04359ae330a74f84c495db6dc0153,
         type: 3}
       propertyPath: m_AnchorMax.x

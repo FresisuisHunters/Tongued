@@ -1007,7 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21ca49ef7f4864468e4cd9b561be5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfRounds: 2
+  numberOfRounds: 10
   posessionTimeCurve:
     serializedVersion: 2
     m_Curve:
@@ -1102,7 +1102,7 @@ MonoBehaviour:
   missionText: {fileID: 2499709011182009033}
   msgBlessingHasTotem: KEEP THE GEM!
   msgBlessingDoesntHaveTotem: GET THE GEM!
-  msgCurseHasTotem: GER RID OF THE GEM!
+  msgCurseHasTotem: GET RID OF THE GEM!
   msgCurseDoesntHaveTotem: KEEP OFF THE GEM!
   blessingRoundSnitchSprite: {fileID: 21300000, guid: b932ff8adf444474ebfae19dffd2a639,
     type: 3}

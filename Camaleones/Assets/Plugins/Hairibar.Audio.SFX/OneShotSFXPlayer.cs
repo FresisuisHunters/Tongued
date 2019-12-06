@@ -48,6 +48,8 @@ namespace Hairibar.Audio.SFX
 
         private bool ProcessSFXRequest(SFXClip requestedClip, SFXEndCallback callback = null)
         {
+            if (!isActiveAndEnabled) return false;
+
             bool requestGranted = true;
 
             //Check for duplicate instances. Priority still applies for duplicate behaviour.
