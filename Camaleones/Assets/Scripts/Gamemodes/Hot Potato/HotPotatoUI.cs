@@ -58,7 +58,7 @@ public class HotPotatoUI : MonoBehaviour
 
     private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
-    private Image offscreenSnitchViewImage;
+    private TrackedWhenOffscreen snitchTracker;
 
     #region Appropiate Properties
     private Color CurrentAppropiateUIColor
@@ -157,7 +157,7 @@ public class HotPotatoUI : MonoBehaviour
     public void AnimEvt_SwapSnitchSprite()
     {
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
-        offscreenSnitchViewImage.sprite = CurrentAppropiateSnitchSprite;
+        snitchTracker.ViewTransform.GetComponent<Image>().sprite = CurrentAppropiateSnitchSprite;
         if (hotPotatoHandler.Snitch) hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
     }
 
@@ -183,8 +183,7 @@ public class HotPotatoUI : MonoBehaviour
 
     private void SetRoundUI(HotPotatoHandler.RoundType roundType)
     {
-        //Make sure the slider is active and updated
-        //timeLeftInRoundSlider.gameObject.SetActive(true);
+        //Make sure that the slider is updated
         Update();
 
         //Tint the relevant UI
@@ -209,8 +208,8 @@ public class HotPotatoUI : MonoBehaviour
         //Set the counter
         roundCounterTextField.text = $"{hotPotatoHandler.CurrentRoundNumber}/{hotPotatoHandler.TotalRoundCount}";
 
-        //Do the round change animation, except for the first round.
-        if (hotPotatoHandler.CurrentRoundNumber > 1) GetComponent<Animator>().Play("anim_RoundChange");
+        //Do the round change animation
+        GetComponent<Animator>().Play("anim_RoundChange");
 
         UpdateMissionText();
     }
@@ -247,6 +246,8 @@ public class HotPotatoUI : MonoBehaviour
     {
         hotPotatoHandler.OnNewRound += SetRoundUI;
         hotPotatoHandler.OnSnitchActivated += OnSnitchActivated;
+
+        snitchTracker = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>();
 
         missionText.text = "WAIT FOR THE GEM!";
         timeLeftInRoundSlider.maxValue = hotPotatoHandler.matchStartCountdownLength;

@@ -50,9 +50,8 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             base.StartRound(roundType);
+            photonView.RPC("RPC_StartHotPotatoRound", RpcTarget.Others, roundType, currentChanceOfSameRound);
         }
-
-        photonView.RPC("RPC_StartHotPotatoRound", RpcTarget.Others, roundType, currentChanceOfSameRound);
     }
     [PunRPC]
     private void RPC_StartHotPotatoRound(RoundType roundType, float currentChanceOfSameRound)
@@ -115,7 +114,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
         PhotonNetwork.AddCallbackTarget(this);
         photonView = GetComponent<PhotonView>();
 
-        SpawnSnitch();
+        base.Awake();
     }
 
     protected override void ActivateSnitch()
