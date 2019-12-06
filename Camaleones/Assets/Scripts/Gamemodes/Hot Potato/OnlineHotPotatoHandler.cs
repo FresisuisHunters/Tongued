@@ -10,63 +10,38 @@ using ExitGames.Client.Photon;
 [RequireComponent(typeof (PhotonView))]
 public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomCallbacks
 { 
-    public float countdownBeforeSpawn = 5f;
-
-    [SerializeField] private GameObject inGameUI;
-    [SerializeField] private TextMeshProUGUI countdownText;
     private PhotonView photonView;
-    private bool gameHasStarted = false;
-    private float currentCountdown;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(TimeLeftInRound);
-            stream.SendNext(RoundDurationSinceLastReset);
+            stream.SendNext(SnitchHasActivated);
+
+            if (!SnitchHasActivated)
+            {
+                stream.SendNext(TimeBeforeSnitchActivation);
+            }
+            else
+            {
+                stream.SendNext(TimeLeftInRound);
+                stream.SendNext(RoundDurationSinceLastReset);
+            }
         }
         else
         {
-            TimeLeftInRound = (float) stream.ReceiveNext();
-            RoundDurationSinceLastReset = (float) stream.ReceiveNext();
-        }
-    }
+            bool snitchHasSpawnedInMaster = (bool) stream.ReceiveNext();
 
-    protected new void Update() {
-        if (gameHasStarted) {
-            base.Update();
-        } else {
-            currentCountdown -= Time.deltaTime;
-
-            float clampedCountdown = Mathf.Max(currentCountdown, 0);
-            countdownText.text = string.Format("Game starts in {0}...", Mathf.CeilToInt(clampedCountdown));
-
-            if (currentCountdown <= 0f) {
-                gameHasStarted = true;
-
-                if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-                    photonView.RPC("SpawnOnlineSnitch", RpcTarget.All);
-                }
+            if (!snitchHasSpawnedInMaster)
+            {
+                TimeBeforeSnitchActivation = (float)stream.ReceiveNext();
+            }
+            else
+            {
+                TimeLeftInRound = (float)stream.ReceiveNext();
+                RoundDurationSinceLastReset = (float)stream.ReceiveNext();
             }
         }
-    }
-
-    [PunRPC]
-    private void SpawnOnlineSnitch() {
-        Debug.Log("SpawnOnlineSnitch");
-
-        gameHasStarted = true;
-        SpawnSnitch();
-
-        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
-            PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
-            photonView.RPC ("RPC_SetSnitchViewID", RpcTarget.Others, snitchPhotonView.ViewID);
-        }
-
-        inGameUI.SetActive(true);
-        GetComponent<HotPotatoUI>().OnSpawnCountdownEnded();
-        countdownText.gameObject.SetActive(false);
     }
 
     #region Rounds
@@ -119,7 +94,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     }
     #endregion
 
-    #region In Room Calbacks    
+    #region In Room Callbacks    
     void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
@@ -137,28 +112,34 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     #region Initialization
     protected override void Awake ()
     {
-        StartSpawnCountdown();
         PhotonNetwork.AddCallbackTarget(this);
+        photonView = GetComponent<PhotonView>();
+
+        SpawnSnitch();
     }
 
-    private void StartSpawnCountdown() {
-        currentCountdown = countdownBeforeSpawn;
-        gameHasStarted = false;
+    protected override void ActivateSnitch()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView snitchPhotonView = Snitch.GetComponent<PhotonView>();
+            PhotonNetwork.AllocateSceneViewID(snitchPhotonView);
+            photonView.RPC("RPC_ActivateSnitch", RpcTarget.Others, snitchPhotonView.ViewID, (Vector2) Snitch.transform.position);
+            base.ActivateSnitch();
+        }
+    }
+    [PunRPC]
+    private void RPC_ActivateSnitch(int id, Vector2 position) {
+        
+        Snitch.GetComponent<PhotonView>().ViewID = id;
+        Snitch.transform.position = position;
+
+        base.ActivateSnitch();
     }
 
     private void OnDestroy()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
-    }
-
-    public void Start() {
-        photonView = GetComponent<PhotonView> ();
-    }
-
-    [PunRPC]
-    private void RPC_SetSnitchViewID (int id) {
-        Debug.Log("SpawnOnlineSnitch");
-        Snitch.GetComponent<PhotonView>().ViewID = id;
     }
     #endregion
 }

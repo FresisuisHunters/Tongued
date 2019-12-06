@@ -148,8 +148,6 @@ public class HotPotatoUI : MonoBehaviour
     }
     #endregion
 
-
-
     public void AnimEvt_SwapSnitchSprite()
     {
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;

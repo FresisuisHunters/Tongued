@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 public class HotPotatoHandler : MonoBehaviour
 {
     #region Inspector
+    public float matchStartCountdownLength = 5f;
+
     [Tooltip("Numero de rondas que tendrá la partida")]
     [SerializeField] private int numberOfRounds;
     [Tooltip("Curva que define como se reduce el tiempo necesario de posesión de la snitch para cada ronda")]
@@ -26,6 +28,9 @@ public class HotPotatoHandler : MonoBehaviour
     public event System.Action<RoundType> OnNewRound;
 
     #region Private state
+    public bool SnitchHasActivated { get; protected set; }
+    public float TimeBeforeSnitchActivation { get; protected set; }
+
     private float timeElapsedThisRound = 0;
     public float TimeLeftInRound { get; protected set; }
     public float RoundDurationSinceLastReset { get; protected set; }
@@ -171,12 +176,21 @@ public class HotPotatoHandler : MonoBehaviour
 
     protected void Update()
     {
-        if (FirstRoundHasStarted)
+        if (!SnitchHasActivated)
+        {
+            TimeBeforeSnitchActivation -= Time.deltaTime;
+            if (TimeBeforeSnitchActivation <= 0)
+            {
+                ActivateSnitch();
+                StartRound(RoundType.Blessing);
+            }
+        }
+        else
         {
             timeElapsedThisRound += Time.deltaTime;
             TimeLeftInRound -= Time.deltaTime;
-            
-            if(TimeLeftInRound <= 0)
+
+            if (TimeLeftInRound <= 0)
             {
                 EndRound();
             }
@@ -194,6 +208,9 @@ public class HotPotatoHandler : MonoBehaviour
     protected virtual void Awake()
     {
         SpawnSnitch();
+
+        SnitchHasActivated = false;
+        TimeBeforeSnitchActivation = matchStartCountdownLength;
     }
 
     protected void SpawnSnitch()
@@ -207,7 +224,16 @@ public class HotPotatoHandler : MonoBehaviour
 
         Snitch = Instantiate(snitchPrefab, spawnPoint.transform.position, Quaternion.identity);
         Snitch.OnItemTransfered += OnSnitchTransfered;
+
+        Snitch.gameObject.SetActive(false);
     }
+
+    protected virtual void ActivateSnitch()
+    {
+        SnitchHasActivated = true;
+        Snitch.gameObject.SetActive(true);
+    }
+
     #endregion
 
     public enum RoundType
