@@ -11,8 +11,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PhotonView))]
 public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 {
-    private const string HOT_POTATO_HANDLER_PREFAB_NAME = "Online Hot Potato Manager";
-
     #region Inspector
     [SerializeField] private TextMeshProUGUI roomNameField;
 
@@ -28,6 +26,11 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     [Header("Ready button")]
     [SerializeField] private Button readyButton;
     [SerializeField] private Button notReadyButton;
+
+    [Header("Game setup prefabs")]
+    [SerializeField] OnlineHotPotatoHandler onlineHotPotatoHandlerPrefab;
+    [SerializeField] OnlineGameScreenCallbackHandler onlineGameCallbackHandlerPrefab;
+
     #endregion
 
     #region Private State
@@ -118,8 +121,10 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             SceneManagerExtensions.PhotonLoadScene(ServerConstants.ONLINE_LEVEL, () =>
             {
-                PhotonNetwork.InstantiateSceneObject(HOT_POTATO_HANDLER_PREFAB_NAME, Vector3.zero, Quaternion.identity);
+                PhotonNetwork.InstantiateSceneObject(onlineHotPotatoHandlerPrefab.name, Vector3.zero, Quaternion.identity);
                 PhotonNetwork.RemoveCallbackTarget(this);
+
+                Instantiate(onlineGameCallbackHandlerPrefab);
             });
         }
     }

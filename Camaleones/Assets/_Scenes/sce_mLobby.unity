@@ -2286,7 +2286,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 8
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -2315,7 +2315,7 @@ MonoBehaviour:
     spaceCount: 1
     wordCount: 2
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -2815,7 +2815,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35.3
+  m_fontSize: 42.65
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3445,7 +3445,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35.3
+  m_fontSize: 42.65
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4422,8 +4422,6 @@ MonoBehaviour:
   usernameInputField: {fileID: 2003273548}
   connectToServerButton: {fileID: 1435377205}
   backButton: {fileID: 1293779769}
-  desktopLobby: {fileID: 0}
-  phoneLobby: {fileID: 0}
 --- !u!225 &1346069197
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5983,6 +5981,10 @@ MonoBehaviour:
   playerTableParent: {fileID: 819344402}
   readyButton: {fileID: 632812606}
   notReadyButton: {fileID: 1911782360}
+  onlineHotPotatoHandlerPrefab: {fileID: 2547300059224419326, guid: e9645c639609b894b983df91fd81e2b9,
+    type: 3}
+  onlineGameCallbackHandlerPrefab: {fileID: 2224418054000808127, guid: 72bdbf64e8828dd4a865bc4a1595a61a,
+    type: 3}
 --- !u!225 &1682457999
 CanvasGroup:
   m_ObjectHideFlags: 0

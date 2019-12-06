@@ -116,5 +116,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     private void RPC_SetSnitchViewID (int id) {
         Snitch.GetComponent<PhotonView>().ViewID = id;
     }
+
+    
     #endregion
 }

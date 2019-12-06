@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3954773135959695264
+--- !u!1 &2224418054000808124
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3954773135959695278}
-  - component: {fileID: 3954773135959695279}
+  - component: {fileID: 2224418054000808126}
+  - component: {fileID: 2224418054000808127}
   m_Layer: 0
-  m_Name: Online Game Manager
+  m_Name: Online Game Callback Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3954773135959695278
+--- !u!4 &2224418054000808126
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3954773135959695264}
+  m_GameObject: {fileID: 2224418054000808124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 47.45678, y: 285.70874, z: -0.24811763}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3954773135959695279
+--- !u!114 &2224418054000808127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3954773135959695264}
+  m_GameObject: {fileID: 2224418054000808124}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8358ffdb9f519d4d3a790373ef08bb39, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d4c7354f2344544c9e92566dbac11ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 36215425079325772, guid: 23d69b8a83f8fe447a1eb84312e7b824,
-    type: 3}
+  lobbyScene:
+    sceneAsset: {fileID: 102900000, guid: 86219efa1ce13da81a2d105d7f42912e, type: 3}
+    scenePath: Assets/_Scenes/sce_mLobby.unity
+  mainMenuScene:
+    sceneAsset: {fileID: 102900000, guid: 330d3349d2de141449aebffe03cf5c4b, type: 3}
+    scenePath: Assets/_Scenes/sce_mMenu.unity

@@ -6,49 +6,27 @@ using UnityEngine.UI;
 
 #pragma warning disable 649
 [RequireComponent (typeof (Button))]
-public class ExitGameplaySceneButton : MonoBehaviourPunCallbacks {
+public class ExitGameplaySceneButton : MonoBehaviour {
 
     [SerializeField] private GameObject confirmScreen;
     [SerializeField] private SceneReference mainMenuScene;
-    [SerializeField] private SceneReference lobbyScene;
 
-    private void OnApplicationQuit () {
-        OnlineLogging.Instance.Close ();
-    }
 
-    public void ToggleConfirmScreen () {
+    public void ToggleConfirmScreen()
+    {
         confirmScreen.SetActive (!confirmScreen.activeSelf);
     }
 
-    public override void OnDisconnected(DisconnectCause cause) {
-        GoToMainMenu();
+    public void QuitGame()
+    {
+        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.LeaveRoom();
+        else GoToMainMenu();
     }
 
-    public override void OnLeftRoom () {
-        GoToLobby();
-    }
 
-    private void GoToLobby() {
-        SceneManagerExtensions.LoadScene (lobbyScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
-                FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<LobbyScreen> ());
+    private void GoToMainMenu()
+    {
+        SceneManagerExtensions.LoadScene(mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
+               FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
     }
-
-    public void GoBackToTrainingScreen () {
-        SceneManagerExtensions.LoadScene (mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
-            FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<TrainingMenuScreen> ());
-    }
-
-    public void QuitGame() {
-        if (PhotonNetwork.IsConnectedAndReady) {
-            PhotonNetwork.LeaveRoom();
-        } else {
-            GoToMainMenu();
-        }
-    }
-
-    private void GoToMainMenu() {
-        SceneManagerExtensions.LoadScene (mainMenuScene, UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
-                FindObjectOfType<MenuScreenManager> ().startingMenuScreen = FindObjectOfType<MainMenuScreen> ());
-    }
-
 }
