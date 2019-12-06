@@ -82,6 +82,8 @@ public class SettingsMenuScreen : AMenuScreen
 
         float volume = (enable) ? 0 : -80;
         audioMixer.SetFloat(AUDIO_MIXER_SFX_KEY, volume);
+
+        Settings.SaveSettings();
     }
 
     private void SetMusicVolume(bool enable) {
@@ -89,11 +91,15 @@ public class SettingsMenuScreen : AMenuScreen
 
         float volume = (enable) ? 0 : -80;
         audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume);
+
+        Settings.SaveSettings();
     }
 
     private void SetControlScheme() {
         Settings.ControlScheme controlScheme = (touchControlToggle.isOn) ? Settings.ControlScheme.Touch : Settings.ControlScheme.Mouse;
         Settings.controlScheme = controlScheme;
+
+        Settings.SaveSettings();
     }
 
     private void UpdateToggle(Toggle toggle, bool isOn) {
