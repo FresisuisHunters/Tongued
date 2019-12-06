@@ -54,6 +54,10 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private Sprite blessingTotemSprite;
     [SerializeField] private Sprite curseTotemSprite;
 
+    [Header("Snitch tracker sprites")]
+    [SerializeField] private Sprite blessingSnitchTrackerSprite;
+    [SerializeField] private Sprite curseSnitchTrackerSprite;
+
     [Header("Round change animation")]
     [SerializeField] private Image roundChangeAnimationTotemImage;
 
@@ -99,6 +103,7 @@ public class HotPotatoUI : MonoBehaviour
             }
         }
     }
+
     private Sprite CurrentAppropiateSnitchSprite
     {
         get
@@ -129,6 +134,37 @@ public class HotPotatoUI : MonoBehaviour
             }
         }
     }
+    private Sprite CurrentAppropiateSnitchTrackerSprite
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingSnitchTrackerSprite;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseSnitchTrackerSprite;
+                default:
+                    return null;
+            }
+        }
+    }
+    private Sprite CurrentAppropiateSliderFillSprite
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingSliderFill;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseSliderFill;
+                default:
+                    return null;
+            }
+        }
+    }
+
     private Material CurrentAppropiateJungleFeverMaterial
     {
         get
@@ -159,21 +195,7 @@ public class HotPotatoUI : MonoBehaviour
             }
         }
     }
-    private Sprite CurrentAppropiateSliderFillSprite
-    {
-        get
-        {
-            switch (hotPotatoHandler.CurrentRoundType)
-            {
-                case HotPotatoHandler.RoundType.Blessing:
-                    return blessingSliderFill;
-                case HotPotatoHandler.RoundType.Curse:
-                    return curseSliderFill;
-                default:
-                    return null;
-            }
-        }
-    }
+    
     #endregion
 
     private bool LocalPlayerHasSnith => hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
@@ -181,7 +203,7 @@ public class HotPotatoUI : MonoBehaviour
     public void AnimEvt_SwapSnitchSprite()
     {
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
-        snitchTracker.ViewTransform.GetComponent<Image>().sprite = CurrentAppropiateSnitchSprite;
+        snitchTracker.ViewTransform.GetComponent<Image>().sprite = CurrentAppropiateSnitchTrackerSprite;
         if (hotPotatoHandler.Snitch) hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
     }
 

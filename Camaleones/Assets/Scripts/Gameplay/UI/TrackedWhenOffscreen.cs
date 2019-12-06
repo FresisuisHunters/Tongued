@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class TrackedWhenOffscreen : MonoBehaviour
 {
     #region Inspector
+    [Header("View")]
     [SerializeField] private RectTransform offscreenViewPrefab;
+    [SerializeField] private Vector2 baseViewFacing;
 
     [Header("Placement")]
     [SerializeField] private float marginSize = 40f;
@@ -48,16 +50,22 @@ public class TrackedWhenOffscreen : MonoBehaviour
             if (!IsActive) IsActive = true;
         }
 
-        if (IsActive) PositionViewport();
+        if (IsActive)
+        {
+            PositionView();
+        }
     }
 
-    private void PositionViewport()
+    private void PositionView()
     {
         Vector3 newPos = transform.position;
 
-        Vector3 normalizedPos = camera.WorldToViewportPoint(trackedObject.position);
-        normalizedPos.x = Mathf.Clamp01(normalizedPos.x);
-        normalizedPos.y = Mathf.Clamp01(normalizedPos.y);
+        Vector3 unclampedPos = camera.WorldToViewportPoint(trackedObject.position);
+
+        Vector3 normalizedPos;
+        normalizedPos.x = Mathf.Clamp01(unclampedPos.x);
+        normalizedPos.y = Mathf.Clamp01(unclampedPos.y);
+        normalizedPos.z = unclampedPos.z;
 
         ViewTransform.anchorMin = normalizedPos;
         ViewTransform.anchorMax = normalizedPos;
@@ -72,6 +80,14 @@ public class TrackedWhenOffscreen : MonoBehaviour
         else if (normalizedPos.y == 1) anchoredPosition.y = -viewRect.height / 2;
 
         ViewTransform.anchoredPosition = anchoredPosition;
+
+        RotateView(unclampedPos);
+    }
+
+    private void RotateView(Vector2 viewportSpacePositionOfTarget)
+    {
+        float angle = Vector2.SignedAngle(baseViewFacing, viewportSpacePositionOfTarget - new Vector2(0.5f, 0.5f));
+        ViewTransform.rotation = Quaternion.Euler(0, 0, angle);
     }
     #endregion
 

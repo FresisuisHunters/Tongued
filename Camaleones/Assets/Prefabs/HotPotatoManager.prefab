@@ -1345,6 +1345,10 @@ MonoBehaviour:
   blessingTotemSprite: {fileID: 21300000, guid: 0dbe75033c0333447971e4a185a31c7f,
     type: 3}
   curseTotemSprite: {fileID: 21300000, guid: d4020ca0e250304428558ea8f05668d9, type: 3}
+  blessingSnitchTrackerSprite: {fileID: 21300000, guid: 780e66ee85a88d54f98ce35cd591a492,
+    type: 3}
+  curseSnitchTrackerSprite: {fileID: 21300000, guid: 10be7d8f7e0637d46bbb3d5346a6fbdc,
+    type: 3}
   roundChangeAnimationTotemImage: {fileID: 1628084705}
   targetDetectorPrefab: {fileID: 8749511808532262547, guid: d7f4e19f98e3123459138fb3db069686,
     type: 3}

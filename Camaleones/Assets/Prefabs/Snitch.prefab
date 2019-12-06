@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offscreenViewPrefab: {fileID: 8742563143364135339, guid: 68f9aa4100f64934d95a7ceeaf0195fe,
     type: 3}
+  baseViewFacing: {x: 1, y: 0}
   marginSize: 40
   canvasReferenceResolution: {x: 1920, y: 1080}
 --- !u!1773428102 &6512157645175561124
