@@ -6,14 +6,31 @@ using TMPro;
 [RequireComponent(typeof(HotPotatoHandler), typeof(Animator))]
 public class HotPotatoUI : MonoBehaviour
 {
+    #region Inspector
     [Header("Timer")]
     [SerializeField] private Slider timeLeftInRoundSlider;
+    [SerializeField] private Image sliderFillImage;
+    [SerializeField] private Sprite blessingSliderFill;
+    [SerializeField] private Sprite curseSliderFill;
 
     [Header("Round tint")]
     [SerializeField] private Color blessingRoundTint = Color.green;
     [SerializeField] private Color curseRoundTint = Color.red;
     [SerializeField] private Graphic[] graphicsToTintOnRoundChange;
     [SerializeField] private float tintCrossfadeLength = 0.5f;
+
+    [SerializeField] private TextMeshProUGUI[] jungleFeverTextsToTintOnRoundChange;
+    [SerializeField] private Material jungleFeverBlessingTextMaterial;
+    [SerializeField] private Material jungleFeverCurseTextMaterial;
+
+    [SerializeField] private TextMeshProUGUI[] janBradyTextsToTintOnRoundChange;
+    [SerializeField] private Material janBradyBlessingTextMaterial;
+    [SerializeField] private Material janBradyCurseTextMaterial;
+
+    [SerializeField] private Image totemImage;
+
+    [Header("Round counter")]
+    [SerializeField] private TextMeshProUGUI roundCounterTextField;
 
     [Header("Mission Text")]
     [SerializeField] private TextMeshProUGUI missionText;
@@ -32,12 +49,28 @@ public class HotPotatoUI : MonoBehaviour
 
     [Header("Round change animation")]
     [SerializeField] private Image roundChangeAnimationTotemImage;
-
+    #endregion
 
     private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
     private Image offscreenSnitchViewImage;
 
+    #region Appropiate Properties
+    private Color CurrentAppropiateUIColor
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingRoundTint;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseRoundTint;
+                default:
+                    return Color.white;
+            }
+        }
+    }
     private Sprite CurrentAppropiateSnitchSprite
     {
         get
@@ -53,7 +86,6 @@ public class HotPotatoUI : MonoBehaviour
             }
         }
     }
-
     private Sprite CurrentAppropiateTotemSprite
     {
         get
@@ -69,6 +101,53 @@ public class HotPotatoUI : MonoBehaviour
             }
         }
     }
+    private Material CurrentAppropiateJungleFeverMaterial
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return jungleFeverBlessingTextMaterial;
+                case HotPotatoHandler.RoundType.Curse:
+                    return jungleFeverCurseTextMaterial;
+                default:
+                    return null;
+            }
+        }
+    }
+    private Material CurrentAppropiateJanBradyMaterial
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return janBradyBlessingTextMaterial;
+                case HotPotatoHandler.RoundType.Curse:
+                    return janBradyCurseTextMaterial;
+                default:
+                    return null;
+            }
+        }
+    }
+    private Sprite CurrentAppropiateSliderFillSprite
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingSliderFill;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseSliderFill;
+                default:
+                    return null;
+            }
+        }
+    }
+    #endregion
+
 
 
     public void AnimEvt_SwapSnitchSprite()
@@ -86,21 +165,33 @@ public class HotPotatoUI : MonoBehaviour
         timeLeftInRoundSlider.value = hotPotatoHandler.TimeLeftInRound;
     }
 
-    private void OnNewRound(HotPotatoHandler.RoundType roundType)
+    private void SetRoundUI(HotPotatoHandler.RoundType roundType)
     {
         //Make sure the slider is active and updated
         timeLeftInRoundSlider.gameObject.SetActive(true);
         Update();
 
         //Tint the relevant UI
-        Color roundTint = Color.white;
-        if (roundType == HotPotatoHandler.RoundType.Blessing) roundTint = blessingRoundTint;
-        else if (roundType == HotPotatoHandler.RoundType.Curse) roundTint = curseRoundTint;
-
         foreach (Graphic graphic in graphicsToTintOnRoundChange)
         {
-            graphic.CrossFadeColor(roundTint, tintCrossfadeLength, true, false);
+            graphic.color = CurrentAppropiateUIColor;
         }
+
+        foreach (TextMeshProUGUI textField in jungleFeverTextsToTintOnRoundChange)
+        {
+            textField.fontMaterial = CurrentAppropiateJungleFeverMaterial;
+        }
+
+        foreach (TextMeshProUGUI textField in janBradyTextsToTintOnRoundChange)
+        {
+            textField.fontMaterial = CurrentAppropiateJanBradyMaterial;
+        }
+
+        sliderFillImage.sprite = CurrentAppropiateSliderFillSprite;
+        totemImage.sprite = CurrentAppropiateTotemSprite;
+
+        //Set the counter
+        roundCounterTextField.text = $"{hotPotatoHandler.CurrentRoundNumber}/{hotPotatoHandler.TotalRoundCount}";
 
         //Do the round change animation, except for the first round.
         if (hotPotatoHandler.CurrentRoundNumber > 1) GetComponent<Animator>().Play("anim_RoundChange");
@@ -121,7 +212,7 @@ public class HotPotatoUI : MonoBehaviour
     }
 
 
-
+    #region Initialization
     private void Awake()
     {
         hotPotatoHandler = GetComponent<HotPotatoHandler>();
@@ -131,11 +222,12 @@ public class HotPotatoUI : MonoBehaviour
     {
         timeLeftInRoundSlider.minValue = 0;
         timeLeftInRoundSlider.gameObject.SetActive(false);
-        hotPotatoHandler.OnNewRound += OnNewRound;
+        hotPotatoHandler.OnNewRound += SetRoundUI;
 
         hotPotatoHandler.Snitch.OnItemTransfered += (TransferableItemHolder oldHolder, TransferableItemHolder newHolder) => UpdateMissionText();
         offscreenSnitchViewImage = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>().ViewTransform.GetComponent<Image>();
 
         missionText.text = msgBlessingDoesntHaveTotem;
     }
+    #endregion
 }

@@ -22,6 +22,7 @@ public class HotPotatoHandler : MonoBehaviour
     [SerializeField] protected string scoreSceneName;
     #endregion
 
+    public int TotalRoundCount => numberOfRounds;
     public event System.Action<RoundType> OnNewRound;
 
     #region Private state
