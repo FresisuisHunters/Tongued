@@ -7,12 +7,23 @@ using UnityEngine;
 #pragma warning disable 649
 public class ScoresScreen : MonoBehaviour
 {
+    #region Inspector Variables
     [Tooltip("Prefab del panel que se usa para cada puntuacion")]
     [SerializeField] private GameObject scorePanelPrefab;
+    [Tooltip("Tiempo que tarda en volver a la sala automáticamente.")]
+    [SerializeField] private int exitTime;
+    #endregion
+
+    #region private variables
+    private float startTime;
+    private TextMeshProUGUI timerText;
+    #endregion
 
     private void Awake()
     {
         ShowScores(FindObjectOfType<ScoreCollector>().GetScores());
+        startTime = Time.time;
+        timerText = GameObject.Find("ExitTimer").GetComponent<TextMeshProUGUI>();
     }
 
     /// <summary>
@@ -38,13 +49,21 @@ public class ScoresScreen : MonoBehaviour
             scoreObject.GetComponentInChildren<TextMeshProUGUI>().SetText(position + "º " + scores[i].getName() + " - " + Mathf.Max(scores[i].getScore(), 0));
         }
 
-        Invoke("GoToRoom", 5);
+        Destroy(FindObjectOfType<ScoreCollector>());
+
+        Invoke("GoToRoom", exitTime);
         
+    }
+
+    private void Update()
+    {
+        int timeLeft = (int)Mathf.Max(Mathf.Ceil(exitTime - (Time.time - startTime)),0);
+        timerText.SetText(timeLeft.ToString());
     }
 
     private void GoToRoom()
     {
-        SceneManagerExtensions.PhotonLoadScene("sce_mLobby", () =>
+        SceneManagerExtensions.LoadScene("sce_mLobby", UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
         {
             MenuScreenManager manager = FindObjectOfType<MenuScreenManager>();
             Debug.Log(FindObjectOfType<RoomScreen>());
