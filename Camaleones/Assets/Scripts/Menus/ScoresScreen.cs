@@ -10,7 +10,7 @@ public class ScoresScreen : MonoBehaviour
     [Tooltip("Prefab del panel que se usa para cada puntuacion")]
     [SerializeField] private GameObject scorePanelPrefab;
 
-    private void Awake()
+    private void Start()
     {
         ShowScores(FindObjectOfType<ScoreCollector>().GetScores());
     }
