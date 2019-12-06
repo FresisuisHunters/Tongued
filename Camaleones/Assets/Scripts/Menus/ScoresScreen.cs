@@ -23,16 +23,22 @@ public class ScoresScreen : MonoBehaviour
     {
         Debug.Log("Recibido: " + scores[0].getName());
         scores.Sort((b, a) => a.getScore().CompareTo(b.getScore()));
+        int position = 1;
 
         for (int i = 0; i < scores.Count; i++)
         {
             GameObject scoreObject = Instantiate(scorePanelPrefab, transform);
             scoreObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 400 - i * 100, 0);
             scoreObject.GetComponent<RectTransform>().localScale = Vector3.one;
-            scoreObject.GetComponentInChildren<TextMeshProUGUI>().SetText((i + 1) + "º " + scores[i].getName() + " - " + Mathf.Max(scores[i].getScore(), 0));
+            if(i>0)
+            {
+                if (scores[i].getScore() < scores[i - 1].getScore())
+                    position++;
+            }
+            scoreObject.GetComponentInChildren<TextMeshProUGUI>().SetText(position + "º " + scores[i].getName() + " - " + Mathf.Max(scores[i].getScore(), 0));
         }
 
-        Invoke("GoToRoom", 3);
+        Invoke("GoToRoom", 5);
         
     }
 
