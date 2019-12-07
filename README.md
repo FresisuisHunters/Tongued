@@ -126,7 +126,11 @@ En la tienda solo se podrán comprar cosméticos, oro, gemas, pases y el pase de
 # Diagrama de Flujo
 ![diagrama](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/diagrama.png)
 # Estilo Menús
+## Menú Principal
+![mainmenu](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/menu.png)
 ## Sala previa a la partida
-![diagrama](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(10).png)
+![sala](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(10).png)
 ## Pantalla de Puntuaciones
-![diagrama](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(9).png)
+![scores](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(9).png)
+## Ajustes
+![ajustes](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/opciones.png)
