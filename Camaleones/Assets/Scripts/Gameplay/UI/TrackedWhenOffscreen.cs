@@ -91,6 +91,11 @@ public class TrackedWhenOffscreen : MonoBehaviour
     }
     #endregion
 
+    private void OnDisable()
+    {
+        IsActive = false;
+    }
+
     #region Initialization
     private void Awake()
     {

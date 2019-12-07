@@ -7,6 +7,9 @@ using TMPro;
 public class HotPotatoUI : MonoBehaviour
 {
     #region Inspector
+    [Header("Configuration")]
+    public bool showSnitchTrackerOnCurseRound = true;
+
     [Header("Timer")]
     [SerializeField] private Slider timeLeftInRoundSlider;
     [SerializeField] private Image sliderFillImage;
@@ -204,7 +207,7 @@ public class HotPotatoUI : MonoBehaviour
     {
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
         snitchTracker.ViewTransform.GetComponent<Image>().sprite = CurrentAppropiateSnitchTrackerSprite;
-        if (hotPotatoHandler.Snitch) hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
+        hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
     }
 
     private void Update()
@@ -230,37 +233,34 @@ public class HotPotatoUI : MonoBehaviour
 
     private void SetRoundUI(HotPotatoHandler.RoundType roundType)
     {
-        //Make sure that the slider is updated
+        //Slider
         Update();
-
-        //Tint the relevant UI
         sliderBackgroundImage.color = CurrentAppropiateSliderBackgroundColor;
-
-        foreach (Graphic graphic in graphicsToTintOnRoundChange)
-        {
-            graphic.color = CurrentAppropiateUIColor;
-        }
-
-        foreach (TextMeshProUGUI textField in jungleFeverTextsToTintOnRoundChange)
-        {
-            textField.fontMaterial = CurrentAppropiateJungleFeverMaterial;
-        }
-
-        foreach (TextMeshProUGUI textField in janBradyTextsToTintOnRoundChange)
-        {
-            textField.fontMaterial = CurrentAppropiateJanBradyMaterial;
-        }
-
         sliderFillImage.sprite = CurrentAppropiateSliderFillSprite;
         sliderFillImage.type = Image.Type.Tiled;
 
+        //Tint the relevant UI
+        foreach (Graphic graphic in graphicsToTintOnRoundChange) graphic.color = CurrentAppropiateUIColor;
+
+        foreach (TextMeshProUGUI textField in jungleFeverTextsToTintOnRoundChange) textField.fontMaterial = CurrentAppropiateJungleFeverMaterial;
+
+        foreach (TextMeshProUGUI textField in janBradyTextsToTintOnRoundChange) textField.fontMaterial = CurrentAppropiateJanBradyMaterial;
+
+        //Totem
         totemImage.sprite = CurrentAppropiateTotemSprite;
 
-        //Set the counter
+        //Counter
         roundCounterTextField.text = $"{hotPotatoHandler.CurrentRoundNumber}/{hotPotatoHandler.TotalRoundCount}";
 
         //Do the round change animation
         GetComponent<Animator>().Play("anim_RoundChange");
+
+        //Set wether the snitch tracker should be active
+        bool shouldShowTracker;
+        if (hotPotatoHandler.CurrentRoundType == HotPotatoHandler.RoundType.Curse) shouldShowTracker = showSnitchTrackerOnCurseRound;
+        else shouldShowTracker = true;
+
+        snitchTracker.enabled = shouldShowTracker;
 
         UpdateMissionText(LocalPlayerHasSnith, roundType);
         UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, roundType);
