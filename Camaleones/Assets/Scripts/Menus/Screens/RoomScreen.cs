@@ -81,6 +81,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     public override void GoBack()
     {
         PhotonNetwork.LeaveRoom();
+        isDoingCountdown = false;
         SetInteractable(false);
     }
     #endregion
@@ -205,7 +206,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
         bool allPlayersAreReady = playersReady.Count == players.Count;
-        bool thereAreEnoughPlayers = playersReady.Count > 1;
+        bool thereAreEnoughPlayers = players.Count > 1;
 
         if (localIsRoomOwner && allPlayersAreReady && thereAreEnoughPlayers) photonView.RPC("StartCountdown", RpcTarget.All, null);
     }
@@ -234,6 +235,10 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 
     void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
     {
+        if (PhotonNetwork.IsMasterClient) {
+            photonView.RPC("StopCountdown", RpcTarget.All);
+        }
+        
         RemovePlayerEntry(otherPlayer);
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
