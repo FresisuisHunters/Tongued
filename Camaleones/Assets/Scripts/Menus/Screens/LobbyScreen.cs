@@ -60,7 +60,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
 
         SetInteractable(false, cancelPublicSearchButton, backButton);
 
-        messageField.text = "Searching...";
+        messageField.text = "Searching for an open public room...";
     }
 
     public void CancelPublicSearch()
@@ -68,12 +68,13 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
         if (PhotonNetwork.InLobby) PhotonNetwork.LeaveLobby();
         CancelInvoke();
 
+        currentAtempts = 0;
         joinPublicRoomButton.gameObject.SetActive(true);
         cancelPublicSearchButton.gameObject.SetActive(false);
 
         SetInteractable(true);
 
-        messageField.text = "";
+        messageField.text = "Cancelled public search";
     }
 
     public void CreatePrivateRoom()
@@ -125,6 +126,8 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
         }
         else
         {
+            messageField.text = "No public room found. Creating one...";
+
             string roomName = RandomString(10);
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = 4;
