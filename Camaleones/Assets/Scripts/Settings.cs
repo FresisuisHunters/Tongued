@@ -16,7 +16,7 @@ public class Settings
     private const string AUDIO_MIXER_SFX_KEY = "SFXVolume";
     private const string AUDIO_MIXER_MUSIC_KEY = "MusicVolume";
 
-    public static readonly bool IS_PHONE = true;//Application.isMobilePlatform;
+    public static readonly bool IS_PHONE = Application.isMobilePlatform;
     public static bool enableSound;
     public static bool enableMusic;
     public static ControlScheme controlScheme;

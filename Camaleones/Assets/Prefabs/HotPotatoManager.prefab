@@ -1518,8 +1518,8 @@ MonoBehaviour:
   curseRoundStartSFX: {fileID: 11400000, guid: 17eae9fe3e52e4e4aa3f4ddb79d8855e, type: 2}
   blessingRoundStartSFX: {fileID: 11400000, guid: 70588406fdc66414ab7fc43fcee9d810,
     type: 2}
-  scoreGainedSFX: {fileID: 11400000, guid: ae692905d73f10c4c940882285b3cae5, type: 2}
-  scoreLostSFX: {fileID: 11400000, guid: 403811b9cc337a34f80e2f1bd28c6653, type: 2}
+  scoreGainedSFX: {fileID: 11400000, guid: 7b3f9f1748c5f084eafd0255155407e9, type: 2}
+  scoreLostSFX: {fileID: 11400000, guid: 992a4b29a036e504daca1ed027edbbc5, type: 2}
 --- !u!95 &684314758
 Animator:
   serializedVersion: 3
