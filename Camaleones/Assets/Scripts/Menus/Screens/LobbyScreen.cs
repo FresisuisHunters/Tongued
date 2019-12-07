@@ -60,7 +60,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
 
         SetInteractable(false, cancelPublicSearchButton, backButton);
 
-        messageField.text = "Searching for an open public room...";
+        messageField.text = "Searching...";
     }
 
     public void CancelPublicSearch()
@@ -74,7 +74,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
 
         SetInteractable(true);
 
-        messageField.text = "Cancelled public search";
+        messageField.text = "Search cancelled.";
     }
 
     public void CreatePrivateRoom()
@@ -126,7 +126,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
         }
         else
         {
-            messageField.text = "No public room found. Creating one...";
+            messageField.text = "No open public room was found. Creating one...";
 
             string roomName = RandomString(10);
             RoomOptions roomOptions = new RoomOptions();

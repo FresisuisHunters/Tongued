@@ -92,7 +92,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 28.8
+  m_fontSize: 29.05
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -920,7 +920,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 33.85
+  m_fontSize: 34.05
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1735,7 +1735,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 33.85
+  m_fontSize: 34.05
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1848,7 +1848,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4036867156139316194}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1864,9 +1864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e59c199ba92ee94085390e0665336fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuScene:
-    sceneAsset: {fileID: 0}
-    scenePath: 
   roomNameInput: {fileID: 4036867156459912230}
   messageField: {fileID: 4036867155952425783}
   joinPublicRoomButton: {fileID: 4036867155744922534}
