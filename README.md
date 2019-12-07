@@ -2,25 +2,28 @@
 # Tongued
 ![alt text](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Logos/img_tongued_logo.png)
 
+# Índice
+
 
 # Concepto General
 Tongued es un juego multijugador en el que los jugadores, controlando a unos simpáticos pero competitivos camaleones, se enfrentan en partidas todos contratodos para ganar la partida. Para ello, usarán la lengua del camaleón para engancharse, balancearse y lanzarse a por el mapa, aprovechando la inercia que sus movimientos. 
 
-# Movimiento
+![captura juego](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(6).png)
+# Mecánicas
+## Movimiento
 El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona aproximadamente el punto al que quiere engancharse (esto se explica unas líneas mas abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el jugador cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
 
 La lengua tiene colisiones en toda su extensión, puediéndose esta enrollar alrededor o crear nuevos ejes de giro en los elementos del mapa. Esto proporciona un movimiento más realista pues aporta a los jugadores la capacidad de ganar más velocidad, hacer quiebros o movimientos no previstos.
 Habrá una lógica permisiva para decidir dónde va la lengua, tratando el punto exacto que ha solicitado el jugador como una "sugerencia" y buscando algo a lo que engancharse en esa dirección general.
-
-# Controles
+## Controles
 Respecto a los controles, hay dos tipos, uno de ellos muy enfocado en el juego en dispositivos táctiles, aunque puede ser usado también con ratón.
 En todo momento, el camaleón del jugador se comporta como un objeto de físicas, manteniendo su inercia, rebotando contra el escenario, etc.
-## Modo Manual
+### Modo Manual
 - Para lanzar la lengua haciendo click izquierdo en la posición deseada.
 - Puede retractar la lengua  manteniendo click izquierdo, disminuyendo la longitud de la "cuerda".
 - Puede soltar el gancho haciendo click derecho.
 
-## Modo Arcade/Táctil
+### Modo Arcade/Táctil
 - Para lanzar la lengua tocando y manteniendo el dedo (o el botón izquierdo del ratón) en la posición deseada.
 - Puede retractar la lengua arrastrando el dedo o el cursor (sin haberlo levantado tras lanzar) alejándolo de la posición incial, disminuyendo la longitud de la "cuerda".
 - Puede soltar el gancho levantando el dedo de la pantalla o soltando el botón izquierdo del ratón.
@@ -53,13 +56,24 @@ Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayec
 - Estos dos tipos de ronda se van alternando de una manera aleatoria con cierto matiz. Tras acabar una ronda, la siguiente se elige de forma aleatoria, aunque para evitar monotonía, el repetir el mismo tipo de ronda cada vez tiene menos probabilidades respecto al otro (la mitad).
 - Para quitar o pasar el objeto a alguien (dependiendo del tipo de ronda), los dos jugadores deben entrar en contacto. Cuando entren en colisión, se transferirá el objeto del uno al otro.
 
-## Carrera de comida
+![Bendicion](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(7).png)
+
+![Maldicion](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(8).png)
+
+## Otros
+### Carrera de Comida
 - Es una propuesta de futuro, no está en el juego base.
 - Varios jugadores en el mismo escenario, todos contra todos. 
 - Aparece un objeto (moscas, o algo por el estilo. Comida.) en un punto predefinido del escenario.
 - Cuando un camaleón pasa por este, se lo "come". Al comer, el camaleón se hace más grande; haciéndole más fácil de enganchar. (¿Y si resulta que ser grande es una ventaja porque es más fácil pasar por la comida?)
 - Cada vez que el objeto se come, aparece otro objeto en un punto aleatorio de varios predefinidos.
 - Gana el primer jugador en llegar a X objetos comidos.
+### Modo Fin de Semana
+- Modo con entrada a cambio de tickets.
+- Se ganan gemas.
+- Solo fines de semana.
+### Aventura de Temporada
+- Modos tanto multijugador como de un jugador especiales con la temática de la temporada.
 
 # Mapas
 ## Selva
@@ -92,3 +106,10 @@ En la tienda solo se podrán comprar cosméticos, oro, gemas, pases y el pase de
 - Desafios Premium extra: dan pases de evento de fin de semana (por tanto mayor accesibilidad a este modo).
 - Aventuras exclusivas.
 - Cosméticos exclusivos (solo a cambio de gemas, por tanto sólo conseguibles con facilidad y rentabilidad por usuarios premium).
+# Diagrama de Flujo
+![diagrama](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/diagrama.png)
+# Estilo Menús
+## Sala previa a la partida
+![diagrama](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(10).png)
+## Pantalla de Puntuaciones
+![diagrama](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(9).png)
