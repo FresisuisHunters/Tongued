@@ -7,12 +7,7 @@ using TMPro;
 [RequireComponent(typeof(CanvasGroup))]
 public class SettingsMenuScreen : AMenuScreen
 {
-
-    private const string AUDIO_MIXER_MUSIC_KEY = "MusicVolume";
-    private const string AUDIO_MIXER_SFX_KEY = "SFXVolume";
-
     [SerializeField] private AudioMixer audioMixer;
-
     [SerializeField] private Toggle soundOnToggle;
     [SerializeField] private Toggle soundOffToggle;
     [SerializeField] private Toggle musicOnToggle;
@@ -32,11 +27,11 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void Awake() {
-        InitializeSoundToggles();
+        InitializeAudioToggles();
         InitializeControlToggles();
     }
 
-    private void InitializeSoundToggles() {
+    private void InitializeAudioToggles() {
         soundOnToggle.onValueChanged.AddListener((value) => {
             SetSoundVolume(value);
             UpdateToggle(soundOnToggle, value);
@@ -78,26 +73,18 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void SetSoundVolume(bool enable) {
-        Settings.enableSound = enable;
-
-        float volume = (enable) ? 0 : -80;
-        audioMixer.SetFloat(AUDIO_MIXER_SFX_KEY, volume);
-
+        Settings.SetSoundSettings(audioMixer, enable);
         Settings.SaveSettings();
     }
 
     private void SetMusicVolume(bool enable) {
-        Settings.enableMusic = enable;
-
-        float volume = (enable) ? 0 : -80;
-        audioMixer.SetFloat(AUDIO_MIXER_MUSIC_KEY, volume);
-
+        Settings.SetMusicSettings(audioMixer, enable);
         Settings.SaveSettings();
     }
 
     private void SetControlScheme() {
         Settings.ControlScheme controlScheme = (touchControlToggle.isOn) ? Settings.ControlScheme.Touch : Settings.ControlScheme.Mouse;
-        Settings.controlScheme = controlScheme;
+        Settings.SetControlSettings(controlScheme);
 
         Settings.SaveSettings();
     }
