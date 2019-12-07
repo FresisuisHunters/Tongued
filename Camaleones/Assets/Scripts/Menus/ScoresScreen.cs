@@ -52,7 +52,6 @@ public class ScoresScreen : MonoBehaviour
         Destroy(FindObjectOfType<ScoreCollector>());
 
         //Invoke("GoToRoom", exitTime);
-        
     }
 
     private void Update()
@@ -68,7 +67,6 @@ public class ScoresScreen : MonoBehaviour
         SceneManagerExtensions.LoadScene("sce_mLobby", UnityEngine.SceneManagement.LoadSceneMode.Single, () =>
         {
             MenuScreenManager manager = FindObjectOfType<MenuScreenManager>();
-            Debug.Log(FindObjectOfType<RoomScreen>());
             manager.startingMenuScreen = FindObjectOfType<RoomScreen>();
         });
     }
