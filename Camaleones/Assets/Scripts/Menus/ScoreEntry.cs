@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
+#pragma warning disable 649
 public class ScoreEntry : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI positionText;
