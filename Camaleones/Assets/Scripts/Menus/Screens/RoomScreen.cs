@@ -184,6 +184,8 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         players.Add(playerName, playerEntry);
         playerEntry.PlayerName = playerName;
         playerEntry.IsReady = false;
+
+        playerEntry.IsLocalPlayer = newPlayer.IsLocal;
     }
 
     private void RemovePlayerEntry(Player otherPlayer)

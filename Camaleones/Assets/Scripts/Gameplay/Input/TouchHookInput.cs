@@ -156,7 +156,8 @@ public class TouchHookInput : MonoBehaviour {
         inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (this && enabled) OnPointerDrag(data as PointerEventData); });
 
         Canvas canvas = inputEventReceiver.GetComponent<Canvas>();
-        canvas.sortingLayerName = "In Front Of Chamaleons";
+        canvas.sortingLayerName = "Overlay UI";
+        canvas.sortingOrder = 1000;
 
         canvasTransform = inputEventReceiver.GetComponent<RectTransform>();
         retractCurrentTransform = Instantiate(retractCurrentPrefab, canvasTransform, false);
