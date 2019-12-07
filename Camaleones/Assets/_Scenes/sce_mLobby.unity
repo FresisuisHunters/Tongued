@@ -907,6 +907,11 @@ PrefabInstance:
       propertyPath: mainMenuScene.scenePath
       value: Assets/_Scenes/sce_mMenu.unity
       objectReference: {fileID: 0}
+    - target: {fileID: 841546845855860210, guid: 9540e25f326f58542a61fcbb2e8cd69a,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9540e25f326f58542a61fcbb2e8cd69a, type: 3}
 --- !u!1001 &2791953195417292248
@@ -1061,6 +1066,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2791953197090277463, guid: fd6a7fe3b3b93c64ebadb735d60bf205,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd6a7fe3b3b93c64ebadb735d60bf205, type: 3}
 --- !u!1001 &4036867155013260345
@@ -1194,6 +1204,11 @@ PrefabInstance:
     - target: {fileID: 4036867156459912228, guid: 6204986ac118b0043940b7eb19221c3a,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036867156139316185, guid: 6204986ac118b0043940b7eb19221c3a,
+        type: 3}
+      propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
