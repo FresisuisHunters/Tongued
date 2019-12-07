@@ -6,13 +6,15 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Hairibar.Audio.SFX;
 
 #pragma warning disable 649
-[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonView), typeof(OneShotSFXPlayer))]
 public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
 {
     #region Inspector
     [SerializeField] private TextMeshProUGUI roomNameField;
+    [SerializeField] private SFXClip uiSFX;
 
     [Header("Countdown")]
     [SerializeField] private float countdownLength;
@@ -30,7 +32,6 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     [Header("Game setup prefabs")]
     [SerializeField] OnlineHotPotatoHandler onlineHotPotatoHandlerPrefab;
     [SerializeField] OnlineGameScreenCallbackHandler onlineGameCallbackHandlerPrefab;
-
     #endregion
 
     #region Private State
@@ -43,6 +44,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     private List<string> playersReady = new List<string>();
 
     private PhotonView photonView;
+    private OneShotSFXPlayer sfxPlayer;
     #endregion
 
     #region Screen Operations
@@ -211,7 +213,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         if (localIsRoomOwner && allPlayersAreReady && thereAreEnoughPlayers) photonView.RPC("StartCountdown", RpcTarget.All, null);
     }
     #endregion
-
+    
     #region Matchmaking Callbacks
     void IMatchmakingCallbacks.OnLeftRoom() => MenuManager.SetActiveMenuScreen<LobbyScreen>();
 
@@ -231,6 +233,8 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         CreatePlayerEntry(newPlayer);
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
+
+        sfxPlayer.RequestSFX(uiSFX);
     }
 
     void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
@@ -242,6 +246,8 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         RemovePlayerEntry(otherPlayer);
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
+
+        sfxPlayer.RequestSFX(uiSFX);
     }
 
     void IInRoomCallbacks.OnRoomPropertiesUpdate(Hashtable propertiesThatChanged) { }
@@ -252,5 +258,6 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     private void Awake()
     {
         photonView = GetComponent<PhotonView>();
+        sfxPlayer = GetComponent<OneShotSFXPlayer>();
     }
 }

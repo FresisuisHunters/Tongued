@@ -8,13 +8,17 @@ public class UiSFX : MonoBehaviour
 {
     [SerializeField] private SFXClip onClickedSFX;
 
-    private void PlayOnClickedSFX()
+    private OneShotSFXPlayer sfxPlayer;
+
+    public void PlayOnClickedSFX()
     {
-        GetComponent<OneShotSFXPlayer>().RequestSFX(onClickedSFX);
+        sfxPlayer.RequestSFX(onClickedSFX);
     }
 
     private void Start()
     {
+        sfxPlayer = GetComponent<OneShotSFXPlayer>();
+
         Button[] buttons = GetComponentsInChildren<Button>(true);
         foreach (Button button in buttons)
         {
