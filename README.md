@@ -3,7 +3,24 @@
 ![alt text](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Logos/img_tongued_logo.png)
 
 # Índice
-
+- [Concepto general](#concepto-general)
+- [Mecánicas](#mecánicas)
+  * [Movimiento](#movimiento)
+  * [Controles](#controles)
+- [Cámara](#cámara)
+- [Interacción entre Jugadores](#interacción-entre-jugadores)
+- [Modos de Juego](#modos-de-juego)
+  * [Bendición y Maldición](#bendición-y-maldición)
+  * [Otros](#otros)
+- [Mapas](#mapas)
+- [Modelo de Negocio](#modelo-de-negocio)
+  * [¿Cómo Generamos Dinero? ](#cómo-generamos-dinero)
+  * [La Tienda](#la-tienda)
+  * [Modos de juego y su función en el Modelo](#modos-de-juego-y-su-función-en-el-modelo)
+  * [Divisas del juego](#divisas-del-juego)
+  * [El Usuario Premium en resumen](#el-usuario-premium-en-resumen)
+- [Diagrama de flujo](#diagrama-de-flujo)
+- [Estilo Menús](#estilo-menús)
 
 # Concepto General
 Tongued es un juego multijugador en el que los jugadores, controlando a unos simpáticos pero competitivos camaleones, se enfrentan en partidas todos contratodos para ganar la partida. Para ello, usarán la lengua del camaleón para engancharse, balancearse y lanzarse a por el mapa, aprovechando la inercia que sus movimientos. 
