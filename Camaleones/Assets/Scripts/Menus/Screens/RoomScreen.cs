@@ -81,6 +81,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     public override void GoBack()
     {
         PhotonNetwork.LeaveRoom();
+        SetInteractable(false);
     }
     #endregion
 

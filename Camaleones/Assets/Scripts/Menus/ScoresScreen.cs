@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,21 +7,22 @@ public class ScoresScreen : MonoBehaviour
 {
     #region Inspector Variables
     [Tooltip("Prefab del panel que se usa para cada puntuacion")]
-    [SerializeField] private GameObject scorePanelPrefab;
+    [SerializeField] private ScoreEntry scoreEntryPrefab;
     [Tooltip("Tiempo que tarda en volver a la sala automáticamente.")]
     [SerializeField] private int exitTime;
+
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private Transform entryParent;
     #endregion
 
     #region private variables
     private float startTime;
-    private TextMeshProUGUI timerText;
     #endregion
 
     private void Start()
     {
         ShowScores(FindObjectOfType<ScoreCollector>().GetScores());
         startTime = Time.time;
-        timerText = GameObject.Find("ExitTimer").GetComponent<TextMeshProUGUI>();
     }
 
     /// <summary>
@@ -32,26 +31,28 @@ public class ScoresScreen : MonoBehaviour
     /// <param name="scores"></param>
     public void ShowScores(List<PlayerScoreData> scores)
     {
-        Debug.Log("Recibido: " + scores[0].getName());
-        scores.Sort((b, a) => a.getScore().CompareTo(b.getScore()));
-        int position = 1;
+        Debug.Log("Showing scores");
 
-        for (int i = 0; i < scores.Count; i++)
+        scores.Sort((b, a) => a.getScore().CompareTo(b.getScore()));
+        int currentPosition = 0;
+        int previousEntryScore = int.MaxValue;
+
+        foreach (PlayerScoreData scoreData in scores)
         {
-            GameObject scoreObject = Instantiate(scorePanelPrefab, transform);
-            scoreObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 400 - i * 100, 0);
-            scoreObject.GetComponent<RectTransform>().localScale = Vector3.one;
-            if(i>0)
-            {
-                if (scores[i].getScore() < scores[i - 1].getScore())
-                    position++;
-            }
-            scoreObject.GetComponentInChildren<TextMeshProUGUI>().SetText(position + "º " + scores[i].getName() + " - " + Mathf.Max(scores[i].getScore(), 0));
+            int score = scoreData.getScore();
+            string name = scoreData.getName();
+            if (score < previousEntryScore) currentPosition++;
+
+            ScoreEntry entry = Instantiate(scoreEntryPrefab, entryParent);
+
+            entry.SetScore(score);
+            entry.SetName(name);
+            entry.SetPosition(currentPosition);
+
+            previousEntryScore = score;
         }
 
         Destroy(FindObjectOfType<ScoreCollector>());
-
-        //Invoke("GoToRoom", exitTime);
     }
 
     private void Update()

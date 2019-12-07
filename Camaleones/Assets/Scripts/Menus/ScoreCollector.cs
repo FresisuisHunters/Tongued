@@ -20,23 +20,14 @@ public class ScoreCollector : MonoBehaviour
     /// </summary>
     public void CollectScores()
     {
+        Debug.Log("Collecting scores");
         scores = new List<PlayerScoreData>();
         foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
         {
             scores.Add(new PlayerScoreData(sh.Name, sh.CurrentScore));
-            Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
         }
     }
 
-    public void CollectOnlineScores()
-    {
-        scores = new List<PlayerScoreData>();
-        foreach (ScoreHandler sh in FindObjectsOfType<ScoreHandler>())
-        {
-            scores.Add(new PlayerScoreData(sh.gameObject.name, sh.CurrentScore));
-            Debug.Log("Añadido " + sh.gameObject.name + " con " + sh.CurrentScore);
-        }
-    }
     /// <summary>
     /// devolvemos una lista con los nombres de los jugadores y sus puntuaciones
     /// </summary>
