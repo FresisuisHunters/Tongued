@@ -22,7 +22,18 @@ public class TrackedWhenOffscreen : MonoBehaviour
     #endregion
 
     #region Properties
-    public bool IsActive { get => ViewTransform?.gameObject.activeSelf ?? false; set => ViewTransform?.gameObject.SetActive(value); }
+    public bool IsActive
+    {
+        get
+        {
+            if (!ViewTransform || !ViewTransform.gameObject) return false;
+            else return ViewTransform.gameObject.activeSelf;    
+        }
+        set
+        {
+            if (ViewTransform && ViewTransform.gameObject) ViewTransform?.gameObject?.SetActive(value);
+        }
+    }
 
     private bool ObjectIsInView
     {
