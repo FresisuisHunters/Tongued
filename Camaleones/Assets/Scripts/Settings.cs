@@ -12,7 +12,7 @@ public class Settings
     private const string MUSIC_KEY = "Music";
     private const string CONTROL_SCHEME_KEY = "Control";
 
-    public static readonly bool IS_PHONE = Application.isMobilePlatform;
+    public static readonly bool IS_PHONE = true;//Application.isMobilePlatform;
     public static bool enableSound;
     public static bool enableMusic;
     public static ControlScheme controlScheme;

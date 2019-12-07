@@ -418,6 +418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e59c199ba92ee94085390e0665336fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScene:
+    sceneAsset: {fileID: 102900000, guid: 330d3349d2de141449aebffe03cf5c4b, type: 3}
+    scenePath: Assets/_Scenes/sce_mMenu.unity
   roomNameInput: {fileID: 0}
   messageField: {fileID: 841546846153687327}
   joinPublicRoomButton: {fileID: 841546844733763669}
