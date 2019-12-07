@@ -1,8 +1,10 @@
 
-# Camaleones
-![alt text](https://raw.githubusercontent.com/FresisuisHunters/Camaleones/master/Concept%20Art/Logos/img_tongued_logo.png)
+# Tongued
+![alt text](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Logos/img_tongued_logo.png)
 
 
+# Concepto General
+Tongued es un juego multijugador en el que los jugadores, controlando a unos simpáticos pero competitivos camaleones, se enfrentan en partidas todos contratodos para ganar la partida. Para ello, usarán la lengua del camaleón para engancharse, balancearse y lanzarse a por el mapa, aprovechando la inercia que sus movimientos. 
 
 # Movimiento
 El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona el punto al que quiere engancharse (aproximadamente, esto se explica unas líneas mas abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el jugador cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
@@ -31,7 +33,7 @@ La cámara sigue al jugador, intentando colocarse un poco por delante de él en 
 Se agita cuando te enganchan o al jugador le sucede algo que le repercute de forma negativa.
 
 # Interacción entre jugadores
-La permisividad a la hora de dedcidir dónde va la lengua dejará de actuar cuando un oponente esté potencialmente en el camino. En ese caso, la lengua irá exactamente a donde el jugador ha decidido, obligándole a apuntar para enganchar a un oponente.
+La permisividad a la hora de decidir dónde va la lengua dejará de actuar cuando un oponente esté potencialmente en el camino. En ese caso, la lengua irá exactamente a donde el jugador ha decidido, obligándole a apuntar para enganchar a un oponente.
 
 Cuando un jugador consigue enganchar a otro, la víctima pierde una gran proporción de su velocidad, mutiplicándola por un factor reductor, y resepecto al jugador que ha conseguido enganchar al otro su lengua queda fijada a este pudiéndola retractar para alcanzarle.
 
@@ -41,21 +43,20 @@ Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayec
 
 # Modos de juego
 ## Bendición y Maldición
+![Bendicion y Maldicion](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_ByM.png)
 - El modo central del juego.
-- Existe una cuenta atrás que controla la duración de la partida.
-- Varios jugadores en el mismo escenario, todos contra todos. Al empezar la partida, hay un objeto en el centro del escenario. Cuando un jugador pasa por él, lo coge. En ese momento, empieza una cuenta atrás de unos segundos. El jugador que tenga el objeto al final de la cuenta atrás gana o pierde un punto. 
-- En los últimos segundos de la ronda se entra en la prórroga, un tiempo en el que si el objeto es robado, el tiempo de la prórroga se reinicia. El tiempo de la prórroga cada vez es menor (aunque tendrá un mínimo) para controlar que un partida no sea eterna. La función principal de la prórroga es evitar que la acción del juego se desarrolle justo al final de una ronda, haciendo que los jugadores no tengan un comportamiento que arruine el juego.
+- La partida dura 10 rondas.
+- Varios jugadores en el mismo escenario, todos contra todos. Al empezar la partida, hay una pequeña cuenta atrás para dar la oportunidad a los jugadores de comenzar a moverse y ganar velocidad. AL terminar la cuenta atrás, una gema en un lugar aleatorio del mapa de entre 7 posibles. Cuando un jugador pasa sobre la gema, la coge. En ese momento, la barra de tiempo comienza a vaciarse. Al perder la gema la barra se reinicia. El jugador que complete la barra gana o pierde un punto según el tipo de ronda. 
+- Para controlar que una ronda, y por tanto la partida, no sea eterna, el tiempo a mantener la gema pasado cierto punto de la ronda, comienza a ser menor. La función principal de esto es evitar partidas excesivamente largas y que la acción del juego no se desarrolle justo al final de una ronda, haciendo que los jugadores no tengan un comportamiento que arruine el juego.
 - Tras finalizar una ronda empieza una nueva. Existen 2 tipos de ronda:
   Ronda de Bendición: el jugador que termine la ronda con el objeto, gana un punto.
   Ronda de Maldición: el jugador que termine la ronda con el objeto, pierde un punto.
 - Siempre se inicia con la ronda de bendición, para hacer que siempre un jugador tenga el objeto.
-- El estado de los jugadores no se reinicia.
 - Estos dos tipos de ronda se van alternando de una manera aleatoria con cierto matiz. Tras acabar una ronda, la siguiente se elige de forma aleatoria, aunque para evitar monotonía, el repetir el mismo tipo de ronda cada vez tiene menos probabilidades respecto al otro (la mitad).
--La partida tras X rondas.
-- Para quitar el objeto/dárselo a alguien (dependiendo del tipo de ronda actual), los dos jugadores deben entrar en contacto. Cuando entren en colisión, se transferirá el objeto del uno al otro.
+- Para quitar o pasar el objeto a alguien (dependiendo del tipo de ronda), los dos jugadores deben entrar en contacto. Cuando entren en colisión, se transferirá el objeto del uno al otro.
 
 ## Carrera de comida
-- Totalmente provisional, es una propuesta.
+- Es una propuesta de futuro, no está en el juego base.
 - Varios jugadores en el mismo escenario, todos contra todos. 
 - Aparece un objeto (moscas, o algo por el estilo. Comida.) en un punto predefinido del escenario.
 - Cuando un camaleón pasa por este, se lo "come". Al comer, el camaleón se hace más grande; haciéndole más fácil de enganchar. (¿Y si resulta que ser grande es una ventaja porque es más fácil pasar por la comida?)
@@ -64,14 +65,11 @@ Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayec
 
 # Mapas
 ## Selva
-El principal. La gravedad va, sorprendentemente, hacia abajo.
-Varias posibilidades para los que hay abajo: 
-- Suelo contra el que los camaleones rebotan.
-- Suelo que no rebota
-- Agua que mata tu velocidad horizontal, pero que te lanza un poco hacia arriba.
+El mapa principal.
+Cuenta con elementos a los que engancharse como con troncos de diferentes tamaños o rocas de forma cuadrada con esquinas por toda su extensión. Los límites del mapa están marcados con dos troncos a ambos lados y maleza arriba, todos ellos enganchables. Toda la parte inferior está cubierta por agua, en la que podemos sumergirnos, afectando esto a nuestra inercia.
 
 ## Gravedad puntual
-Mapa circular en el que la gravedad no es direccional, si no que es hacia un punto central.
+Propuesta para el futuro. Mapa circular en el que la gravedad no es direccional, si no que es hacia un punto central.
 Temáticamente, podría ser un planeta muy pequeño, o los camaleones pueden haber bajado al núcleo de la tierra. Cuantos más assets se puedan reutilizar mejor. Podemos utilizar iluminación diferente/un filtro para diferenciar más los mapas visualemente.
 
 # Modelo de Negocio
@@ -87,9 +85,10 @@ Evento de Fin de Semana: modo fijo multiplayer o con rotación de unos pocos. Se
 Aventura de Temporada: eventos singleplayer con mas "historia". Tematización por temporada.
 
 ## Divisas del juego
-Oro: compra de skins básicas, compra de pases de evento. Se ganan en desafios base, recompensas de partida normal o con gemas.
-Gemas: moneda comprable con dinero real. Convertible en oro. También se ganan en eventos y aventuras.
-Tickets: utilizables para jugar eventos. Comprables con oro y conseguibles completando desafios Premium.
+![divisas](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_divisas.png)
+- Oro: compra de skins básicas, compra de pases de evento. Se ganan en desafios base, recompensas de partida normal o con gemas.
+- Gemas: moneda comprable con dinero real. Convertible en oro. También se ganan en eventos y aventuras.
+- Tickets: utilizables para jugar eventos. Comprables con oro y conseguibles completando desafios Premium.
 
 ## El Usuario Premium en resumen
 Desafios Premium extra: dan pases de evento de fin de semana (por tanto mayor accesibilidad a este modo).
