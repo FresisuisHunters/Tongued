@@ -224,8 +224,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 476abbc5b1d5a2e41ac3f2e1cc8d88c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 8300000, guid: 5e33d797f3c38fa4f81944000e9b8b33, type: 3}
-  loop: 0
+  music: {fileID: 0}
+  loop: 1
+  dontDestroyOnLoad: 1
 --- !u!82 &438853847
 AudioSource:
   m_ObjectHideFlags: 0
