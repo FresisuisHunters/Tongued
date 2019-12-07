@@ -216,6 +216,77 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1372170300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2289138113671122463, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
+    type: 3}
+  m_PrefabInstance: {fileID: 2289138113697341549}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1372170302 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2289138113671122461, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
+    type: 3}
+  m_PrefabInstance: {fileID: 2289138113697341549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372170300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1372170303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372170300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1372170302}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1372170304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372170300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20a7023bb1eae8479c4d02a8b2cc58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: https://fresisuishunters.github.io/portfolio/
 --- !u!224 &1374197048 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2540950565342324094, guid: 7793a9b43d7e76246bb25b34fe55f79d,
@@ -608,7 +679,7 @@ PrefabInstance:
     - target: {fileID: 2289138113296220041, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 2289138113797373815, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
         type: 3}
