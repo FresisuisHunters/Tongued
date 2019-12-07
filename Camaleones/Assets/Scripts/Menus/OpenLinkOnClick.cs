@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +14,16 @@ public class OpenLinkOnClick : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(OpenLink);
     }
 
-    private void OpenLink()
+    public void OpenLink()
     {
+#if WEBGL
+        openWindow(Field.text);
+#else
         Application.OpenURL(url);
+#endif
     }
+
+
+    [DllImport("__Internal")]
+    private static extern void openWindow(string url);
 }

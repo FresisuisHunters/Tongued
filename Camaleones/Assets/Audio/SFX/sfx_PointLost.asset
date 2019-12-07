@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5cf1e059c984b948a4129649fc59918, type: 3}
-  m_Name: sfx_RoundStart_Curse
+  m_Name: sfx_PointLost
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 3a00b1d5db688134a98784d19cbebe9d, type: 3}
-  _volume: 0.639
+  - {fileID: 8300000, guid: c5cb3cf2321b24f4baf982905cb89757, type: 3}
+  _volume: 0.39
   _pitchVariance: 0
   _priority: 2
   duplicateGroup: 
