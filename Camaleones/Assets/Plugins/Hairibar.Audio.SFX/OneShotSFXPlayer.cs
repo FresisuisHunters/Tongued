@@ -33,7 +33,8 @@ namespace Hairibar.Audio.SFX
         /// </summary>
         public void RequestSFX(SFXClip requestedClip)
         {
-            ProcessSFXRequest(requestedClip);
+            if (requestedClip) ProcessSFXRequest(requestedClip);
+
         }
 
         /// <summary>

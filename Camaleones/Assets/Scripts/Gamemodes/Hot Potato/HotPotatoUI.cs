@@ -76,6 +76,8 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private AudioClip curseMusic;
     [SerializeField] private SFXClip curseRoundStartSFX;
     [SerializeField] private SFXClip blessingRoundStartSFX;
+    [SerializeField] private SFXClip scoreGainedSFX;
+    [SerializeField] private SFXClip scoreLostSFX;
     #endregion
 
     #region References
@@ -357,6 +359,15 @@ public class HotPotatoUI : MonoBehaviour
             targetDetectors[i].gameObject.SetActive(localPlayerHasSnitch && roundType == HotPotatoHandler.RoundType.Curse);
         }
     }
+    
+    private void OnScoreChanged(ScoreHandler scoreHandler, int diff)
+    {
+        if (scoreHandler.gameObject == localPlayer.gameObject)
+        {
+            if (diff > 0) sfxPlayer.RequestSFX(scoreGainedSFX);
+            else if (diff < 0) sfxPlayer.RequestSFX(scoreLostSFX);
+        }
+    }
 
     #region Initialization
     private void Awake()
@@ -371,6 +382,7 @@ public class HotPotatoUI : MonoBehaviour
         hotPotatoHandler.OnNewRound += SetRoundUI;
         hotPotatoHandler.OnSnitchActivated += OnSnitchActivated;
         hotPotatoHandler.OnSnitchTransfered += (TransferableItemHolder oldHolder, TransferableItemHolder newHolder) => OnSnitchTransfered();
+        hotPotatoHandler.OnScoreChanged += OnScoreChanged;
 
         snitchTracker = hotPotatoHandler.Snitch.GetComponent<TrackedWhenOffscreen>();
 

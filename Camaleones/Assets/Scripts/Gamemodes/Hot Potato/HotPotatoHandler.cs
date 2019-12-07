@@ -29,6 +29,7 @@ public class HotPotatoHandler : MonoBehaviour
     public event System.Action OnSnitchActivated;
     public event System.Action<RoundType> OnNewRound;
     public event System.Action<TransferableItemHolder, TransferableItemHolder> OnSnitchTransfered;
+    public event System.Action<ScoreHandler, int> OnScoreChanged;
 
     #region Private state
     public bool SnitchHasActivated { get; protected set; }
@@ -65,14 +66,21 @@ public class HotPotatoHandler : MonoBehaviour
         ScoreHandler scoreHandler = Snitch?.CurrentHolder?.GetComponent<ScoreHandler>();
         if (scoreHandler)
         {
+            int diff = 0;
             switch (CurrentRoundType)
             {
                 case RoundType.Blessing:
-                    scoreHandler.AddScore(1);
+                    diff = 1;
                     break;
                 case RoundType.Curse:
-                    scoreHandler.AddScore(-1);
+                    diff = -1;
                     break;
+            }
+
+            if (diff != 0)
+            {
+                scoreHandler.AddScore(diff);
+                OnScoreChanged?.Invoke(scoreHandler, diff);
             }
         }
 

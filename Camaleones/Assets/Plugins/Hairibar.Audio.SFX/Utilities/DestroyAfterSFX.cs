@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#pragma warning disable 649
 namespace Hairibar.Audio.SFX
 {
     [RequireComponent(typeof(OneShotSFXPlayer))]
