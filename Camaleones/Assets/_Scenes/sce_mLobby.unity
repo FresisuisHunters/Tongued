@@ -895,6 +895,17 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 841546845855860208, guid: 9540e25f326f58542a61fcbb2e8cd69a,
+        type: 3}
+      propertyPath: mainMenuScene.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 330d3349d2de141449aebffe03cf5c4b,
+        type: 3}
+    - target: {fileID: 841546845855860208, guid: 9540e25f326f58542a61fcbb2e8cd69a,
+        type: 3}
+      propertyPath: mainMenuScene.scenePath
+      value: Assets/_Scenes/sce_mMenu.unity
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9540e25f326f58542a61fcbb2e8cd69a, type: 3}
 --- !u!1001 &2791953195417292248
@@ -1167,6 +1178,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036867156139316196, guid: 6204986ac118b0043940b7eb19221c3a,
+        type: 3}
+      propertyPath: mainMenuScene.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 330d3349d2de141449aebffe03cf5c4b,
+        type: 3}
+    - target: {fileID: 4036867156139316196, guid: 6204986ac118b0043940b7eb19221c3a,
+        type: 3}
+      propertyPath: mainMenuScene.scenePath
+      value: Assets/_Scenes/sce_mMenu.unity
       objectReference: {fileID: 0}
     - target: {fileID: 4036867156459912228, guid: 6204986ac118b0043940b7eb19221c3a,
         type: 3}
