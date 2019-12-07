@@ -494,6 +494,10 @@ MonoBehaviour:
   playerNameText: {fileID: 4170623166759530216}
   playerReadyButton: {fileID: 3982765627029210558}
   playerWaitingButton: {fileID: 6365830789500893489}
+  localPlayerNameMaterial: {fileID: 2100000, guid: d8e46d2c3cd2a314eb42ec85eea03a69,
+    type: 2}
+  remotePlayerNameMaterial: {fileID: 2100000, guid: af66bccef06a4ee42811bfc5b5a60637,
+    type: 2}
 --- !u!114 &3404687213072140237
 MonoBehaviour:
   m_ObjectHideFlags: 0

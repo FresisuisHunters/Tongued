@@ -10,6 +10,9 @@ public class RoomPlayerEntry : MonoBehaviour
     [SerializeField] private Button playerReadyButton;
     [SerializeField] private Button playerWaitingButton;
 
+    [SerializeField] private Material localPlayerNameMaterial;
+    [SerializeField] private Material remotePlayerNameMaterial;
+
     public string PlayerName
     {
         get => playerNameText.text;
@@ -32,10 +35,15 @@ public class RoomPlayerEntry : MonoBehaviour
         }
     }
 
+    public bool IsLocalPlayer { set => playerNameText.fontMaterial = value ? localPlayerNameMaterial : remotePlayerNameMaterial; }
+        
+
+
     public void OnReadyButtonPressed(bool isReady)
     {
         GetComponentInParent<RoomScreen>().SetLocalPlayerReady(isReady);
 
         IsReady = isReady;
     }
+
 }
