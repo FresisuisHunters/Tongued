@@ -38,7 +38,9 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private Material janBradyBlessingTextMaterial;
     [SerializeField] private Material janBradyCurseTextMaterial;
 
+    [Header("Totem")]
     [SerializeField] private Image totemImage;
+    [SerializeField] private PerlinShake totemShaker;
 
     [Header("Round counter")]
     [SerializeField] private TextMeshProUGUI roundCounterTextField;
@@ -76,11 +78,14 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] private SFXClip blessingRoundStartSFX;
     #endregion
 
+    #region References
     private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
     private TrackedWhenOffscreen snitchTracker;
     private PlayersHandler playersHandler;
     private OneShotSFXPlayer sfxPlayer;
+    #endregion
+
 
     private bool initializedTargetDetectors = false;
 
@@ -244,6 +249,7 @@ public class HotPotatoUI : MonoBehaviour
 
     private bool LocalPlayerHasSnith => hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
 
+
     public void AnimEvt_SwapSnitchSprite()
     {
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
@@ -259,6 +265,7 @@ public class HotPotatoUI : MonoBehaviour
             musicPlayer.Play();
         }
     }
+
 
     private void Update()
     {
@@ -319,7 +326,9 @@ public class HotPotatoUI : MonoBehaviour
     private void OnSnitchTransfered()
     {
         UpdateMissionText(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);
-        UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);   
+        UpdateLocalPlayerTargetDetectors(LocalPlayerHasSnith, hotPotatoHandler.CurrentRoundType);
+
+        totemShaker.AddTrauma(1);
     }
 
     private void UpdateMissionText(bool localPlayerHasSnitch, HotPotatoHandler.RoundType roundType)

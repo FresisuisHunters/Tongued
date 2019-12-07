@@ -103,6 +103,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Online Hot Potato Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 3608903663736069788, guid: cbf04359ae330a74f84c495db6dc0153,
+        type: 3}
+      propertyPath: showSnitchTrackerOnCurseRound
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5776635366822123109, guid: cbf04359ae330a74f84c495db6dc0153,
         type: 3}
       propertyPath: m_LocalPosition.x
