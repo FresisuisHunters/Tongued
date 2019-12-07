@@ -23,6 +23,10 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
     #region Screen Operations
     protected override void OnOpen(Type previousScreen)
     {
+        if (PhotonNetwork.CurrentRoom != null) {
+            GoToRoom();
+        }
+
         PhotonNetwork.AddCallbackTarget(this);
         currentAtempts = 0;
 

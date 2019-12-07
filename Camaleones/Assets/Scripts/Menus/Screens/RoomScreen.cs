@@ -50,6 +50,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     {
         PhotonNetwork.AddCallbackTarget(this);
         PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.CurrentRoom.IsOpen = true;
 
         ClearPlayerEntryState();
 
@@ -61,10 +62,11 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         isDoingCountdown = false;
 
         countdownTextField.gameObject.SetActive(false);
-        SetLocalPlayerReady(false);
 
         if (!PhotonNetwork.CurrentRoom.IsVisible) roomNameField.text = "ROOM: " + PhotonNetwork.CurrentRoom.Name;
         else roomNameField.text = "";
+
+        SetLocalPlayerReady(false);
 
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
@@ -139,19 +141,22 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     [PunRPC]
     public void RPC_PlayerIsReady(string playerName)
     {
-        playersReady.Add(playerName);
-        players[playerName].IsReady = true;
-        CheckIfShouldStartCountdown();
+        if (players.ContainsKey(playerName)) {
+            playersReady.Add(playerName);
+            players[playerName].IsReady = true;
+            CheckIfShouldStartCountdown();
+        }
     }
 
     [PunRPC]
     public void RPC_PlayerNotReady(string playerName)
     {
-        photonView.RPC("StopCountdown", RpcTarget.All, null);
+        if (players.ContainsKey(playerName)) {
+            photonView.RPC("StopCountdown", RpcTarget.All, null);
 
-        playersReady.Remove(playerName);
-        players[playerName].IsReady = false;
-        CheckIfShouldStartCountdown();
+            playersReady.Remove(playerName);
+            players[playerName].IsReady = false;
+        }
     }
     #endregion
 
@@ -198,7 +203,7 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
     private void CheckIfShouldStartCountdown()
     {
         bool localIsRoomOwner = PhotonNetwork.LocalPlayer.IsMasterClient;
-        bool allPlayersAreReady = true;// playersReady.Count == players.Count; TODO
+        bool allPlayersAreReady = playersReady.Count == players.Count;
         bool thereAreEnoughPlayers = playersReady.Count > 1;
 
         if (localIsRoomOwner && allPlayersAreReady && thereAreEnoughPlayers) photonView.RPC("StartCountdown", RpcTarget.All, null);
