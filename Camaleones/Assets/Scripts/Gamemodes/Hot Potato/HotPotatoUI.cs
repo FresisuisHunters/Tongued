@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Hairibar.Audio.SFX;
 
 #pragma warning disable 649
-[RequireComponent(typeof(HotPotatoHandler), typeof(Animator), typeof(PlayersHandler))]
+[RequireComponent(typeof(HotPotatoHandler), typeof(Animator), typeof(PlayersHandler)), RequireComponent(typeof(OneShotSFXPlayer))]
 public class HotPotatoUI : MonoBehaviour
 {
     #region Inspector
@@ -66,12 +67,17 @@ public class HotPotatoUI : MonoBehaviour
 
     [Header("Target Detector")]
     [SerializeField] TargetDetector targetDetectorPrefab;
+
+    [Header("Audio")]
+    [SerializeField] private SFXClip curseRoundStartSFX;
+    [SerializeField] private SFXClip blessingRoundStartSFX;
     #endregion
 
     private TransferableItemHolder localPlayer;
     private HotPotatoHandler hotPotatoHandler;
     private TrackedWhenOffscreen snitchTracker;
     private PlayersHandler playersHandler;
+    private OneShotSFXPlayer sfxPlayer;
 
     private bool initializedTargetDetectors = false;
 
@@ -198,7 +204,23 @@ public class HotPotatoUI : MonoBehaviour
             }
         }
     }
-    
+
+    private SFXClip CurrentAppropiateRoundStartSFX
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingRoundStartSFX;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseRoundStartSFX;
+                default:
+                    return null;
+            }
+        }
+    }
+
     #endregion
 
     private bool LocalPlayerHasSnith => hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
@@ -208,6 +230,8 @@ public class HotPotatoUI : MonoBehaviour
         roundChangeAnimationTotemImage.sprite = CurrentAppropiateTotemSprite;
         snitchTracker.ViewTransform.GetComponent<Image>().sprite = CurrentAppropiateSnitchTrackerSprite;
         hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
+
+        sfxPlayer.RequestSFX(CurrentAppropiateRoundStartSFX);
     }
 
     private void Update()
@@ -299,14 +323,12 @@ public class HotPotatoUI : MonoBehaviour
         }
     }
 
-    
-
-
     #region Initialization
     private void Awake()
     {
         hotPotatoHandler = GetComponent<HotPotatoHandler>();
         playersHandler = GetComponent<PlayersHandler>();
+        sfxPlayer = GetComponent<OneShotSFXPlayer>();
     }
 
     private void Start()
