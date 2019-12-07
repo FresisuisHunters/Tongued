@@ -82,7 +82,7 @@ Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayec
 - Es una propuesta de futuro, no está en el juego base.
 - Varios jugadores en el mismo escenario, todos contra todos. 
 - Aparece un objeto (moscas, o algo por el estilo. Comida.) en un punto predefinido del escenario.
-- Cuando un camaleón pasa por este, se lo "come". Al comer, el camaleón se hace más grande; haciéndole más fácil de enganchar. (¿Y si resulta que ser grande es una ventaja porque es más fácil pasar por la comida?)
+- Cuando un camaleón pasa por este, se lo "come". Al comer, el camaleón se hace más grande; haciéndole más fácil de enganchar.
 - Cada vez que el objeto se come, aparece otro objeto en un punto aleatorio de varios predefinidos.
 - Gana el primer jugador en llegar a X objetos comidos.
 ### Modo Fin de Semana
