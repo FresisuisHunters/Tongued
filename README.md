@@ -7,28 +7,26 @@
 Tongued es un juego multijugador en el que los jugadores, controlando a unos simpáticos pero competitivos camaleones, se enfrentan en partidas todos contratodos para ganar la partida. Para ello, usarán la lengua del camaleón para engancharse, balancearse y lanzarse a por el mapa, aprovechando la inercia que sus movimientos. 
 
 # Movimiento
-El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona el punto al que quiere engancharse (aproximadamente, esto se explica unas líneas mas abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el jugador cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
+El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona aproximadamente el punto al que quiere engancharse (esto se explica unas líneas mas abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el jugador cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
 
-La lengua tiene colisiones en toda su extensión, puediéndose esta enrollar alrededor o crear nuevos ejes de giro en los elementos del mapa. Esto proporciona un movimiento mas realista pues aporta a los jugadores la capacidad de ganar más velocidad, hacer quiebros o movimientos no previstos, afectando al principio casi como un obstáculo mas pero si es dominado puede hacer aún mas satisfactorio el moverse bien.
-
+La lengua tiene colisiones en toda su extensión, puediéndose esta enrollar alrededor o crear nuevos ejes de giro en los elementos del mapa. Esto proporciona un movimiento más realista pues aporta a los jugadores la capacidad de ganar más velocidad, hacer quiebros o movimientos no previstos.
 Habrá una lógica permisiva para decidir dónde va la lengua, tratando el punto exacto que ha solicitado el jugador como una "sugerencia" y buscando algo a lo que engancharse en esa dirección general.
 
+# Controles
 Respecto a los controles, hay dos tipos, uno de ellos muy enfocado en el juego en dispositivos táctiles, aunque puede ser usado también con ratón.
+En todo momento, el camaleón del jugador se comporta como un objeto de físicas, manteniendo su inercia, rebotando contra el escenario, etc.
+## Modo Manual
+- Para lanzar la lengua haciendo click izquierdo en la posición deseada.
+- Puede retractar la lengua  manteniendo click izquierdo, disminuyendo la longitud de la "cuerda".
+- Puede soltar el gancho haciendo click derecho.
 
-Modo Manual:
-Para lanzar la lengua haciendo click izquierdo en la posición deseada.
-Puede retractar la lengua  manteniendo click izquierdo, disminuyendo la longitud de la "cuerda".
-Puede soltar el gancho haciendo click derecho.
-
-Modo Arcade/Táctil:
-Para lanzar la lengua tocando y manteniendo el dedo (o el botón izquierdo del ratón) en la posición deseada.
-Puede retractar la lengua arrastrando el dedo o el cursor (sin haberlo levantado tras lanzar) alejándolo de la posición incial, disminuyendo la longitud de la "cuerda".
-Puede soltar el gancho levantando el dedo de la pantalla o soltando el botón izquierdo del ratón.
-
-En todo momento, el camaleón del jugador se comporta como un objeto de físicas, manteniendo su inercia, rebotando contra el escenario, etc...
+## Modo Arcade/Táctil
+- Para lanzar la lengua tocando y manteniendo el dedo (o el botón izquierdo del ratón) en la posición deseada.
+- Puede retractar la lengua arrastrando el dedo o el cursor (sin haberlo levantado tras lanzar) alejándolo de la posición incial, disminuyendo la longitud de la "cuerda".
+- Puede soltar el gancho levantando el dedo de la pantalla o soltando el botón izquierdo del ratón.
 
 # Cámara
-La cámara está relativamente alejada, pudiendo ver bastante lejos, pero no enseña todo el escenario al mismo tiempo.
+La cámara está relativamente alejada, pudiendo ver los alrededores de la posición del jugador, pero no enseña todo el escenario al mismo tiempo.
 La cámara sigue al jugador, intentando colocarse un poco por delante de él en base a su velocidad.
 Se agita cuando te enganchan o al jugador le sucede algo que le repercute de forma negativa.
 
@@ -80,9 +78,9 @@ El juego es free to play. El dinero se genera con la venta de cosméticos y un s
 En la tienda solo se podrán comprar cosméticos, oro, gemas, pases y el pase de temporada. No existen ventajas sobre el juego de ningún tipo.
 
 ## Modos de juego y su función en el Modelo
-Partida Normal: modos clásicos dónde cumplir desafíos. Ganas oro y pases (usuario premium). Se entra gratis.
-Evento de Fin de Semana: modo fijo multiplayer o con rotación de unos pocos. Se entra con pases.
-Aventura de Temporada: eventos singleplayer con mas "historia". Tematización por temporada.
+- Partida Normal: modos clásicos dónde cumplir desafíos. Ganas oro y pases (usuario premium). Se entra gratis.
+- Evento de Fin de Semana: modo fijo multiplayer o con rotación de unos pocos. Se entra con pases.
+- Aventura de Temporada: eventos singleplayer con mas "historia". Tematización por temporada.
 
 ## Divisas del juego
 ![divisas](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_divisas.png)
@@ -91,6 +89,6 @@ Aventura de Temporada: eventos singleplayer con mas "historia". Tematización po
 - Tickets: utilizables para jugar eventos. Comprables con oro y conseguibles completando desafios Premium.
 
 ## El Usuario Premium en resumen
-Desafios Premium extra: dan pases de evento de fin de semana (por tanto mayor accesibilidad a este modo).
-Aventuras exclusivas.
-Cosméticos exclusivos (solo a cambio de gemas, por tanto sólo conseguibles con facilidad y rentabilidad por usuarios premium).
+- Desafios Premium extra: dan pases de evento de fin de semana (por tanto mayor accesibilidad a este modo).
+- Aventuras exclusivas.
+- Cosméticos exclusivos (solo a cambio de gemas, por tanto sólo conseguibles con facilidad y rentabilidad por usuarios premium).
