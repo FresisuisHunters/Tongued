@@ -5084,6 +5084,16 @@ PrefabInstance:
       propertyPath: velocityFactor
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 9135617821526444192, guid: 70574c593a7528e4887f3f125b3a2688,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9135617821680098977, guid: 70574c593a7528e4887f3f125b3a2688,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 12.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70574c593a7528e4887f3f125b3a2688, type: 3}
 --- !u!1001 &9139100418065579900
