@@ -9,6 +9,7 @@ public class MusicPlayer : MonoBehaviour
 
     public AudioClip music;
     public bool loop;
+    public bool dontDestroyOnLoad = true;
 
     private void Awake()
     {
@@ -34,9 +35,9 @@ public class MusicPlayer : MonoBehaviour
         instance = this;
     }
 
-    private void Play()
+    public void Play()
     {
-        DontDestroyOnLoad(this);
+        if (dontDestroyOnLoad) DontDestroyOnLoad(this);
         AudioSource source = GetComponent<AudioSource>();
 
         source.clip = music;

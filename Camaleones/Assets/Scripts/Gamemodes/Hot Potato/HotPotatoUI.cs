@@ -69,6 +69,9 @@ public class HotPotatoUI : MonoBehaviour
     [SerializeField] TargetDetector targetDetectorPrefab;
 
     [Header("Audio")]
+    [SerializeField] private MusicPlayer musicPlayer;
+    [SerializeField] private AudioClip blessingMusic;
+    [SerializeField] private AudioClip curseMusic;
     [SerializeField] private SFXClip curseRoundStartSFX;
     [SerializeField] private SFXClip blessingRoundStartSFX;
     #endregion
@@ -221,6 +224,22 @@ public class HotPotatoUI : MonoBehaviour
         }
     }
 
+    private AudioClip CurrentAppropiateMusic
+    {
+        get
+        {
+            switch (hotPotatoHandler.CurrentRoundType)
+            {
+                case HotPotatoHandler.RoundType.Blessing:
+                    return blessingMusic;
+                case HotPotatoHandler.RoundType.Curse:
+                    return curseMusic;
+                default:
+                    return null;
+            }
+        }
+    }
+
     #endregion
 
     private bool LocalPlayerHasSnith => hotPotatoHandler.Snitch?.CurrentHolder == localPlayer && localPlayer != null;
@@ -232,6 +251,13 @@ public class HotPotatoUI : MonoBehaviour
         hotPotatoHandler.Snitch.GetComponent<SpriteRenderer>().sprite = CurrentAppropiateSnitchSprite;
 
         sfxPlayer.RequestSFX(CurrentAppropiateRoundStartSFX);
+
+        //Music
+        if (musicPlayer.music != CurrentAppropiateMusic)
+        {
+            musicPlayer.music = CurrentAppropiateMusic;
+            musicPlayer.Play();
+        }
     }
 
     private void Update()
