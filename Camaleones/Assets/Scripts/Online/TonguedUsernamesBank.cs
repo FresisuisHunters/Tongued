@@ -4,7 +4,11 @@ public class TonguedUsernamesBank {
 
     private static Random rng = new Random();
     private static string[] usernames = new string[] {
-        "U1", "U2", "U3", "U4", "U5", "U6"
+        "Karmaeleon", "BigLengus", "TongueMcCurly", "Chromatix",
+        "DrLenguestein", "LoudDjembe", "PsycoMandala", "Lenguante",
+        "unkulunkule", "angrymonkey", "supongotongo", "simbatheking",
+        "Kleonidae", "BobaToad", "DarthFurcifer", "Colorholic", "swingsawng",
+        "NotAnIguana", "CforChameleon", "rainbowskin"
     };
 
     public static string RetrieveUsername() {
