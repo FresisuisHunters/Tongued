@@ -6,11 +6,13 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 #pragma warning disable 649
-public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
+public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, IConnectionCallbacks
 {
     #region Inspector
+    [SerializeField] private SceneReference mainMenuScene;
     [SerializeField] private TMPro.TMP_InputField roomNameInput;
     [SerializeField] private TMPro.TextMeshProUGUI messageField;
     [SerializeField] private Button joinPublicRoomButton;
@@ -42,8 +44,8 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
 
     public override void GoBack()
     {
+        messageField.text = "Disconnecting from server...";
         PhotonNetwork.Disconnect();
-        MenuManager.SetActiveMenuScreen<AskUsernameScreen>();
     }
     #endregion
 
@@ -139,6 +141,26 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks
 
         MenuManager.SetActiveMenuScreen<RoomScreen>();
     }
+
+    #region IConnectionCallbacks
+
+    void IConnectionCallbacks.OnConnected() {}
+    void IConnectionCallbacks.OnConnectedToMaster() {}
+    void IConnectionCallbacks.OnCustomAuthenticationFailed(string debugMessage) {}
+    void IConnectionCallbacks.OnCustomAuthenticationResponse(Dictionary<string, object> data) {}
+
+    void IConnectionCallbacks.OnDisconnected(DisconnectCause cause) {
+        if (Settings.IS_PHONE) {
+            SceneManagerExtensions.LoadScene(mainMenuScene, LoadSceneMode.Single, () =>
+                FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
+        } else {
+            MenuManager.SetActiveMenuScreen<AskUsernameScreen>();
+        }
+    }
+
+    void IConnectionCallbacks.OnRegionListReceived(RegionHandler regionHandler) {}
+
+    #endregion
 
     #region Lobby Callbacks
     void ILobbyCallbacks.OnJoinedLobby() => TryToJoinPublicRoom();

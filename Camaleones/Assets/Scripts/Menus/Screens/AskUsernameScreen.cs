@@ -21,12 +21,6 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
     protected override void OnOpen(Type previousScreen) {
         PhotonNetwork.AddCallbackTarget(this);
 
-        if (previousScreen == typeof(LobbyScreen) && Settings.IS_PHONE)
-        {
-            GoBack();
-            return;
-        }
-
         usernameInputField.text = string.Empty;
         messageField.text = "Please enter your username.";
 
