@@ -114,12 +114,8 @@ public class HotPotatoHandler : MonoBehaviour
     {
         ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
         scollector.CollectScores();
-        GoToScoresScene(scollector.GetScores());
-    }
-
-    protected virtual void GoToScoresScene(List<PlayerScoreData> scores)
-    {
-        SceneManagerExtensions.LoadScene(scoreSceneName, LoadSceneMode.Single, () => FindObjectOfType<ScoresScreen>().ShowScores(scores));
+        
+        SceneManager.LoadScene(scoreSceneName);
     }
 
 

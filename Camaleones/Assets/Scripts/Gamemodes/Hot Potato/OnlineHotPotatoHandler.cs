@@ -72,15 +72,14 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     #region Match End
     protected override void EndMatch()
     {
-        photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.Others);
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            base.EndMatch();
+        if (PhotonNetwork.IsMasterClient) photonView.RPC("RPC_EndHotPotatoMatch", RpcTarget.All);
     }
 
-    protected override void GoToScoresScene(List<PlayerScoreData> scores) 
+    protected  void GoToScoresScene(List<PlayerScoreData> scores) 
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
+            //Esto suena a que está muy mal.
             PhotonNetwork.DestroyAll();
             PhotonNetwork.LoadLevel(scoreSceneName);
         }
@@ -88,8 +87,7 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     [PunRPC]
     private void RPC_EndHotPotatoMatch()
     {
-        ScoreCollector scollector = Instantiate(scoreCollector).GetComponent<ScoreCollector>();
-        scollector.CollectScores();
+        base.EndMatch();
     }
     #endregion
 

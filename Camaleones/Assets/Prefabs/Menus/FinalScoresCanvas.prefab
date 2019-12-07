@@ -68,7 +68,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 1.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 4906689759770848755}
   m_TextComponent: {fileID: 5865250176921919388}
   m_materialReferenceIndex: 1
@@ -193,9 +193,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e3b2aa6fd043949a8e270a3297e301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scorePanelPrefab: {fileID: 953504406486592807, guid: 67014dfa42c043c46b8b2085b7bcf90c,
-    type: 3}
-  exitTime: 5
+  scoreEntryPrefab: {fileID: 310198151, guid: 67014dfa42c043c46b8b2085b7bcf90c, type: 3}
+  exitTime: 10
+  timerText: {fileID: 5865250176921919388}
+  entryParent: {fileID: 3946074149176372558}
 --- !u!114 &7319150452654841868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,12 +212,12 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 10
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 0
+  m_Spacing: 14
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!1 &2840209821336907347
@@ -615,7 +616,6 @@ GameObject:
   - component: {fileID: 3553120482423492578}
   - component: {fileID: 3553120482423492579}
   - component: {fileID: 3553120482423492124}
-  - component: {fileID: 3553120482423492125}
   m_Layer: 5
   m_Name: FinalScoresCanvas
   m_TagString: Untagged
@@ -689,23 +689,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &3553120482423492125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3553120482423492126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &4687949765562942293
 GameObject:
   m_ObjectHideFlags: 0
