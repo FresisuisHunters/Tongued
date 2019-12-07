@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1358292967}
   - component: {fileID: 1358292969}
   - component: {fileID: 1358292968}
+  - component: {fileID: 1983713554822451099}
   m_Layer: 0
   m_Name: Totem
   m_TagString: Untagged
@@ -25,17 +26,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358292966}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3359175947880220167}
-  m_RootOrder: 1
+  m_Father: {fileID: 1403019403688213800}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 350, y: -5}
-  m_SizeDelta: {x: 100, y: -10}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.000030517578, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1358292969
 CanvasRenderer:
@@ -72,6 +73,32 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &1983713554822451099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358292966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b39ca1e601a68439655a1546b41a26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetDirections:
+    x: 1
+    y: 1
+    z: 0
+  maxOffset: 30
+  rotationDirections:
+    x: 0
+    y: 0
+    z: 0
+  maxAngle: 0
+  frequency: 25
+  shakeScale: 1
+  traumaDecreaseSpeed: 1.6
+  doNegativeFeedbackLoop: 0
 --- !u!1 &1628084703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,7 +1463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b0b02e36dfc034caf4327260fa5f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showSnitchTrackerOnCurseRound: 1
+  showSnitchTrackerOnCurseRound: 0
   timeLeftInRoundSlider: {fileID: 7049762275597358908}
   sliderFillImage: {fileID: 3573912989215466457}
   blessingSliderFill: {fileID: 21300000, guid: 8b14c323f07d7274f846237372991ec2, type: 3}
@@ -1464,6 +1491,7 @@ MonoBehaviour:
   janBradyCurseTextMaterial: {fileID: 2100000, guid: a549dc0406c2bf04da96a8fa603b4357,
     type: 2}
   totemImage: {fileID: 1358292968}
+  totemShaker: {fileID: 1983713554822451099}
   roundCounterTextField: {fileID: 5677311480278389972}
   missionText: {fileID: 2499709011182009033}
   msgBlessingHasTotem: KEEP THE GEM!
@@ -1490,6 +1518,8 @@ MonoBehaviour:
   curseRoundStartSFX: {fileID: 11400000, guid: 17eae9fe3e52e4e4aa3f4ddb79d8855e, type: 2}
   blessingRoundStartSFX: {fileID: 11400000, guid: 70588406fdc66414ab7fc43fcee9d810,
     type: 2}
+  scoreGainedSFX: {fileID: 11400000, guid: ae692905d73f10c4c940882285b3cae5, type: 2}
+  scoreLostSFX: {fileID: 11400000, guid: 403811b9cc337a34f80e2f1bd28c6653, type: 2}
 --- !u!95 &684314758
 Animator:
   serializedVersion: 3
@@ -1522,7 +1552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   configurationAudioSource: {fileID: 7881707673427638851}
-  numberOfAudioSources: 1
+  numberOfAudioSources: 2
   outputMixerGroup: {fileID: 243762664537332226, guid: cfb8ecc7c433e8741b8bd7660648efc1,
     type: 2}
 --- !u!1 &6666441400678566024
@@ -1553,7 +1583,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5010753019329403586}
-  - {fileID: 1358292967}
+  - {fileID: 1403019403688213800}
   - {fileID: 4006012986825292162}
   m_Father: {fileID: 4445803214292949081}
   m_RootOrder: 0
@@ -1707,6 +1737,42 @@ MonoBehaviour:
   music: {fileID: 8300000, guid: 94cf10b56a6718245ade12fa972c3b00, type: 3}
   loop: 1
   dontDestroyOnLoad: 0
+--- !u!1 &8282394013077144941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403019403688213800}
+  m_Layer: 0
+  m_Name: Totem Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1403019403688213800
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8282394013077144941}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1358292967}
+  m_Father: {fileID: 3359175947880220167}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 350, y: -5}
+  m_SizeDelta: {x: 100, y: -10}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8817864017607057388
 GameObject:
   m_ObjectHideFlags: 0
