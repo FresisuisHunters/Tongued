@@ -64,14 +64,19 @@ Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayec
 ![Bendicion y Maldicion](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_ByM.png)
 - El modo central del juego.
 - La partida dura 10 rondas.
-- Varios jugadores en el mismo escenario, todos contra todos. Al empezar la partida, hay una pequeña cuenta atrás para dar la oportunidad a los jugadores de comenzar a moverse y ganar velocidad. AL terminar la cuenta atrás, una gema en un lugar aleatorio del mapa de entre 7 posibles. Cuando un jugador pasa sobre la gema, la coge. En ese momento, la barra de tiempo comienza a vaciarse. Al perder la gema la barra se reinicia. El jugador que complete la barra gana o pierde un punto según el tipo de ronda. 
+- Varios jugadores en el mismo escenario, todos contra todos. Al empezar la partida, hay una pequeña cuenta atrás para dar la oportunidad a los jugadores de comenzar a moverse y ganar velocidad. Al terminar la cuenta atrás, una gema en un lugar aleatorio del mapa de entre 7 posibles. Cuando un jugador pasa sobre la gema, la coge. En ese momento, la barra de tiempo comienza a vaciarse. Al perder la gema la barra se reinicia. El jugador que mantenga la gema el tiempo necesario gana o pierde un punto según el tipo de ronda. 
 - Para controlar que una ronda, y por tanto la partida, no sea eterna, el tiempo a mantener la gema pasado cierto punto de la ronda, comienza a ser menor. La función principal de esto es evitar partidas excesivamente largas y que la acción del juego no se desarrolle justo al final de una ronda, haciendo que los jugadores no tengan un comportamiento que arruine el juego.
 - Tras finalizar una ronda empieza una nueva. Existen 2 tipos de ronda:
+
   Ronda de Bendición: el jugador que termine la ronda con el objeto, gana un punto.
+  
   Ronda de Maldición: el jugador que termine la ronda con el objeto, pierde un punto.
+  
+  ![lagema](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_gem.png)
+  
 - Siempre se inicia con la ronda de bendición, para hacer que siempre un jugador tenga el objeto.
 - Estos dos tipos de ronda se van alternando de una manera aleatoria con cierto matiz. Tras acabar una ronda, la siguiente se elige de forma aleatoria, aunque para evitar monotonía, el repetir el mismo tipo de ronda cada vez tiene menos probabilidades respecto al otro (la mitad).
-- Para quitar o pasar el objeto a alguien (dependiendo del tipo de ronda), los dos jugadores deben entrar en contacto. Cuando entren en colisión, se transferirá el objeto del uno al otro.
+- Para quitar o pasar el objeto a alguien (dependiendo del tipo de ronda), los dos jugadores deben entrar en contacto. Cuando esto suceda, se transferirá el objeto del uno al otro, aunque para que la gema pueda cambiar de dueño otra vez tiene que pasar un pequeño instante después de haber sido trasnferida.
 
 ![Bendicion](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(7).png)
 
