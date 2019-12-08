@@ -739,6 +739,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2289138113027722502, guid: 305110ad3c8a27d4c81cf0fdfeaecfca,
+        type: 3}
+      propertyPath: m_ScrollSensitivity
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 305110ad3c8a27d4c81cf0fdfeaecfca, type: 3}
 --- !u!1001 &2540950566144979014
@@ -1080,6 +1085,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RaycastTarget
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288460603791561199, guid: 76541f989878f204ebfc63b97187fcab,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.27734375
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443668622085832839, guid: 76541f989878f204ebfc63b97187fcab,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.27734375
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76541f989878f204ebfc63b97187fcab, type: 3}
