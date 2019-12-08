@@ -52,7 +52,7 @@ public class ScoresScreen : MonoBehaviour
             previousEntryScore = score;
         }
 
-        Destroy(FindObjectOfType<ScoreCollector>());
+        // Destroy(FindObjectOfType<ScoreCollector>());
     }
 
     private void Update()
