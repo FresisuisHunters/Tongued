@@ -1954,6 +1954,7 @@ GameObject:
   - component: {fileID: 8190768025491826941}
   - component: {fileID: 7136860687480807314}
   - component: {fileID: 3022349028424321486}
+  - component: {fileID: 2231581688519014804}
   m_Layer: 5
   m_Name: Exit Match UI
   m_TagString: Untagged
@@ -2073,6 +2074,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onClickedSFX: {fileID: 11400000, guid: 4f2c4154faf4b2e4585dd8819231c92b, type: 2}
+--- !u!225 &2231581688519014804
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190768025491826940}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8190768025579535610
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2587267510903102958}
   - component: {fileID: 2587267510903102949}
   - component: {fileID: 2587267510903102946}
+  - component: {fileID: 6071622609549990882}
   m_Layer: 8
   m_Name: '@Input Event Receiver'
   m_TagString: Untagged
@@ -163,3 +164,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+--- !u!225 &6071622609549990882
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587267510903102957}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
