@@ -236,7 +236,9 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
 
-        sfxPlayer.RequestSFX(uiSFX);
+        if (sfxPlayer != null) {
+            sfxPlayer.RequestSFX(uiSFX);
+        }
     }
 
     void IInRoomCallbacks.OnPlayerLeftRoom(Player otherPlayer)
@@ -249,7 +251,9 @@ public class RoomScreen : AMenuScreen, IMatchmakingCallbacks, IInRoomCallbacks
         UpdateRoomCapacityText();
         CheckIfShouldStartCountdown();
 
-        sfxPlayer.RequestSFX(uiSFX);
+        if (sfxPlayer != null) {
+            sfxPlayer.RequestSFX(uiSFX);
+        }
     }
 
     void IInRoomCallbacks.OnRoomPropertiesUpdate(Hashtable propertiesThatChanged) { }

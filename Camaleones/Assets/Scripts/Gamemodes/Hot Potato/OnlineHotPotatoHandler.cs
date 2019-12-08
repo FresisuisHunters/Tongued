@@ -78,6 +78,9 @@ public class OnlineHotPotatoHandler : HotPotatoHandler, IPunObservable, IInRoomC
     private void RPC_EndHotPotatoMatch()
     {
         base.EndMatch();
+        if (PhotonNetwork.IsMasterClient) {
+            PhotonNetwork.DestroyAll();
+        }
     }
 
     //Arreglando cosas he hecho que esto no se utilice. Que yo sepa nada se ha roto, pero quién sabe. -Aitor
