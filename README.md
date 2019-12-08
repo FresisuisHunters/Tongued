@@ -23,27 +23,29 @@
 - [Estilo Menús](#estilo-menús)
 
 # Concepto General
-Tongued es un juego multijugador en el que los jugadores, controlando a unos simpáticos pero competitivos camaleones, se enfrentan en partidas todos contratodos para ganar la partida. Para ello, usarán la lengua del camaleón para engancharse, balancearse y lanzarse a por el mapa, aprovechando la inercia que sus movimientos. 
+Tongued es un juego multijugador en el que los jugadores, controlando a unos simpáticos pero competitivos camaleones, se enfrentan en partidas todos contra todos. Para ello, usarán su lengua para engancharse, balancearse y lanzarse por el mapa, aprovechando la inercia de sus movimientos. 
 
 ![captura juego](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/Capturas%20de%20pantalla/image(6).png)
 # Mecánicas
 ## Movimiento
-El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona aproximadamente el punto al que quiere engancharse (esto se explica unas líneas mas abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el jugador cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
+El jugador puede lanzar su lengua como si fuera un gancho. Para hacerlo, selecciona aproximadamente el punto al que quiere engancharse (esto se explica unas líneas más abajo). La punta de la lengua viaja rápidamente hacia esta dirección. Una vez choca con una pieza del escenario, el camaleón cuelga de su lengua, como si fuera una cuerda. La longitud de esta cuerda será la que tuviera en el momento en el que se enganchó.
 
-La lengua tiene colisiones en toda su extensión, puediéndose esta enrollar alrededor o crear nuevos ejes de giro en los elementos del mapa. Esto proporciona un movimiento más realista pues aporta a los jugadores la capacidad de ganar más velocidad, hacer quiebros o movimientos no previstos.
-Habrá una lógica permisiva para decidir dónde va la lengua, tratando el punto exacto que ha solicitado el jugador como una "sugerencia" y buscando algo a lo que engancharse en esa dirección general.
+La lengua tiene colisiones en toda su extensión, pudiéndose esta enrollar alrededor de los elementos del mapa y creando nuevos ejes de giro. Esto proporciona un movimiento más realista, y aporta a los jugadores la capacidad de ganar más velocidad, hacer quiebros o movimientos no previstos.
+Hay una lógica permisiva para decidir dónde va la lengua, tratando el punto exacto que ha solicitado el jugador como una "sugerencia" y buscando algo a lo que engancharse en esa dirección general.
+
 ## Controles
-Respecto a los controles, hay dos tipos, uno de ellos muy enfocado en el juego en dispositivos táctiles, aunque puede ser usado también con ratón.
+Respecto a los controles, hay dos tipos: uno de ellos muy enfocado al juego en dispositivos táctiles, y otroque sólo puede ser usado con un ratón.
 En todo momento, el camaleón del jugador se comporta como un objeto de físicas, manteniendo su inercia, rebotando contra el escenario, etc.
+
 ### Modo Manual
-- Para lanzar la lengua haciendo click izquierdo en la posición deseada.
-- Puede retractar la lengua  manteniendo click izquierdo, disminuyendo la longitud de la "cuerda".
-- Puede soltar el gancho haciendo click derecho.
+- Se lanza la lengua haciendo click izquierdo en la posición deseada.
+- Se retracta la lengua manteniendo click izquierdo, disminuyendo la longitud de la "cuerda".
+- Se soltar la lengua haciendo click derecho.
 
 ### Modo Arcade/Táctil
-- Para lanzar la lengua tocando y manteniendo el dedo (o el botón izquierdo del ratón) en la posición deseada.
-- Puede retractar la lengua arrastrando el dedo o el cursor (sin haberlo levantado tras lanzar) alejándolo de la posición incial, disminuyendo la longitud de la "cuerda".
-- Puede soltar el gancho levantando el dedo de la pantalla o soltando el botón izquierdo del ratón.
+- Se lanza la lengua tocando y manteniendo el dedo (o cualquier botón del ratón) en la posición deseada.
+- Se retracta la lengua arrastrando el dedo o el cursor (sin haberlo levantado tras lanzar), alejándolo de la posición incial. Cuanto más se aleje, más rápida se retractará la "cuerda".
+- Se suelta la lengua levantando el dedo de la pantalla o soltando el botón pulsado del ratón.
 
 # Cámara
 La cámara está relativamente alejada, pudiendo ver los alrededores de la posición del jugador, pero no enseña todo el escenario al mismo tiempo.
@@ -51,26 +53,26 @@ La cámara sigue al jugador, intentando colocarse un poco por delante de él en 
 Se agita cuando te enganchan o al jugador le sucede algo que le repercute de forma negativa.
 
 # Interacción entre jugadores
-La permisividad a la hora de decidir dónde va la lengua dejará de actuar cuando un oponente esté potencialmente en el camino. En ese caso, la lengua irá exactamente a donde el jugador ha decidido, obligándole a apuntar para enganchar a un oponente.
+La permisividad a la hora de decidir dónde va la lengua deja de actuar cuando un oponente esté potencialmente en el camino. En ese caso, la lengua irá exactamente a donde el jugador ha decidido, obligándole a apuntar para enganchar a un oponente.
 
-Cuando un jugador consigue enganchar a otro, la víctima pierde una gran proporción de su velocidad, mutiplicándola por un factor reductor, y resepecto al jugador que ha conseguido enganchar al otro su lengua queda fijada a este pudiéndola retractar para alcanzarle.
+Cuando un jugador consigue enganchar a otro, la víctima pierde toda su inercia, pasando su velocidad a ser ligeramente hacia el enganchador. La lengua queda fijada al camaleón engancado durante un segundo, pudiendo el enganchador retractar para alcanzarle.
 
 Los jugadores no colisionan entre sí de una manera física, pero si que pueden interactuar como se detalla en los modos de juego. 
 
-Solo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayectoria que llevaban ambas, puediendo así bloquear a rivales que pretenden enganchar al jugador u otros elementos.
+Sólo las puntas de las lenguas pueden colisionar entre sí, cancelando la trayectoria que llevaban ambas, puediendo así bloquear a rivales que pretenden enganchar al jugador u otros elementos.
 
 # Modos de juego
 ## Bendición y Maldición
 ![Bendicion y Maldicion](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_ByM.png)
 - El modo central del juego.
 - La partida dura 10 rondas.
-- Varios jugadores en el mismo escenario, todos contra todos. Al empezar la partida, hay una pequeña cuenta atrás para dar la oportunidad a los jugadores de comenzar a moverse y ganar velocidad. Al terminar la cuenta atrás, una gema en un lugar aleatorio del mapa de entre 7 posibles. Cuando un jugador pasa sobre la gema, la coge. En ese momento, la barra de tiempo comienza a vaciarse. Al perder la gema la barra se reinicia. El jugador que mantenga la gema el tiempo necesario gana o pierde un punto según el tipo de ronda. 
+- Varios jugadores en el mismo escenario, todos contra todos. Al empezar la partida, hay una pequeña cuenta atrás para dar la oportunidad a los jugadores de comenzar a moverse y ganar velocidad. Al terminar la cuenta atrás, aparece una gema en un lugar aleatorio del mapa de entre 7 posibles. Cuando un jugador pasa sobre la gema, la coge. En ese momento, la barra de tiempo comienza a vaciarse. Al perder la gema la barra se reinicia. El jugador que mantenga la gema el tiempo necesario gana o pierde un punto según el tipo de ronda. 
 - Para controlar que una ronda, y por tanto la partida, no sea eterna, el tiempo a mantener la gema pasado cierto punto de la ronda, comienza a ser menor. La función principal de esto es evitar partidas excesivamente largas y que la acción del juego no se desarrolle justo al final de una ronda, haciendo que los jugadores no tengan un comportamiento que arruine el juego.
 - Tras finalizar una ronda empieza una nueva. Existen 2 tipos de ronda:
 
-  Ronda de Bendición: el jugador que termine la ronda con el objeto, gana un punto.
+  Ronda de Bendición: el jugador que termine la ronda con el objeto gana un punto.
   
-  Ronda de Maldición: el jugador que termine la ronda con el objeto, pierde un punto.
+  Ronda de Maldición: el jugador que termine la ronda con el objeto pierde un punto.
   
   ![lagema](https://github.com/FresisuisHunters/Camaleones/blob/master/Concept%20Art/GDD/img_promo_gem.png)
   
@@ -108,7 +110,7 @@ Temáticamente, podría ser un planeta muy pequeño, o los camaleones pueden hab
 
 # Modelo de Negocio
 ## ¿Cómo generamos dinero?
-El juego es free to play. El dinero se genera con la venta de cosméticos y un sistema de usuario premium, a modo de pase de temporada.
+El juego es free to play. El dinero se genera con la venta de cosméticos y un sistema de usuarios premium, a modo de pase de temporada.
 
 ## La tienda
 En la tienda solo se podrán comprar cosméticos, oro, gemas, pases y el pase de temporada. No existen ventajas sobre el juego de ningún tipo.
