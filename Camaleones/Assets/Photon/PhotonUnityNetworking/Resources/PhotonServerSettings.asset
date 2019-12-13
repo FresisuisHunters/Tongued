@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: 6251dcab-917e-4d4f-94c2-daaab73e58df
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 
+    AppVersion: v1.3
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -60,4 +60,4 @@ MonoBehaviour:
   - SpawnOnlineSnitch
   - RPC_ActivateSnitch
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1

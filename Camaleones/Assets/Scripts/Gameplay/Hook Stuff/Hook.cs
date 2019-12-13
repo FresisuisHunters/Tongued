@@ -156,6 +156,10 @@ public class Hook : MonoBehaviour
 
     protected virtual void AttachToRigidbody(Rigidbody2D rigidbodyToAttachTo)
     {
+        Hook hookedHook = rigidbodyToAttachTo.GetComponentInParent<Hook>();
+        bool shouldCancelAttach = hookedHook && hookedHook.IsAttached;
+        if (shouldCancelAttach) return;
+
         //Cambiar el estado
         gameObject.SetActive(true);
         IsAttached = true;
@@ -202,8 +206,6 @@ public class Hook : MonoBehaviour
             {
                 Rigidbody2D hitRigidbody = collision.attachedRigidbody;
                 if (Vector2.Distance(hitRigidbody.position, throwOriginPoint) > minEntityHookDistance) AttachToRigidbody(hitRigidbody);
-
-                Debug.DrawLine(headRigidbody.position, collision.attachedRigidbody.position, Color.red, 1);
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("HookableTerrainLayer"))
             {
