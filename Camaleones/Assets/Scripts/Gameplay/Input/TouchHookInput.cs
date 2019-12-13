@@ -151,6 +151,9 @@ public class TouchHookInput : MonoBehaviour {
             return;
         }
 
+        retractMaxRadius *= Settings.IsMobilePlatform ? 1.5f : 1;
+        retractDeadzoneRadius *= Settings.IsMobilePlatform ? 1.5f : 1;
+
         inputEventReceiver.AddListener(EventTriggerType.PointerDown, (data) => { if (this && enabled) OnPointerDown(data as PointerEventData); });
         inputEventReceiver.AddListener(EventTriggerType.PointerUp, (data) => { if (this && enabled) OnPointerUp(); });
         inputEventReceiver.AddListener(EventTriggerType.Drag, (data) => { if (this && enabled) OnPointerDrag(data as PointerEventData); });
