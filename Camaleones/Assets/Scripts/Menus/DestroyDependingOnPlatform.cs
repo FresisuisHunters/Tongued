@@ -3,19 +3,18 @@
 #pragma warning disable 649
 public class DestroyDependingOnPlatform : MonoBehaviour
 {
-    [SerializeField] private PlatformSetting setting;
+    [SerializeField] private Settings.Platform[] allowedInPlatforms;
 
     private void Awake()
     {
-        if ((Settings.IS_PHONE && setting == PlatformSetting.DestroyIfMobile) ||
-            (!Settings.IS_PHONE && setting == PlatformSetting.DestroyIfDesktop)) Destroy(gameObject);
-        else Destroy(this);
-    }
+        bool isAllowed = false;
 
-    [System.Serializable]
-    private enum PlatformSetting
-    {
-        DestroyIfMobile,
-        DestroyIfDesktop
+        for (int i = 0; i < allowedInPlatforms.Length; i++)
+        {
+            if (allowedInPlatforms[i] == Settings.platform) isAllowed = true;
+        }
+
+        if (isAllowed) Destroy(this);
+        else Destroy(gameObject);
     }
 }

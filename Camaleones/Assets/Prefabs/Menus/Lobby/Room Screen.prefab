@@ -1708,6 +1708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomNameField: {fileID: 2791953197117674255}
+  uiSFX: {fileID: 11400000, guid: 4f2c4154faf4b2e4585dd8819231c92b, type: 2}
   countdownLength: 5
   countdownTextField: {fileID: 2791953195854898829}
   playerCountTextField: {fileID: 2791953197079706688}

@@ -680,6 +680,7 @@ GameObject:
   - component: {fileID: 7070265726132860080}
   - component: {fileID: 6069806741452208486}
   - component: {fileID: 6955732351906406444}
+  - component: {fileID: 8016955593090044983}
   m_Layer: 5
   m_Name: Mobile Confirmation Panel
   m_TagString: Untagged
@@ -793,6 +794,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8016955593090044983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506027919445114916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6567cd00c450ea847813a5d670671873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowedInPlatforms: 0200000003000000
 --- !u!1 &7022937575835075621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,7 +1879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6567cd00c450ea847813a5d670671873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setting: 0
+  allowedInPlatforms: 0000000001000000
 --- !u!1 &8190768025291234026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,7 +2225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6567cd00c450ea847813a5d670671873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setting: 0
+  allowedInPlatforms: 0000000001000000
 --- !u!1 &8472113265971410626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,4 +2380,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6567cd00c450ea847813a5d670671873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setting: 1
+  allowedInPlatforms: 0200000003000000

@@ -16,10 +16,13 @@ public class Settings
     private const string AUDIO_MIXER_SFX_KEY = "SFXVolume";
     private const string AUDIO_MIXER_MUSIC_KEY = "MusicVolume";
 
-    public static readonly bool IS_PHONE = Application.isMobilePlatform;
+    public static Platform platform;
+    private static Platform? debugOverridePlatform = null;
     public static bool enableSound;
     public static bool enableMusic;
     public static ControlScheme controlScheme;
+
+    public static bool IsMobilePlatform => platform == Platform.MobileApp || platform == Platform.MobileWebGL;
 
     static Settings() {
         int soundPlayerPrefs = PlayerPrefs.GetInt(SOUND_KEY, 1);
@@ -28,7 +31,13 @@ public class Settings
         int musicPlayerPrefs = PlayerPrefs.GetInt(MUSIC_KEY, 1);
         enableMusic = musicPlayerPrefs == 1;
 
-        if (IS_PHONE) {
+        RuntimePlatform runtimePlatform = Application.platform;
+        if (runtimePlatform == RuntimePlatform.WebGLPlayer) platform = Application.isMobilePlatform ? Platform.MobileWebGL : Platform.DesktopWebGL;
+        else platform = Application.isMobilePlatform ? Platform.MobileApp : Platform.DesktopStandalone;
+
+        if (debugOverridePlatform != null) platform = (Platform) debugOverridePlatform;
+
+        if (IsMobilePlatform) {
             controlScheme = ControlScheme.Touch;
         } else {
             int controlSchemePlayerPrefs = PlayerPrefs.GetInt(CONTROL_SCHEME_KEY, (int) ControlScheme.Mouse);
@@ -72,4 +81,12 @@ public class Settings
         PlayerPrefs.Save();
     }
 
+    [System.Serializable]
+    public enum Platform
+    {
+        DesktopStandalone,
+        DesktopWebGL,
+        MobileWebGL,
+        MobileApp
+    }
 }

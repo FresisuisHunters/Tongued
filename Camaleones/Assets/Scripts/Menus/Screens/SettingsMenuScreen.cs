@@ -46,7 +46,7 @@ public class SettingsMenuScreen : AMenuScreen
     }
 
     private void InitializeControlToggles() {
-        if (Settings.IS_PHONE) {
+        if (Settings.IsMobilePlatform) {
             mouseControlToggle.enabled = false;
             touchControlToggle.isOn = true;
             notAvailableText.gameObject.SetActive(true);

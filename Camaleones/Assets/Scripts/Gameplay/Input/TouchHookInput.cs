@@ -49,7 +49,7 @@ public class TouchHookInput : MonoBehaviour {
     private void OnPointerDown(PointerEventData eventData)
     {
         // Ignorar clic derecho y central si se esta jugando en sobremesa
-        if (!Settings.IS_PHONE && eventData.button != PointerEventData.InputButton.Left) {
+        if (!Settings.IsMobilePlatform && eventData.button != PointerEventData.InputButton.Left) {
            return;
         }
 

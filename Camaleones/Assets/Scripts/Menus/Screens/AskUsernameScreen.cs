@@ -28,7 +28,7 @@ public class AskUsernameScreen : AMenuScreen, IConnectionCallbacks
             GoToLobbyScreen();
         }
 
-        if (Settings.IS_PHONE) {
+        if (Settings.platform == Settings.Platform.MobileWebGL) {
             usernameInputField.text = TonguedUsernamesBank.RetrieveUsername();
             HideInterface();
             ConnectToServer();

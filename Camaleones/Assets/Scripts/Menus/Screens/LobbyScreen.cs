@@ -153,7 +153,7 @@ public class LobbyScreen : AMenuScreen, ILobbyCallbacks, IMatchmakingCallbacks, 
     void IConnectionCallbacks.OnCustomAuthenticationResponse(Dictionary<string, object> data) {}
 
     void IConnectionCallbacks.OnDisconnected(DisconnectCause cause) {
-        if (Settings.IS_PHONE) {
+        if (Settings.platform == Settings.Platform.MobileWebGL) {
             SceneManagerExtensions.LoadScene(mainMenuScene, LoadSceneMode.Single, () =>
                 FindObjectOfType<MenuScreenManager>().startingMenuScreen = FindObjectOfType<MainMenuScreen>());
         } else {
