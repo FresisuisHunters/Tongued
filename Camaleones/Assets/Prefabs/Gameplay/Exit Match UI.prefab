@@ -782,8 +782,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8190768025057743393}
-        m_MethodName: ToggleConfirmScreen
+      - m_Target: {fileID: 3798280896744313787}
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -907,7 +907,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8190768025057743393}
+      - m_Target: {fileID: 3798280896744313787}
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
